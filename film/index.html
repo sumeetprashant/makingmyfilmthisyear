@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Development — The Search</title>
+    <meta name="description" content="Private film development journal. A filmmaker's search for his first feature.">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --grain-opacity: 0.04;
+            --warm-black: #1a1714;
+            --warm-dark: #242019;
+            --parchment: #e8dcc8;
+            --parchment-light: #f2e8d5;
+            --amber: #c4935a;
+            --amber-glow: #d4a76a;
+            --amber-deep: #8b6b3d;
+            --rust: #a0674b;
+            --sage: #7a8b6f;
+            --muted-blue: #6b7d8d;
+            --film-red: #8b4049;
+            --whisper: rgba(232, 220, 200, 0.06);
+            --border-line: rgba(196, 147, 90, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--warm-black);
+            color: var(--parchment);
+            line-height: 1.75;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Film grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: var(--grain-opacity);
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Vignette */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 8, 5, 0.4) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--warm-black); }
+        ::-webkit-scrollbar-thumb { background: var(--amber-deep); border-radius: 3px; }
+
+        /* ======================== HEADER ======================== */
+        .film-header {
+            position: relative;
+            padding: 80px 0 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .film-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--amber-deep));
+        }
+
+        .sprocket-holes {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .sprocket-hole {
+            width: 8px; height: 12px;
+            border: 1px solid var(--amber-deep);
+            border-radius: 2px;
+            opacity: 0.4;
+        }
+
+        .film-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            margin-bottom: 12px;
+        }
+
+        .film-header .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            opacity: 0.7;
+        }
+
+        .film-header .dateline {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--amber);
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+
+        /* ======================== NAV ======================== */
+        .section-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(26, 23, 20, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-line);
+            padding: 0 20px;
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .section-nav::-webkit-scrollbar { display: none; }
+
+        .section-nav-inner {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            text-decoration: none;
+            padding: 14px 16px;
+            white-space: nowrap;
+            transition: color 0.3s, background 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-nav a:hover,
+        .section-nav a.active {
+            color: var(--amber-glow);
+            background: var(--whisper);
+            border-bottom-color: var(--amber);
+        }
+
+        /* ======================== MAIN ======================== */
+        .content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ======================== SECTIONS ======================== */
+        .section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-line);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSection 0.8s ease forwards;
+        }
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes fadeInSection {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            opacity: 0.6;
+            margin-bottom: 8px;
+        }
+
+        .section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            letter-spacing: 0.08em;
+            color: var(--parchment-light);
+            margin-bottom: 24px;
+        }
+
+        .section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1.05rem;
+            letter-spacing: 0.05em;
+            color: var(--amber-glow);
+            margin: 32px 0 12px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+            color: rgba(232, 220, 200, 0.85);
+        }
+
+        strong {
+            color: var(--parchment-light);
+            font-weight: 500;
+        }
+
+        em {
+            color: var(--amber);
+        }
+
+        /* ======================== BLOCKQUOTES ======================== */
+        blockquote {
+            position: relative;
+            margin: 28px 0;
+            padding: 20px 24px 20px 28px;
+            border-left: 2px solid var(--amber-deep);
+            background: linear-gradient(135deg, rgba(196, 147, 90, 0.04), transparent);
+            border-radius: 0 4px 4px 0;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--amber-glow);
+            line-height: 1.8;
+        }
+
+        blockquote::before {
+            content: '❝';
+            position: absolute;
+            top: -8px;
+            left: 8px;
+            font-size: 1.6rem;
+            color: var(--amber-deep);
+            opacity: 0.3;
+            font-style: normal;
+        }
+
+        /* ======================== TABLES ======================== */
+        .resource-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 0.9rem;
+        }
+
+        .resource-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            text-align: left;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .resource-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(196, 147, 90, 0.06);
+            color: rgba(232, 220, 200, 0.8);
+            vertical-align: top;
+        }
+
+        .resource-table tr:hover td {
+            background: var(--whisper);
+        }
+
+        /* ======================== LISTS ======================== */
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: rgba(232, 220, 200, 0.8);
+        }
+
+        li::marker {
+            color: var(--amber-deep);
+        }
+
+        /* ======================== HORIZONTAL RULE ======================== */
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--border-line);
+            margin: 40px 0;
+        }
+
+        /* ======================== TIMELINE ======================== */
+        .timeline {
+            position: relative;
+            margin: 32px 0;
+            padding-left: 32px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--amber-deep), transparent);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 6px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--amber-deep);
+            border: 1px solid var(--amber);
+        }
+        .timeline-phase {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 4px;
+        }
+        .timeline-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            color: var(--parchment-light);
+            margin-bottom: 4px;
+        }
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: rgba(232, 220, 200, 0.6);
+        }
+
+        /* ======================== FILM STRIP DECORATION ======================== */
+        .film-strip {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            padding: 20px 0;
+            opacity: 0.25;
+        }
+        .film-frame {
+            width: 28px;
+            height: 20px;
+            border: 1px solid var(--amber-deep);
+            border-radius: 1px;
+            position: relative;
+        }
+        .film-frame.filled {
+            background: rgba(196, 147, 90, 0.1);
+        }
+
+        /* ======================== ENTRY CARDS ======================== */
+        .entry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .entry-card {
+            padding: 20px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .entry-card:hover {
+            border-color: var(--amber-deep);
+            background: rgba(196, 147, 90, 0.04);
+        }
+        .entry-card .entry-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 6px;
+        }
+        .entry-card .entry-title {
+            font-size: 1rem;
+            color: var(--parchment-light);
+            margin-bottom: 8px;
+        }
+        .entry-card .entry-themes {
+            font-size: 0.8rem;
+            color: rgba(232, 220, 200, 0.5);
+            line-height: 1.6;
+        }
+
+        /* ======================== LAYER CARDS ======================== */
+        .layer-cards {
+            display: grid;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .layer-card {
+            padding: 24px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.02), transparent);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .layer-card:hover {
+            transform: translateX(4px);
+            border-color: var(--amber-deep);
+        }
+        .layer-number {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: 2rem;
+            color: var(--amber-deep);
+            opacity: 0.4;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .layer-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            color: var(--amber-glow);
+            margin-bottom: 8px;
+        }
+        .layer-desc {
+            font-size: 0.9rem;
+            color: rgba(232, 220, 200, 0.7);
+        }
+
+        /* ======================== INFLUENCE TAG ======================== */
+        .influence-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border: 1px solid var(--border-line);
+            border-radius: 2px;
+            color: var(--amber-deep);
+            margin: 3px 4px 3px 0;
+        }
+
+        /* ======================== FOOTER ======================== */
+        .film-footer {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.4;
+        }
+        .film-footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media (max-width: 600px) {
+            .content { padding: 0 20px; }
+            .section { padding: 40px 0; }
+            .film-header { padding: 60px 20px 40px; }
+            .section-nav a { padding: 12px 10px; font-size: 0.6rem; }
+            blockquote { padding: 16px 16px 16px 20px; font-size: 1rem; }
+            .entry-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ======================== SMOOTH SCROLL ======================== */
+        html { scroll-behavior: smooth; }
+
+        /* ======================== SELECTION ======================== */
+        ::selection {
+            background: rgba(196, 147, 90, 0.3);
+            color: var(--parchment-light);
+        }
+
+        /* ======================== READING PROGRESS ======================== */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--amber-deep), var(--amber));
+            z-index: 1001;
+            transition: width 0.1s linear;
+        }
+
+        /* ======================== FADE-IN ON SCROLL ======================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<div class="reading-progress" id="readingProgress"></div>
+
+<!-- ======================== HEADER ======================== -->
+<header class="film-header">
+    <div class="sprocket-holes">
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+    </div>
+    <h1>The Search</h1>
+    <div class="subtitle">film development journal</div>
+    <div class="dateline">February 2026</div>
+</header>
+
+<!-- ======================== NAV ======================== -->
+<nav class="section-nav">
+    <div class="section-nav-inner">
+        <a href="#assessment">Assessment</a>
+        <a href="#tension">The Tension</a>
+        <a href="#influences">Influences</a>
+        <a href="#structure">Structure</a>
+        <a href="#entries">Entries</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#next">Next</a>
+    </div>
+</nav>
+
+<!-- ======================== CONTENT ======================== -->
+<main class="content">
+
+    <!-- SECTION: Assessment -->
+    <section class="section" id="assessment">
+        <div class="section-label">01</div>
+        <h2>The Chapter One Problem</h2>
+
+        <p>The existing FDX is <strong>well-crafted as a screenplay</strong> — the terrace scene has rhythm, The Creator interlude works, the whiskey ad is clever. But it built itself too faithfully from the entry transcripts.</p>
+
+        <p>It reads the entries <em>as</em> the story instead of finding the story <em>through</em> the entries.</p>
+
+        <p>The old "How to Not Make Films" title crept in because that scribble was sitting there and the AI treated it as gospel. The FDX needs to be rebuilt from the <strong>current instinct</strong> — not from transcript archaeology.</p>
+
+        <div class="film-strip">
+            <div class="film-frame"></div>
+            <div class="film-frame filled"></div>
+            <div class="film-frame"></div>
+            <div class="film-frame filled"></div>
+            <div class="film-frame"></div>
+            <div class="film-frame"></div>
+            <div class="film-frame filled"></div>
+            <div class="film-frame"></div>
+        </div>
+    </section>
+
+    <!-- SECTION: Tension -->
+    <section class="section" id="tension">
+        <div class="section-label">02</div>
+        <h2>The Real Tension</h2>
+
+        <p>From all five entries, three things keep colliding:</p>
+
+        <blockquote>
+            "I don't know the story" — and that's honest. You're searching.
+        </blockquote>
+
+        <blockquote>
+            "I want it to feel like a FILM, not a long YouTube video" — this is the line that matters most.
+        </blockquote>
+
+        <blockquote>
+            "I have nothing — studio, podcast set, a camera, 2-3 people" — these are your constraints, and they're your gift.
+        </blockquote>
+
+        <p>The anxiety isn't creative block. It's <strong>the gap between the film you can see</strong> — lyrical, Taipei-era loneliness, dazzling-on-no-budget — <strong>and the film you think your resources allow</strong> — confessional entries, talking head.</p>
+
+        <p>But that gap <em>IS</em> the film.</p>
+    </section>
+
+    <!-- SECTION: Influences -->
+    <section class="section" id="influences">
+        <div class="section-label">03</div>
+        <h2>The Films You're Actually Describing</h2>
+
+        <h3>The Taipei School</h3>
+        <p>When you say <em>"lyrical loneliness of the 90s Taipei films"</em>, you're describing a specific cinematic language:</p>
+        <ul>
+            <li>Long takes of <strong>mundane spaces</strong> made poetic through framing</li>
+            <li>Characters who are <strong>lonely in occupied rooms</strong></li>
+            <li><strong>Silence</strong> that says more than dialogue</li>
+            <li>Minimal cast, maximum atmosphere</li>
+            <li>Stories where nothing happens and <em>everything</em> happens</li>
+        </ul>
+
+        <div style="margin: 20px 0;">
+            <span class="influence-tag">Tsai Ming-liang</span>
+            <span class="influence-tag">Edward Yang</span>
+            <span class="influence-tag">Hou Hsiao-hsien</span>
+            <span class="influence-tag">Rebels of the Neon God</span>
+            <span class="influence-tag">Yi Yi</span>
+            <span class="influence-tag">Vive L'Amour</span>
+        </div>
+
+        <h3>The No-Budget Precedent</h3>
+        <p>When you say <em>Clerks</em> — one location, real dialogue, no money, raw energy.<br>
+        When you say <em>Following</em> — black and white, guerrilla, no permits, structured brilliance from nothing.</p>
+
+        <div style="margin: 20px 0;">
+            <span class="influence-tag">Clerks</span>
+            <span class="influence-tag">Following</span>
+            <span class="influence-tag">Bo Burnham · Inside</span>
+            <span class="influence-tag">The Creator (yours)</span>
+        </div>
+
+        <p><strong>You already have the ingredients for exactly this kind of film.</strong> The studio IS a cinematic space. The podcast set IS a location. Your face on camera for 28 minutes IS a Tsai Ming-liang long take.</p>
+    </section>
+
+    <!-- SECTION: Structure -->
+    <section class="section" id="structure">
+        <div class="section-label">04</div>
+        <h2>What the Film Could Be</h2>
+
+        <p>Not a prescription. A mirror.</p>
+
+        <h3>Core</h3>
+        <p><em>A filmmaker trapped in a loop of almost-beginning.</em></p>
+        <p>Not "How to Not Make Films" (too clever, too meta-YouTube).<br>
+        Not "Someday I'll Make a Film" (too passive).<br>
+        Something closer to the <strong>feeling</strong> — the lyrical ache of a man who can see the film but can't reach it.</p>
+
+        <h3>The Multi-Layer Architecture</h3>
+
+        <div class="layer-cards">
+            <div class="layer-card">
+                <div class="layer-number">01</div>
+                <div class="layer-name">The Real Film</div>
+                <div class="layer-desc">The character in his studio. Daily routine. The loop of waking up / working / not writing / sleeping. Shot like slow cinema. Warm. Lonely. Beautiful. Your studio becomes the room he can't leave — à la <em>Jeanne Dielman</em>, à la <em>Inside</em>.</div>
+            </div>
+            <div class="layer-card">
+                <div class="layer-number">02</div>
+                <div class="layer-name">The Film-Within-the-Film</div>
+                <div class="layer-desc">The short film he's trying to make. THIS is where GenAI goes wild. Environmental changes, epic visuals, surreal worlds. 5 minutes of dazzle inside a 30-minute chapter of quiet. The contrast IS the point.</div>
+            </div>
+            <div class="layer-card">
+                <div class="layer-number">03</div>
+                <div class="layer-name">The Podcast Loop</div>
+                <div class="layer-desc">Groundhog Day energy. Same questions, same premium set, but the character shifts each time. You own the set. Shoot it in a day. The repetition becomes hypnotic.</div>
+            </div>
+            <div class="layer-card">
+                <div class="layer-number">04</div>
+                <div class="layer-name">The Music Video Dream</div>
+                <div class="layer-desc">A dream sequence. The film he'd make if he had money. Shot differently. Color-graded differently. Maybe even the aspect ratio shifts. Brief. Aching. Then cut back to reality.</div>
+            </div>
+        </div>
+
+        <h3>Resources → Architecture</h3>
+        <table class="resource-table">
+            <thead>
+                <tr>
+                    <th>What You Have</th>
+                    <th>What It Becomes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Studio</td>
+                    <td>The room he can't leave</td>
+                </tr>
+                <tr>
+                    <td>Podcast set</td>
+                    <td>The performance space — the mask he wears</td>
+                </tr>
+                <tr>
+                    <td>Camera on desk</td>
+                    <td>The mirror he can actually look into</td>
+                </tr>
+                <tr>
+                    <td>2–3 people</td>
+                    <td>The few encounters that punctuate solitude</td>
+                </tr>
+                <tr>
+                    <td>Your face</td>
+                    <td>The entire film — if framed like slow cinema, not like YouTube</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION: Entries -->
+    <section class="section" id="entries">
+        <div class="section-label">05</div>
+        <h2>Entries So Far</h2>
+
+        <div class="entry-grid">
+            <div class="entry-card">
+                <div class="entry-num">Entry 01 · Jan 28</div>
+                <div class="entry-title">The Rant</div>
+                <div class="entry-themes">AI critique, external anger, attention economy, overselling vs value. "It feels good to finally speak."</div>
+            </div>
+            <div class="entry-card">
+                <div class="entry-num">Entry 02 · Jan 30</div>
+                <div class="entry-title">The Confession</div>
+                <div class="entry-themes">The method reveals itself. Marriage of speaking and creating. "This is not a rant. This is a confession." Loving is living.</div>
+            </div>
+            <div class="entry-card">
+                <div class="entry-num">Entry 03 · Feb 2</div>
+                <div class="entry-title">The Mirror</div>
+                <div class="entry-themes">Anger as facade, camera vs mirror, The Creator short film, trust breakdown, "I'm not trying to make it. I am making it."</div>
+            </div>
+            <div class="entry-card">
+                <div class="entry-num">Entry 04 · Feb 6</div>
+                <div class="entry-title">The Lyric</div>
+                <div class="entry-themes">Lyrical loneliness, refusing labels, purpose is bestowed not inherent. "Someday we'll talk about love."</div>
+            </div>
+            <div class="entry-card">
+                <div class="entry-num">Entry 05 · Date TBD</div>
+                <div class="entry-title">The Anxiety</div>
+                <div class="entry-themes">Panic → catharsis through recording. "The anxiety has gone." Speaking as meditation. "Love you. We'll be there again."</div>
+            </div>
+        </div>
+
+        <h3>Recurring Motifs</h3>
+        <ul>
+            <li><strong>Camera vs Mirror</strong> — Can look at self on camera, not in mirror</li>
+            <li><strong>Self-awareness while spiraling</strong> — "Even if you're mad, know you're mad"</li>
+            <li><strong>Anger as facade</strong> — Performs anger, actually not angry</li>
+            <li><strong>Desire as pain and fuel</strong> — Root of pain is desire, but can't let go</li>
+            <li><strong>Tech bro switch</strong> — The creative dies at the computer</li>
+            <li><strong>Flow over thinking</strong> — Best work comes from not thinking</li>
+        </ul>
+    </section>
+
+    <!-- SECTION: Timeline -->
+    <section class="section" id="timeline">
+        <div class="section-label">06</div>
+        <h2>Path to August</h2>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-phase">This Week</div>
+                <div class="timeline-title">Lock the Chapter Structure</div>
+                <div class="timeline-desc">Not the whole screenplay. Just: what are the 5–7 chapters? Each chapter = one human truth, not one entry.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-phase">March → April</div>
+                <div class="timeline-title">Write Chapter by Chapter</div>
+                <div class="timeline-desc">Each chapter as a standalone FDX. Dialogue pulled from entries but fictionalized — not transcribed, transformed.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-phase">May → June</div>
+                <div class="timeline-title">Shoot</div>
+                <div class="timeline-desc">Chapter by chapter. One cameraman. Your studio. Your home. Maybe one exterior. Film-within-film segments: GenAI + podcast set + creative lighting.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-phase">July → August</div>
+                <div class="timeline-title">Edit & Submit</div>
+                <div class="timeline-desc">You're an editor. This is where you live. Cut, grade, submit to festivals.</div>
+            </div>
+        </div>
+
+        <h3>The Festival Question</h3>
+        <p>Festivals want an <strong>authentic voice</strong>, <strong>visual intentionality</strong>, and <strong>a structure that surprises</strong>. They don't want polished Netflix content.</p>
+
+        <blockquote>
+            The "too nerdy for a first film" fear: Cannes, Venice, Busan, TIFF are FULL of films about filmmakers and the creative process. 8½, Adaptation, Inside, Irma Vep. It's not meta if it's felt. It's only meta if it's clever for the sake of being clever.
+        </blockquote>
+    </section>
+
+    <!-- SECTION: Next -->
+    <section class="section" id="next">
+        <div class="section-label">07</div>
+        <h2>What's Next</h2>
+
+        <ol>
+            <li><strong>Tonight's entry</strong> — stream of consciousness, but try talking about what the film <em>looks like</em>. Frames, colors, silences. Not what it's about.</li>
+            <li><strong>Clean the Chapter One FDX</strong> — strip the old scribble, rebuild around the current vision</li>
+            <li><strong>Draft a chapter outline</strong> — 5–7 chapters, each with a core emotion and a visual world</li>
+            <li><strong>Build a resource inventory</strong> — every location, prop, person, piece of tech</li>
+        </ol>
+
+        <blockquote>
+            The story will come from the images. It always does for visual people.
+        </blockquote>
+
+        <div class="film-strip" style="margin-top: 40px;">
+            <div class="film-frame filled"></div>
+            <div class="film-frame"></div>
+            <div class="film-frame filled"></div>
+            <div class="film-frame filled"></div>
+            <div class="film-frame"></div>
+            <div class="film-frame filled"></div>
+            <div class="film-frame"></div>
+            <div class="film-frame filled"></div>
+        </div>
+    </section>
+
+    <!-- SECTION: Gold Lines -->
+    <section class="section" id="gold" style="border-bottom: none;">
+        <div class="section-label">Appendix</div>
+        <h2>Lines That Matter</h2>
+
+        <blockquote>"I have to make films or I'll fucking die."</blockquote>
+        <blockquote>"The man who loves the idea of creating more than creating itself."</blockquote>
+        <blockquote>"He collects beginnings. He's got a garage full of Day Ones."</blockquote>
+        <blockquote>"What are you afraid of? That you'll finish it and it'll still be insignificant?"</blockquote>
+        <blockquote>"You want to be unique? Finish something."</blockquote>
+        <blockquote>"The root of pain is always desire. Chaah mein hi kami hai."</blockquote>
+        <blockquote>"Loving is living."</blockquote>
+    </section>
+
+</main>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="film-footer">
+    <div class="sprocket-holes" style="margin-bottom: 16px;">
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+        <div class="sprocket-hole"></div>
+    </div>
+    <p>Film Development Journal · 2026</p>
+    <p style="margin-top: 6px; opacity: 0.5;">The search continues.</p>
+</footer>
+
+<!-- ======================== SCRIPTS ======================== -->
+<script>
+    // Reading progress bar
+    window.addEventListener('scroll', () => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (window.scrollY / docHeight) * 100;
+        document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+
+    // Reveal on scroll
+    const revealElements = document.querySelectorAll('.layer-card, .entry-card, .timeline-item, blockquote');
+    revealElements.forEach(el => el.classList.add('reveal'));
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // Active nav highlight
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.section-nav a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 80;
+            if (scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

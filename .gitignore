@@ -1,0 +1,15 @@
+# Archives
+*.tar
+*.tar.gz
+*.zip
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
