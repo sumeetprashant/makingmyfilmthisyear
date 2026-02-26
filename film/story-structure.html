@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Structure — What the Audience Sees</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --border: #222222;
+            --text: #e8e6e3;
+            --text-muted: #8a8a8a;
+            --text-dim: #555555;
+            --amber: #d4a853;
+            --amber-dim: #8b7235;
+            --amber-glow: rgba(212, 168, 83, 0.08);
+            --red: #c45c5c;
+            --green: #5c9a6e;
+            --blue: #5c7cc4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--red), var(--amber));
+            z-index: 1000;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            padding: 0 40px;
+        }
+
+        .nav-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .nav-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 20px;
+            color: var(--amber);
+        }
+
+        .nav-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--red);
+            background: rgba(196, 92, 92, 0.1);
+            border: 1px solid rgba(196, 92, 92, 0.25);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 100px 40px 120px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 0 50px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 56px;
+        }
+
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em {
+            color: var(--amber);
+            font-style: italic;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 64px;
+        }
+
+        .section-header {
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--amber-dim);
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+        }
+
+        .section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 26px;
+            font-weight: 400;
+        }
+
+        .section h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--amber);
+            margin: 28px 0 12px;
+        }
+
+        .section p {
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .section p strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .section ul {
+            padding-left: 20px;
+            margin: 10px 0 16px;
+        }
+
+        .section li {
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .section li strong {
+            color: var(--text);
+        }
+
+        .quote {
+            border-left: 2px solid var(--amber-dim);
+            padding: 14px 22px;
+            margin: 16px 0;
+            background: var(--amber-glow);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .quote p {
+            font-family: 'Instrument Serif', serif;
+            font-size: 16px;
+            color: var(--text);
+            font-style: italic;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        /* Chapter Card */
+        .chapter {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0;
+            margin: 24px 0;
+            overflow: hidden;
+        }
+
+        .chapter-header {
+            padding: 24px 28px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+        }
+
+        .chapter-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            color: var(--amber-dim);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .chapter-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 22px;
+        }
+
+        .chapter-body {
+            padding: 24px 28px;
+        }
+
+        .chapter-body p {
+            font-size: 14px;
+        }
+
+        .chapter-body h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--amber);
+            margin: 20px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Scene */
+        .scene {
+            background: rgba(212, 168, 83, 0.03);
+            border: 1px solid rgba(212, 168, 83, 0.1);
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin: 10px 0;
+        }
+
+        .scene-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--amber-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 4px;
+        }
+
+        .scene p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .scene strong {
+            color: var(--text);
+        }
+
+        /* Location Tag */
+        .loc {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin: 2px 4px 2px 0;
+        }
+
+        .loc-studio {
+            background: rgba(92, 124, 196, 0.15);
+            color: var(--blue);
+            border: 1px solid rgba(92, 124, 196, 0.25);
+        }
+
+        .loc-home {
+            background: rgba(196, 92, 92, 0.12);
+            color: var(--red);
+            border: 1px solid rgba(196, 92, 92, 0.2);
+        }
+
+        .loc-ext {
+            background: rgba(92, 154, 110, 0.12);
+            color: var(--green);
+            border: 1px solid rgba(92, 154, 110, 0.2);
+        }
+
+        .loc-podcast {
+            background: rgba(212, 168, 83, 0.12);
+            color: var(--amber);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+        }
+
+        /* Warning Box */
+        .warning {
+            background: rgba(196, 92, 92, 0.08);
+            border: 1px solid rgba(196, 92, 92, 0.2);
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin: 24px 0;
+        }
+
+        .warning-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+        }
+
+        .warning p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 80px 20px 80px;
+            }
+
+            .nav {
+                padding: 0 20px;
+            }
+
+            .chapter-header {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-title">Story Structure</div>
+            <div class="nav-badge">The Outward Turn</div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="hero fade-in">
+            <div class="hero-label">Phase 2 — The Outward Turn</div>
+            <h1>What does the <em>audience</em> see?</h1>
+            <p class="hero-sub">The character is locked. Now we build scenes. Not feelings — <strong>events.</strong>
+                Not what Su thinks — what he <strong>does.</strong> The inward work becomes outward film.</p>
+        </div>
+
+        <!-- ========== THE PRINCIPLE ========== -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <div class="section-num">00</div>
+                <h2>The Principle</h2>
+            </div>
+
+            <div class="warning">
+                <div class="warning-label">The Problem We're Solving</div>
+                <p>Seven entries of rich internal material. But a film is not a diary. The audience doesn't read Su's
+                    thoughts — they <strong>watch his actions.</strong> Every internal truth must become an external
+                    event. Every contradiction must produce a visible scene. If the camera can't see it, it's not in the
+                    film.</p>
+            </div>
+
+            <p><strong>The Rule:</strong> For every internal truth, ask: <em>"What does Su DO that shows this?"</em></p>
+            <ul>
+                <li>"He can't write" → <strong>SCENE:</strong> Su sits at a laptop, types three words, deletes them.
+                    Types one more. Deletes it. Closes the laptop. Opens a voice recorder instead.</li>
+                <li>"He knows the right thing and doesn't do it" → <strong>SCENE:</strong> Su looks at a notebook
+                    labeled "FILM." Puts it back on the shelf. Opens his work laptop. Does client work for 14 hours.
+                </li>
+                <li>"His apartment is organized on the surface" → <strong>SCENE:</strong> Camera pans across immaculate
+                    surfaces. Su opens a drawer to find something. Chaos. He closes it quickly. Moves on.</li>
+            </ul>
+
+            <div class="quote">
+                <p>The inward needs to go outward. Show the audience Su's life — they'll understand the character
+                    through what they see, not what they're told.</p>
+            </div>
+        </div>
+
+        <!-- ========== THE STRUCTURE ========== -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <div class="section-num">01</div>
+                <h2>The Structure — 6 Chapters</h2>
+            </div>
+
+            <p>Each chapter is <strong>one night in the studio + one day of Su's life.</strong> The night recordings are
+                the spine. The days are the body. The film moves between them.</p>
+
+            <p><strong>Runtime target:</strong> 70-85 minutes (feature length)<br>
+                <strong>Each chapter:</strong> ~12-14 minutes<br>
+                <strong>Pattern:</strong> DAY (external life) → NIGHT (studio recording) → the gap between them IS the
+                story
+            </p>
+        </div>
+
+        <!-- ========== CHAPTER 1 ========== -->
+        <div class="chapter fade-in">
+            <div class="chapter-header">
+                <div class="chapter-num">01</div>
+                <div class="chapter-title">The Loop</div>
+            </div>
+            <div class="chapter-body">
+                <p><strong>What it's about:</strong> The audience meets Su. They see his world. Nothing dramatic happens
+                    — and that IS the drama. A man trapped in a routine that looks productive but feels empty.</p>
+
+                <h4>Scenes the audience sees</h4>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> Morning</div>
+                    <p><strong>ALARM. Su opens his eyes. Reaches past his phone.</strong> Gets up. Drinks one full glass
+                        of water — slow, deliberate, the one discipline he has. The apartment: immaculate. Every object
+                        at right angles. He passes a mirror in the hallway. <strong>Doesn't look.</strong></p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-studio">Office</span> Day</div>
+                    <p><strong>The Tech Bro Switch.</strong> Su at his desk. Multiple screens. Slack messages. Client
+                        calls. He's good at this — fast, precise, charming on video calls. The camera lingers on his
+                        face during a Zoom call where he's performing competence. <strong>His eyes are dead.</strong>
+                        The smile is there, but it's not the real smile.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-studio">Office</span> 7pm — Everyone leaves</div>
+                    <p>Colleagues say goodbye. Door closes. <strong>Silence.</strong> Su sits in the empty office. The
+                        energy changes. He looks around. He's alone. He doesn't move. Just sits. Maybe a full minute of
+                        him sitting in silence. Then: he picks up his bag. Walks down the hall toward the podcast
+                        studio.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Night</div>
+                    <p><strong>The Mockery.</strong> Su enters the studio. Grabs the podcast mic. Does a terrible
+                        podcaster voice: "Hello and welcome to nodanotherpodcast—" Laughs at himself. Tries again. Can't
+                        keep a straight face. Then, slowly, the joking stops. He adjusts the mic. Sits down properly.
+                        <strong>Stares into the camera.</strong> Silence. Then: "Okay. So. I want to make a film."</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> 11:30pm</div>
+                    <p>Su in his apartment. Scotch — very little, he's a miser. A film plays on the big screen. He
+                        watches — not casually, <strong>devotionally.</strong> Credits roll. He sits in the feeling.
+                        Doesn't move. The camera holds on his face. <strong>The useless smile appears.</strong> He falls
+                        asleep on the couch.</p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>What the audience understands:</strong> This man's life is a loop.
+                    Wake, work, pretend, isolate, dream. He's not failing — he's not even starting.</p>
+            </div>
+        </div>
+
+        <!-- ========== CHAPTER 2 ========== -->
+        <div class="chapter fade-in">
+            <div class="chapter-header">
+                <div class="chapter-num">02</div>
+                <div class="chapter-title">The Secret Recipe</div>
+            </div>
+            <div class="chapter-body">
+                <p><strong>What it's about:</strong> Su tries to write. He can't. He discovers his real medium:
+                    speaking. But the thing he speaks about terrifies him.</p>
+
+                <h4>Scenes the audience sees</h4>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> Weekend Morning</div>
+                    <p><strong>Su at his laptop.</strong> A blank document. Title: "UNTITLED SCREENPLAY." He types a
+                        line. Stares at it. Deletes it. Types another. Deletes it. Types "FADE IN:" — stares at it for
+                        30 seconds. <strong>Closes the laptop.</strong> Gets up. Paces the apartment. Opens a drawer —
+                        chaos. Closes it. Makes chai. Sits back down. Opens the laptop. The cursor blinks on "FADE IN:"
+                        — he slams it shut. <strong>"I can't write for the life of me."</strong></p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Night</div>
+                    <p><strong>The Confession.</strong> Su recordings, Entry 2. This time he's not joking. He talks
+                        about why he can't write. About how speaking feels different. He starts saying things he didn't
+                        plan to say. The camera catches the moment where the performance drops and the real person
+                        appears. <strong>"This is not a rant. This is a confession."</strong> He talks for 30 minutes
+                        without stopping. It's the screenplay. He doesn't know it yet.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-studio">Office</span> Monday — Co-Founder Scene</div>
+                    <p>Su and his co-founder at a table. She's showing him project timelines, deadlines, client
+                        deliverables. She's organized, focused, real. She asks: "So how's the film thing going?" He
+                        starts to explain. She listens — genuinely tries. But her eyes glaze slightly. Not disrespect.
+                        Just different wiring. <strong>Su sees it. Changes the subject.</strong> "It's going. So, this
+                        client deadline—" They move on. The dream goes back in the drawer.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> Late Night</div>
+                    <p><strong>Su listens to his own recording.</strong> Headphones on. Half a scotch. He hears himself
+                        say something that surprises him — a line he didn't plan. He rewinds it. Listens again.
+                        <strong>Writes it down on a Post-it.</strong> Sticks it on the wall. First Post-it. The wall is
+                        bare. One yellow note. He stares at it. Smiles uselessly.</p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>What the audience understands:</strong> His method exists — it's
+                    speaking, not typing. But the gap between discovering the method and actually using it to build
+                    something is the whole problem. He has one Post-it. He needs a film.</p>
+            </div>
+        </div>
+
+        <!-- ========== CHAPTER 3 ========== -->
+        <div class="chapter fade-in">
+            <div class="chapter-header">
+                <div class="chapter-num">03</div>
+                <div class="chapter-title">The Wall</div>
+            </div>
+            <div class="chapter-body">
+                <p><strong>What it's about:</strong> The family scenes. Mother calls. Sister visits. The people who love
+                    Su and can't understand him — and the wall he built for someone else that he can't build for
+                    himself.</p>
+
+                <h4>Scenes the audience sees</h4>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> Phone Call — Mother</div>
+                    <p><strong>Split screen or audio only — Su pacing his apartment, phone to ear.</strong> Mother's
+                        voice. She asks about marriage. He deflects with philosophy, with logic, with charm. She pushes.
+                        He gets frustrated — not angry, but the frustration leaks through. She says something about his
+                        father's health. He softens. She says: "You should settle down." He says: "I will, Maa."
+                        <strong>Hangs up. Stands in the kitchen. Says nothing for 10 seconds.</strong> Whisper to camera
+                        later: "Just be my mother and love me as your kid."</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-ext">Sister's Place</span> Sunday Visit</div>
+                    <p><strong>Su at his sister's apartment.</strong> They eat together. They laugh. A movie plays in
+                        the background. It's easy, warm, familiar. Then she starts: "Maa called me." The energy shifts.
+                        She wants him to change — not for herself, for their mother. <strong>She can't say everything
+                            she wants to say.</strong> She tries. Stops. Tries again. Su listens. Doesn't argue. He's
+                        gentle. He takes it. Then, quietly: "I stood by you when you told them. I stood by you when
+                        nobody else would." <strong>She goes silent.</strong> They both know what he means. The scene
+                        ends on them watching the movie — together but separate.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Night</div>
+                    <p><strong>Su talks about family for the first time.</strong> Not philosophy this time. Specific.
+                        His mother giving him cinema. His father's anger that taught him to perform anger. His sister —
+                        he loves her, she loves him, and neither of them can fully accept the other's choices. "Marriage
+                        is a scam." Then softer: "But she was brave. Braver than me." The entry where the character
+                        deepens because <strong>we see who he protects and who he can't protect himself from.</strong>
+                    </p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>What the audience understands:</strong> Su is not alone by
+                    accident. He's alone by architecture. He built walls for everyone else and forgot to leave a door
+                    for himself.</p>
+            </div>
+        </div>
+
+        <!-- ========== CHAPTER 4 ========== -->
+        <div class="chapter fade-in">
+            <div class="chapter-header">
+                <div class="chapter-num">04</div>
+                <div class="chapter-title">The Comedian</div>
+            </div>
+            <div class="chapter-body">
+                <p><strong>What it's about:</strong> Su's past. The standup years. The sunglasses. The stage that
+                    stopped feeding him. The biggest failure — "before trying to be a filmmaker, I really wanted to be a
+                    comedian and I couldn't do it."</p>
+
+                <h4>Scenes the audience sees</h4>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-ext">Comedy Club</span> Night — Flashback or Present
+                    </div>
+                    <p><strong>Su at an open mic.</strong> Not performing — watching from the back. A young comic on
+                        stage. Nervous, raw, hungry. Su watches with recognition. His face: tenderness + pain. He knows
+                        that feeling. He used to be up there. <strong>He's not anymore.</strong> The comic gets a big
+                        laugh. Su smiles — the real smile. But his eyes are somewhere else.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-ext">Street / Metro</span> The Sunglasses</div>
+                    <p><strong>A sequence — maybe montage, maybe surreal.</strong> Su walking through Delhi wearing
+                        sunglasses. Inside the metro. At night. In the office (people staring). At a restaurant. In the
+                        rain. He wore them everywhere because wearing them only on stage made him a hack. <strong>The
+                            most absurd, funny, committed thing he ever did.</strong> The audience laughs. Then
+                        realizes: this is a man who would rather be ridiculous than inauthentic.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Night</div>
+                    <p><strong>"The dream of becoming a comedian is a very narcissistic dream."</strong> Su talks about
+                        comedy as godliness. About the flow state where you disappear. About the comedian friend who
+                        made it. Then the admission: "The last time I was on stage, it didn't make me happy." The
+                        longest pause in any entry. <strong>"I think comedy was the biggest failure of my
+                            life."</strong></p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> Late Night</div>
+                    <p>Su on his couch. Headphones on. <strong>He's watching his old standup videos on a phone.</strong>
+                        We see his face — not the video. Alternating between cringing and laughing. He watches himself
+                        bombing. Watches himself killing. Both hurt equally. He closes the phone. <strong>Opens the
+                            voice recorder.</strong> Doesn't say anything for 10 seconds. Then: "I wonder if making a
+                        film is just the next version of the same dream."</p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>What the audience understands:</strong> The film isn't Su's first
+                    attempt. Comedy was. He failed at comedy — or rather, comedy stopped working for him. The fear with
+                    the film: what if it stops working too? What if he makes it and feels nothing?</p>
+            </div>
+        </div>
+
+        <!-- ========== CHAPTER 5 ========== -->
+        <div class="chapter fade-in">
+            <div class="chapter-header">
+                <div class="chapter-num">05</div>
+                <div class="chapter-title">The Accident</div>
+            </div>
+            <div class="chapter-body">
+                <p><strong>What it's about:</strong> The origin. How Su accidentally made his first short film. The
+                    moment the dream went from "pipe dream" to "maybe this is who I am." And the moment he started
+                    recording the entries that became THIS film.</p>
+
+                <h4>Scenes the audience sees</h4>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Night</div>
+                    <p><strong>Su tells the origin story.</strong> Animated now. Excited. "I was a blog writer. The real
+                        writer didn't show up. I had to write the screenplay." He acts out the audition — mimicking the
+                        actors who were bad, then mimicking himself being surprised that he was good. <strong>"I read
+                            the lines better than anyone."</strong> Directed 2 minutes when it fell apart. "Those 2
+                        minutes are beautiful." Laughs. "The other 6 are so crappy that those 2 look amazing." This is
+                        Su at his most alive — telling a story about making something. <strong>He's making the film
+                            right now. He just doesn't see it.</strong></p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-studio">Office</span> Day — The Realization</div>
+                    <p><strong>Su reviewing old footage.</strong> On a big monitor. We see clips from The Creator short
+                        film — the four alter egos, the whiskey ad, the comedy bits. He watches himself. For once, he
+                        likes what he sees. He leans back. Looks at the Post-it wall (which now has 15-20 notes from his
+                        recordings). <strong>The wall IS the screenplay.</strong> He stands up. Reads them in order.
+                        Something clicks. His expression changes. He starts rearranging them.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> 1:00am</div>
+                    <p>Su at his desk. Not sleeping. Not watching a film. <strong>Writing. On paper. Not typing —
+                            handwriting.</strong> Fast, messy, the opposite of his organized apartment. He's not writing
+                        a screenplay. He's writing a list: "What I have. Studio. Podcast set. Camera. My face. 2
+                        people." He draws lines between them. <strong>He's building the film from his
+                            constraints.</strong> The miser who poured too little scotch is now pouring everything he
+                        has into a plan that might actually work.</p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>What the audience understands:</strong> The film was never going to
+                    come from sitting down and typing "FADE IN." It was going to come from the recordings. From the
+                    Post-its. From the constraints. The accident of speaking into a camera created the film Su couldn't
+                    write.</p>
+            </div>
+        </div>
+
+        <!-- ========== CHAPTER 6 ========== -->
+        <div class="chapter fade-in">
+            <div class="chapter-header">
+                <div class="chapter-num">06</div>
+                <div class="chapter-title">Day One</div>
+            </div>
+            <div class="chapter-body">
+                <p><strong>What it's about:</strong> Su starts making the film. No resolution. No transformation. No
+                    lesson. He just starts. After 36 years of collecting beginnings, <strong>he begins one
+                        more.</strong> But this time the audience has seen enough to know: this one might be different.
+                    Or it might not. That's not the point.</p>
+
+                <h4>Scenes the audience sees</h4>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-studio">Office</span> Morning — Different</div>
+                    <p><strong>Same loop as Chapter 1. But different.</strong> Su arrives at the office. Same desk, same
+                        screens. But before opening the work laptop, he opens a notebook. Writes for 3 minutes. Closes
+                        it. Then opens the work laptop. <strong>The Tech Bro Switch happens — but 3 minutes
+                            later.</strong> The loop cracked. Not broken. Cracked.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Day — First Shoot</div>
+                    <p><strong>Su setting up the studio.</strong> Not for a recording. For a SCENE. He adjusts lights.
+                        Moves the chair. Tests the camera angle. His co-founder watches from the doorway. "You're
+                        actually doing it?" He doesn't answer. Just adjusts the mic. <strong>Sits down. Looks into the
+                            camera. This time it's different — he's not recording an entry. He's performing. He's
+                            acting. He's Su playing "S."</strong> The distance between them: zero. The distance between
+                        them: infinite.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-ext">Delhi / Gurugram</span> Night</div>
+                    <p><strong>Su driving through the city at night.</strong> Lights. Traffic. The chaos of NCR. Maybe
+                        the camera is mounted on the dashboard. Maybe Su is filming from the passenger seat. He's
+                        capturing the city — not for the entries, <strong>for the film.</strong> The camera that used to
+                        face inward now faces outward. The lights of Gurugram reflected on his windshield. His face
+                        barely visible behind them.</p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-podcast">Podcast Studio</span> Final Recording</div>
+                    <p><strong>Su in the studio. Late. Alone.</strong> This is the last entry. He knows it's the last
+                        one. Not because the film is done — it isn't. Because the entries served their purpose. He looks
+                        into the camera one more time. <strong>"He knows the secret recipe. He knows the secret recipe
+                            and this time... maybe he'll cook."</strong> Smiles. The useless smile. Turns off the
+                        camera. <strong>Black.</strong></p>
+                </div>
+
+                <div class="scene">
+                    <div class="scene-label"><span class="loc loc-home">Home</span> End</div>
+                    <p><strong>Morning. Same alarm. Su opens his eyes.</strong> Gets up. Drinks water. Walks past the
+                        mirror in the hallway. This time — <strong>he stops. Looks.</strong> Just for a second. Doesn't
+                        smile. Doesn't perform. Just looks. Then walks on. The camera holds on the empty mirror.
+                        <strong>Cut to black.</strong></p>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>What the audience understands:</strong> He didn't finish the film.
+                    He started it. Again. But this time, he looked in the mirror. That's enough. That's the whole film.
+                    Not transformation — <strong>a crack in the loop.</strong></p>
+            </div>
+        </div>
+
+        <!-- ========== LOCATIONS ========== -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <div class="section-num">02</div>
+                <h2>Location Map — What You Actually Need</h2>
+            </div>
+
+            <p>Four locations. That's the whole film.</p>
+
+            <div style="margin: 20px 0;">
+                <p><span class="loc loc-home">Home</span> <strong>Su's apartment.</strong> Morning scenes, phone calls,
+                    late-night writing, watching films, the organized/messy duality. Shoot in your actual apartment. 2-3
+                    setups.</p>
+                <p><span class="loc loc-studio">Office</span> <strong>The workspace.</strong> Tech bro switch,
+                    co-founder scene, reviewing footage. Your real office. 2 setups.</p>
+                <p><span class="loc loc-podcast">Podcast Studio</span> <strong>The heart of the film.</strong> All
+                    entries, the mockery, the confessions, the final recording, the first shoot day. Your real studio. 1
+                    main setup + variations.</p>
+                <p><span class="loc loc-ext">Exteriors</span> <strong>Delhi/Gurugram at night.</strong> Sister's place.
+                    Comedy club. Metro (sunglasses sequence). Car driving. Most can be guerrilla shot. No permits
+                    needed.</p>
+            </div>
+        </div>
+
+        <!-- ========== THE ARC ========== -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <div class="section-num">03</div>
+                <h2>The Arc — Not Transformation, a Crack</h2>
+            </div>
+
+            <p>This is not a film about a man who changes. It's a film about a man who <strong>almost</strong> changes.
+                The loop doesn't break. It cracks. Here's the progression:</p>
+
+            <ul>
+                <li><strong>Ch 1:</strong> The loop. He doesn't look in the mirror.</li>
+                <li><strong>Ch 2:</strong> He discovers speaking. One Post-it on the wall.</li>
+                <li><strong>Ch 3:</strong> Family forces him to confront who he is vs. who they need him to be.</li>
+                <li><strong>Ch 4:</strong> He faces his first failure (comedy) and asks if this one will be different.
+                </li>
+                <li><strong>Ch 5:</strong> The Post-its become a plan. The accident becomes a method.</li>
+                <li><strong>Ch 6:</strong> He starts. He doesn't finish. But he looks in the mirror.</li>
+            </ul>
+
+            <div class="quote">
+                <p>The perfect film is the one he's making. Not because it's perfect. Because it's the only one that
+                    exists.</p>
+            </div>
+        </div>
+
+        <!-- ========== WHAT'S DIFFERENT ========== -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <div class="section-num">04</div>
+                <h2>What Makes This a Film, Not a Diary</h2>
+            </div>
+
+            <div class="warning">
+                <div class="warning-label">The Outward Turn — Applied</div>
+                <p>Every chapter has <strong>external events</strong> that the audience watches. Not thoughts. Events.
+                    Scenes. Actions. The entries exist — they're the spine — but the film LIVES in the gaps between
+                    them: the co-founder's glazing eyes, the sister's unfinished sentences, the mirror Su walks past,
+                    the Post-it he sticks on the wall, the scotch he pours too little of, the laptop he slams shut.</p>
+            </div>
+
+            <h3>What the audience SEES vs. What the diary SAYS</h3>
+            <ul>
+                <li><strong>Diary:</strong> "I can't write." → <strong>Film:</strong> Su staring at "FADE IN:" for 30
+                    seconds, then slamming the laptop.</li>
+                <li><strong>Diary:</strong> "My sister has unspoken anger." → <strong>Film:</strong> She starts a
+                    sentence three times, stops, and they watch TV in silence.</li>
+                <li><strong>Diary:</strong> "The perfect film is the one I'm making." → <strong>Film:</strong> Su
+                    rearranging Post-its at 1am, suddenly seeing the shape of something.</li>
+                <li><strong>Diary:</strong> "He knows the secret recipe but never cooks." → <strong>Film:</strong> Su
+                    setting up the studio for the first real shoot, hands shaking, co-founder in the doorway.</li>
+                <li><strong>Diary:</strong> "Camera vs mirror." → <strong>Film:</strong> First scene: walks past mirror
+                    without looking. Last scene: stops. Looks. Cut to black.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Story Structure — The Outward Turn · 26 February 2026<br>
+                <a href="character-sketch.html" style="color: var(--amber-dim); text-decoration: none;">← Character
+                    Sketch</a> · <a href="index.html" style="color: var(--amber-dim); text-decoration: none;">Main →</a>
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+        });
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+    </script>
+
+</body>
+
+</html>
