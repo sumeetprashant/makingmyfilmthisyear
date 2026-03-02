@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Update — 2 March 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --border: #222222;
+            --text: #e8e6e3;
+            --text-muted: #8a8a8a;
+            --text-dim: #555555;
+            --amber: #d4a853;
+            --amber-dim: #8b7235;
+            --amber-glow: rgba(212, 168, 83, 0.08);
+            --red: #c45c5c;
+            --green: #5c9a6e;
+            --blue: #5c7cc4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            padding: 0 40px;
+        }
+
+        .nav-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .nav-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 20px;
+            color: var(--amber);
+        }
+
+        .nav-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--green);
+            background: rgba(92, 154, 110, 0.1);
+            border: 1px solid rgba(92, 154, 110, 0.25);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 100px 40px 120px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 48px;
+        }
+
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 em {
+            color: var(--amber);
+            font-style: italic;
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 56px;
+        }
+
+        .section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--amber);
+            margin: 24px 0 10px;
+        }
+
+        .section p {
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .section p strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .section ul {
+            padding-left: 20px;
+            margin: 8px 0 14px;
+        }
+
+        .section li {
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .section li strong {
+            color: var(--text);
+        }
+
+        .quote {
+            border-left: 2px solid var(--amber-dim);
+            padding: 12px 20px;
+            margin: 14px 0;
+            background: var(--amber-glow);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .quote p {
+            font-family: 'Instrument Serif', serif;
+            font-size: 15px;
+            color: var(--text);
+            font-style: italic;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .quote-src {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 6px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 14px 0;
+        }
+
+        .card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--amber);
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 13px;
+        }
+
+        .status {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .status-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+
+        .status-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        .status-val {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .status-val.done {
+            color: var(--green);
+        }
+
+        .status-val.progress {
+            color: var(--amber);
+        }
+
+        .scene-card {
+            background: rgba(212, 168, 83, 0.03);
+            border: 1px solid rgba(212, 168, 83, 0.1);
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin: 10px 0;
+        }
+
+        .scene-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--amber-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 6px;
+        }
+
+        .scene-card p {
+            font-size: 13px;
+        }
+
+        .warning {
+            background: rgba(196, 92, 92, 0.08);
+            border: 1px solid rgba(196, 92, 92, 0.2);
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin: 16px 0;
+        }
+
+        .warning p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .warning strong {
+            color: var(--red);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 80px 20px 80px;
+            }
+
+            .nav {
+                padding: 0 20px;
+            }
+
+            .status {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-title">Session Update</div>
+            <div class="nav-badge">2 Mar 2026</div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="hero fade-in">
+            <div class="hero-label">Development Update — Entry 08 Complete</div>
+            <h1><em>Obsession</em> leads to success.<br>Nothing else.</h1>
+            <p class="hero-sub">Entry 08 delivered the standup wound in specific, filmable detail. The Delhi night. The
+                silver coin betrayal. The 10-min set opener. And a truth: "I still can't distinguish between the
+                character and myself."</p>
+        </div>
+
+        <!-- ========== PROJECT STATUS ========== -->
+        <div class="section fade-in">
+            <h2>Project Status</h2>
+            <div class="status">
+                <div class="status-item">
+                    <div class="status-label">Character</div>
+                    <div class="status-val done">✓ Locked</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Story Structure</div>
+                    <div class="status-val done">✓ 6 Chapters</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Entries Recorded</div>
+                    <div class="status-val progress">8 of ???</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">10-Min Set</div>
+                    <div class="status-val progress">First line written</div>
+                </div>
+            </div>
+
+            <h3>Documents</h3>
+            <ul>
+                <li><a href="character-sketch.html" style="color:var(--amber);">Character Sketch (Locked)</a> — updated
+                    with Entry 08 material</li>
+                <li><a href="story-structure.html" style="color:var(--amber);">Story Structure — 6 Chapters</a> —
+                    updated with new scenes</li>
+                <li><a href="entry08-talking-points.html" style="color:var(--amber);">Entry 08 Talking Points</a> —
+                    tonight's prompts</li>
+                <li><a href="character-bible.html" style="color:var(--amber);">Character Bible</a> — reference document
+                </li>
+                <li><a href="index.html" style="color:var(--amber);">Main Hub</a></li>
+            </ul>
+        </div>
+
+        <!-- ========== WHAT ENTRY 08 GAVE US ========== -->
+        <div class="section fade-in">
+            <h2>What Entry 08 Gave Us</h2>
+
+            <div class="card">
+                <h4>1. The Delhi Winter Night — Full Scene</h4>
+                <p>Arrived at the club at 9pm. Shook his friend's hand. Sat through two full mics (10:30–12:00 and
+                    12:00–1:30). <strong>Stood up every time they were about to call the next name, thinking it would be
+                        his.</strong> It never was. At 1:30am his sweet friend told him to check with "the Godfather."
+                    The Godfather said no spot. Su grabbed his bag, "fucking bolted," walked out in anger. Got home at
+                    3am. <strong>Took a cold shower in Delhi winter.</strong> Wearing the green jacket he hated —
+                    couldn't zip it, couldn't keep it open. Had to start work at 10am.</p>
+                <p><strong>The irony:</strong> Five years later, when Su returned to performing, the same guy — "the
+                    Godfather" — was the one who called his name from the stage. Su told him to his face: "This is the
+                    first time I held a mic in my hand since that night."</p>
+            </div>
+
+            <div class="card">
+                <h4>2. The Silver Coin Betrayal — Full Scene</h4>
+                <p>The friend who got him fired. They stayed together, drank together, came back from mics together. Su
+                    even told this friend: <strong>"If someone tries to kill you, I might take a bullet for you. Because
+                        I know when I die, you will be there for my family."</strong> Gave him a family silver coin —
+                    200 years old, British era. "I gave it only to people I felt were special." Meanwhile, the friend
+                    talked shit about Su to the company owners and shit about the company to Su.</p>
+                <p>The trigger: Su started acting in the short film (the origin story). Two cameras on him, seven people
+                    doing his makeup. The insecure friend couldn't take it. Got Su fired.</p>
+                <p><strong>"I feel I am such a wrong judge of people's character. And I have been wrong so many times, I
+                        have stopped counting."</strong></p>
+            </div>
+
+            <div class="card">
+                <h4>3. Why He Hasn't Concluded Standup</h4>
+                <p>He didn't quit. He just can't say goodbye. <strong>"I still don't feel that I have quit. 5% of my
+                        being still says that maybe after I become someone and people know me, I just put a show and
+                        people might come and watch."</strong></p>
+                <p>The pattern: perform like a maniac for 2-3 months, disappear for a month, come back, disappear again.
+                    "This is not how a career is built." He lacked the daily obsession. He had it for Gen AI ("I used to
+                    hide my tabs from people"). He had it for film. He never had it consistently for standup.</p>
+                <p><strong>The Ricky Gervais parallel:</strong> Gervais wasn't a comedian first — he made The Office,
+                    THEN did standup. Su sees himself the same way: make the film first, become someone, THEN return to
+                    the stage.</p>
+            </div>
+
+            <div class="card">
+                <h4>4. The 10-Minute Set Opener</h4>
+                <p><strong>"Even the search for security is insecurity. Chaah mein hi kami hai."</strong></p>
+                <p>Then the examples: If you always want to get high, you're always low. If you always want to be rich,
+                    you're always poor. If you always want to be funny, you're always unfunny. "And that's why I never
+                    try to write any good jokes." Self-deprecating, philosophical, Su's exact voice.</p>
+            </div>
+
+            <div class="card">
+                <h4>5. The Back Seat of the Car</h4>
+                <p>NOT the back of the room — the <strong>back seat of the car.</strong> Su's comedian friend is
+                    driving, another comic in the passenger seat, Su behind them. His camera captures them talking,
+                    roasting each other, the city passing outside. <strong>"If I have my camera in the back and I
+                        capture them talking and I capture outside, it will be brilliant."</strong> This is the
+                    documentary shot — the one he's always wanted to make.</p>
+            </div>
+
+            <div class="card">
+                <h4>6. The People Problem</h4>
+                <p>The through-line: standups needed networking, business needs meetings and client emails, even comedy
+                    needed relationships with spot-givers. Su can't do any of it — <strong>not from arrogance, from
+                        wiring.</strong></p>
+                <p>The Dan Harmon / Community quote (Abed): "If you can't work with people, you can't do anything in
+                    this world." Su knows this is true. And yet: <strong>the co-founder who never lets him
+                        leave.</strong> "She never lets me go. I think good people are like this." The person he can't
+                    mesh with on a creative level is the one who keeps him alive on a business level.</p>
+            </div>
+
+            <div class="card">
+                <h4>7. New Character Details</h4>
+                <ul>
+                    <li><strong>Cold showers:</strong> Twice a day, even in Delhi winter. Since COVID. Got it from Naval
+                        Ravikant's almanac. Not discipline — habit.</li>
+                    <li><strong>Dyson air purifier.</strong> Because it's the best one. The miser who buys the best
+                        purifier.</li>
+                    <li><strong>Trust:</strong> "I trust people unconditionally. That's why I say I'm always surrounded
+                        by assholes." Hasn't changed. Just stopped indulging.</li>
+                    <li><strong>Loyalty:</strong> "People use places to climb the ladder. I start fixing the ladder."
+                        Stayed at the same company while everyone left.</li>
+                    <li><strong>The heckler story:</strong> Guy looking at phone during his set. "Whatever's on your
+                        phone is more interesting than what I'm saying." Su: "My balls." Got a laugh. Then escalated it
+                        — attacked the bringer-comedian from stage. "Truly uncalled for and shitty. If given another
+                        chance, I will not do it."</li>
+                    <li><strong>"I take seriously as a comic because maybe others don't take themselves so
+                            seriously."</strong></li>
+                    <li><strong>Acting practice:</strong> "Today I shot two small one-minute advertisements. Everything
+                        is preparation for this."</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ========== KEY NEW LINES ========== -->
+        <div class="section fade-in">
+            <h2>Key Lines from Entry 08</h2>
+
+            <div class="quote">
+                <p>"Obsession leads to success. Nothing else."</p>
+                <div class="quote-src">Entry 08 — 24:32</div>
+            </div>
+            <div class="quote">
+                <p>"Even the search for security is insecurity."</p>
+                <div class="quote-src">Entry 08 — 10-min set opener</div>
+            </div>
+            <div class="quote">
+                <p>"If someone tries to kill you, I might take a bullet for you. Because I know when I die, you will be
+                    there for my family."</p>
+                <div class="quote-src">Entry 08 — what he told the friend who got him fired</div>
+            </div>
+            <div class="quote">
+                <p>"I feel I am such a wrong judge of people's character. And I have been wrong so many times, I have
+                    stopped counting."</p>
+                <div class="quote-src">Entry 08 — 19:43</div>
+            </div>
+            <div class="quote">
+                <p>"I stood up almost every time thinking that my name was going to be called."</p>
+                <div class="quote-src">Entry 08 — the Delhi winter night</div>
+            </div>
+            <div class="quote">
+                <p>"People use places to climb the ladder. I start fixing the ladder."</p>
+                <div class="quote-src">Entry 08 — 02:18</div>
+            </div>
+            <div class="quote">
+                <p>"I don't hate. That feels like work to me."</p>
+                <div class="quote-src">Entry 08 — 41:03</div>
+            </div>
+            <div class="quote">
+                <p>"Still I can't distinguish between the character and myself. It has melded so much."</p>
+                <div class="quote-src">Entry 08 — final minutes</div>
+            </div>
+            <div class="quote">
+                <p>"If you can't work with people, you can't do anything in this world."</p>
+                <div class="quote-src">Entry 08 — quoting Community/Dan Harmon</div>
+            </div>
+        </div>
+
+        <!-- ========== STORY STRUCTURE UPDATES ========== -->
+        <div class="section fade-in">
+            <h2>Story Structure Updates</h2>
+            <p>Entry 08 adds or changes the following scenes in the 6-chapter structure:</p>
+
+            <h3>Chapter 4: The Comedian — Now Fully Loaded</h3>
+            <p>Before tonight, Chapter 4 had placeholder ideas. Now it has <strong>specific scenes with specific
+                    details:</strong></p>
+
+            <div class="scene-card">
+                <div class="scene-label">New Scene — The Delhi Winter Night</div>
+                <p>Su arrives at a comedy club at 9pm wearing the green jacket he hates. Shakes his friend's hand. Sits
+                    through two full mics. <strong>Stands up every time they announce the next performer.</strong> It's
+                    never him. 1:30am. No spot. Grabs his bag. Bolts. Walks through Delhi winter. Gets home at 3am. Cold
+                    shower. Bed. Work in 7 hours. <strong>This is the scene that broke him.</strong></p>
+            </div>
+
+            <div class="scene-card">
+                <div class="scene-label">New Scene — The Backseat Documentary</div>
+                <p>Su in the backseat of a car. His comedian friend driving, another comic in passenger seat. Su's
+                    camera captures them from behind — talking, roasting each other, the Delhi night passing outside the
+                    windows. <strong>He's there but he's not part of it — he's documenting it.</strong> The observer who
+                    wanted to be a participant. This is a 60-second shot. No dialogue from Su.</p>
+            </div>
+
+            <div class="scene-card">
+                <div class="scene-label">Updated Scene — The 10-Min Set Development</div>
+                <p>Montage through the film: Su writing the set, rehearsing in his apartment, trying it at different
+                    clubs (same bit, different rooms), adjusting after bombing. The set opener: <strong>"Even the search
+                        for security is insecurity."</strong> We see the bit develop. Maybe it works at the friend's new
+                    club. Maybe the audience laughs. But the real version lives in the entries.</p>
+            </div>
+
+            <div class="scene-card">
+                <div class="scene-label">New Scene — The Return</div>
+                <p>Five years after the Delhi night. A friend's new club. The same guy who denied Su a spot is now on
+                    stage, calling Su's name. Su walks up. Holds a mic for the first time in five years. <strong>"I told
+                        him — this is the first time I held a mic since that night."</strong> Does he crush it? Does he
+                    feel anything? The answer from Entry 08: he didn't find "super happiness." He performed. It was
+                    fine. Fine isn't enough.</p>
+            </div>
+
+            <h3>Chapter 1: The Loop — New Detail</h3>
+            <div class="scene-card">
+                <div class="scene-label">Added — Cold Shower</div>
+                <p>The morning routine now includes: wakes up, water, <strong>cold shower</strong> (even in winter). Not
+                    discipline — habit. The miser who buys a Dyson purifier and takes ice showers. The contradictions
+                    stack.</p>
+            </div>
+
+            <h3>Solo Day Scene — Placement TBD</h3>
+            <div class="scene-card">
+                <div class="scene-label">To Develop — The Leonardo Day</div>
+                <p>Su's day off. Cafe alone. Film alone. Not a "me day" — because <strong>"his mind is not supposed to
+                        follow any patterns. He is a cool guy like that."</strong> The Leonardo/DiCaprio confusion. The
+                    solitude-as-strength philosophy. Could live in Chapter 1 or Chapter 2. Needs voiceover treatment —
+                    Su suggested the voice starts as voiceover then cuts to the podcast studio, as if he's talking to
+                    himself or a version of himself.</p>
+            </div>
+        </div>
+
+        <!-- ========== CHARACTER UPDATES ========== -->
+        <div class="section fade-in">
+            <h2>Character Sketch Updates</h2>
+            <p>New traits and details to fold into the locked character sketch:</p>
+
+            <div class="card">
+                <h4>Loyalty</h4>
+                <p>"People use places to climb the ladder. I start fixing the ladder." Su stayed at the original company
+                    while everyone else left and built empires. Not because he lacked ambition — because he couldn't
+                    leave until the job was done. <strong>His loyalty is pathological.</strong> It kept him in a dying
+                    company, kept him trusting liars, and kept him standing in a club for 5 hours waiting for a spot
+                    that was never coming.</p>
+            </div>
+
+            <div class="card">
+                <h4>Trust</h4>
+                <p>"I trust people unconditionally. That's why I'm always surrounded by assholes." The silver coin given
+                    to the man who got him fired. The friend he told he'd take a bullet for. <strong>He still trusts. He
+                        just stopped multiplying relationships.</strong> Fewer people, same intensity.</p>
+            </div>
+
+            <div class="card">
+                <h4>Cold Showers</h4>
+                <p>Twice a day, since COVID. Even Delhi winter. Got it from Naval Ravikant. Not a flex — a habit that
+                    stuck. The same man who can't maintain a writing habit has maintained cold showers for 5+ years.</p>
+            </div>
+
+            <div class="card">
+                <h4>The Standup Conclusion (Unresolved)</h4>
+                <p>Su hasn't quit. He hasn't said goodbye. 5% of him still believes: <strong>"Maybe after I become
+                        someone, I'll put up a show and people will come."</strong> The Ricky Gervais model — make the
+                    thing that makes you famous, then do comedy. Standup is on pause, not dead. <strong>This is a
+                        character trait, not a plot point.</strong> Some things in Su's life don't resolve. The film
+                    should honor that.</p>
+            </div>
+
+            <div class="card">
+                <h4>The Heckler</h4>
+                <p>A guy looked at his phone during Su's set. "Whatever it is, it is more interesting than whatever you
+                    are saying." Su: "My balls." Got a laugh. Then escalated — attacked the bringer-comedian from stage.
+                    "Truly uncalled for and shitty. If given another chance, I will not do it. I have grown from this."
+                    <strong>He takes himself too seriously for comedy. He knows it.</strong></p>
+            </div>
+        </div>
+
+        <!-- ========== OPEN QUESTIONS ========== -->
+        <div class="section fade-in">
+            <h2>Open Questions for Next Session</h2>
+
+            <div class="warning">
+                <p><strong>1. The Voiceover Problem.</strong> Su wants voiceover for the solo day scenes but hates
+                    voiceover. His proposed solution: start as voiceover, then cut to the podcast studio so it becomes a
+                    conversation with himself. <strong>This needs development.</strong> How does the film transition
+                    between Su's internal world and the studio confessions?</p>
+            </div>
+
+            <div class="warning">
+                <p><strong>2. Chapter Boundaries.</strong> Su said he doesn't know what chapters 1, 2, and 3 are yet. He
+                    sees Chapter 4 (The Comedian) clearly. <strong>Should the chapters be reordered?</strong> Maybe the
+                    comedy chapter comes earlier — it's the past, the foundation. The present-day chapters (The Loop,
+                    The Secret Recipe) could follow.</p>
+            </div>
+
+            <div class="warning">
+                <p><strong>3. Character vs. Self.</strong> "Still I can't distinguish between the character and myself.
+                    It has melded so much." This is simultaneously the film's greatest asset and its biggest risk.
+                    <strong>How much fictionalization is needed?</strong> The user feels the project still reads as a
+                    diary, not a film. The outward turn helped — but Entry 08 is still 45 minutes of Su talking to a
+                    camera. When does the SHOOTING start?</p>
+            </div>
+
+            <div class="warning">
+                <p><strong>4. The 10-Min Set.</strong> First line exists. What's the structure? Is it all one bit or
+                    multiple bits? Does it develop across multiple chapters? <strong>Does Su need to actually write and
+                        rehearse this set before the film shoots?</strong></p>
+            </div>
+
+            <div class="warning">
+                <p><strong>5. The Solo Day Scene.</strong> He wants it to feel organic, not like an intentional "me day"
+                    — "his mind is not supposed to follow any patterns." But the scene needs a trigger. What makes Su go
+                    out that day? <strong>Is it a good day or a bad day?</strong></p>
+            </div>
+        </div>
+
+        <!-- ========== WHAT'S NEXT ========== -->
+        <div class="section fade-in">
+            <h2>What's Next — Your Move</h2>
+
+            <p><strong>Entries are the fuel. But the engine needs to start.</strong></p>
+            <p>You've got 8 entries, a locked character, and a 6-chapter structure. The next phase is:</p>
+
+            <ul>
+                <li><strong>Write the 10-min set.</strong> Even a rough version. This is the one piece of scripted
+                    content in the film. Get it on paper.</li>
+                <li><strong>Shoot test footage.</strong> You shot two 1-min ads today — you're already practicing. Shoot
+                    the backseat-of-car scene. Shoot yourself walking after a mic. Shoot the morning cold shower. These
+                    are all 30-60 second clips. Start building a visual library.</li>
+                <li><strong>Pick a chapter to script first.</strong> Chapter 4 (The Comedian) is the most fleshed out.
+                    It could be the pilot — the first chapter you actually write scene-by-scene.</li>
+                <li><strong>Decide on voiceover treatment.</strong> The solo day scene needs a mechanism. Test Su's
+                    idea: voiceover that becomes studio conversation.</li>
+                <li><strong>Keep recording entries.</strong> But with intention. Each entry should target a specific
+                    chapter or scene, not general exploration.</li>
+            </ul>
+
+            <div class="quote">
+                <p>"Everything is preparation for this. I'm on this. And I'm working on this."</p>
+                <div class="quote-src">Entry 08 — final minutes</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Session Update — 2 March 2026<br>
+                <a href="story-structure.html" style="color: var(--amber-dim); text-decoration: none;">← Story
+                    Structure</a> ·
+                <a href="character-sketch.html" style="color: var(--amber-dim); text-decoration: none;">Character
+                    Sketch</a> ·
+                <a href="index.html" style="color: var(--amber-dim); text-decoration: none;">Main →</a>
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+    </script>
+
+</body>
+
+</html>
