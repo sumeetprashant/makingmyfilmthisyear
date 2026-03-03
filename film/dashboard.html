@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SEARCH — Script Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Courier+Prime&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111;
+            --surface2: #161616;
+            --border: #222;
+            --border-light: #2a2a2a;
+            --text: #e8e6e3;
+            --text-muted: #8a8a8a;
+            --text-dim: #555;
+            --amber: #d4a853;
+            --amber-dim: #8b7235;
+            --amber-bg: rgba(212, 168, 83, 0.06);
+            --red: #c45c5c;
+            --red-bg: rgba(196, 92, 92, 0.08);
+            --green: #5c9a6e;
+            --green-bg: rgba(92, 154, 110, 0.08);
+            --blue: #5c7cc4;
+            --blue-bg: rgba(92, 124, 196, 0.1);
+            --purple: #b478dc;
+            --purple-bg: rgba(180, 120, 220, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 14px;
+            overflow-x: hidden;
+        }
+
+        /* === NAV === */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.94);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            padding: 0 32px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--amber);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+        }
+
+        .nav-deadline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--red);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: var(--red-bg);
+            border: 1px solid rgba(196, 92, 92, 0.2);
+            padding: 3px 10px;
+            border-radius: 4px;
+        }
+
+        .nav-days {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--amber);
+            margin-right: 8px;
+        }
+
+        /* === TABS === */
+        .tabs {
+            position: fixed;
+            top: 54px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.96);
+            border-bottom: 1px solid var(--border);
+            z-index: 998;
+            display: flex;
+            padding: 0 32px;
+            gap: 0;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            padding: 12px 18px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.15s;
+        }
+
+        .tab:hover {
+            color: var(--text-muted);
+        }
+
+        .tab.active {
+            color: var(--text);
+            border-bottom-color: var(--amber);
+        }
+
+        /* === CONTAINER === */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 120px 32px 100px;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* === OVERVIEW PANEL === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 4px;
+        }
+
+        .stat-val {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .stat-val.green {
+            color: var(--green);
+        }
+
+        .stat-val.amber {
+            color: var(--amber);
+        }
+
+        .stat-val.red {
+            color: var(--red);
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        .progress-bar-wrap {
+            background: var(--border);
+            border-radius: 4px;
+            height: 6px;
+            overflow: hidden;
+            margin: 16px 0 32px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--amber-dim), var(--amber));
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .ch-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .ch-ov-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ch-ov-card:hover {
+            border-color: var(--amber-dim);
+        }
+
+        .ch-ov-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--amber-dim);
+            margin-bottom: 4px;
+        }
+
+        .ch-ov-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .ch-ov-theme {
+            font-size: 12px;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .ch-ov-status {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 3px;
+            letter-spacing: 0.08em;
+        }
+
+        /* === STRUCTURE PANEL === */
+        .chapter-block {
+            margin-bottom: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chapter-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .chapter-header:hover {
+            background: var(--surface2);
+        }
+
+        .chapter-header.open {
+            border-bottom-color: var(--border);
+        }
+
+        .ch-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--amber);
+            font-weight: 700;
+            min-width: 24px;
+        }
+
+        .ch-title {
+            font-size: 15px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .ch-dur {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .ch-arrow {
+            color: var(--text-dim);
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .ch-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .chapter-body {
+            display: none;
+            padding: 16px 20px;
+        }
+
+        .chapter-body.open {
+            display: block;
+        }
+
+        .ch-theme {
+            font-size: 12px;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .scene {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .scene:last-child {
+            border-bottom: none;
+        }
+
+        .scene-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .scene-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--amber);
+            font-weight: 700;
+        }
+
+        .scene-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 2px 7px;
+            border-radius: 3px;
+        }
+
+        .badge-home {
+            background: rgba(196, 92, 92, 0.1);
+            color: var(--red);
+            border: 1px solid rgba(196, 92, 92, 0.2);
+        }
+
+        .badge-office {
+            background: var(--blue-bg);
+            color: var(--blue);
+            border: 1px solid rgba(92, 124, 196, 0.2);
+        }
+
+        .badge-studio {
+            background: var(--amber-bg);
+            color: var(--amber);
+            border: 1px solid rgba(212, 168, 83, 0.15);
+        }
+
+        .badge-ext {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid rgba(92, 154, 110, 0.2);
+        }
+
+        .badge-day {
+            background: rgba(212, 168, 83, 0.06);
+            color: var(--amber-dim);
+            border: 1px solid rgba(212, 168, 83, 0.12);
+        }
+
+        .badge-perf {
+            background: var(--blue-bg);
+            color: var(--blue);
+            border: 1px solid rgba(92, 124, 196, 0.2);
+        }
+
+        .scene-dur {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-left: auto;
+        }
+
+        .scene-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-left: 0;
+        }
+
+        .scene-note {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        /* === CALENDAR PANEL === */
+        .cal-legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .cal-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cal-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .cal-legend-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: capitalize;
+        }
+
+        .cal-week-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--amber);
+            margin: 24px 0 10px;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+
+        .cal-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 12px;
+            margin-bottom: 3px;
+            border-radius: 6px;
+            cursor: pointer;
+            align-items: flex-start;
+            transition: all 0.12s;
+        }
+
+        .cal-item:hover {
+            filter: brightness(1.1);
+        }
+
+        .cal-item.done {
+            opacity: 0.45;
+        }
+
+        .cal-check {
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            border-radius: 3px;
+            border: 1.5px solid var(--text-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+            transition: all 0.12s;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .cal-check.checked {
+            background: var(--green);
+            border-color: var(--green);
+            color: var(--bg);
+        }
+
+        .cal-day {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            min-width: 44px;
+            padding-top: 1px;
+        }
+
+        .cal-task {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .cal-item.done .cal-task {
+            text-decoration: line-through;
+        }
+
+        /* === NOTES PANEL === */
+        .notes-area {
+            width: 100%;
+            min-height: 400px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+        }
+
+        .notes-area:focus {
+            border-color: var(--amber-dim);
+        }
+
+        .notes-save {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--green);
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .notes-save.show {
+            opacity: 1;
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .rule-box {
+            background: var(--red-bg);
+            border: 1px solid rgba(196, 92, 92, 0.2);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+        }
+
+        .rule-box p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .rule-box strong {
+            color: var(--red);
+        }
+
+        /* === LINKS PANEL === */
+        .link-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .link-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            text-decoration: none;
+            transition: all 0.15s;
+            display: block;
+        }
+
+        .link-card:hover {
+            border-color: var(--amber-dim);
+            background: var(--surface2);
+        }
+
+        .link-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--amber);
+            margin-bottom: 4px;
+        }
+
+        .link-card-desc {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 120px 16px 80px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ch-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                padding: 0 16px;
+            }
+
+            .tabs {
+                padding: 0 16px;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="nav-left">
+            <div class="nav-title">THE SEARCH</div>
+            <div class="nav-sub">Script Dashboard</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div class="nav-days" id="daysLeft"></div>
+            <div class="nav-deadline">Deadline: 31 Mar</div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="structure">Structure</button>
+        <button class="tab" data-tab="calendar">Calendar</button>
+        <button class="tab" data-tab="notes">Notes</button>
+        <button class="tab" data-tab="links">Links</button>
+    </div>
+
+    <div class="container">
+
+        <!-- ==================== OVERVIEW ==================== -->
+        <div class="panel active" id="panel-overview">
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="section-title">Chapters</div>
+            <div class="ch-overview" id="chOverview"></div>
+
+            <div style="margin-top:32px;">
+                <div class="section-title">Quick Status</div>
+                <div id="quickStatus" style="font-size:13px;color:var(--text-muted);line-height:1.8;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== STRUCTURE ==================== -->
+        <div class="panel" id="panel-structure">
+            <div class="section-title">Scene Breakdown — All 6 Chapters</div>
+            <div class="rule-box">
+                <p><strong>The rule:</strong> You WRITE the day scenes at your desk (screenplay format). You PERFORM the
+                    studio scenes as entries, then transcribe. The entries ARE the first draft of the studio scenes.</p>
+            </div>
+            <div class="section-desc">25 scenes · ~75 minutes · 4 locations · Click chapters to expand.</div>
+            <div id="structureList"></div>
+        </div>
+
+        <!-- ==================== CALENDAR ==================== -->
+        <div class="panel" id="panel-calendar">
+            <div class="section-title">28-Day Writing Calendar</div>
+            <div class="section-desc">Click to check off completed days. Progress auto-saves to your browser.</div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <div class="cal-legend">
+                    <div class="cal-legend-item">
+                        <div class="cal-dot" style="background:var(--blue)"></div><span
+                            class="cal-legend-label">plan</span>
+                    </div>
+                    <div class="cal-legend-item">
+                        <div class="cal-dot" style="background:var(--amber)"></div><span
+                            class="cal-legend-label">write</span>
+                    </div>
+                    <div class="cal-legend-item">
+                        <div class="cal-dot" style="background:var(--red)"></div><span
+                            class="cal-legend-label">revise</span>
+                    </div>
+                    <div class="cal-legend-item">
+                        <div class="cal-dot" style="background:var(--green)"></div><span
+                            class="cal-legend-label">rest</span>
+                    </div>
+                    <div class="cal-legend-item">
+                        <div class="cal-dot" style="background:var(--purple)"></div><span
+                            class="cal-legend-label">shoot</span>
+                    </div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);"
+                    id="calProgress"></div>
+            </div>
+
+            <div id="calendarList"></div>
+        </div>
+
+        <!-- ==================== NOTES ==================== -->
+        <div class="panel" id="panel-notes">
+            <div class="section-title">Working Notes</div>
+            <div class="section-desc">Scratchpad for ideas, lines, scene notes. Auto-saves to your browser.</div>
+            <textarea class="notes-area" id="notesArea"
+                placeholder="Start typing... everything saves automatically."></textarea>
+            <div class="notes-save" id="notesSave">✓ Saved</div>
+        </div>
+
+        <!-- ==================== LINKS ==================== -->
+        <div class="panel" id="panel-links">
+            <div class="section-title">All Documents</div>
+            <div class="section-desc">Quick access to every development page.</div>
+            <div class="link-grid">
+                <a class="link-card" href="draft-zero.html">
+                    <div class="link-card-title">Draft Zero →</div>
+                    <div class="link-card-desc">The screenplay. Chapters 1-2 written. Your working document.</div>
+                </a>
+                <a class="link-card" href="character-sketch.html">
+                    <div class="link-card-title">Character Sketch →</div>
+                    <div class="link-card-desc">Locked. 11 sections. The definitive S.</div>
+                </a>
+                <a class="link-card" href="story-structure.html">
+                    <div class="link-card-title">Story Structure →</div>
+                    <div class="link-card-desc">6-chapter outward turn. Filmable scenes.</div>
+                </a>
+                <a class="link-card" href="script-roadmap.html">
+                    <div class="link-card-title">Script Roadmap →</div>
+                    <div class="link-card-desc">Scene breakdown + writing method + calendar.</div>
+                </a>
+                <a class="link-card" href="session-update-mar02.html">
+                    <div class="link-card-title">Session Update (Mar 2) →</div>
+                    <div class="link-card-desc">Entry 08 breakdown. Delhi night. Silver coin. People problem.</div>
+                </a>
+                <a class="link-card" href="entry08-talking-points.html">
+                    <div class="link-card-title">Entry 08 Talking Points →</div>
+                    <div class="link-card-desc">8 prompts for the comedy wound session.</div>
+                </a>
+                <a class="link-card" href="character-bible.html">
+                    <div class="link-card-title">Character Bible →</div>
+                    <div class="link-card-desc">Early reference doc from entries 1-6.</div>
+                </a>
+                <a class="link-card" href="index.html">
+                    <div class="link-card-title">Main Hub →</div>
+                    <div class="link-card-desc">The film development home page.</div>
+                </a>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <script>
+        // === DATA ===
+        const chapters = [
+            {
+                num: 1, title: "The Loop", minutes: "~12 min", theme: "The trap that looks like a life", status: "drafted",
+                scenes: [
+                    { id: "1.1", title: "Morning Ritual", loc: "Home", type: "DAY", dur: "~2 min", desc: "Alarm. Water. Cold shower. Dressed. Hallway mirror — doesn't look. Out.", note: "No dialogue. Visual." },
+                    { id: "1.2", title: "The Tech Bro Switch", loc: "Office", type: "DAY", dur: "~2 min", desc: "Su at his desk. Client calls. Zoom charm. Dead eyes mid-smile. Terrifyingly good at something he doesn't love.", note: "Minimal dialogue. Visual." },
+                    { id: "1.3", title: "Everyone Leaves", loc: "Office", type: "DAY", dur: "~1 min", desc: "7pm. Colleagues leave. Silence. Su sits. Doesn't move. Then picks up bag, walks to the podcast studio.", note: "No dialogue. The pivot." },
+                    { id: "1.4", title: "The First Recording", loc: "Studio", type: "STUDIO", dur: "~4 min", desc: "Mocks the podcast setup. 'Hello and welcome to nodanotherpodcast—' Fails. Joking stops. 'Okay. So. I want to make a film.'", note: "Semi-improvised. BEAT: Why film? What's the dream? Key line: 'I want to make a film.'" },
+                    { id: "1.5", title: "Night Film Ritual", loc: "Home", type: "DAY", dur: "~2 min", desc: "11pm. Scotch — barely a finger. Film plays. Watches devotionally. Credits. The useless smile. Falls asleep on the couch.", note: "No dialogue. Visual." },
+                    { id: "1.6", title: "Loop Reset", loc: "Home", type: "DAY", dur: "~1 min", desc: "Same alarm. Same water. Same mirror — doesn't look. The loop.", note: "Compressed repeat of 1.1." }
+                ]
+            },
+            {
+                num: 2, title: "The Secret Recipe", minutes: "~12 min", theme: "He can't write. He discovers he can speak.", status: "drafted",
+                scenes: [
+                    { id: "2.1", title: "The Blank Page", loc: "Home", type: "DAY", dur: "~2.5 min", desc: "Weekend. 'UNTITLED SCREENPLAY.' Types 'FADE IN:' — deletes. Types. Deletes. Slams laptop. Makes chai. Opens laptop. Cursor blinks. Closes it.", note: "No dialogue. Visual comedy." },
+                    { id: "2.2", title: "The Confession", loc: "Studio", type: "STUDIO", dur: "~4 min", desc: "Not joking. Why he can't write. How speaking is different. 'This is not a rant. This is a confession.'", note: "BEAT: Writing vs. speaking. Key: 'When I speak, the editor can't keep up.'" },
+                    { id: "2.3", title: "The Co-Founder", loc: "Office", type: "DAY", dur: "~2 min", desc: "Meera asks: 'So how's the film thing going?' Her eyes glaze. Su sees it. 'It's going. So, this client deadline—' The dream goes back in the drawer.", note: "Scripted dialogue (short)." },
+                    { id: "2.4", title: "The First Post-it", loc: "Home", type: "DAY", dur: "~2.5 min", desc: "Headphones. Listens to his own recording. Hears a line. Rewinds. Writes it on a Post-it. Sticks it on the bare wall. One yellow note.", note: "No dialogue. First evidence the film exists." }
+                ]
+            },
+            {
+                num: 3, title: "The Wall", minutes: "~13 min", theme: "Family. Love across an unbridgeable gap.", status: "outlined",
+                scenes: [
+                    { id: "3.1", title: "Mother's Call", loc: "Home", type: "DAY", dur: "~3 min", desc: "Phone. Pacing. Marriage deflection. Father's health — he softens. 'I will, Maa.' Hangs up. 10 seconds of silence.", note: "Phone audio + Su's half." },
+                    { id: "3.2", title: "Sunday at Sister's", loc: "Ext", type: "DAY", dur: "~4 min", desc: "Eating together. 'Maa called me.' She tries to say everything. Can't. 'I stood by you when you told them.' Silence. TV plays.", note: "Scripted dialogue. Emotional core." },
+                    { id: "3.3", title: "Family Entry", loc: "Studio", type: "STUDIO", dur: "~4 min", desc: "First time talking about family on camera. Specific. 'Marriage is a scam.' Then softer: 'But she was brave. Braver than me.'", note: "BEAT: Who he protects vs. who he can't protect himself from." },
+                    { id: "3.4", title: "Mirror Attempt", loc: "Home", type: "DAY", dur: "~1 min", desc: "Morning. Hallway mirror. Almost stops. Keeps walking. Not yet.", note: "Callback to 1.1. Mirror motif develops." }
+                ]
+            },
+            {
+                num: 4, title: "The Comedian", minutes: "~14 min", theme: "The first dream that broke. The fear this one will too.", status: "detailed",
+                scenes: [
+                    { id: "4.1", title: "Sunglasses Montage", loc: "Ext", type: "DAY", dur: "~1.5 min", desc: "Su wearing sunglasses EVERYWHERE. Metro. Office. Rain. Restaurant. Indoors. Absurd, committed, ridiculous.", note: "No dialogue. Music-driven." },
+                    { id: "4.2", title: "The Set — Development", loc: "Ext", type: "DAY", dur: "~2 min", desc: "Same bit, different clubs. 'Even the search for security is insecurity.' Sometimes lands. Sometimes silence.", note: "Montage. Snippets of performance." },
+                    { id: "4.3", title: "The Delhi Winter Night", loc: "Ext", type: "DAY", dur: "~4 min", desc: "9pm. Green jacket. Two full mics. Stands up every time they call a name. Never his. 1:30am — no spot. Grabs bag. Bolts. 3am cold shower.", note: "The scene that broke him." },
+                    { id: "4.4", title: "The Backseat", loc: "Ext", type: "DAY", dur: "~1 min", desc: "Backseat of a car. Comedian friend driving. Camera captures them talking, roasting. Delhi night outside. Su observes.", note: "60-sec shot. No dialogue from Su." },
+                    { id: "4.5", title: "Comedy Entry", loc: "Studio", type: "STUDIO", dur: "~4 min", desc: "'I take myself too seriously to be a comic.' The Ricky Gervais parallel. 'Obsession leads to success. Nothing else.'", note: "BEAT: Comedy as first love. Film as evolution, not escape." }
+                ]
+            },
+            {
+                num: 5, title: "The Accident", minutes: "~12 min", theme: "How the film happened by accident. Post-its become a plan.", status: "outlined",
+                scenes: [
+                    { id: "5.1", title: "The Origin Story", loc: "Studio", type: "STUDIO", dur: "~4 min", desc: "'The writer didn't show up. I had to write it.' Acts out the audition. 'I read the lines better than anyone.' Directed 2 minutes.", note: "Su at his most alive." },
+                    { id: "5.2", title: "The Post-it Wall", loc: "Office", type: "DAY", dur: "~3 min", desc: "Reviews old Creator footage. Post-it wall at 15-20 notes. Reads them in order. Something clicks. Starts rearranging.", note: "Visual moment of creation." },
+                    { id: "5.3", title: "Building From Constraints", loc: "Home", type: "DAY", dur: "~2 min", desc: "1am. Handwriting: 'What I have. Studio. Camera. My face. 2 people.' Draws lines. Building the film from constraints.", note: "No dialogue. Visual." },
+                    { id: "5.4", title: "The Solo Day", loc: "Ext", type: "DAY", dur: "~3 min", desc: "Cafe alone. Cinema alone. Leonardo/DiCaprio confusion. 'If you can eat and watch a film alone, you can do anything.'", note: "Voiceover → studio cut. Warm, funny." }
+                ]
+            },
+            {
+                num: 6, title: "Day One", minutes: "~12 min", theme: "He starts. Not resolution — a crack.", status: "outlined",
+                scenes: [
+                    { id: "6.1", title: "The Cracked Loop", loc: "Office", type: "DAY", dur: "~1.5 min", desc: "Same routine. But: before the work laptop, he opens a notebook. Writes 3 minutes. Closes it. Tech Bro Switch — 3 minutes late.", note: "Mirror of 1.2. Loop cracked." },
+                    { id: "6.2", title: "First Shoot Day", loc: "Studio", type: "DAY", dur: "~3 min", desc: "Setting up studio for a SCENE, not a recording. Co-founder: 'You're actually doing it?' Su playing 'S' for the camera.", note: "The distance between Su and S." },
+                    { id: "6.3", title: "The City — Outward", loc: "Ext", type: "DAY", dur: "~2 min", desc: "Driving NCR at night. Camera faces OUTWARD. City lights. Su's face reflected in windshield, barely visible.", note: "Camera that faced inward now faces out." },
+                    { id: "6.4", title: "The Final Entry", loc: "Studio", type: "STUDIO", dur: "~2 min", desc: "'He knows the secret recipe. This time... maybe he'll cook.' Useless smile. Camera off. Black.", note: "The thesis." },
+                    { id: "6.5", title: "The Mirror", loc: "Home", type: "DAY", dur: "~1.5 min", desc: "Morning. Same alarm. Water. Hallway. Mirror. He stops. Looks. Just for a second. Walks on. Camera holds. Cut to black.", note: "The final image." }
+                ]
+            }
+        ];
+
+        const calendar = [
+            { day: "Mon 3", task: "STRUCTURE LOCK. Review all 6 chapters. Decide order. Mark scenes to cut or move. Don't write — decide.", week: 1, type: "plan" },
+            { day: "Tue 4", task: "Write Ch1 DAY scenes (1.1, 1.2, 1.3). Screenplay format. Action lines. 3-4 pages.", week: 1, type: "write" },
+            { day: "Wed 5", task: "Write Ch1 DAY scenes (1.5, 1.6) + Ch1 STUDIO beat sheet (1.4). What must Su say? Emotional target?", week: 1, type: "write" },
+            { day: "Thu 6", task: "Write Ch2 DAY scenes (2.1, 2.3, 2.4). Blank page, co-founder, first Post-it. 3-4 pages.", week: 1, type: "write" },
+            { day: "Fri 7", task: "Write Ch2 STUDIO beat sheet (2.2). Key lines, emotional arc. Record a targeted entry.", week: 1, type: "write" },
+            { day: "Sat 8", task: "Read Ch1-2 aloud. Mark what sounds like a film vs. a document. Cut the document parts.", week: 1, type: "revise" },
+            { day: "Sun 9", task: "REST or watch a reference film. Watch for rhythm, not story.", week: 1, type: "rest" },
+            { day: "Mon 10", task: "Write Ch3 DAY scenes (3.1, 3.2, 3.4). Sister, phone call, mirror attempt. 2-3 pages.", week: 2, type: "write" },
+            { day: "Tue 11", task: "Write Ch3 STUDIO beat sheet (3.3). Record a targeted entry about family.", week: 2, type: "write" },
+            { day: "Wed 12", task: "Write Ch4 DAY scenes (4.1, 4.3, 4.4). Delhi night, backseat. The most cinematic chapter. 4-5 pages.", week: 2, type: "write" },
+            { day: "Thu 13", task: "Write Ch4 STUDIO beat sheet (4.5). Record a targeted entry about comedy years.", week: 2, type: "write" },
+            { day: "Fri 14", task: "Read Ch3-4 aloud. Tighten. Vary sentence structures.", week: 2, type: "revise" },
+            { day: "Sat 15", task: "Write 10-min standup set — draft 1. 'Even the search for security is insecurity.'", week: 2, type: "write" },
+            { day: "Sun 16", task: "REST. Listen to entries. Transcribe gold.", week: 2, type: "rest" },
+            { day: "Mon 17", task: "Write Ch5 DAY scenes (5.2, 5.3, 5.4). Realization, constraints, solo day. 3-4 pages.", week: 3, type: "write" },
+            { day: "Tue 18", task: "Write Ch5 STUDIO beat sheet (5.1). Record entry about The Creator origin.", week: 3, type: "write" },
+            { day: "Wed 19", task: "Write Ch6 DAY scenes (6.1, 6.2, 6.3, 6.5). Cracked loop to mirror. 4-5 pages.", week: 3, type: "write" },
+            { day: "Thu 20", task: "Write Ch6 STUDIO beat sheet (6.4). The secret recipe line. Record it.", week: 3, type: "write" },
+            { day: "Fri 21", task: "Read Ch5-6 aloud. Does the ending land? Adjust.", week: 3, type: "revise" },
+            { day: "Sat 22", task: "10-min standup set — version 2. Rehearse. Time it.", week: 3, type: "write" },
+            { day: "Sun 23", task: "REST. Full draft exists. Let it sit.", week: 3, type: "rest" },
+            { day: "Mon 24", task: "SECOND DRAFT Ch1-3. Tighten. Cut what explains what we can see.", week: 4, type: "revise" },
+            { day: "Tue 25", task: "SECOND DRAFT Ch4-6. Polish the 10-min set.", week: 4, type: "revise" },
+            { day: "Wed 26", task: "SHOOT TEST FOOTAGE. Morning routine, blank page, cold shower.", week: 4, type: "shoot" },
+            { day: "Thu 27", task: "Watch test footage. Adjust script based on what camera reveals.", week: 4, type: "revise" },
+            { day: "Fri 28", task: "FINAL PASS. Read whole script aloud. One sitting. Mark everything that makes you cringe.", week: 4, type: "revise" },
+            { day: "Sat 29", task: "Buffer. Fix what you marked.", week: 4, type: "rest" },
+            { day: "Sun 30", task: "Buffer. Polish.", week: 4, type: "rest" },
+            { day: "Mon 31", task: "SCRIPT LOCKED. Draft 1 complete. Print it. Hold it.", week: 4, type: "milestone" }
+        ];
+
+        const typeColors = { plan: "var(--blue)", write: "var(--amber)", revise: "var(--red)", rest: "var(--green)", shoot: "var(--purple)", milestone: "var(--amber)" };
+        const typeBgs = { plan: "var(--blue-bg)", write: "var(--amber-bg)", revise: "var(--red-bg)", rest: "var(--green-bg)", shoot: "var(--purple-bg)", milestone: "rgba(212,168,83,0.15)" };
+        const locBadge = { Home: "badge-home", Office: "badge-office", Studio: "badge-studio", Ext: "badge-ext" };
+        const statusColors = { drafted: { bg: "rgba(92,154,110,0.1)", color: "var(--green)", label: "DRAFTED" }, detailed: { bg: "rgba(212,168,83,0.1)", color: "var(--amber)", label: "DETAILED" }, outlined: { bg: "rgba(92,124,196,0.1)", color: "var(--blue)", label: "OUTLINED" }, notstarted: { bg: "rgba(85,85,85,0.1)", color: "var(--text-dim)", label: "NOT STARTED" } };
+
+        // === STATE ===
+        let checkedDays = JSON.parse(localStorage.getItem('search-cal') || '{}');
+        let notes = localStorage.getItem('search-notes') || '';
+        let openChapter = 1;
+
+        // === RENDER ===
+        function daysRemaining() {
+            const deadline = new Date(2026, 2, 31); // March 31, 2026
+            const now = new Date();
+            return Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
+        }
+
+        function renderNav() {
+            const d = daysRemaining();
+            document.getElementById('daysLeft').textContent = d + ' DAYS LEFT';
+        }
+
+        function renderOverview() {
+            const totalScenes = chapters.reduce((s, c) => s + c.scenes.length, 0);
+            const draftedChs = chapters.filter(c => c.status === 'drafted').length;
+            const calDone = Object.values(checkedDays).filter(Boolean).length;
+            const totalMinutes = chapters.reduce((s, c) => s + parseInt(c.minutes.replace(/\D/g, ''), 10), 0);
+
+            document.getElementById('statsGrid').innerHTML = `
+        <div class="stat"><div class="stat-label">Chapters</div><div class="stat-val amber">6</div><div class="stat-sub">${draftedChs} drafted</div></div>
+        <div class="stat"><div class="stat-label">Scenes</div><div class="stat-val amber">${totalScenes}</div><div class="stat-sub">~${totalMinutes} min total</div></div>
+        <div class="stat"><div class="stat-label">Calendar</div><div class="stat-val ${calDone > 14 ? 'green' : 'amber'}">${calDone}/${calendar.length}</div><div class="stat-sub">days complete</div></div>
+        <div class="stat"><div class="stat-label">Days Left</div><div class="stat-val red">${daysRemaining()}</div><div class="stat-sub">deadline 31 Mar</div></div>
+    `;
+
+            const pct = Math.round((calDone / calendar.length) * 100);
+            document.getElementById('progressBar').style.width = pct + '%';
+
+            let ovHtml = '';
+            chapters.forEach(ch => {
+                const st = statusColors[ch.status] || statusColors.notstarted;
+                ovHtml += `<div class="ch-ov-card" onclick="switchToChapter(${ch.num})">
+            <div class="ch-ov-num">Chapter ${ch.num}</div>
+            <div class="ch-ov-title">${ch.title}</div>
+            <div class="ch-ov-theme">${ch.theme}</div>
+            <div class="ch-ov-status" style="background:${st.bg};color:${st.color}">${st.label}</div>
+        </div>`;
+            });
+            document.getElementById('chOverview').innerHTML = ovHtml;
+
+            document.getElementById('quickStatus').innerHTML = `
+        <div>✅ <strong>Character Sketch:</strong> Locked</div>
+        <div>✅ <strong>Story Structure:</strong> 6 chapters, 25 scenes</div>
+        <div>✅ <strong>Opening:</strong> TBD — non-linear approach under development</div>
+        <div>✅ <strong>Ending:</strong> Loop-with-a-difference (mirror)</div>
+        <div>✅ <strong>Ch1-2 Draft Zero:</strong> Written</div>
+        <div>🟡 <strong>Ch3-6:</strong> Outlined, not drafted</div>
+        <div>🟡 <strong>10-min Standup Set:</strong> First line only</div>
+        <div>🟡 <strong>Opening Scene:</strong> Needs non-linear treatment</div>
+        <div>⏳ <strong>8 Entries Recorded</strong> — not yet mapped to studio scenes</div>
+    `;
+        }
+
+        function renderStructure() {
+            let html = '';
+            chapters.forEach(ch => {
+                const isOpen = openChapter === ch.num;
+                let scenesHtml = '';
+                ch.scenes.forEach(s => {
+                    const lb = locBadge[s.loc] || 'badge-ext';
+                    const tb = s.type === 'STUDIO' ? 'badge-perf' : 'badge-day';
+                    scenesHtml += `<div class="scene">
+                <div class="scene-top">
+                    <span class="scene-id">${s.id}</span>
+                    <span class="scene-name">${s.title}</span>
+                    <span class="badge ${lb}">${s.loc}</span>
+                    <span class="badge ${tb}">${s.type}</span>
+                    <span class="scene-dur">${s.dur}</span>
+                </div>
+                <div class="scene-desc">${s.desc}</div>
+                <div class="scene-note">${s.note}</div>
+            </div>`;
+                });
+                html += `<div class="chapter-block">
+            <div class="chapter-header ${isOpen ? 'open' : ''}" onclick="toggleChapter(${ch.num})">
+                <span class="ch-num">${String(ch.num).padStart(2, '0')}</span>
+                <span class="ch-title">${ch.title}</span>
+                <span class="ch-dur">${ch.minutes} · ${ch.scenes.length} scenes</span>
+                <span class="ch-arrow ${isOpen ? 'open' : ''}">▾</span>
+            </div>
+            <div class="chapter-body ${isOpen ? 'open' : ''}">
+                <div class="ch-theme">${ch.theme}</div>
+                ${scenesHtml}
+            </div>
+        </div>`;
+            });
+            document.getElementById('structureList').innerHTML = html;
+        }
+
+        function renderCalendar() {
+            const weeks = [1, 2, 3, 4];
+            const weekLabels = ["Week 1 — Foundation", "Week 2 — Middle Chapters", "Week 3 — Endings + Set", "Week 4 — Revision + Lock"];
+            let html = '';
+            const calDone = Object.values(checkedDays).filter(Boolean).length;
+            document.getElementById('calProgress').textContent = `${calDone}/${calendar.length} complete`;
+
+            weeks.forEach((w, i) => {
+                html += `<div class="cal-week-label">${weekLabels[i]}</div>`;
+                calendar.filter(d => d.week === w).forEach(d => {
+                    const done = checkedDays[d.day];
+                    const color = typeColors[d.type];
+                    const bg = typeBgs[d.type];
+                    html += `<div class="cal-item ${done ? 'done' : ''}" style="background:${bg}" onclick="toggleDay('${d.day}')">
+                <div class="cal-check ${done ? 'checked' : ''}" style="border-color:${color}">${done ? '✓' : ''}</div>
+                <span class="cal-day" style="color:${color}">${d.day}</span>
+                <span class="cal-task">${d.task}</span>
+            </div>`;
+                });
+            });
+            document.getElementById('calendarList').innerHTML = html;
+        }
+
+        function renderNotes() {
+            document.getElementById('notesArea').value = notes;
+        }
+
+        // === ACTIONS ===
+        function toggleChapter(n) {
+            openChapter = openChapter === n ? null : n;
+            renderStructure();
+        }
+
+        function switchToChapter(n) {
+            openChapter = n;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="structure"]').classList.add('active');
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-structure').classList.add('active');
+            renderStructure();
+            window.scrollTo(0, 0);
+        }
+
+        function toggleDay(day) {
+            checkedDays[day] = !checkedDays[day];
+            localStorage.setItem('search-cal', JSON.stringify(checkedDays));
+            renderCalendar();
+            renderOverview();
+        }
+
+        // === TABS ===
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // === NOTES AUTOSAVE ===
+        let saveTimeout;
+        document.getElementById('notesArea').addEventListener('input', (e) => {
+            notes = e.target.value;
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                localStorage.setItem('search-notes', notes);
+                const el = document.getElementById('notesSave');
+                el.classList.add('show');
+                setTimeout(() => el.classList.remove('show'), 1500);
+            }, 500);
+        });
+
+        // === INIT ===
+        renderNav();
+        renderOverview();
+        renderStructure();
+        renderCalendar();
+        renderNotes();
+    </script>
+
+</body>
+
+</html>

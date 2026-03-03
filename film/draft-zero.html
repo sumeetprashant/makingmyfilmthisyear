@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SEARCH — Draft Zero</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fffff8;
+            --text: #1a1a1a;
+            --muted: #666;
+            --dim: #999;
+            --border: #ddd;
+            --accent: #c45c5c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #111;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 999;
+        }
+
+        .toolbar-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #d4a853;
+            letter-spacing: 0.05em;
+        }
+
+        .toolbar-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #888;
+            display: flex;
+            gap: 16px;
+        }
+
+        .toolbar-link {
+            color: #5c7cc4;
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .toolbar-link:hover {
+            color: #d4a853;
+        }
+
+        .page {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 72px 48px 120px;
+        }
+
+        .title-page {
+            text-align: center;
+            padding: 80px 0 60px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 48px;
+        }
+
+        .title-page h1 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 24px;
+        }
+
+        .title-page .byline {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .title-page .draft {
+            font-size: 11px;
+            color: var(--dim);
+        }
+
+        .chapter-divider {
+            text-align: center;
+            margin: 48px 0 36px;
+            padding: 16px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .chapter-divider h2 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text);
+        }
+
+        .slug {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 28px;
+            margin-bottom: 0;
+        }
+
+        .action {
+            margin: 12px 0;
+        }
+
+        .action strong {
+            font-weight: 700;
+        }
+
+        .char-name {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .paren {
+            text-align: center;
+            font-style: italic;
+            font-size: 12px;
+            margin: 2px auto;
+            max-width: 220px;
+            color: var(--muted);
+        }
+
+        .dialogue {
+            text-align: center;
+            max-width: 340px;
+            margin: 4px auto 12px;
+        }
+
+        .transition {
+            text-align: right;
+            text-transform: uppercase;
+            font-size: 11px;
+            margin-top: 20px;
+            color: var(--muted);
+        }
+
+        .beat-sheet {
+            background: #f5f5ee;
+            border: 1px solid #e0ddd4;
+            border-radius: 6px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+
+        .beat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .beat-sheet p {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+
+        .beat-sheet .key-lines {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #e0ddd4;
+        }
+
+        .beat-sheet .key-lines li {
+            font-size: 12px;
+            margin-bottom: 3px;
+            color: var(--text);
+        }
+
+        .beat-sheet .emotional {
+            font-style: italic;
+            color: var(--accent);
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .end-marker {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--dim);
+            margin-top: 36px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .todo-marker {
+            text-align: center;
+            font-style: italic;
+            color: var(--dim);
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px dashed var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .page {
+                padding: 60px 20px 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toolbar">
+        <div class="toolbar-title">THE SEARCH — Draft Zero</div>
+        <div class="toolbar-info">
+            <span>~75 min · 6 chapters</span>
+            <a class="toolbar-link" href="dashboard.html">← Dashboard</a>
+            <a class="toolbar-link" href="index.html">Hub</a>
+        </div>
+    </div>
+
+    <div class="page">
+
+        <div class="title-page">
+            <h1>The Search</h1>
+            <div class="byline">Written by Sumeet Prashant</div>
+            <div class="draft">Draft Zero · March 2026</div>
+        </div>
+
+        <!-- ===== CHAPTER ONE ===== -->
+        <div class="chapter-divider">
+            <h2>Chapter One: The Loop</h2>
+        </div>
+
+        <p class="slug">FADE IN:</p>
+
+        <p class="slug">INT. SU'S APARTMENT — BEDROOM — MORNING</p>
+
+        <p class="action">Black. Then — a phone screen blazing 6:00 AM in the dark. A hand reaches, silences it. Not
+            groggy. Practiced. Like he's done this ten thousand times and resented each one equally.</p>
+
+        <p class="action">SU (36, lean, the kind of stillness that reads as either discipline or exhaustion) sits up. No
+            stretch. No yawn. Feet on the floor like a man reporting for duty at a job he never applied for.</p>
+
+        <p class="action">He reaches past the phone — doesn't check it — and picks up a glass of water from the
+            nightstand. Drinks. Slow. Deliberate. As if this is the one thing today he'll do entirely on his own terms.
+        </p>
+
+        <p class="slug">INT. SU'S APARTMENT — BATHROOM — CONTINUOUS</p>
+
+        <p class="action">The shower handle turns. All the way cold. February in Gurugram and the man takes ice water
+            like it's a ritual, which it is. Five years of this. His jaw tightens. His breath catches for half a second.
+            Then nothing. He stands under it. Eyes open.</p>
+
+        <p class="slug">INT. SU'S APARTMENT — HALLWAY — MOMENTS LATER</p>
+
+        <p class="action">Dressed. Hair still damp. He walks down the narrow hallway. A mirror hangs on the left wall —
+            the kind you pass every day and eventually stop seeing.</p>
+
+        <p class="action">Su passes it. Doesn't look. Doesn't slow down. The camera holds on the mirror for a beat after
+            he's gone. <strong>His reflection was there and he refused it.</strong></p>
+
+        <p class="action">Front door. Keys. Out.</p>
+
+        <p class="slug">INT. OFFICE — CO-WORKING SPACE — DAY</p>
+
+        <p class="action">The office hums with the specific frequency of people performing productivity. Fluorescent
+            panels. Standing desks nobody stands at. A whiteboard with last month's goals still unchecked.</p>
+
+        <p class="action">Su at his desk. Three monitors. Slack pinging. A Zoom call loads — his face fills one of the
+            boxes on screen. The smile arrives. Warm, competent, just self-deprecating enough to be charming. He talks
+            about timelines, deliverables, "circle back on that." His hands gesture with the easy confidence of someone
+            who could sell you your own furniture.</p>
+
+        <p class="action">The camera catches his eyes. Dead. The smile stays perfect. The eyes are somewhere else
+            entirely. He's terrifyingly good at something he doesn't love.</p>
+
+        <p class="slug">INT. OFFICE — EVENING</p>
+
+        <p class="action">7:00 PM. The office empties like a theatre after a mediocre show. Colleagues pack bags, say
+            their goodbyes — "see you tomorrow, bro" — and the door swings shut behind the last one.</p>
+
+        <p class="action">Silence. The fluorescents buzz. Su sits at his desk. Doesn't move. Doesn't reach for his
+            phone. Doesn't do anything. A full beat of absolute nothing.</p>
+
+        <p class="action">Then he picks up his bag. Walks — not to the exit. Down the hall. Toward the podcast studio at
+            the back of the office.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+        <p class="action">Small room. Soundproofing panels. A camera on a tripod — not professional, not amateur. The
+            kind of setup that says "I've been thinking about this for longer than I'll admit."</p>
+
+        <p class="action">Su sits in front of it. Adjusts the mic. The red recording light blinks on.</p>
+
+        <div class="beat-sheet">
+            <div class="beat-label">Studio Scene — Beat Sheet 1.4: The First Recording</div>
+            <p>Su riffs on the podcast setup. Mocks it. "Hello and welcome to—" Can't keep a straight face. Tries again.
+                Fails. Then the joking stops. A beat. He sits properly. Stares into the camera.</p>
+            <p><strong>THE BEAT:</strong> "I want to make a film." Why? When did this start? Let it flow. This is the
+                entry that hooks the audience.</p>
+            <div class="key-lines">
+                <strong>KEY LINES TO HIT:</strong>
+                <ul>
+                    <li>"I want to make a film."</li>
+                    <li>"It has been what, four, five, six years now?"</li>
+                    <li>"It feels good to finally speak."</li>
+                </ul>
+            </div>
+            <div class="emotional">EMOTIONAL TARGET: The relief of a man who's been holding his breath for years and
+                just exhaled.</div>
+        </div>
+
+        <p class="transition">CUT TO:</p>
+
+        <p class="slug">INT. SU'S APARTMENT — LIVING ROOM — LATE NIGHT</p>
+
+        <p class="action">11:00 PM. The apartment glows with the blue wash of a massive screen. Su on the couch, legs
+            folded under him. A glass of scotch on the side table — barely a finger's worth. The man's a miser with his
+            vices.</p>
+
+        <p class="action">On screen: a film. We don't see which one. We see Su watching it. Not casually. Devotionally.
+            The way some people watch sunsets or sleeping children — like the thing in front of him contains a secret
+            he's been trying to crack his whole life.</p>
+
+        <p class="action">Credits roll. He doesn't move. Sits in the feeling. Then — the useless smile. Not happy, not
+            sad. The smile of a man who knows exactly what he wants to do and has no idea how to start doing it.</p>
+
+        <p class="action">His eyes close. He falls asleep on the couch. The screen goes to its home menu. The blue light
+            stays.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <p class="slug">INT. SU'S APARTMENT — BEDROOM — MORNING</p>
+
+        <p class="action">6:00 AM. The same phone. The same hand. The same silence.</p>
+
+        <p class="action">Water. Cold shower. Hallway. Mirror — doesn't look. Keys. Door. Gone.</p>
+
+        <p class="action">The loop. Sealed tight. Nothing entered. Nothing escaped.</p>
+
+        <p class="end-marker">END OF CHAPTER ONE</p>
+
+        <!-- ===== CHAPTER TWO ===== -->
+        <div class="chapter-divider">
+            <h2>Chapter Two: The Secret Recipe</h2>
+        </div>
+
+        <p class="slug">INT. SU'S APARTMENT — DESK — SATURDAY MORNING</p>
+
+        <p class="action">Weekend light. Softer than weekdays, or maybe it just feels that way because nobody's paying
+            for his time.</p>
+
+        <p class="action">Su at his laptop. Screen open. A blank document. The title bar reads: UNTITLED SCREENPLAY. The
+            cursor blinks after the colon in "FADE IN:"</p>
+
+        <p class="action">He types a line. Reads it. His face does something subtle — not a wince, more like a quiet
+            internal conviction that the words are wrong. He selects all. Deletes.</p>
+
+        <p class="action">Types another line. Faster this time, like speed might outrun the editor living in his skull.
+            Reads it. Worse. Deletes.</p>
+
+        <p class="action">Types "FADE IN:" again. Stares at it. Thirty seconds. The cursor blinks. And blinks. And
+            blinks.</p>
+
+        <p class="action">He closes the laptop. Not gently — slams it. Gets up. Paces the apartment. Opens a kitchen
+            drawer, stares into the chaos of it, closes it. Fills a pot. Makes chai. The ritual of making chai when you
+            can't make anything else.</p>
+
+        <p class="action">Sits back down. Opens the laptop. "FADE IN:" still there. The cursor still blinking. Patient.
+            Infinite. Mocking.</p>
+
+        <p class="action">He closes it. Slowly this time. Pushes it away. Leans back. Stares at the ceiling.</p>
+
+        <p class="action">The ceiling doesn't blink.</p>
+
+        <p class="slug">INT. OFFICE — CONFERENCE TABLE — WEEKDAY</p>
+
+        <p class="action">Su and MEERA (32, co-founder, the kind of organized that makes you feel guilty about your own
+            desk) sit across from each other. Laptops open. Timelines on screen. Client logos. Deliverables color-coded
+            by urgency.</p>
+
+        <p class="action">She's mid-sentence about a campaign deadline when she pauses. Tilts her head.</p>
+
+        <p class="char-name">MEERA</p>
+        <p class="dialogue">So how's the film thing going?</p>
+
+        <p class="action">She says it the way people ask about your new diet — genuine curiosity wrapped in the
+            suspicion that it won't last.</p>
+
+        <p class="action">Su's mouth opens. Closes. He watches her eyes. They're trying. They're really trying. But
+            somewhere behind the effort, a glaze — not disrespect, different wiring. She lives in deadlines and
+            deliverables. He lives in a place she can't visit.</p>
+
+        <p class="action">He sees it. She doesn't know he sees it.</p>
+
+        <p class="char-name">SU</p>
+        <p class="dialogue">It's going. So, this client deadline—</p>
+
+        <p class="action">The dream goes back in the drawer. The drawer doesn't even creak anymore.</p>
+
+        <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+        <div class="beat-sheet">
+            <div class="beat-label">Studio Scene — Beat Sheet 2.2: The Confession</div>
+            <p>Su in the studio. Not joking this time. Something's shifted. He talks about why he can't write, how
+                speaking is different. The performance drops. The real person appears.</p>
+            <p><strong>THE BEAT:</strong> Writing vs. speaking. The editor that activates when typing. "I don't call
+                typing writing. It's typing." Let the frustration become clarity.</p>
+            <div class="key-lines">
+                <strong>KEY LINES TO HIT:</strong>
+                <ul>
+                    <li>"I can't write for the life of me."</li>
+                    <li>"When I speak, the editor can't keep up."</li>
+                    <li>"Since I can't sit and write like a normal human being, I have devised this method."</li>
+                    <li>"This is not a rant. This is a confession."</li>
+                </ul>
+            </div>
+            <div class="emotional">EMOTIONAL TARGET: The audience realizes the entries aren't behind-the-scenes footage
+                — they ARE the film. Su is making the thing while talking about not being able to make it.</div>
+        </div>
+
+        <p class="slug">INT. SU'S APARTMENT — LIVING ROOM — LATE NIGHT</p>
+
+        <p class="action">Headphones on. Su at his desk, laptop open. He's listening to his own recording from the
+            studio. His voice plays back — tinny through the speakers, but the words land differently when you're not
+            the one saying them.</p>
+
+        <p class="action">He hears a line. His finger hovers over the trackpad. Rewinds. Listens again. His expression
+            changes — not recognition, more like surprise. Like finding a good sentence in someone else's book and then
+            remembering you wrote it.</p>
+
+        <p class="action">He reaches for a Post-it pad. Yellow. Writes the line. Stands up. Walks to the bare wall next
+            to his desk — nothing on it, just paint and a single nail hole from a picture that used to hang there.</p>
+
+        <p class="action">Sticks the Post-it on the wall. One yellow square on a field of white.</p>
+
+        <p class="action">He steps back. Stares at it. One note. One line. The first physical evidence that the film
+            exists outside his head.</p>
+
+        <p class="action">He stands there longer than he should.</p>
+
+        <p class="end-marker">END OF CHAPTER TWO</p>
+
+        <!-- ===== CHAPTERS 3-6 PLACEHOLDERS ===== -->
+
+        <div class="todo-marker">Chapters 3-6 to be written. Structure is locked. Scenes are mapped.<br>See the <a
+                href="dashboard.html" style="color:var(--accent);">Dashboard</a> for the full breakdown.</div>
+
+    </div>
+
+</body>
+
+</html>
