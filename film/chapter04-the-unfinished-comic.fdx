@@ -14,48 +14,76 @@
 <Text></Text>
 </Paragraph>
 
+<Paragraph Type="Action">
+<Text>OVER BLACK:</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The sound of a pen scratching paper. Fast. Rhythmic. The sound of someone writing jokes — which is just the sound of thinking, but louder.</Text>
+</Paragraph>
+
 <Paragraph Type="Scene Heading">
-<Text>EXT. DELHI STREETS — EVENING — MONTAGE</Text>
+<Text>INT. SU'S APARTMENT — DESK — NIGHT</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A series of shots. Su wearing sunglasses.</Text>
+<Text>Close on Su's hand. Black ink on a yellow notepad. Lines crossed out. New lines written above them. Arrows connecting one thought to another. The page looks like a crime scene investigation of humor — evidence everywhere, no clear suspect.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>IN THE METRO — rush hour, pressed between commuters. Sunglasses on. A woman next to him stares. He doesn't notice. Or pretends not to.</Text>
+<Text>Wider: Su at his desk. Headphones on. The apartment that looks like it's been staged for a man who lives alone and has opinions about it. He reads a line from the notepad. Mouths it silently. Shakes his head. Crosses it out. Writes another. Mouths that one. The tiniest nod — not approval, just "maybe."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>AT THE OFFICE — sitting at his desk, three monitors glowing. Sunglasses on. Indoors. Meera walks past, does a double take, keeps walking. She's learned not to ask.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>IN THE RAIN — walking down a Gurugram road, umbrella-less, sunglasses on. The rain is real. The coolness is performed. He wipes the lenses with his shirt. Puts them back on. Keeps walking.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>AT A RESTAURANT — eating alone. Sunglasses on. The waiter brings the check and hesitates, unsure if this man is famous or just insane. Su smiles. The waiter decides: insane.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>The montage should make the audience laugh — then realize this is a man who'd rather be ridiculous than inauthentic. The sunglasses aren't fashion. They're armor made of absurdity.</Text>
+<Text>He flips the notepad to a fresh page. Writes five words on his left hand — ink on skin, a cheat sheet embedded in the body. Old habit. The kind of thing that tells you everything about how a man relates to his own memory: he doesn't trust it.</Text>
 </Paragraph>
 
 <Paragraph Type="Transition">
 <Text>CUT TO:</Text>
 </Paragraph>
 
+<Paragraph Type="Action">
+<Text>MONTAGE BEGINS —</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The following sequence should feel like falling in love with something. Not dramatically. The way it actually happens — slowly, through repetition, through showing up, through the accumulation of small moments that individually mean nothing and together mean everything.</Text>
+</Paragraph>
+
 <Paragraph Type="Scene Heading">
-<Text>INT. COMEDY CLUB — SMALL VENUE — NIGHT</Text>
+<Text>INT. METRO — DAY</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A cramped room that thinks it's a theatre. Folding chairs. A spotlight that's really just a desk lamp on a stand. Twenty people in the audience, most of them other comedians waiting for their turn.</Text>
+<Text>Delhi Metro. Rush hour. Su standing in the middle of the coach, packed between commuters. Headphones on. Sunglasses on — indoors, underground, in a metal tube. A woman next to him stares. A kid points. An uncle does that specific Indian head-tilt that means "what's wrong with this fellow."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su on stage. First time we see him perform. He grips the mic with the specific intensity of someone who has rehearsed "looking casual" in the mirror.</Text>
+<Text>Su doesn't notice. Or has perfected the art of not noticing. Behind the dark lenses, his lips are moving — running lines, timing beats, performing for an audience of zero in a train that smells like Monday morning.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The camera finds his face in the crowd. Pushes in slowly. A dolly zoom — the world behind him compresses while his face stays fixed. A man in perfect focus while everything around him blurs.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>MATCH CUT TO:</Text>
+</Paragraph>
+
+<Paragraph Type="Scene Heading">
+<Text>INT. COMEDY CLUB — STAGE — NIGHT</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The same face. The same sunglasses. But now there's a spotlight. And a mic. And forty people who paid to laugh.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>Su on stage. This is the first time we see him perform — and the film takes its time. Because this is the art form. This is the thing he loved before he loved anything else. And the audience should understand WHY.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>He holds the mic like he holds a glass of scotch — comfortably, minimally, as if he doesn't know he's doing it.</Text>
 </Paragraph>
 
 <Paragraph Type="Character">
@@ -63,15 +91,15 @@
 </Paragraph>
 
 <Paragraph Type="Parenthetical">
-<Text>(to the audience, warming up)</Text>
+<Text>(light, conversational, the sunglasses doing half the work)</Text>
 </Paragraph>
 
 <Paragraph Type="Dialogue">
-<Text>Even the search for security is insecurity. Chaah mein hi kami hai.</Text>
+<Text>Log mujhse poochte hain — "Sumeet, tu shades kyun pehenta hai?"</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A few nods. Not laughs. Nods. The worst response a comedian can get.</Text>
+<Text>Beat. He adjusts the sunglasses on his nose — a gesture that's become a character.</Text>
 </Paragraph>
 
 <Paragraph Type="Character">
@@ -79,47 +107,11 @@
 </Paragraph>
 
 <Paragraph Type="Dialogue">
-<Text>Like — if you always want to get high, it means you're always low. If you always want to be rich, you're always poor. So if you always want to be funny—</Text>
+<Text>Meri girlfriend boli — "Sumeet, I'm sorry. I cheated on you. Maine tumhe andhere mein rakha."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He gestures at himself. At the room. At the entire situation.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>SU</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>— you are always unfunny. And that's why I never try to write any good jokes.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>This time: laughs. Real ones. Su's face does something complicated — relief and suspicion that the relief won't last. He's right. It won't.</Text>
-</Paragraph>
-
-<Paragraph Type="Transition">
-<Text>CUT TO:</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>INT. DIFFERENT CLUB — ANOTHER NIGHT</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Same bit. Different room. Slightly different delivery. The opener lands better here — the crowd is younger, drunker, more willing. Su adjusts. He's learning the bit the way you learn to drive — overcorrecting, then finding the lane.</Text>
-</Paragraph>
-
-<Paragraph Type="Transition">
-<Text>CUT TO:</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>INT. THIRD CLUB — ANOTHER NIGHT</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Same bit. This crowd doesn't laugh. Su pushes harder. Still nothing. He speeds up — the instinct of every dying set. A GUY IN THE FRONT ROW is looking at his phone.</Text>
+<Text>He pauses. Lets the setup sit. The timing of a man who has learned that silence is funnier than words.</Text>
 </Paragraph>
 
 <Paragraph Type="Character">
@@ -127,27 +119,27 @@
 </Paragraph>
 
 <Paragraph Type="Parenthetical">
-<Text>(can't help himself)</Text>
+<Text>(deadpan, with a gentle shrug)</Text>
 </Paragraph>
 
 <Paragraph Type="Dialogue">
-<Text>Bhai, kya dekh raha hai itna interesting?</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>HECKLER</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(not looking up)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Jo bhi hai, tere jokes se zyada interesting hai.</Text>
+<Text>Maine bola — "Baby doll, chill. Mujhe andhere mein rehna pasand hai."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>The room inhales. The kind of silence that has teeth.</Text>
+<Text>Laughter. Real, warm laughter. The kind that comes from recognition — the audience seeing themselves in the absurdity.</Text>
+</Paragraph>
+
+<Paragraph Type="Character">
+<Text>SU</Text>
+</Paragraph>
+
+<Paragraph Type="Dialogue">
+<Text>Mujhe shades pehenna itna pasand hai — I am jealous of blind people.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>A gasp, then bigger laughter. The room deciding if they're allowed to laugh. They are. Su's face gives them permission — gentle, not cruel. He's not punching down. He's punching sideways, at himself, at the absurdity of loving darkness this much.</Text>
 </Paragraph>
 
 <Paragraph Type="Character">
@@ -155,27 +147,31 @@
 </Paragraph>
 
 <Paragraph Type="Parenthetical">
-<Text>(beat, then deadpan)</Text>
+<Text>(conspiratorial, leaning into the mic)</Text>
 </Paragraph>
 
 <Paragraph Type="Dialogue">
-<Text>My balls.</Text>
+<Text>Unka toh sahi hai — kabhi bhi peheno, koi kuch nahi bolta.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>The room EXPLODES. The heckler reddens. Su should stop here. He has the room. A good comic would stop here.</Text>
+<Text>More laughter. He's rolling now. The room is his.</Text>
+</Paragraph>
+
+<Paragraph Type="Character">
+<Text>SU</Text>
+</Paragraph>
+
+<Paragraph Type="Dialogue">
+<Text>Meri favorite bimaari motiyabind hai.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su is not a good comic. Su is a man who takes himself too seriously.</Text>
+<Text>The room erupts. The kind of laugh that starts in the belly and catches people off guard. A YOUNG WOMAN in the front row covers her face — laughing and horrified and delighted.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He turns to the GIRL COMEDIAN who brought the heckler as a bringer and starts going after her from stage — why did you bring this guy, what kind of audience member — and the energy curdles. The laughs become nervous. The girl comedian looks at the floor. Su keeps going. He can feel he's crossed the line but his mouth is already ten seconds ahead of his brain.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He finishes. Scattered applause. He walks off stage knowing he turned a win into a loss. This is, in miniature, his entire relationship with standup.</Text>
+<Text>Su stands in the laughter. Not basking — processing. Behind the sunglasses, his eyes are doing calculations nobody can see. Is this enough? Is this him? Is this the version of himself that works, or just the version that people will tolerate?</Text>
 </Paragraph>
 
 <Paragraph Type="Transition">
@@ -183,19 +179,43 @@
 </Paragraph>
 
 <Paragraph Type="Scene Heading">
-<Text>EXT. DELHI STREET — NIGHT — AFTER THE SET</Text>
+<Text>INT. COMEDY CLUB — STAGE — DIFFERENT NIGHT</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su walking. Headphones in. The streets of South Delhi at midnight — mostly empty, the fluorescent buzz of a closed pharmacy, a dog that considers him and decides he's not worth the effort.</Text>
+<Text>Same sunglasses. Smaller room. Ten people in the audience. Su looks at his left hand — the jokes written there.</Text>
+</Paragraph>
+
+<Paragraph Type="Character">
+<Text>SU</Text>
+</Paragraph>
+
+<Paragraph Type="Dialogue">
+<Text>Aaj main apne forgetting problem ke baare mein baat karna chahta tha—</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He walks the way people walk when they don't want to go home but have nowhere else to go. Slow. Deliberate. His mouth is moving — rehearsing different responses to the heckler. Better ones. Funnier ones. The comedian's curse: the perfect comeback always arrives forty-five minutes late.</Text>
+<Text>He pauses. Looks at his hand. Squints through the sunglasses at the ink that's half-smudged from sweat.</Text>
+</Paragraph>
+
+<Paragraph Type="Character">
+<Text>SU</Text>
+</Paragraph>
+
+<Paragraph Type="Parenthetical">
+<Text>(genuinely struggling, which makes it funnier)</Text>
+</Paragraph>
+
+<Paragraph Type="Dialogue">
+<Text>Main jokes haath pe likh ke aata hoon. Taaki bhoolun nahi. Last show mein — haath pe dekhnaa hi bhool gaya.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>30 seconds of this. No music. Just his footsteps and the city breathing around him.</Text>
+<Text>The room laughs. And in the middle of the laugh, Su's face does something it rarely does on stage — it relaxes. For a second, behind the shades, behind the persona, behind the "character" he's built to survive the spotlight — there's just a man who forgot to look at his own hand and made forty strangers happy about it.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>THIS is why people do this. Not the applause. Not the career. This moment — where your biggest weakness becomes someone else's joy. That's the alchemy. That's the craft.</Text>
 </Paragraph>
 
 <Paragraph Type="Transition">
@@ -203,15 +223,99 @@
 </Paragraph>
 
 <Paragraph Type="Scene Heading">
-<Text>INT. SU'S APARTMENT — LIVING ROOM — LATE NIGHT</Text>
+<Text>INT. CAR — MOVING — NIGHT</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su on the couch. The green jacket he hates — can't zip it, can't keep it open — draped over the chair like it lost an argument. He rehearses the set. Pacing. Muttering. Trying different cadences on the same line. He stops mid-sentence, shakes his head, starts over.</Text>
+<Text>The backseat. Su is in the backseat. This is his documentary shot — the one he always imagined, the camera right where he's sitting.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He looks like a man preparing for a war nobody asked him to fight.</Text>
+<Text>COMEDIAN FRIEND driving. Another COMIC in the passenger seat. They are roasting someone who isn't in the car — the fundamental activity of every comedian commute since the invention of the automobile. Their words overlap, build on each other, the rapid-fire cruelty that only genuine affection permits.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>Delhi slides past the windows — neon signs, a chai stall operating outside the laws of time, the smog catching headlights and turning them into halos. The city looks beautiful the way all cities look beautiful at night from inside a moving car: through glass, at speed, never staying long enough to see the cracks.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>Su watches them. Smiles. Doesn't add to the conversation. He's here. He belongs to this — the car, the roasting, the movement through the city toward another stage. But he's in the back. He's always in the back. Watching the thing he loves from one seat removed.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The camera holds on his face, lit intermittently by passing streetlights. Light. Dark. Light. Dark. The rhythm of a man who keeps showing up to something he's not sure he's part of.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>60 seconds. No dialogue from Su. Just this.</Text>
+</Paragraph>
+
+<Paragraph Type="Transition">
+<Text>CUT TO:</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>MONTAGE CONTINUES — BRIEF FRAGMENTS:</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>— Su in the metro again. Different day. Same shades. A BUSINESSMAN stares. Su raises his coffee cup in a tiny "cheers." The businessman looks away.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>— Su backstage at a club, pacing. Other comics scrolling their phones, relaxed. Su is the only one moving. His mouth working silently. Rehearsing what he'll say. Or rehearsing what he won't say. Hard to tell with him.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>— Su on stage, a MOMENT THAT CLICKS — whatever joke he's telling, it lands perfectly, the laugh rolls, his body loosens, and for three seconds he is exactly where he's supposed to be. Then the laugh fades. The tension returns. Three seconds of heaven in a two-year pilgrimage.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>— Su sitting alone in an empty club after a show. Chairs stacked. The bartender cleaning up. Su hasn't left. He's looking at the stage — the empty stage — the way religious people look at temples after hours. The thing he worships, just closed for the night.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>END OF MONTAGE.</Text>
+</Paragraph>
+
+<Paragraph Type="Transition">
+<Text>CUT TO:</Text>
+</Paragraph>
+
+<Paragraph Type="Scene Heading">
+<Text>INT. COMEDY CLUB — BACKSTAGE / HALLWAY — NIGHT</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>A different energy now. After a set. Su standing near the exit. Other comics in a cluster — talking, planning, doing the thing that makes careers: networking. The POLITICS of standup, which is really just the politics of being a person among other persons.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>A comic waves Su over. "Chal, baad mein sab jaa rahe hain—"</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>Su hesitates. It's not that he doesn't want to go. He does. But there's something between him and the group that he's never been able to name — a glass wall. He can see them. He can hear them. He just can't... join them. Not because they won't let him. Because something in him doesn't know how.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>He waves back. Forces a smile. "Aaj nahi yaar, kal pakka." He pushes through the exit door.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The door swings shut. The sound of comics laughing on the other side — warm, included, together. And Su on this side — cold, outside, alone by choice and calling it preference.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>This is not age. He wasn't able to hang out with comics his age when he started. He wasn't able to hang out with younger ones later. He has a people problem. Not a people-of-specific-age problem. A people problem.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>His onstage self — light, wise, sage-like — could make forty strangers laugh about blindness and sunglasses. His offstage self can't do the basic networking that an eighth-grader manages at a birthday party.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>The duality. The first art form he practiced showed him both versions of himself. One gets the laughs. One walks home alone.</Text>
 </Paragraph>
 
 <Paragraph Type="Transition">
@@ -223,11 +327,19 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Delhi winter. The kind of night where the smog and fog have merged into something biblical — fifty meters ahead, the city simply stops existing. Pollution charting the top of the box office. The air tastes like ambition and exhaust fumes had a child nobody wanted.</Text>
+<Text>Delhi winter. A different year. A different version of the same ambition.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A comedy club. Not the nice one. The one where dreams go to be tested and mostly fail. Neon sign half-lit. A bouncer who looks like he'd rather be anywhere else. Which, to be fair, is how everyone inside feels too.</Text>
+<Text>The smog has settled into something personal tonight — fifty meters ahead, the city simply stops existing. Pollution charting the top of the box office. The air tastes like two million cars had a disagreement with the atmosphere and the atmosphere lost.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>These nights make things sadder than they actually are. You want to be warm and cozy — under a blanket, watching a film, not thinking about your artistic future. Instead, you choose chaos and comedians as company. What does that tell you about yourself?</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>That you're either a crazy romantic who loves the idea of becoming someone — or a hard-working asshole who wants to prove the world wrong — or just a man who hasn't figured out which one he is.</Text>
 </Paragraph>
 
 <Paragraph Type="Scene Heading">
@@ -235,71 +347,39 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>9:00 PM. Su walks in. Green jacket. A bag over his shoulder — the bag of a man who brought notes he'll pretend he doesn't need.</Text>
+<Text>9:00 PM. Su walks in. The green jacket that can't zip — the permanent argument his body has with his wardrobe. A bag over his shoulder. Notes inside the bag that he'll pretend he doesn't need.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>The room is warm. Not comfortable-warm. Body-heat-from-too-many-comics-in-too-small-a-room warm. Su spots his friend — THE GODFATHER (let's call him what he became) — across the room. They shake hands. The handshake of two men who started at the same place and ended up in different zip codes.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>SU</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(easy, confident — he's good at this part)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Kya scene hai aaj?</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>THE GODFATHER</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(already looking past Su)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Packed hai bhai. Two mics tonight. We'll see.</Text>
+<Text>He spots THE GODFATHER across the room. Handshake. Brief. Two men who started at the same place and ended up in different zip codes.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>"We'll see." The two most dangerous words in the comedy ecosystem. They mean: you are not a priority, but I don't have the spine to say it yet.</Text>
+<Text>"Kya scene hai aaj?" The Godfather's answer: "Packed hai. We'll see."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su finds a seat in the back. The back is where the comics sit — the ones performing and the ones hoping to. It's also where Su always sits because he hasn't figured out if he's a performer or an audience member and the back row is the only place where both answers are acceptable.</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>INT. COMEDY CLUB — LATER — FIRST MIC</Text>
+<Text>Su finds a seat in the back. Where he always sits. The seat that's both performer's perch and audience member's chair — the only position in the room where neither answer embarrasses him.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>10:30 PM. The first open mic begins. A young comic — maybe 23, the age where confidence and incompetence are indistinguishable — takes the stage. He's fine. The crowd is generous. Everyone gets their five minutes.</Text>
+<Text>The first mic begins. Comics perform. Five minutes each. The machine of stand-up: take the mic, make them laugh, give it back, sit down. Simple. Beautiful. Terrifying.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Everyone except Su.</Text>
+<Text>The HOST calls the next name. Su straightens in his chair. Adjusts his jacket.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A HOST calls the next name. Su straightens in his chair. Adjusts his jacket. The physical preparation of a man about to be summoned.</Text>
+<Text>Not his name.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>It's not his name.</Text>
+<Text>He settles back. Casual. Like he wasn't expecting it.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He settles back. Casual. Like he wasn't expecting it. He was absolutely expecting it.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Another name. Su straightens again. Adjusts. Readies.</Text>
+<Text>Next name. He straightens again.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
@@ -307,139 +387,71 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>And again. And again. Each time: the same micro-preparation. The same micro-disappointment. The same performance of "I wasn't really expecting it anyway" that gets less convincing with each repetition.</Text>
+<Text>And again. And again. Each time: the same micro-preparation — the sit-up, the jacket adjustment, the readiness. Each time: the same micro-retreat — the settling back, the performed casualness that gets less convincing with each repetition.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A smart filmmaker would shoot this as a visual rhythm — the same movement, slightly different each time, getting smaller as the evening gets longer. Because that's what hope looks like when it's dying: it doesn't scream. It shrinks.</Text>
+<Text>Hope doesn't die loudly. It shrinks. The same movement, slightly smaller each time, until the man sitting up looks identical to the man sitting still.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>12:00 AM. Second mic. Fresh comics. Su is still in the back. Three hours. Green jacket too warm inside, too thin for outside — trapped in the jacket the way he's trapped in the room.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>1:30 AM. He walks to The Godfather. The same man he shook hands with four and a half hours ago.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>"Bhai, koi spot milega?"</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>"Aaj nahi ho payega yaar. Next time pakka."</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>"Next time pakka." The open mic ecosystem's version of "we should get coffee sometime."</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>Something shifts in Su's face. Not rage. Something quieter — the sound a door makes when it closes for the last time and you don't realize it yet.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>He grabs his bag. Jacket pulled tight — it can't zip, so he hugs it around himself, which is just hugging nobody. He walks out.</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>No speech. No confrontation. Just a man leaving a room.</Text>
 </Paragraph>
 
 <Paragraph Type="Scene Heading">
-<Text>INT. COMEDY CLUB — LATER — SECOND MIC</Text>
+<Text>EXT. DELHI STREETS — CONTINUOUS — 1:30 AM</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>12:00 AM. Or maybe 11:30. Time stops being real at a certain point in a comedy club. The first mic ended. Another begins. Fresh comics. Fresh energy. Su is still sitting in the back.</Text>
+<Text>Su walks. Fast. The speed of a man trying to outrun a feeling that lives inside him. Three kilometers to home. He's going to walk all of it. He always walks when it gets this bad — no matter if home is 3 kilometers or 10. He walks. At maximum speed. As if velocity could burn the feeling out of his legs.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Three hours in. The green jacket is too warm inside, too thin for outside. He's trapped in the jacket the way he's trapped in this room — uncomfortable either way, unwilling to leave because leaving means admitting this isn't going to happen.</Text>
+<Text>The smog swallows his footsteps. No headphones tonight. Just his breathing and Delhi breathing around him — the city that never sleeps because it can't afford the rent on proper rest.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A SWEET COMIC — one of the genuinely kind ones, the rare species in any comedy ecosystem — leans over to Su.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>SWEET COMIC</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(quietly, the voice of someone who's noticed)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Bhai, check kar le usse. Bol spot milega ki nahi.</Text>
+<Text>His lips move. Not rehearsing jokes this time. Arguing. With The Godfather. With every comic who got a spot tonight. With himself — for showing up, for staying five hours, for expecting something different from a city that has been telling him the same thing for three years.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su looks at him. The Sweet Comic's face says what his mouth is too polite to: "You've been sitting here for three hours and you're not on the list, are you?"</Text>
+<Text>Then — slowly — the speed drops. The way a wave loses force. He goes from walking to walking to walking slower. Not tired. Spent. The anger isn't gone — it's just finished converting into something else. Something quieter.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su nods. Gets up. Walks toward The Godfather, who is now surrounded by younger comics with newer material and shinier futures.</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>INT. COMEDY CLUB — NEAR THE STAGE — CONTINUOUS</Text>
+<Text>He stops at a traffic light. No cars. 2 AM. The light is red and there's nobody coming for kilometers and he stands there, waiting for it to turn green, because this is a man who broke every rule of career-building but will respect a traffic signal at 2 in the morning.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su reaches The Godfather. The same man he shook hands with at 9:00 PM. The same man he worked with at the production company. The same man who left, built his own thing, grew, opened clubs, made money. While Su stayed behind. Fixing the ladder other people climbed.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>SU</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(trying to keep it light)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Bhai, koi spot milega? Aaj ke liye?</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>The Godfather looks at him the way people look at a notification they've been meaning to dismiss.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>THE GODFATHER</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(genuinely sorry or performing sorry — Su can't tell)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Aaj nahi ho payega yaar. List full hai. Next time pakka.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>"Next time pakka." The comedy world's version of "we should get coffee sometime." It means nothing. Both of them know it means nothing. The difference is one of them is pretending not to know.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Something flips in Su. Not anger — he's not an angry person. Something quieter than anger and louder than disappointment. A switch he didn't know he had.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>SU</Text>
-</Paragraph>
-
-<Paragraph Type="Parenthetical">
-<Text>(the gentleness leaving his voice like air leaving a tire)</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Kitne spots de sakta hai tu?</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>It's not really a question. It's the last thing he'll ever ask this man for anything. The Godfather opens his mouth—</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>But Su is already gone. Bag grabbed. Jacket zipped — no, the jacket can't zip, he just pulls it tighter around himself like a man hugging nobody. He walks toward the exit.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>No dramatic turn. No speech. No "I'll show you." Just a man leaving a room. Which, it turns out, is harder than any five minutes on stage.</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>EXT. DELHI STREET — OUTSIDE THE CLUB — CONTINUOUS</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>1:30 AM. Delhi winter. The smog has settled into something personal — like the city itself is trying to erase the evening from his memory. Fifty meters ahead: nothing. Just grey. The world ends at the nearest streetlight and beyond that is faith or foolishness, depending on your evening.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Su walks. Fast at first — the speed of someone trying to outrun a feeling. Then slower. Then the speed of someone who's realized you can't outrun something that lives inside you.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He puts his headphones in. We don't hear what he's listening to. We watch his face change as the music hits whatever it hits. His lips move. Not singing — arguing. With himself. With The Godfather. With the woman who brought the heckler. With every version of himself that chose to be in that room tonight instead of at home, warm, watching a film, living in the lie that he doesn't need this.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>But he does need this. And that's the cruelest joke of all — not one he can perform.</Text>
-</Paragraph>
-
-<Paragraph Type="Transition">
-<Text>CUT TO:</Text>
+<Text>When the light turns green, he crosses. Slowly now. He's quiet. Not angry-quiet. Just... quiet. The kind of quiet that comes after walking three kilometers with your fists clenched — the body lets go before the mind does.</Text>
 </Paragraph>
 
 <Paragraph Type="Scene Heading">
@@ -447,115 +459,27 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Home. 3:00 AM. The apartment is dark except for the bathroom light.</Text>
+<Text>The shower handle turns. All the way cold. 3 AM in February and the man who just walked three kilometers through smog now stands under freezing water because he doesn't know how else to mark the boundary between "out there" and "in here." Maybe discipline is just another word for "I don't know how to be kind to myself."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>The shower handle turns. All the way cold. Because of course it does. The man who just spent five hours being told he doesn't matter now stands under freezing water because a book he read told him it builds character. And maybe it does. Or maybe discipline is just another word for "I don't know how to be kind to myself."</Text>
+<Text>He stands under it. Eyes open. The same eyes that were alive on stage two weeks ago, now just tired. Not existential tired. I-have-work-in-seven-hours tired.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He stands under it. Eyes open. The same eyes that were dead at the office, alive on stage, hurt at the club, and now — just tired. Not existential tired. Three-AM-I-have-work-in-seven-hours tired. The unglamorous kind.</Text>
+<Text>Bed. Alarm set. 6:00 AM. Lies in the dark.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He dries off. Crawls into bed. Sets the alarm for 6:00 AM. Lies there in the dark.</Text>
+<Text>He'll perform like a maniac for two more months. Then disappear for a month. Come back. Disappear for two. Come back. Disappear. This is not how a career is built. This is not how obsession works. Obsession doesn't take breaks. Obsession doesn't need networking. Obsession makes the network irrelevant.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He won't hold a microphone again for five years.</Text>
+<Text>He had interest. Interest is not enough.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He doesn't know that yet.</Text>
-</Paragraph>
-
-<Paragraph Type="Transition">
-<Text>CUT TO:</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>INT. CAR — MOVING — NIGHT (DIFFERENT NIGHT, EARLIER TIME)</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>The backseat. Su is in the backseat. His comedian friend is driving — talking shit, gesturing with one hand, the other barely on the wheel. Another comic in the passenger seat, equally animated. They're heading to a venue. Or coming from one. It doesn't matter. This is the in-between — the part nobody films but everyone remembers.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>The camera is behind Su. We see the two comics in front, roasting someone who isn't here, building on each other's jokes, the kind of rapid-fire cruelty that only genuine affection permits. Delhi slides past the windows — neon, smog, a chai stall still open because chai stalls in Delhi operate outside the laws of time.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Su watches. Smiles. Doesn't add to the conversation. He's here but not part of it. The man who always sat in the back — of the car, of the club, of the industry.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He always thought: put a camera right here, right where I'm sitting, and you'd have a documentary. The real comedy isn't on stage. It's in this car. These idiots roasting each other. The city passing outside. The feeling of belonging to something without knowing if something belongs to you.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>60 seconds. No dialogue from Su. Just this.</Text>
-</Paragraph>
-
-<Paragraph Type="Transition">
-<Text>CUT TO:</Text>
-</Paragraph>
-
-<Paragraph Type="Scene Heading">
-<Text>INT. COMEDY CLUB — NEW CLUB — NIGHT (FIVE YEARS LATER)</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>A different club. Nicer. Newer. The kind of club that gets written about in "Things To Do In Delhi This Weekend" lists. This one belongs to a friend — a comedian who asked Su to come back. Not once. Many times. The kind of persistence that either means he genuinely cares or feels guilty. Maybe both.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Su is in the audience. Not performing. Watching. A YOUNG COMIC on stage — maybe 24, the kind of confident that hasn't been beaten into shape yet. Su watches him the way retired athletes watch rookies: recognition, pain, a specific kind of smile that contains an entire career.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Then: a HOST takes the mic.</Text>
-</Paragraph>
-
-<Paragraph Type="Character">
-<Text>HOST</Text>
-</Paragraph>
-
-<Paragraph Type="Dialogue">
-<Text>Agle performer ke liye taaliyan — Su!</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>Su stands. The walk from the audience to the stage is maybe fifteen feet. It takes five years.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He takes the mic. It's heavier than he remembers. Or lighter. He can't tell. His hand shakes for half a second — then steadies. The body remembers even when the mind has tried to forget.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He looks out at the audience. Young faces. Twenty-three, twenty-four, twenty-five. He is thirty-six. The age gap isn't the problem. It was never the age. Ten years ago, when he started, everyone was his age. He couldn't gel with them either. The problem is him and he has made peace with that the way you make peace with a limp — you stop noticing, but you never stop adjusting.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He does his bit. The opener lands. The middle works. The crowd laughs in the right places. He's good. He was always good enough to be good, never obsessed enough to be great.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He walks off stage. Applause. Genuine.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>He sits back down. Waits for the feeling — the one he came here for, the one he remembered from a decade ago, the one that made him think this was his calling.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>It doesn't come.</Text>
-</Paragraph>
-
-<Paragraph Type="Action">
-<Text>The laughs landed. The applause was real. And Su feels... fine. Fine the way a meal is fine when you were expecting revelation. He performed. It went well. And "well" is the worst thing that can happen to a man who needs "everything" or "nothing."</Text>
+<Text>He won't hold a microphone for five years after this chapter of his life ends. Not because of that night. Because of himself.</Text>
 </Paragraph>
 
 <Paragraph Type="Transition">
@@ -567,15 +491,15 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Su in the studio. The amber light. The mic. The camera that doesn't need him to be anything other than what he is.</Text>
+<Text>Su in the studio. The amber light. The mic that doesn't care if he networked or didn't, if he showed up or disappeared, if his set killed or died. The camera that requires nothing from him except honesty.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>[STUDIO SCENE — Beat Sheet 4.5: The Comedy Confession]</Text>
+<Text>[STUDIO SCENE — Beat Sheet 4: The Unfinished Comic]</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>This is the big one. Su talks about comedy — but not the way he's talked about anything before. This time he's funny about it. Genuinely funny. Because the tragedy has aged long enough to become comedy.</Text>
+<Text>This confession is different from all the others. This one is FUNNY. Because the tragedy has aged long enough to become comedy — and Su is, despite everything, a comic. This is the scene where the audience should laugh the most and feel the most.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
@@ -583,55 +507,63 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Beat 1 — THE PATTERN. He chose comedy thinking he wouldn't need anyone. Just him writing, just him performing. "I thought stand-up was the loneliest art form. Turns out it's a team sport. You need the organizer to give you a spot. You need other comics to not hate you. You need an audience willing to pay for your weird content. I had none of these. I had material and a mic and an allergy to people."</Text>
+<Text>Beat 1 — THE FIRST LOVE. Su talks about standup the way people talk about the one who got away. Not with bitterness. With TENDERNESS. "Stand-up comedy is the purest art form I know. One person. One mic. No crew. No budget. No CGI. Just your mind and their laughter. And I loved it. I really, properly, embarrassingly loved it." He should light up here — the audience seeing the man he becomes when he talks about the stage.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Beat 2 — THE ADMISSION. "I take myself too seriously to be a comic. And I lack that ego as well." He explains what this means — a good comic needs the ego to say "I am funnier than you and you should listen to me" and the humility to say "I bombed and that's okay." Su has neither. He has the ego of a poet and the sensitivity of a— he pauses. Can't find the comparison. "Of a guy who gives a 200-year-old family coin to a friend who gets him fired."</Text>
+<Text>Beat 2 — THE SHADES ORIGIN. He tells the story — another comic handed him sunglasses right before he went on stage, as a joke. He kept them on. One thing led to another. "I wore them the whole year or six months or however long that manic phase lasted. I built a whole character around them. A whole set. Because when people already think you're weird for wearing shades in the metro, being weird on stage doesn't cost you anything. It freed me." He pauses. "COVID stopped the shows. I stopped wearing the shades. I never put them back on. The phase ended. But the person who needed them — he's still here."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Beat 3 — THE NUMBERS. "I would perform for two months like a maniac. Then disappear for a month. Then come back. Then disappear for two. This is not how a career is built." He compares it to his AI obsession — "I hid my tabs. I explored GenerativeAI every single day. I was obsessed. I was never obsessed with comedy the way I needed to be. Obsession leads to success. Nothing else. I had interest. Interest is not enough."</Text>
+<Text>Beat 3 — THE REAL REASON. "People think I left comedy because of the politics, the networking, the people who didn't give me spots." He shakes his head. "That's the story I told myself. And it's a good story. I'm a good storyteller. That's the trap — I'm so good at explaining my failures that I've turned failure into a craft." He looks into the camera. "The truth is simpler and uglier. I wasn't obsessed enough. I would perform like crazy for two months, then disappear for one. Come back. Disappear for two. That's not commitment. That's tourism."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Beat 4 — THE RICKY GERVAIS THING. "Ricky Gervais wasn't a comedian first. He made The Office. Then he did standup. People came to watch him because they already knew who he was." Su smiles, a bit embarrassed. "Maybe, someday, after I make this film, after people know who I am — maybe then I'll put up a show. And they'll come. Not because I did the networking. Not because I was in the room. Because I made something worth seeing first."</Text>
+<Text>Beat 4 — THE COMPARISON. "I hid my browser tabs when I was exploring AI. Every single day. For months. That's obsession. I never hid my comedy notebook. I never stayed up past midnight writing jokes. I never — " he stops. Recalibrates. "Obsession leads to success. Nothing else. I had interest. Interest gets you open mics. Obsession gets you Netflix specials. I had open mics."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Beat 5 — THE UNFINISHED. "I haven't said goodbye to comedy. I've cried over it. But 5% of me — " he holds up his hand, pinches a tiny gap between thumb and index finger — "5% still believes. Which means I haven't finished this either. I have never finished anything."</Text>
+<Text>Beat 5 — THE PHILOSOPHY (BUT EARNED). "Jo bhi hum hain, apni wajah se hain. Jo bhi hum nahi hain, woh bhi apni wajah se hain." Whatever we are, it's because of us. Whatever we're not, that's because of us too. "Nobody stopped me from becoming a comic. I stopped me. The fights, the politics, the Delhi nights — those are chapters. I'm the book. And I put the book down."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>A long beat. He looks into the camera.</Text>
+<Text>Beat 6 — THE 5%. "But I haven't thrown the book away." He holds up his hand. Pinches a tiny gap between thumb and index finger. "5%. There's still 5% that believes. Believes that maybe — after the film, after people know who I am." He smiles. The Ricky Gervais smile. "Ricky Gervais wasn't a comedian first. He made The Office. Then he did stand-up. Maybe I do that. Make the film. Then go back. And they come because they already know who I am. Not because I networked."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>"The film, the comedy, the business, the writing — I start everything. I start it with fire. And then something breaks or I break and I walk away and I tell myself a story about why it wasn't meant to be. And the story is always good because I'm a good storyteller. That's the trap. I'm so good at explaining my failures that I've turned failure into a craft."</Text>
+<Text>A long beat.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>He laughs. Not the useless smile. A real laugh. At himself. At the absurdity of being talented enough to narrate your own defeat in prime time.</Text>
+<Text>"Which means I haven't finished this either. Comedy, the business, the writing, the film — I start everything with fire. And then I walk away. And the story I tell about walking away is always better than the thing I walked away from." He laughs at himself — not the useless smile. A real laugh. The kind that comes from seeing yourself clearly and finding the clarity funnier than any joke you've written.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>"Maybe this film is just the next version of the same dream. Maybe I'll start it and not finish it and five years from now I'll be sitting in some other studio telling some other camera about the film I almost made."</Text>
+<Text>"Maine kabhi kuch finish nahi kiya."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>Pause.</Text>
+<Text>He leans forward into the camera.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>"But maybe not. Maybe this time I cook."</Text>
+<Text>"Maybe this film is the same dream in a different costume. Or maybe — " pause " — maybe this time I cook."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>EMOTIONAL TARGET: The audience should laugh through the pain. This is not a sad scene. This is a funny man telling you the funniest thing about himself is that he can't finish anything — and the film you're watching is proof that he's either breaking the pattern or proving it.</Text>
+<Text>EMOTIONAL TARGET: The audience should laugh THROUGH this. This is the funniest scene in the film because Su is being genuinely, precisely, surgically funny about his own inability to finish things — and the film itself is proof that he's either breaking the pattern or proving it. The audience doesn't know which one yet. Neither does Su. That's the tension.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>KEY LINES TO HIT:</Text>
+<Text>KEY LINES:</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>"Stand-up comedy is the purest art form I know."</Text>
+</Paragraph>
+
+<Paragraph Type="Action">
+<Text>"I've turned failure into a craft."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
@@ -639,11 +571,11 @@
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>"I take myself too seriously to be a comic."</Text>
+<Text>"Whatever we are is because of us."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>"I've turned failure into a craft."</Text>
+<Text>"Maine kabhi kuch finish nahi kiya."</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
@@ -655,23 +587,23 @@
 </Paragraph>
 
 <Paragraph Type="Scene Heading">
-<Text>EXT. DELHI STREET — NIGHT — SAME SMOGGY WINTER</Text>
+<Text>EXT. DELHI — NIGHT — NOW</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>We're back in the smog. The same Delhi winter from earlier. But this isn't a flashback. This is now. Su walking through the city at night, headphones in. Not after bombing this time. Just walking. The way he does when the apartment feels too small for his thoughts and the city feels too big for his plans.</Text>
+<Text>Su walking again. Not angry this time. The present tense. A man walking through a city he's failed in so many ways that the city feels like an old friend who's seen him at his worst and still lets him stay.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>The smog swallows him. He walks into it. Disappears. The frame holds on the empty street, the half-lit neon, the grey air that erases everything it touches.</Text>
+<Text>The smog is lighter tonight. Or maybe he's learned to see through it.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>The kind of night that makes things sadder than they actually are. You want to be warm and cozy. Instead you choose chaos and comedians as company. What does it tell about you?</Text>
+<Text>He walks at normal speed. No fury in the legs. Just movement. The kind of walking you do when you're not going anywhere — just going.</Text>
 </Paragraph>
 
 <Paragraph Type="Action">
-<Text>That you're either a crazy romantic who loves the idea of becoming someone — or a hardworking asshole who wants to prove the world wrong — or just a man who hasn't figured out the difference between the two.</Text>
+<Text>We stay with him for a long beat. Long enough to feel the city. Long enough to hear what's between the footsteps.</Text>
 </Paragraph>
 
 <Paragraph Type="Action" Alignment="Center">
