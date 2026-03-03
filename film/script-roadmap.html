@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Roadmap — 28 Days to Draft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a; --surface: #111111; --border: #222222;
+            --text: #e8e6e3; --text-muted: #8a8a8a; --text-dim: #555555;
+            --amber: #d4a853; --amber-dim: #8b7235; --amber-glow: rgba(212,168,83,0.08);
+            --red: #c45c5c; --green: #5c9a6e; --blue: #5c7cc4;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px; }
+        .nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 999; padding: 0 40px; }
+        .nav-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-title { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--amber); }
+        .nav-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); background: rgba(196,92,92,0.1); border: 1px solid rgba(196,92,92,0.2); padding: 4px 10px; border-radius: 4px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 100px 40px 120px; }
+
+        .hero { text-align: center; padding: 60px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+        .hero-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--red); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 16px; }
+        .hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(26px, 4vw, 38px); font-weight: 400; line-height: 1.3; margin-bottom: 12px; }
+        .hero h1 em { color: var(--amber); font-style: italic; }
+        .hero-sub { font-size: 14px; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        .section { margin-bottom: 64px; }
+        .section h2 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .section h3 { font-size: 14px; font-weight: 600; color: var(--amber); margin: 24px 0 10px; }
+        .section p { color: var(--text-muted); margin-bottom: 12px; font-size: 14px; }
+        .section p strong { color: var(--text); font-weight: 500; }
+        .section ul, .section ol { padding-left: 20px; margin: 8px 0 14px; }
+        .section li { color: var(--text-muted); margin-bottom: 5px; font-size: 13px; }
+        .section li strong { color: var(--text); }
+
+        .quote { border-left: 2px solid var(--amber-dim); padding: 12px 20px; margin: 14px 0; background: var(--amber-glow); border-radius: 0 6px 6px 0; }
+        .quote p { font-family: 'Instrument Serif', serif; font-size: 15px; color: var(--text); font-style: italic; margin: 0; }
+
+        .warning { background: rgba(196,92,92,0.08); border: 1px solid rgba(196,92,92,0.2); border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+        .warning p { color: var(--text-muted); font-size: 13px; margin: 0; }
+        .warning strong { color: var(--red); }
+
+        /* Scene Breakdown Cards */
+        .scene-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin: 16px 0; overflow: hidden; }
+        .scene-header { padding: 14px 20px; background: rgba(212,168,83,0.04); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        .scene-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--amber); font-weight: 700; min-width: 28px; }
+        .scene-title { font-size: 14px; font-weight: 600; }
+        .scene-loc { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; margin-left: auto; }
+        .loc-home { background: rgba(196,92,92,0.12); color: var(--red); border: 1px solid rgba(196,92,92,0.2); }
+        .loc-studio { background: rgba(92,124,196,0.15); color: var(--blue); border: 1px solid rgba(92,124,196,0.25); }
+        .loc-podcast { background: rgba(212,168,83,0.12); color: var(--amber); border: 1px solid rgba(212,168,83,0.2); }
+        .loc-ext { background: rgba(92,154,110,0.12); color: var(--green); border: 1px solid rgba(92,154,110,0.2); }
+        .scene-body { padding: 16px 20px; }
+        .scene-body p { font-size: 13px; margin-bottom: 8px; }
+        .scene-dur { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); }
+
+        /* Screenplay format */
+        .screenplay { background: #fffff8; color: #1a1a1a; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 13px; line-height: 1.6; padding: 40px; border-radius: 8px; margin: 20px 0; max-width: 100%; overflow-x: auto; }
+        .screenplay .slug { font-weight: 700; text-transform: uppercase; margin-top: 20px; }
+        .screenplay .action { margin: 10px 0; }
+        .screenplay .char-name { text-align: center; text-transform: uppercase; font-weight: 700; margin-top: 16px; margin-bottom: 0; }
+        .screenplay .dialogue { text-align: center; max-width: 360px; margin: 4px auto 10px; }
+        .screenplay .paren { text-align: center; font-style: italic; margin: 2px auto; max-width: 240px; font-size: 12px; }
+        .screenplay .transition { text-align: right; text-transform: uppercase; font-size: 12px; margin-top: 16px; }
+        .screenplay .title-page { text-align: center; padding: 40px 0 30px; border-bottom: 1px solid #ccc; margin-bottom: 30px; }
+        .screenplay .title-page h2 { font-family: 'Courier Prime', monospace; font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .screenplay .title-page p { font-size: 12px; color: #666; }
+
+        /* Calendar */
+        .cal-week { display: grid; grid-template-columns: 50px 1fr; gap: 0; margin: 4px 0; }
+        .cal-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--amber-dim); padding: 10px 0; letter-spacing: 0.05em; }
+        .cal-content { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; font-size: 13px; color: var(--text-muted); }
+        .cal-content strong { color: var(--text); }
+
+        .footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+        .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 700px) { .container { padding: 80px 20px 80px; } .nav { padding: 0 20px; } .screenplay { padding: 24px 16px; font-size: 12px; } }
+    </style>
+</head>
+<body>
+
+<div class="nav">
+    <div class="nav-inner">
+        <div class="nav-title">Script Roadmap</div>
+        <div class="nav-badge">28 Days · Deadline 31 Mar</div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="hero fade-in">
+        <div class="hero-label">Script Development — The Forge</div>
+        <h1>Stop preparing.<br><em>Start writing.</em></h1>
+        <p class="hero-sub">8 entries. 1 locked character. Months of development. 28 days left. This document is the bridge from development to screenplay. No more scattered pages. One road. Walk it.</p>
+    </div>
+
+    <!-- ========== THE FORMAT ========== -->
+    <div class="section fade-in">
+        <h2>What Kind of Script Is This?</h2>
+
+        <p>This is NOT a conventional screenplay. It's a <strong>hybrid script</strong> — part structured scenes, part guided monologue. Here's why:</p>
+
+        <ul>
+            <li><strong>Su can't write dialogue at a desk.</strong> He speaks it. The entries prove this. So the script doesn't have traditional dialogue — it has <strong>scene descriptions + monologue prompts.</strong></li>
+            <li><strong>The studio recordings are semi-improvised.</strong> You won't script every word Su says to the camera. You'll script the <strong>beat</strong> (what he must reveal in this scene) and let the performance find the words.</li>
+            <li><strong>The day scenes are fully scripted.</strong> Action lines, blocking, no dialogue (or minimal). These are visual, silent, precise.</li>
+        </ul>
+
+        <div class="warning">
+            <p><strong>The script = two documents.</strong> (1) A traditional screenplay for the DAY scenes — action, visuals, no dialogue. (2) A "beat sheet" for the STUDIO scenes — what Su must talk about, the emotional target, key lines to hit. You SPEAK the studio scenes. You SHOOT the day scenes.</p>
+        </div>
+    </div>
+
+    <!-- ========== THE CONSOLIDATED SCENE BREAKDOWN ========== -->
+    <div class="section fade-in">
+        <h2>The Master Scene Breakdown — All 6 Chapters</h2>
+        <p>Everything from all documents, consolidated. <strong>This is the only list you need.</strong> Each scene has a number, location, duration estimate, and what happens. Total target: ~75 minutes.</p>
+
+        <h3>Chapter 1: The Loop (~12 min)</h3>
+        <p><em>The audience meets Su. His world. His routine. The trap that looks like a life.</em></p>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">1.1</div><div class="scene-title">Morning Ritual</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>Alarm. Eyes open. Past the phone. Glass of water — slow, deliberate. <strong>Cold shower</strong> — even in winter. Dressed. Passes the hallway mirror. <strong>Doesn't look.</strong> Out the door.</p><div class="scene-dur">~2 min · No dialogue · Visual</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">1.2</div><div class="scene-title">The Tech Bro Switch</div><span class="scene-loc loc-studio">Office</span></div>
+            <div class="scene-body"><p>Su at his desk. Multiple screens. Client calls. Zoom charm. The camera catches his dead eyes mid-smile. He's good at this. <strong>Terrifyingly good at something he doesn't love.</strong></p><div class="scene-dur">~2 min · Minimal dialogue (work sounds) · Visual</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">1.3</div><div class="scene-title">Everyone Leaves</div><span class="scene-loc loc-studio">Office</span></div>
+            <div class="scene-body"><p>7pm. Colleagues say goodbye. Door closes. Silence. Su sits alone. Doesn't move. A full beat of nothing. Then: picks up bag, walks toward the podcast studio.</p><div class="scene-dur">~1 min · No dialogue · Visual</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">1.4</div><div class="scene-title">The First Recording</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p><strong>The spine of the film begins.</strong> Su enters the studio. Mocks the podcast setup: "Hello and welcome to nodanotherpodcast—" Can't keep a straight face. Tries again. Fails. Then, slowly, the joking stops. Sits down. Stares into the camera. "Okay. So. I want to make a film."</p><p><strong>BEAT:</strong> Why film? What's the dream? When did it start? Let it flow — this is the entry that hooks the audience.</p><div class="scene-dur">~4 min · Semi-improvised monologue · Key line: "I want to make a film"</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">1.5</div><div class="scene-title">Night Film Ritual</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>11pm. Scotch — too little. Big screen. A film plays. Su watches devotionally. Credits roll. He sits in the feeling. The useless smile. Falls asleep on the couch.</p><div class="scene-dur">~2 min · No dialogue · Visual</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">1.6</div><div class="scene-title">Loop Reset</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>Morning again. Same alarm. Same water. Same mirror — <strong>doesn't look.</strong> The loop. The audience understands: nothing has started. Nothing will start. Until something breaks.</p><div class="scene-dur">~1 min · No dialogue · Visual (compressed repeat of 1.1)</div></div>
+        </div>
+
+        <h3>Chapter 2: The Secret Recipe (~12 min)</h3>
+        <p><em>Su tries to write. He can't. He discovers he can speak. One Post-it on a bare wall.</em></p>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">2.1</div><div class="scene-title">The Blank Page</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>Weekend. Su at laptop. "UNTITLED SCREENPLAY." Types "FADE IN:" — stares at it 30 seconds. Deletes. Types again. Deletes. <strong>Slams laptop shut.</strong> Makes chai. Sits back down. Opens it. Cursor blinks. Closes it for good.</p><div class="scene-dur">~2.5 min · No dialogue · Visual comedy</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">2.2</div><div class="scene-title">The Confession</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p>Su in the studio. Not joking this time. Talks about why he can't write, how speaking is different. The moment where the performance drops and the real person appears. <strong>"This is not a rant. This is a confession."</strong> 30 minutes without stopping. It's the screenplay. He doesn't know it yet.</p><p><strong>BEAT:</strong> Writing vs. speaking. The editor that activates when typing. "I don't call typing writing. It's typing." Let the frustration become clarity.</p><div class="scene-dur">~4 min · Semi-improvised · Key lines: "I can't write for the life of me" / "When I speak, the editor can't keep up"</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">2.3</div><div class="scene-title">The Co-Founder</div><span class="scene-loc loc-studio">Office</span></div>
+            <div class="scene-body"><p>Su and his co-founder at a table. She shows timelines, client deliverables. Asks: "So how's the film thing going?" Genuinely tries to understand. Her eyes glaze slightly — not disrespect, different wiring. <strong>Su sees it. Changes the subject.</strong> "It's going. So, this client deadline—"</p><div class="scene-dur">~2 min · Scripted dialogue (short) · The dream goes back in the drawer</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">2.4</div><div class="scene-title">The First Post-it</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>Late night. Headphones. Su listens to his own recording. Hears a line that surprises him. Rewinds. Listens again. <strong>Writes it on a Post-it.</strong> Sticks it on the bare wall. One yellow note. Stares. Smiles uselessly.</p><div class="scene-dur">~1.5 min · No dialogue · Visual</div></div>
+        </div>
+
+        <h3>Chapter 3: The Wall (~13 min)</h3>
+        <p><em>Family. Mother. Sister. The people who love Su across an unbridgeable gap.</em></p>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">3.1</div><div class="scene-title">Mother's Call</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>Phone to ear. Pacing. Mother asks about marriage. He deflects with logic, charm. She pushes. Frustration leaks. She mentions father's health. He softens. "I will, Maa." <strong>Hangs up. 10 seconds of silence in the kitchen.</strong></p><div class="scene-dur">~3 min · Phone audio + Su's half · Key line later: "Just be my mother and love me as your kid"</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">3.2</div><div class="scene-title">Sunday at Sister's</div><span class="scene-loc loc-ext">Sister's Place</span></div>
+            <div class="scene-body"><p>Eating together. A movie plays. Easy, warm. Then: "Maa called me." Energy shifts. She wants him to change — for their mother. Tries to say everything. Can't. Stops. Tries again. Su listens. Gentle. Then quietly: <strong>"I stood by you when you told them. I never let them force you."</strong> Silence. They watch the movie — together but separate.</p><div class="scene-dur">~4 min · Scripted dialogue (restrained) · Emotional core</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">3.3</div><div class="scene-title">Family Entry</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p>First time Su talks about family on camera. Specific, not philosophical. Mother gave him cinema. Father's anger taught him performance. Sister — love tangled with resentment. <strong>"Marriage is a scam."</strong> Then softer: "But she was brave. Braver than me."</p><p><strong>BEAT:</strong> Who he protects vs. who he can't protect himself from. The wall he built for his sister. The door he forgot to leave for himself.</p><div class="scene-dur">~4 min · Semi-improvised · Key lines: "Marriage is a scam" / "Just love me as your kid"</div></div>
+        </div>
+
+        <h3>Chapter 4: The Comedian (~14 min)</h3>
+        <p><em>The past. Sunglasses. Betrayals. The stage that stopped feeding him. The 10-min set.</em></p>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">4.1</div><div class="scene-title">The Sunglasses Montage</div><span class="scene-loc loc-ext">Delhi Various</span></div>
+            <div class="scene-body"><p>Su wearing sunglasses EVERYWHERE. Metro. Office. Rain. Restaurant. Indoors. The most absurd, committed thing he ever did. <strong>The audience laughs — then realizes this is a man who'd rather be ridiculous than inauthentic.</strong></p><div class="scene-dur">~1.5 min · No dialogue · Music-driven · Can be stylized/surreal</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">4.2</div><div class="scene-title">The Set — Development Montage</div><span class="scene-loc loc-ext">Comedy Clubs</span></div>
+            <div class="scene-body"><p>Same bit, different clubs, different crowds. Su rehearsing at home — pacing, muttering lines. Trying the opener at a mic: <strong>"Even the search for security is insecurity."</strong> Sometimes it lands. Sometimes silence. The bit develops across scenes.</p><div class="scene-dur">~2 min · Snippets of performance · Montage</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">4.3</div><div class="scene-title">The Delhi Winter Night</div><span class="scene-loc loc-ext">Comedy Club</span></div>
+            <div class="scene-body"><p>9pm. Green jacket. Shakes his friend's hand. Sits through two mics. <strong>Stands up every time the next name is called.</strong> It's never his. 1:30am. No spot. Grabs bag. Bolts. Walks through Delhi winter. 3am — cold shower at home. Bed. Work in 7 hours.</p><div class="scene-dur">~4 min · No dialogue during the wait · The walk home is silent except city sounds</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">4.4</div><div class="scene-title">The Backseat</div><span class="scene-loc loc-ext">Car — Night</span></div>
+            <div class="scene-body"><p>Su in the backseat. Comedian friend driving, another comic in passenger seat. Camera behind Su — captures them talking, roasting each other, city lights outside. <strong>He's there but not part of it.</strong> The observer. 60 seconds. No dialogue from Su.</p><div class="scene-dur">~1 min · Cinema vérité · Su watches, they perform</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">4.5</div><div class="scene-title">The Comedy Entry</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p>The big confession. "I take myself too seriously to be a comic." The Ricky Gervais parallel. The admission: "Obsession leads to success. Nothing else. And I wasn't obsessed enough." The 5% that still believes. <strong>"I didn't quit. I just... haven't gone back."</strong></p><p><strong>BEAT:</strong> Comedy as first love that didn't work out. Not the betrayals — Su himself. "The problem is with me. I don't call it wrong. That's just me."</p><div class="scene-dur">~4 min · Semi-improvised · Key line: "Obsession leads to success. Nothing else."</div></div>
+        </div>
+
+        <h3>Chapter 5: The Accident (~12 min)</h3>
+        <p><em>Origin story. The short film. Post-its becoming a plan. The camera faces outward.</em></p>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">5.1</div><div class="scene-title">The Origin Story</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p>Su tells it with energy — "The writer didn't show up. I had to write the screenplay." Acts out the audition. Mimics himself being surprised he was good. <strong>"I read the lines better than anyone."</strong> Directed 2 minutes when it fell apart. "Those 2 minutes are beautiful. The other 6 are so crappy." <strong>He's making the film right now. He just doesn't see it.</strong></p><div class="scene-dur">~4 min · High energy · The most alive Su gets</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">5.2</div><div class="scene-title">The Post-it Wall</div><span class="scene-loc loc-studio">Office</span></div>
+            <div class="scene-body"><p>Su reviews old Creator footage on a big monitor. Watches himself. Likes what he sees. Looks at the Post-it wall — now 15-20 notes. <strong>Stands up. Reads them in order. Something clicks.</strong> Starts rearranging them. Expression changes. He sees the shape of the film.</p><div class="scene-dur">~3 min · No dialogue · The visual moment of creation</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">5.3</div><div class="scene-title">Building From Constraints</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>1am. Not sleeping. Not watching a film. <strong>Handwriting on paper.</strong> Fast, messy. A list: "What I have. Studio. Camera. My face. 2 people." Draws lines between them. Building the film from constraints. The miser who poured too little scotch pouring everything into a plan.</p><div class="scene-dur">~2 min · No dialogue · Visual</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">5.4</div><div class="scene-title">The Solo Day</div><span class="scene-loc loc-ext">Cafe / Cinema</span></div>
+            <div class="scene-body"><p>Su out alone. Cafe — eats by himself. Cinema — watches a film alone. Not lonely, <strong>powerful.</strong> The Leonardo/DiCaprio confusion told as voiceover → cuts to studio: "If you can eat and watch a film alone, you can do anything." His solitude is not isolation — it's his operating frequency.</p><div class="scene-dur">~3 min · Voiceover → studio cut · Warm, funny, alive</div></div>
+        </div>
+
+        <h3>Chapter 6: Day One (~12 min)</h3>
+        <p><em>He starts. Not a resolution — a crack in the loop. The mirror.</em></p>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">6.1</div><div class="scene-title">The Cracked Loop</div><span class="scene-loc loc-studio">Office</span></div>
+            <div class="scene-body"><p>Same routine as Ch1. But: before opening the work laptop, he opens a notebook. Writes for 3 minutes. Closes it. Then the work laptop. <strong>The Tech Bro Switch happens — but 3 minutes late.</strong> The loop cracked, not broken.</p><div class="scene-dur">~1.5 min · No dialogue · Mirror of Scene 1.2</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">6.2</div><div class="scene-title">First Shoot Day</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p>Su setting up the studio — not for a recording, for a SCENE. Adjusts lights. Tests angles. Co-founder in the doorway: "You're actually doing it?" He doesn't answer. Sits down. Looks into the camera. <strong>Not recording an entry. Performing. Acting. Su playing "S."</strong></p><div class="scene-dur">~3 min · Minimal dialogue · The distance between Su and S: zero and infinite</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">6.3</div><div class="scene-title">The City — Outward</div><span class="scene-loc loc-ext">Delhi Night</span></div>
+            <div class="scene-body"><p>Su driving through NCR at night. Lights, traffic, chaos. This time the camera faces outward — not at Su, at the world. Dashboard-mounted or handheld from passenger seat. <strong>The camera that faced inward for 7 entries now faces outward.</strong> His face reflected in the windshield, barely visible behind the city lights.</p><div class="scene-dur">~2 min · No dialogue · Music · The outward turn visualized</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">6.4</div><div class="scene-title">The Final Entry</div><span class="scene-loc loc-podcast">Podcast Studio</span></div>
+            <div class="scene-body"><p>Last entry. He knows it's the last one. Looks into the camera. <strong>"He knows the secret recipe. He knows the secret recipe and this time... maybe he'll cook."</strong> The useless smile. Turns off the camera. Black.</p><div class="scene-dur">~2 min · The thesis delivered as performance</div></div>
+        </div>
+
+        <div class="scene-block">
+            <div class="scene-header"><div class="scene-num">6.5</div><div class="scene-title">The Mirror</div><span class="scene-loc loc-home">Home</span></div>
+            <div class="scene-body"><p>Morning. Same alarm. Eyes open. Water. Walks down the hallway. The mirror. <strong>He stops. Looks at himself.</strong> Just for a second. Doesn't smile. Doesn't perform. Just looks. Walks on. Camera holds on the empty mirror. <strong>Cut to black.</strong></p><div class="scene-dur">~1.5 min · No dialogue · The final image of the film</div></div>
+        </div>
+    </div>
+
+    <!-- ========== THE FIRST PAGES ========== -->
+    <div class="section fade-in">
+        <h2>The First Pages — Draft Zero</h2>
+        <p>Here are the opening pages of the screenplay. This is <strong>Draft Zero</strong> — raw, functional, meant to be rewritten. The point is to see it on paper. To break the blank page. You'll change every word. But first you need words to change.</p>
+
+        <div class="screenplay">
+            <div class="title-page">
+                <h2>How to Not Make a Film</h2>
+                <p>Written by Su<br>Draft Zero · March 2026</p>
+            </div>
+
+            <p class="slug">INT. SU'S APARTMENT — BEDROOM — MORNING</p>
+
+            <p class="action">Black. The sound of an alarm — cheap, tinny, insistent.</p>
+
+            <p class="action">Eyes open. Close. Open again. A hand reaches — past the phone on the nightstand, past it completely — and finds a glass of water.</p>
+
+            <p class="action">SU (36, long hair, beard he forgets to maintain, the kind of face that smiles when it shouldn't) drinks the entire glass. Slow. Deliberate. The only discipline he has.</p>
+
+            <p class="slug">INT. SU'S APARTMENT — BATHROOM — CONTINUOUS</p>
+
+            <p class="action">Cold water hits his body. He doesn't flinch — he does this twice a day, even in winter. Not willpower. Habit. The same man who can't maintain a writing routine has maintained cold showers for five years.</p>
+
+            <p class="slug">INT. SU'S APARTMENT — HALLWAY — CONTINUOUS</p>
+
+            <p class="action">Su walks down the hallway, dressed. Studied carelessness — deliberate in its randomness. He passes a mirror. Full-length. Positioned where you can't avoid it.</p>
+
+            <p class="action"><strong>He doesn't look.</strong></p>
+
+            <p class="action">The camera holds on the mirror as he passes. We see his reflection for a moment. He doesn't.</p>
+
+            <p class="slug">INT. OFFICE — SU'S DESK — DAY</p>
+
+            <p class="action">A different person. Multiple screens. Slack notifications. The steady hum of a man being productive.</p>
+
+            <p class="action">Su on a video call — smiling, charming, nodding at the right moments. The client laughs at something he said. He laughs back. We hold on his face after the laugh dies.</p>
+
+            <p class="action"><strong>His eyes are dead.</strong></p>
+
+            <p class="action">The smile was real. The eyes weren't. He's terrifyingly good at something he doesn't love.</p>
+
+            <p class="slug">INT. OFFICE — EVENING</p>
+
+            <p class="action">7:00 PM. The office empties around him. Colleagues say goodbye. He waves. Pleasant. Easy.</p>
+
+            <p class="action">The last person leaves. Door closes.</p>
+
+            <p class="action">Silence.</p>
+
+            <p class="action">Su sits at his desk. Doesn't move. We watch him not moving for ten full seconds. Something happening behind his face that we can't name.</p>
+
+            <p class="action">He picks up his bag. Walks down the corridor toward a door marked only with a small red "ON AIR" light that isn't on.</p>
+
+            <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+            <p class="action">Small room. Soundproofing panels. Two chairs. A professional mic on a boom arm. Soft amber lighting — someone designed this space to feel intimate.</p>
+
+            <p class="action">Su stands in the doorway. Looks at the mic. Looks at the camera (already set up — he doesn't remember when he set it up).</p>
+
+            <p class="action">He grabs the mic. Affects a deep, ridiculous podcaster voice:</p>
+
+            <p class="char-name">SU</p>
+            <p class="paren">(terrible podcast voice)</p>
+            <p class="dialogue">Hello and welcome to nodanotherpodcast—</p>
+
+            <p class="action">He laughs. Breaks character. Tries again:</p>
+
+            <p class="char-name">SU</p>
+            <p class="paren">(worse)</p>
+            <p class="dialogue">Today on the show we have a very special guest who has accomplished absolutely nothing—</p>
+
+            <p class="action">He's laughing at himself now. The useless smile. Can't stop it.</p>
+
+            <p class="action">Then, slowly — the way a wave pulls back — the laughter dies. He puts the mic back on the stand. Sits down in one of the chairs. Properly. Adjusts the angle. Looks into the camera lens.</p>
+
+            <p class="action">Silence. Five seconds. The kind of silence that feels like a decision.</p>
+
+            <p class="char-name">SU</p>
+            <p class="paren">(quiet, like admitting something)</p>
+            <p class="dialogue">Okay. So. I want to make a film.</p>
+
+            <p class="action">Beat.</p>
+
+            <p class="char-name">SU</p>
+            <p class="dialogue">I've been saying that for six years. But this year I actually mean it.</p>
+
+            <p class="action">He smiles — caught by the absurdity of his own sentence.</p>
+
+            <p class="char-name">SU</p>
+            <p class="dialogue">I meant it last year too.</p>
+
+            <p class="transition">CUT TO:</p>
+
+            <p class="slug">INT. SU'S APARTMENT — LIVING ROOM — LATE NIGHT</p>
+
+            <p class="action">11 PM. The apartment — immaculate. Objects at right angles. Very few things on display. A man's space that says "I have control" while hiding everything that doesn't fit.</p>
+
+            <p class="action">Su pours scotch. Very little — barely a finger. "I am a miser at heart." The bottle will last two months.</p>
+
+            <p class="action">He sits on the couch. The big screen comes alive. A film. Not a series — he doesn't watch series when it counts. A film is a commitment. 90 minutes of devotion.</p>
+
+            <p class="action">We don't see the film. We see Su watching it. His face in the screen-light. Changing. Softening. Whatever he performed at the office earlier is gone. Whatever he said to the camera is gone. Right now he's just a man watching a movie. The most honest version of himself.</p>
+
+            <p class="action">Credits roll. He sits in the feeling. Doesn't reach for the remote. Doesn't check his phone.</p>
+
+            <p class="action">The useless smile. Involuntary. Unstoppable.</p>
+
+            <p class="action">His eyes close.</p>
+
+            <p class="transition">CUT TO:</p>
+
+            <p class="slug">INT. SU'S APARTMENT — BEDROOM — MORNING</p>
+
+            <p class="action">Same alarm. Same eyes. Same water.</p>
+
+            <p class="action">The loop.</p>
+        </div>
+    </div>
+
+    <!-- ========== 28-DAY CALENDAR ========== -->
+    <div class="section fade-in">
+        <h2>28-Day Writing Schedule</h2>
+        <p>Deadline: <strong>31 March 2026.</strong> You don't need to write every day. You need to write on the MARKED days. The rest is prep, shooting test footage, and recording entries. <strong>Total writing days: 16.</strong></p>
+
+        <div class="cal-week">
+            <div class="cal-label">WK 1<br>Mar 3-9</div>
+            <div class="cal-content">
+                <strong>Mon 3:</strong> Read these first pages. Rewrite them in your voice. Only Ch1 — the Loop.<br>
+                <strong>Tue 4:</strong> Write Ch1 day scenes (1.1–1.3, 1.5–1.6). Action lines only. No dialogue.<br>
+                <strong>Wed 5:</strong> Record Entry 09 — perform Scene 1.4 (first recording) as the entry. It IS the script.<br>
+                <strong>Thu 6:</strong> Write Ch2 day scenes (2.1 the blank page, 2.3 co-founder, 2.4 first Post-it).<br>
+                <strong>Fri 7:</strong> Record Entry 10 — perform Scene 2.2 (the confession). Target the beats.<br>
+                <strong>Sat–Sun:</strong> Read Ch1+Ch2 draft aloud. Mark what's dead. Rewrite dead parts.
+            </div>
+        </div>
+
+        <div class="cal-week">
+            <div class="cal-label">WK 2<br>Mar 10-16</div>
+            <div class="cal-content">
+                <strong>Mon 10:</strong> Write Ch3 — Mother's call (3.1) and Sister scene (3.2). These have dialogue — write it rough.<br>
+                <strong>Tue 11:</strong> Rehearse Ch3 dialogue aloud. Rewrite what sounds fake.<br>
+                <strong>Wed 12:</strong> Record Entry 11 — perform Scene 3.3 (family entry). Let it hurt.<br>
+                <strong>Thu 13:</strong> Write Ch4 day scenes — sunglasses montage (4.1), set development (4.2), Delhi night (4.3), backseat (4.4).<br>
+                <strong>Fri 14:</strong> Record Entry 12 — perform Scene 4.5 (the comedy confession). Target "Obsession leads to success."<br>
+                <strong>Sat–Sun:</strong> Read Ch3+Ch4 draft. Write the 10-min standup set (first draft — even rough is fine).
+            </div>
+        </div>
+
+        <div class="cal-week">
+            <div class="cal-label">WK 3<br>Mar 17-23</div>
+            <div class="cal-content">
+                <strong>Mon 17:</strong> Write Ch5 — origin story scene description (5.1 will be performed), Post-it wall (5.2), constraints (5.3), solo day (5.4).<br>
+                <strong>Tue 18:</strong> Record Entry 13 — perform Scene 5.1 (the accident). Be animated. This is Su at his most alive.<br>
+                <strong>Wed 19:</strong> Write Ch6 — cracked loop (6.1), first shoot (6.2), city (6.3), final entry (6.4), the mirror (6.5).<br>
+                <strong>Thu 20:</strong> Record Entry 14 — perform Scene 6.4 (the final entry). "Maybe he'll cook."<br>
+                <strong>Fri 21:</strong> <strong>FULL DRAFT READ.</strong> Print all 6 chapters. Red pen. Mark what works, what's dead.<br>
+                <strong>Sat–Sun:</strong> Rewrite the dead parts. Polish dialogue scenes (co-founder, sister, mother).
+            </div>
+        </div>
+
+        <div class="cal-week">
+            <div class="cal-label">WK 4<br>Mar 24-31</div>
+            <div class="cal-content">
+                <strong>Mon 24:</strong> Second draft — Ch1-Ch3. Tighten action lines. Cut anything that explains what we can see.<br>
+                <strong>Tue 25:</strong> Second draft — Ch4-Ch6. The 10-min set should be version 2 by now.<br>
+                <strong>Wed 26:</strong> Shoot test footage — morning routine (1.1), blank page (2.1), cold shower. See what it looks like on camera.<br>
+                <strong>Thu 27:</strong> Watch test footage. Adjust script based on what the camera reveals.<br>
+                <strong>Fri 28:</strong> Final pass. Read the whole script aloud, start to finish.<br>
+                <strong>Sat 29:</strong> Buffer day.<br>
+                <strong>Sun 30:</strong> Buffer day.<br>
+                <strong>Mon 31:</strong> <strong>SCRIPT LOCKED. Draft 1 complete.</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== HOW TO WRITE IT ========== -->
+    <div class="section fade-in">
+        <h2>How to Actually Write It</h2>
+
+        <div class="warning">
+            <p><strong>The method:</strong> You write two things in parallel. (1) The DAY scenes — traditional screenplay format, action lines, minimal dialogue, visual storytelling. Write these at your desk like normal writing. (2) The STUDIO scenes — you DON'T write these. You PERFORM them as entries. Then transcribe the best parts. <strong>The entries ARE the first draft of the studio scenes.</strong></p>
+        </div>
+
+        <ol>
+            <li><strong>Start with the day scenes.</strong> These are the easiest because they're mostly visual — no dialogue, just describing what we see. You already described them in the entries. Now put them in screenplay format.</li>
+            <li><strong>Record entries targeted at specific studio scenes.</strong> Each remaining entry should be aimed at a specific beat. Not exploration — performance. You're rehearsing the film.</li>
+            <li><strong>Transcribe the gold.</strong> Listen to the entries. Find the 3-4 minute stretch that IS the scene. Transcribe it. Clean it up. That's your studio scene.</li>
+            <li><strong>The 10-min set</strong> develops separately — write it like standup, not like screenplay. Then embed it into the montage scenes.</li>
+        </ol>
+
+        <div class="quote">
+            <p>"I can't write for the life of me." — Wrong. You write every time you speak into the camera. Now we're just giving it a structure and a shape.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Script Roadmap · 3 March 2026 · Deadline: 31 March 2026<br>
+        <a href="session-update-mar02.html" style="color: var(--amber-dim); text-decoration: none;">← Session Update</a> ·
+        <a href="character-sketch.html" style="color: var(--amber-dim); text-decoration: none;">Character</a> ·
+        <a href="story-structure.html" style="color: var(--amber-dim); text-decoration: none;">Structure</a> ·
+        <a href="index.html" style="color: var(--amber-dim); text-decoration: none;">Main →</a></p>
+    </div>
+
+</div>
+
+<script>
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
