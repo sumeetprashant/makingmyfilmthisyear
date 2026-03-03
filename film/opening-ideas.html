@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SEARCH — 14 Opening Scene Ideas</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Courier+Prime&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --s: #111;
+            --s2: #161616;
+            --b: #222;
+            --t: #e8e6e3;
+            --m: #8a8a8a;
+            --d: #555;
+            --a: #d4a853;
+            --ad: #8b7235;
+            --r: #c45c5c;
+            --g: #5c9a6e;
+            --bl: #5c7cc4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--t);
+            line-height: 1.7;
+            font-size: 14px
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, .94);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--b);
+            z-index: 999;
+            padding: 0 32px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .nav-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--a);
+            letter-spacing: .05em
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--bl);
+            text-decoration: none;
+            letter-spacing: .05em
+        }
+
+        .nav-links a:hover {
+            color: var(--a)
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 90px 32px 100px
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0 32px;
+            border-bottom: 1px solid var(--b);
+            margin-bottom: 40px
+        }
+
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--r);
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            margin-bottom: 12px
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(22px, 3.5vw, 32px);
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 8px
+        }
+
+        .hero h1 em {
+            color: var(--a);
+            font-style: italic
+        }
+
+        .hero-sub {
+            font-size: 13px;
+            color: var(--m);
+            max-width: 560px;
+            margin: 0 auto
+        }
+
+        .idea {
+            background: var(--s);
+            border: 1px solid var(--b);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: border-color .15s
+        }
+
+        .idea:hover {
+            border-color: var(--ad)
+        }
+
+        .idea-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid transparent
+        }
+
+        .idea-header.open {
+            border-bottom-color: var(--b)
+        }
+
+        .idea-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--a);
+            font-weight: 700;
+            min-width: 28px
+        }
+
+        .idea-title {
+            font-size: 15px;
+            font-weight: 600;
+            flex: 1
+        }
+
+        .idea-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 2px 8px;
+            border-radius: 3px
+        }
+
+        .tag-studio {
+            background: rgba(92, 124, 196, .1);
+            color: var(--bl);
+            border: 1px solid rgba(92, 124, 196, .2)
+        }
+
+        .tag-visual {
+            background: rgba(212, 168, 83, .08);
+            color: var(--a);
+            border: 1px solid rgba(212, 168, 83, .15)
+        }
+
+        .tag-surreal {
+            background: rgba(180, 120, 220, .1);
+            color: #b478dc;
+            border: 1px solid rgba(180, 120, 220, .2)
+        }
+
+        .tag-docu {
+            background: rgba(92, 154, 110, .1);
+            color: var(--g);
+            border: 1px solid rgba(92, 154, 110, .2)
+        }
+
+        .tag-meta {
+            background: rgba(196, 92, 92, .08);
+            color: var(--r);
+            border: 1px solid rgba(196, 92, 92, .15)
+        }
+
+        .idea-arrow {
+            color: var(--d);
+            font-size: 16px;
+            transition: transform .2s
+        }
+
+        .idea-arrow.open {
+            transform: rotate(180deg)
+        }
+
+        .idea-body {
+            display: none;
+            padding: 20px
+        }
+
+        .idea-body.open {
+            display: block
+        }
+
+        .idea-body h4 {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--a);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin: 16px 0 8px
+        }
+
+        .idea-body h4:first-child {
+            margin-top: 0
+        }
+
+        .idea-body p {
+            font-size: 13px;
+            color: var(--m);
+            margin-bottom: 8px;
+            line-height: 1.7
+        }
+
+        .idea-body p strong {
+            color: var(--t);
+            font-weight: 500
+        }
+
+        .screenplay {
+            background: #fffff8;
+            color: #1a1a1a;
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 12px 0
+        }
+
+        .screenplay .slug {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 12px
+        }
+
+        .screenplay .act {
+            margin: 8px 0
+        }
+
+        .screenplay .char {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 12px;
+            margin-bottom: 0
+        }
+
+        .screenplay .dial {
+            text-align: center;
+            max-width: 300px;
+            margin: 3px auto 8px
+        }
+
+        .screenplay .par {
+            text-align: center;
+            font-style: italic;
+            font-size: 11px;
+            color: #888;
+            margin: 2px auto;
+            max-width: 200px
+        }
+
+        .why-box {
+            background: rgba(212, 168, 83, .04);
+            border: 1px solid rgba(212, 168, 83, .12);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 12px 0
+        }
+
+        .why-box p {
+            font-size: 12px;
+            color: var(--m);
+            margin: 0
+        }
+
+        .why-box strong {
+            color: var(--a)
+        }
+
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            border-top: 1px solid var(--b);
+            color: var(--d);
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 40px
+        }
+
+        .footer a {
+            color: var(--ad);
+            text-decoration: none
+        }
+
+        @media(max-width:700px) {
+            .container {
+                padding: 80px 16px 60px
+            }
+
+            .nav {
+                padding: 0 16px
+            }
+
+            .screenplay {
+                padding: 14px;
+                font-size: 11px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="nav-title">Opening Scene Lab</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="draft-zero.html">Draft</a>
+            <a href="index.html">Hub</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="hero">
+            <div class="hero-label">The First Frame Decides Everything</div>
+            <h1>14 Ways to <em>Start the Film</em></h1>
+            <p class="hero-sub">No waking up. No alarm clock. No "the morning routine." 14 openings that are as unusual
+                as the film itself. Click each to expand the full screenplay treatment. Pick one. Commit. The film
+                discovers why you were right.</p>
+        </div>
+
+        <!-- === 1 === -->
+        <div class="idea" id="idea1">
+            <div class="idea-header" onclick="toggle(1)">
+                <span class="idea-num">01</span>
+                <span class="idea-title">The Unfinished Sentence</span>
+                <span class="idea-tag tag-studio">Studio</span>
+                <span class="idea-arrow" id="arrow1">▾</span>
+            </div>
+            <div class="idea-body" id="body1">
+                <h4>The Concept</h4>
+                <p>The film opens <strong>mid-sentence.</strong> No title card. No music. No establishing shot. Su is
+                    already talking. The audience drops into the middle of vulnerability — as if they walked into a room
+                    where someone was already confessing.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+                    <p class="act">No fade in. No black. We're already here.</p>
+                    <p class="act">Su — mid-sentence, mid-thought. The camera tight on his face. Amber light. The
+                        podcast mic slightly out of frame.</p>
+                    <p class="char">SU</p>
+                    <p class="par">(already mid-flow, no introduction)</p>
+                    <p class="dial">—and I've been saying I'll make a film for six years. Every year I mean it. Every
+                        year I don't.</p>
+                    <p class="act">Beat. He looks at the camera like he's surprised it's still recording.</p>
+                    <p class="char">SU</p>
+                    <p class="dial">Actually, that's not true. Every year I mean it MORE. That's the problem. The
+                        meaning keeps growing and the doing stays the same size.</p>
+                    <p class="act">SMASH CUT TO BLACK.</p>
+                    <p class="act" style="text-align:center;font-weight:700;margin-top:16px">THE SEARCH</p>
+                    <p class="act">Then: silence. 3 seconds of black. Then the film begins.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> The audience knows immediately — this man talks to a camera. He's
+                        honest. Something is unfinished. The entire film is context for a sentence they heard before
+                        they were ready.</p>
+                </div>
+                <p><strong>Chapter design language:</strong> Every chapter could open mid-sentence in the studio — a
+                    fragment from a future confession that the chapter then earns.</p>
+            </div>
+        </div>
+
+        <!-- === 2 === -->
+        <div class="idea" id="idea2">
+            <div class="idea-header" onclick="toggle(2)">
+                <span class="idea-num">02</span>
+                <span class="idea-title">The Lighter</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow2">▾</span>
+            </div>
+            <div class="idea-body" id="body2">
+                <h4>The Concept</h4>
+                <p>Open on the smallest, most human moment you have. A man bumming a light. The irony lands before the
+                    audience knows who he is. The film announces: <strong>this is going to be small, specific, funny,
+                        and a little sad.</strong></p>
+                <div class="screenplay">
+                    <p class="slug">EXT. COMEDY CLUB — OUTSIDE — NIGHT</p>
+                    <p class="act">Close on a hand. An unlit cigarette between two fingers. The hand shakes slightly —
+                        not nerves, cold. Delhi winter cold.</p>
+                    <p class="act">Wider: SU — younger, a version from years ago — standing outside a comedy club. Other
+                        smokers around him, all comics, all talking too loud for midnight.</p>
+                    <p class="act">Su pats his pockets. Front. Back. Jacket. No lighter. He looks around. Catches the
+                        eye of a STRANGER with a flame.</p>
+                    <p class="char">SU</p>
+                    <p class="par">(genuinely relieved)</p>
+                    <p class="dial">Bhai, tu life saver hai.</p>
+                    <p class="act">He lights the cigarette. Inhales. The stranger looks at the cigarette, then at Su,
+                        then walks away without saying anything.</p>
+                    <p class="act">The irony just sits there. Nobody acknowledges it. A man calling someone a "life
+                        saver" while lighting the thing that does the opposite. This is the kind of man this film is
+                        about — one who finds poetry in contradiction and doesn't notice the contradiction is about
+                        himself.</p>
+                    <p class="act">Su smokes. Watches the comics around him. Hears laughter inside. Decides something.
+                        Drops the cigarette. Goes back in.</p>
+                    <p class="act">CUT TO BLACK.</p>
+                    <p class="act" style="text-align:center;font-weight:700;margin-top:12px">THE SEARCH</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Tiny. Specific. REAL. The audience laughs before they know this is
+                        a film about unfinished things. The cigarette itself is an unfinished thing — smoked halfway,
+                        dropped, gone back inside. Just like every dream Su has started.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 3 === -->
+        <div class="idea" id="idea3">
+            <div class="idea-header" onclick="toggle(3)">
+                <span class="idea-num">03</span>
+                <span class="idea-title">The Camera Turns On</span>
+                <span class="idea-tag tag-meta">Meta</span>
+                <span class="idea-arrow" id="arrow3">▾</span>
+            </div>
+            <div class="idea-body" id="body3">
+                <h4>The Concept</h4>
+                <p>Raw. No polish. The red recording light blinks on. We see Su <strong>failing to begin.</strong> The
+                    film about a man who can't start things starts with a man who can't start talking.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+                    <p class="act">Black screen. A click. The RED RECORDING LIGHT blinks on — visible in the corner of
+                        the frame.</p>
+                    <p class="act">Su in the chair. He adjusts his position. Clears his throat. Opens his mouth.</p>
+                    <p class="act">Closes it.</p>
+                    <p class="act">Tries again. "So—" Stops. Rubs his face. Looks away from the camera. Looks back.</p>
+                    <p class="act">Five seconds of a man fighting the blank page — except the blank page is his own
+                        mouth.</p>
+                    <p class="char">SU</p>
+                    <p class="par">(exhaling, giving up on being polished)</p>
+                    <p class="dial">Okay. So.</p>
+                    <p class="act">CUT TO BLACK. Title card.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Five seconds tells the audience everything: this man has something
+                        to say and can't start saying it. That's the entire film compressed into a breath. Also:
+                        budget-friendly. One shot. One room. No crew.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 4 === -->
+        <div class="idea" id="idea4">
+            <div class="idea-header" onclick="toggle(4)">
+                <span class="idea-num">04</span>
+                <span class="idea-title">The Walk (No Context)</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow4">▾</span>
+            </div>
+            <div class="idea-body" id="body4">
+                <h4>The Concept</h4>
+                <p>Open on FEET. Walking fast. Maximum speed. We don't know who, where, why. Just the rhythm of a man
+                    outrunning something internal. <strong>The walk is Su's signature — the thing he does when the anger
+                        becomes physical.</strong> Show it first. Explain it later.</p>
+                <div class="screenplay">
+                    <p class="slug">EXT. DELHI STREET — NIGHT</p>
+                    <p class="act">Over black: footsteps. Fast. Rhythmic. Almost violent in their speed.</p>
+                    <p class="act">Cut to: FEET. Walking. Concrete. The specific pace of a man who will not stop until
+                        his legs make the decision for him. We don't see his face. Just the movement.</p>
+                    <p class="act">Wider — but not much. A man's back. Walking through Delhi at night. Smog.
+                        Streetlights creating halos in the grey air. A city that looks like it's dissolving.</p>
+                    <p class="act">30 seconds. No music. Just footsteps and breathing.</p>
+                    <p class="act">Then: he slows. The way fury runs out of fuel. Slower. Slower. Stops. We see him from
+                        behind — shoulders dropping. The tension leaving his body like water from a fist.</p>
+                    <p class="act">He stands still. The smog moves around him.</p>
+                    <p class="act">CUT TO BLACK.</p>
+                    <p class="act" style="text-align:center;font-weight:700;margin-top:12px">THE SEARCH</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Pure cinema. No dialogue. The audience feels the anger before they
+                        understand it. The walk pays off in Chapter 4 (after the Delhi night) and echoes through every
+                        chapter. The film's rhythm = walking → stopping → quiet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 5 === -->
+        <div class="idea" id="idea5">
+            <div class="idea-header" onclick="toggle(5)">
+                <span class="idea-num">05</span>
+                <span class="idea-title">Others Talk About Him</span>
+                <span class="idea-tag tag-docu">Documentary</span>
+                <span class="idea-arrow" id="arrow5">▾</span>
+            </div>
+            <div class="idea-body" id="body5">
+                <h4>The Concept</h4>
+                <p>Documentary-style. Talking heads. People in Su's life — each giving their version of who he is.
+                    <strong>None of them agree.</strong> Then we meet the man himself. He disagrees with all of them.
+                </p>
+                <div class="screenplay">
+                    <p class="slug">INT. VARIOUS LOCATIONS — DAY</p>
+                    <p class="act">MEERA (co-founder) sitting somewhere neutral. Looking into camera. As if being
+                        interviewed.</p>
+                    <p class="char">MEERA</p>
+                    <p class="dial">He keeps saying he's going to make a film.</p>
+                    <p class="act">Cut to: SU'S SISTER. Different location. Same interview setup.</p>
+                    <p class="char">SISTER</p>
+                    <p class="dial">He says a lot of things.</p>
+                    <p class="act">Cut to: A COMEDIAN FRIEND. Backstage somewhere.</p>
+                    <p class="char">COMEDIAN FRIEND</p>
+                    <p class="dial">He's talented. He just—</p>
+                    <p class="act">Can't finish the sentence. The pause says everything.</p>
+                    <p class="act">Cut to: MEERA again.</p>
+                    <p class="char">MEERA</p>
+                    <p class="dial">Brilliant, honestly. But the company needs him present, not dreaming.</p>
+                    <p class="act">Cut to: SU — in the podcast studio. Same framing as the others. But he's not being
+                        interviewed. He's interviewing himself.</p>
+                    <p class="char">SU</p>
+                    <p class="par">(gentle, amused)</p>
+                    <p class="dial">They're all wrong, by the way. But also all correct. That's the problem with knowing
+                        me.</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Establishes every key relationship in 60 seconds. The audience
+                        meets Su through OTHER people first. His own entry is the punchline. Also: very achievable —
+                        just interview-framed shots of real people.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 6 === -->
+        <div class="idea" id="idea6">
+            <div class="idea-header" onclick="toggle(6)">
+                <span class="idea-num">06</span>
+                <span class="idea-title">The Mirror First</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow6">▾</span>
+            </div>
+            <div class="idea-body" id="body6">
+                <h4>The Concept</h4>
+                <p><strong>Start with the ending.</strong> The final image of the film plays FIRST. The audience sees
+                    the destination before the journey. Then the film rewinds to the beginning — the same hallway,
+                    months earlier — and the meaning of what they saw unfolds across 95 minutes. Classic Nolan structure
+                    (Memento, The Prestige — show the trick, then show how).</p>
+                <div class="screenplay">
+                    <p class="slug">INT. SU'S APARTMENT — HALLWAY — MORNING</p>
+                    <p class="act">A hallway. Narrow. A mirror on the left wall.</p>
+                    <p class="act">Footsteps approach. SU walks into frame. Dressed. Hair damp.</p>
+                    <p class="act">He reaches the mirror. And he STOPS.</p>
+                    <p class="act">Looks at himself. Just for a second. No performance. No smile. No sunglasses. Just a
+                        man looking at his own reflection — maybe for the first time in the film, though the audience
+                        doesn't know that yet.</p>
+                    <p class="act">He walks on. Camera holds on the empty mirror.</p>
+                    <p class="act">CUT TO BLACK.</p>
+                    <p class="act" style="text-align:center;font-weight:700;margin-top:12px">THE SEARCH</p>
+                    <p class="act">Then: the same hallway. Different light. Earlier. Su walks past the mirror without
+                        looking. Out the door. Keys. Gone.</p>
+                    <p class="act">The film begins. The audience has seen what changes. Now they watch to understand
+                        why.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> The mirror motif is the spine of the film. Showing the ending
+                        first creates dramatic irony — every time Su passes the mirror WITHOUT looking, the audience
+                        remembers that someday he will. The question becomes not "will he?" but "what makes him ready?"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 7 === -->
+        <div class="idea" id="idea7">
+            <div class="idea-header" onclick="toggle(7)">
+                <span class="idea-num">07</span>
+                <span class="idea-title">The AI Comic</span>
+                <span class="idea-tag tag-surreal">Surreal</span>
+                <span class="idea-arrow" id="arrow7">▾</span>
+            </div>
+            <div class="idea-body" id="body7">
+                <h4>The Concept</h4>
+                <p>Open on something the audience can't place. An AI-generated version of Su performing standup — to an
+                    audience made entirely of his own face. Men, women, children — all Su. The image is beautiful and
+                    deeply unsettling. Glitchy, uncanny, surreal. Then cut to real Su at his desk, watching this on his
+                    screen. <strong>"This is as close as I've gotten to making the film."</strong></p>
+                <div class="screenplay">
+                    <p class="slug">INT. COMEDY CLUB (AI-GENERATED) — NIGHT</p>
+                    <p class="act">A comedy club. It looks almost real. Almost. The lighting is slightly too perfect.
+                        The walls have texture that doesn't quite resolve.</p>
+                    <p class="act">On stage: SU. Or a version of Su — AI-generated, moving with the uncanny smoothness
+                        of something that learned to be human from YouTube. He holds a mic. He's performing.</p>
+                    <p class="act">The audience: rows of faces. All of them are Su. Different ages. Different genders.
+                        Different expressions. But recognizably, unmistakably HIM. An audience of selves watching a self
+                        perform.</p>
+                    <p class="act">15 seconds of this. Beautiful. Wrong. Funny. Heartbreaking.</p>
+                    <p class="act">CUT TO:</p>
+                    <p class="slug">INT. SU'S APARTMENT — DESK — NIGHT</p>
+                    <p class="act">Real Su. Flesh. Imperfect lighting. He's watching the AI version of himself on his
+                        laptop. His expression: not horrified, not amused. Something in between. The face of a man
+                        looking at the closest he's come to making something — and it was made by a machine pretending
+                        to be him.</p>
+                    <p class="char">SU</p>
+                    <p class="par">(to no one, very quietly)</p>
+                    <p class="dial">This is really sad.</p>
+                    <p class="act">Beat. He closes the laptop.</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Immediately unique. No other film opens like this. It captures the
+                        exact moment in history (2026 — AI making versions of you that are better than you). It's funny
+                        ("this is really sad"), visually stunning, and establishes the central tension: Su wants to make
+                        something REAL in an age where fake is easier. Budget: you can generate this with ComfyUI + LTX.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 8 === -->
+        <div class="idea" id="idea8">
+            <div class="idea-header" onclick="toggle(8)">
+                <span class="idea-num">08</span>
+                <span class="idea-title">The Cold Shower at 3AM</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow8">▾</span>
+            </div>
+            <div class="idea-body" id="body8">
+                <h4>The Concept</h4>
+                <p>Not "waking up." Not morning. <strong>3 AM.</strong> A man standing under cold water with his eyes
+                    open. No context. Is this discipline? Punishment? Both? The answer comes 50 minutes later (Delhi
+                    night, Chapter 4). The image hooks because it's wrong — nobody takes a cold shower at 3 AM unless
+                    something happened.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. SU'S APARTMENT — BATHROOM — 3:00 AM</p>
+                    <p class="act">Close on a shower handle. A hand turns it. All the way to the left. The cold side.
+                        The sound of water — not warm water. Cold. The kind of cold that makes February personal.</p>
+                    <p class="act">Pull back: SU standing under the stream. Fully awake. Eyes open. It's 3:00 AM — the
+                        clock on the shelf visible behind the steam that ISN'T there because there's no steam in a cold
+                        shower.</p>
+                    <p class="act">His jaw tightens. His breath catches for half a second. Then nothing. He stands under
+                        it. Not flinching. Not performing. Just... enduring something we don't understand yet.</p>
+                    <p class="act">10 seconds. The water. His face. The absence of steam.</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> A question, not an answer. The audience spends the first act
+                        wondering: why was he showering at 3 AM? When the Delhi night hits in Chapter 4, the image
+                        returns and they understand — that was the end of the worst night. The film opened at the
+                        bottom.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 9 === -->
+        <div class="idea" id="idea9">
+            <div class="idea-header" onclick="toggle(9)">
+                <span class="idea-num">09</span>
+                <span class="idea-title">The Dolly Zoom in the Metro</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow9">▾</span>
+            </div>
+            <div class="idea-body" id="body9">
+                <h4>The Concept</h4>
+                <p>Start in the metro. The dolly zoom from Chapter 4. A stranger in sunglasses, underground, mouthing
+                    words to nobody. <strong>We don't know who he is.</strong> The image asks a question the film takes
+                    95 minutes to answer.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. DELHI METRO — DAY</p>
+                    <p class="act">Rush hour. Bodies pressed together. The hum of the metro — that specific frequency
+                        between human noise and machine noise.</p>
+                    <p class="act">In the middle of the coach: A MAN. Sunglasses — indoors, underground. Headphones in.
+                        His lips are moving. Not singing. Talking. To nobody. Rehearsing something.</p>
+                    <p class="act">The camera finds his face. Begins to push in. The DOLLY ZOOM effect — the background
+                        compresses, his face stays fixed. The crowd becomes abstract. He becomes specific.</p>
+                    <p class="act">A woman next to him stares. A kid points. An uncle does the head-tilt. The man
+                        doesn't notice. Or has perfected the art of not noticing.</p>
+                    <p class="act">Close on his face. Behind the dark lenses — is he crazy or committed? The metro
+                        doesn't know. The film doesn't say. Not yet.</p>
+                    <p class="act">The metro doors open. He walks out. Disappears into a crowd.</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Pure visual intrigue. The dolly zoom makes the audience feel what
+                        Su feels — isolated in a crowd, focused while the world blurs. When the metro reappears in
+                        Chapter 4's montage, it clicks: this was the beginning of the standup years. The sunglasses pay
+                        off later. The mumbling pays off when we hear what he was rehearsing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 10 === -->
+        <div class="idea" id="idea10">
+            <div class="idea-header" onclick="toggle(10)">
+                <span class="idea-num">10</span>
+                <span class="idea-title">The Loop in Reverse</span>
+                <span class="idea-tag tag-surreal">Surreal</span>
+                <span class="idea-arrow" id="arrow10">▾</span>
+            </div>
+            <div class="idea-body" id="body10">
+                <h4>The Concept</h4>
+                <p>Run a day BACKWARDS. Start at 11 PM — Su falling asleep watching a film. Then: the office emptying.
+                    Then: the Zoom call. Then: the cold shower. Then: the alarm. <strong>Effect before cause.</strong>
+                    The audience sees the debris of a day before understanding the structure. Then the title card. Then
+                    the film plays forward.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. SU'S APARTMENT — LIVING ROOM — 11:00 PM</p>
+                    <p class="act">A man asleep on a couch. Film credits rolling on a big screen. Blue light on his
+                        face. The useless smile fading into sleep.</p>
+                    <p class="act">REVERSE CUT (subtle time jump backwards):</p>
+                    <p class="slug">INT. SU'S APARTMENT — LIVING ROOM — 10:30 PM</p>
+                    <p class="act">Same man. Eyes open. Watching the screen. Devotional attention. The scotch glass —
+                        barely touched.</p>
+                    <p class="act">REVERSE CUT:</p>
+                    <p class="slug">INT. OFFICE — 7:00 PM</p>
+                    <p class="act">Empty desks. One person left: Su. Sitting. Not doing anything. The silence of a man
+                        in a room built for twenty.</p>
+                    <p class="act">REVERSE CUT:</p>
+                    <p class="slug">INT. OFFICE — 3:00 PM</p>
+                    <p class="act">Su on a Zoom call. Smiling, charming. Dead eyes. 2 seconds of this.</p>
+                    <p class="act">REVERSE CUT:</p>
+                    <p class="slug">INT. SU'S APARTMENT — BATHROOM — 6:15 AM</p>
+                    <p class="act">Cold water hitting a body that doesn't flinch.</p>
+                    <p class="act">REVERSE CUT:</p>
+                    <p class="slug">INT. SU'S APARTMENT — BEDROOM — 6:00 AM</p>
+                    <p class="act">6:00 AM. The alarm. Eyes open. The loop begins.</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                    <p class="act">Then: the film plays forward. The audience already knows where the day ends. Every
+                        scene is loaded with the future they've already seen.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Nolan (Memento) proved that reversed time creates empathy — you
+                        understand the ending's loneliness before the beginning's hope. It also establishes the "loop"
+                        theme without being predictable. Budget-friendly: same locations, shot in one day.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 11 === -->
+        <div class="idea" id="idea11">
+            <div class="idea-header" onclick="toggle(11)">
+                <span class="idea-num">11</span>
+                <span class="idea-title">Over Black: One Line</span>
+                <span class="idea-tag tag-studio">Studio</span>
+                <span class="idea-arrow" id="arrow11">▾</span>
+            </div>
+            <div class="idea-body" id="body11">
+                <h4>The Concept</h4>
+                <p>No image. <strong>Just Su's voice, over complete black.</strong> One sentence. The thesis delivered
+                    before the first frame. Then silence. Then the film begins.</p>
+                <div class="screenplay">
+                    <p class="act">BLACK SCREEN. 3 seconds of nothing.</p>
+                    <p class="act">Then — Su's voice. Quiet. Close. As if recorded on a phone at 2 AM.</p>
+                    <p class="char">SU (V.O.)</p>
+                    <p class="dial">Maine kabhi kuch finish nahi kiya.</p>
+                    <p class="act">Silence. 4 seconds of black.</p>
+                    <p class="act" style="text-align:center;font-weight:700;margin-top:12px">THE SEARCH</p>
+                    <p class="act">Then: the film.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Maximum simplicity. The audience hears the confession before they
+                        see the person. The Hindi makes it intimate — not translated, not performed. A man talking to
+                        himself in the dark, in his own language. 7 words. Everything the film is about. And the film
+                        that follows is either the proof of that sentence or the cure for it. The audience spends 95
+                        minutes finding out which.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 12 === -->
+        <div class="idea" id="idea12">
+            <div class="idea-header" onclick="toggle(12)">
+                <span class="idea-num">12</span>
+                <span class="idea-title">The Bomb</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow12">▾</span>
+            </div>
+            <div class="idea-body" id="body12">
+                <h4>The Concept</h4>
+                <p>Su on stage. Performing. <strong>The joke bombs.</strong> Silence. He stands in the silence. Doesn't
+                    panic. Doesn't recover. Just... stands there. Then the useless smile arrives. Title card. A film
+                    about an unfinished man opens with an unfinished joke.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. COMEDY CLUB — STAGE — NIGHT</p>
+                    <p class="act">Close on a mic. A hand grips it.</p>
+                    <p class="act">Wider: SU on stage. Sunglasses. Spotlight. He's mid-bit — we catch the tail end of a
+                        punchline.</p>
+                    <p class="char">SU</p>
+                    <p class="dial">— and that's why you should never trust—</p>
+                    <p class="act">Nothing. Silence. The kind of silence that has weight. A cough from the back. A chair
+                        scraping.</p>
+                    <p class="act">Su stands in it. Doesn't rush to the next joke. Doesn't break character. He just...
+                        occupies the silence. The way a man who's been silent his whole life doesn't mind one more
+                        moment of it.</p>
+                    <p class="act">Then: the smile. Involuntary. The useless smile. Not for the audience — for himself.
+                        For the absurdity of standing on a stage holding a microphone while forty people think about
+                        their phones.</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Subversion. Comedy films open with the comedian being funny. This
+                        opens with the comedian being HUMAN. The audience sees his relationship with failure first —
+                        comfortable, familiar, almost tender. The laughs come later, which makes them matter more.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 13 === -->
+        <div class="idea" id="idea13">
+            <div class="idea-header" onclick="toggle(13)">
+                <span class="idea-num">13</span>
+                <span class="idea-title">The Smog</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow13">▾</span>
+            </div>
+            <div class="idea-body" id="body13">
+                <h4>The Concept</h4>
+                <p>Open on Delhi. Not a skyline — the SMOG. The city dissolving into grey. <strong>A voiceover begins —
+                        not Su's voice. A NARRATOR. Poetic. Describing a man who doesn't exist yet.</strong> Then the
+                    narrator's voice cracks — it's Su. He was narrating himself in the third person. The wall between
+                    "character" and "person" breaks in the first minute.</p>
+                <div class="screenplay">
+                    <p class="slug">EXT. DELHI — NIGHT — AERIAL (OR GROUND LEVEL)</p>
+                    <p class="act">The city. Smog so thick it's a character. Fifty meters of visibility. Streetlights
+                        becoming halos. Car headlights becoming ghosts. A city that erases itself every winter.</p>
+                    <p class="char">NARRATOR (V.O.)</p>
+                    <p class="par">(deep, literary, as if reading from a novel)</p>
+                    <p class="dial">There is a man in this city. He is thirty-six. He is lean. He takes cold showers
+                        even in February, which either means he has discipline or doesn't know how to be kind to
+                        himself. He makes a good living and a bad film. Actually, he hasn't made the film yet. He's been
+                        meaning to.</p>
+                    <p class="act">Beat.</p>
+                    <p class="char">NARRATOR (V.O.)</p>
+                    <p class="dial">He assumes things and doesn't verify them. He likes living in his bubble. He knows
+                        what art is but has never finished any. He is—</p>
+                    <p class="act">The voice shifts. Barely perceptible. The "narrator" quality drops. A more human
+                        voice bleeds through.</p>
+                    <p class="char">SU (V.O.)</p>
+                    <p class="par">(breaking character, softer)</p>
+                    <p class="dial">— he is... me. Obviously. Yeh main hi hoon. Who else would narrate this badly?</p>
+                    <p class="act">CUT TO BLACK. Title.</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> Establishes the meta-layer immediately — Su is both the subject
+                        AND the filmmaker. The third-to-first person shift tells the audience: "I can't distinguish
+                        between the character and myself." The smog is YOUR visual — the city that erases itself. And
+                        it's funny: "Who else would narrate this badly?" sets the tone = self-aware, not pretentious.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === 14 === -->
+        <div class="idea" id="idea14">
+            <div class="idea-header" onclick="toggle(14)">
+                <span class="idea-num">14</span>
+                <span class="idea-title">The Post-it (One Word)</span>
+                <span class="idea-tag tag-visual">Visual</span>
+                <span class="idea-arrow" id="arrow14">▾</span>
+            </div>
+            <div class="idea-body" id="body14">
+                <h4>The Concept</h4>
+                <p>Open on a bare wall. White. Empty. A hand enters frame and sticks a single yellow Post-it note. One
+                    word written on it. <strong>We can't read it.</strong> Camera pulls back to reveal Su, standing
+                    alone, staring at the one note. Then title card. The film begins. By the time we reach Chapter 2
+                    (the first Post-it scene), the audience says "oh — THAT was this." And by Chapter 5 (the wall full
+                    of Post-its), the image has grown from one note to a screenplay. The opening was the origin of the
+                    origin.</p>
+                <div class="screenplay">
+                    <p class="slug">INT. SU'S APARTMENT — WALL — NIGHT</p>
+                    <p class="act">Close on a wall. Bare. White. A single nail hole where a picture used to hang.</p>
+                    <p class="act">A hand enters frame. Holds a yellow Post-it note. Sticks it on the wall. Presses it
+                        down firmly — the way you press a stamp on a passport. Permanent intent.</p>
+                    <p class="act">Pull back: SU. Standing in front of the wall. One yellow square on a field of white.
+                        The first physical evidence that something exists outside his head.</p>
+                    <p class="act">We can't read what's on the note. We're too far. It's just a yellow square. A mark on
+                        an empty surface.</p>
+                    <p class="act">Su stares at it. Stands there longer than he should. Then he does something
+                        unexpected — he smiles. Not the useless smile. An actual smile. Small. Private. The kind of
+                        smile that means "I started."</p>
+                    <p class="act">CUT TO BLACK.</p>
+                    <p class="act" style="text-align:center;font-weight:700;margin-top:12px">THE SEARCH</p>
+                </div>
+                <div class="why-box">
+                    <p><strong>Why it works:</strong> The film about a man who can't finish things opens with a man
+                        STARTING something. One note on an empty wall. The simplest possible beginning. And by the end
+                        of the film, that wall is full — the screenplay is made of Post-its. The opening is a promise
+                        the film keeps. Budget: one wall, one Post-it, one man.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="dashboard.html">← Dashboard</a> · <a href="draft-zero.html">Draft Zero</a> · <a
+                href="index.html">Hub</a><br>
+            14 Opening Scene Ideas · March 2026
+        </div>
+
+    </div>
+
+    <script>
+        function toggle(n) {
+            const body = document.getElementById('body' + n);
+            const arrow = document.getElementById('arrow' + n);
+            const header = body.previousElementSibling;
+            const isOpen = body.classList.contains('open');
+            // Close all others
+            document.querySelectorAll('.idea-body').forEach(b => b.classList.remove('open'));
+            document.querySelectorAll('.idea-arrow').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.idea-header').forEach(h => h.classList.remove('open'));
+            if (!isOpen) {
+                body.classList.add('open');
+                arrow.classList.add('open');
+                header.classList.add('open');
+            }
+        }
+        // Open first one by default
+        toggle(1);
+    </script>
+
+</body>
+
+</html>
