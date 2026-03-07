@@ -13,3 +13,7 @@ Thumbs.db
 
 # Node
 node_modules/
+
+# Private/Project Data
+film/memory/
+*.fdx
