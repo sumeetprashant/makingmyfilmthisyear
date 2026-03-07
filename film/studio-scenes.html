@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOW TO NOT MAKE FILMS — Studio Scene Blueprints</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #FAF8F0;
+            --ink: #1A1A1A;
+            --muted: #888;
+            --divider: #D4C9A8;
+            --amber: #A08040;
+            --studio-bg: #2A2520;
+            --studio-text: #E8E0D0;
+            --highlight: #D4A853;
+            --feel-bg: rgba(106, 90, 160, 0.06);
+            --feel-border: rgba(106, 90, 160, 0.2);
+            --feel-text: #6A5AA0;
+            --see-bg: rgba(45, 106, 79, 0.05);
+            --see-border: rgba(45, 106, 79, 0.18);
+            --see-text: #2D6A4F;
+            --beat-bg: #F8F4EB
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.7
+        }
+
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #2A2520;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 999
+        }
+
+        .toolbar-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #D4A853;
+            letter-spacing: .05em
+        }
+
+        .toolbar-links {
+            display: flex;
+            gap: 16px
+        }
+
+        .toolbar-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #7B9FD4;
+            text-decoration: none;
+            letter-spacing: .04em
+        }
+
+        .toolbar-links a:hover {
+            color: #D4A853
+        }
+
+        .page {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 68px 32px 100px
+        }
+
+        h1 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 48px 0 6px;
+            color: var(--ink)
+        }
+
+        h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--amber);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin: 28px 0 10px
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.6
+        }
+
+        .scene-header {
+            background: var(--studio-bg);
+            color: var(--studio-text);
+            padding: 20px 24px;
+            border-radius: 6px;
+            margin: 24px 0 16px;
+            font-family: 'Courier Prime', monospace
+        }
+
+        .scene-header .scene-num {
+            font-size: 10px;
+            letter-spacing: .15em;
+            color: #A09080;
+            text-transform: uppercase;
+            margin-bottom: 6px
+        }
+
+        .scene-header .scene-title {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 4px
+        }
+
+        .scene-header .scene-sub {
+            font-size: 12px;
+            color: #A09080
+        }
+
+        .slug {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 20px;
+            margin-bottom: 6px;
+            font-size: 13px
+        }
+
+        .action {
+            margin: 10px 0;
+            line-height: 1.8;
+            font-size: 13px
+        }
+
+        .char {
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 16px;
+            margin-bottom: 0;
+            font-size: 13px
+        }
+
+        .paren {
+            text-align: center;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--muted);
+            margin: 2px auto;
+            max-width: 340px
+        }
+
+        .dialogue {
+            text-align: center;
+            max-width: 380px;
+            margin: 4px auto 10px;
+            font-size: 13px;
+            line-height: 1.7
+        }
+
+        .feel-box {
+            background: var(--feel-bg);
+            border: 1px solid var(--feel-border);
+            border-left: 3px solid var(--feel-border);
+            border-radius: 0 4px 4px 0;
+            padding: 10px 14px;
+            margin: 12px 0;
+            font-size: 12px;
+            color: var(--feel-text);
+            line-height: 1.6
+        }
+
+        .feel-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            opacity: .7;
+            display: block;
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        .see-box {
+            background: var(--see-bg);
+            border: 1px solid var(--see-border);
+            border-left: 3px solid var(--see-border);
+            border-radius: 0 4px 4px 0;
+            padding: 10px 14px;
+            margin: 12px 0;
+            font-size: 12px;
+            color: var(--see-text);
+            line-height: 1.6
+        }
+
+        .see-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            opacity: .7;
+            display: block;
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 40px 0 8px
+        }
+
+        .section-divider .line {
+            flex: 1;
+            height: 1px;
+            background: var(--divider)
+        }
+
+        .section-divider .label {
+            font-family: 'Courier Prime', monospace;
+            font-size: 10px;
+            color: var(--amber);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            white-space: nowrap
+        }
+
+        .transition {
+            text-align: right;
+            text-transform: uppercase;
+            font-size: 11px;
+            margin-top: 20px;
+            color: var(--muted);
+            letter-spacing: .05em
+        }
+
+        .note {
+            background: var(--beat-bg);
+            border: 1px solid var(--divider);
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 14px 0;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #5A5040
+        }
+
+        .note strong {
+            color: var(--amber)
+        }
+
+        @media(max-width:700px) {
+            .page {
+                padding: 56px 16px 60px
+            }
+
+            .toolbar {
+                padding: 0 12px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toolbar">
+        <div class="toolbar-title">Studio Scene Blueprints</div>
+        <div class="toolbar-links">
+            <a href="chapter04-working-draft.html">Ch.4</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="opening-ideas.html">Openings</a>
+            <a href="index.html">Hub</a>
+        </div>
+    </div>
+
+    <div class="page">
+
+        <h1>Studio Scene Blueprints</h1>
+        <p class="subtitle">Three complete studio scenes from first frame to last. Every motion, glance, question,
+            answer. What the viewer sees. What the characters feel. What the audience feels.<br><br>
+            <strong>Ground rules for ALL studio scenes:</strong><br>
+            — Su sits on the left, guest on the right. Same amber light. Same two mics. Same camera position.<br>
+            — Su talks to the GUEST. He does not address the camera directly.<br>
+            — The guests are GenAI versions of Su — same face, different characteristics, different energy.<br>
+            — The camera is a fly on the wall. The audience is eavesdropping.
+        </p>
+
+        <!-- ================================================================ -->
+        <!-- SCENE 1: 20-YEAR-OLD SU -->
+        <!-- ================================================================ -->
+
+        <div class="scene-header">
+            <div class="scene-num">Studio Scene 01</div>
+            <div class="scene-title">The Boy Who Was Sure</div>
+            <div class="scene-sub">Guest: Su at 20 years old</div>
+        </div>
+
+        <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+        <h3>Opening — The Room Before</h3>
+
+        <p class="action">The studio is empty. Amber light on. Two chairs. Two mics on stands. A glass of water on Su's
+            side. Nothing on the other side.</p>
+
+        <p class="action">Su walks in. He's wearing what he wears — the shirt that's slightly too big, the jeans that
+            have given up on being formal. He sits. Adjusts the mic. Takes a sip of water. Puts the glass down. Moves it
+            three centimeters to the left. Moves it back. The gestures of a man arranging furniture on the Titanic.</p>
+
+        <p class="action">He looks at the empty chair across from him.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What Su feels</span>
+            He knows who's coming. He's not ready. He'll never be ready. He sits anyway.
+        </div>
+
+        <p class="action">A beat. Then YOUNG SU is there — in the other chair, already sitting, as if he was always
+            there and the camera just decided to notice. Twenty years old. Same face but the edges haven't been filed
+            down yet. The hair is shorter. The eyes are wider. He's wearing a T-shirt that still fits because he hasn't
+            started eating his feelings yet. His posture is straight — he hasn't learned to slouch with the weight of
+            unfinished things.</p>
+
+        <p class="action">Young Su looks around the studio. Impressed. He touches the mic.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees</span>
+            Two versions of the same face across a table. The older one has seen things the younger one can't imagine.
+            The younger one has a certainty the older one has forgotten existed. The amber light treats them both the
+            same.
+        </div>
+
+        <h3>The Conversation Begins</h3>
+
+        <p class="char">YOUNG SU</p>
+        <p class="paren">(looking around, genuinely impressed)</p>
+        <p class="dialogue">Ye studio tera hai?</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(small smile, the kind you give when someone admires something you're not sure you deserve)</p>
+        <p class="dialogue">Haan.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="dialogue">Toh bana li filmein?</p>
+
+        <p class="action">Silence. Su looks at his hands. The question he knew was coming. The question that has been
+            sitting in this chair before Young Su materialised.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(quiet)</p>
+        <p class="dialogue">Nahi.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="paren">(confused, not angry — genuinely confused)</p>
+        <p class="dialogue">Lekin... studio bana liya. Cameras hain. Setup hai. Jagah hai. Toh?</p>
+
+        <p class="action">Su exhales. His fingers tap the side of the glass. Not nervous — thinking. Choosing where to
+            start.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Sab kuch hai. Sirf film nahi hai.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What the audience feels</span>
+            A punch. Quiet and precise. The man has everything he needs and nothing to show for it. The audience
+            recognises this — not from films, from their own lives.
+        </div>
+
+        <h3>The Middle — What Happened</h3>
+
+        <p class="action">Young Su leans forward. He doesn't understand failure yet — it's a concept, not a texture. He
+            asks questions the way 20-year-olds do: directly, without protecting the other person's feelings.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="dialogue">Comedy toh chal rahi thi? Open mics. Sets. Sab.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Chal rahi thi.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="dialogue">Toh chhodi kyun?</p>
+
+        <p class="action">Su shifts in his chair. The body language of a man who has answered this question a hundred
+            times and still doesn't have one answer.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Nahi chhodi. Band ho gayi. COVID. Shows band. Momentum band. Aur jab sab wapas aaye... main
+            nahi aaya.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="dialogue">Kyun?</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(long pause, looking at the table, not at Young Su)</p>
+        <p class="dialogue">Pata nahi. Shayad dar. Shayad aalas. Shayad dono.</p>
+
+        <p class="action">Young Su studies him. Not judging — examining. The way you look at a photograph of a place
+            you're about to visit and wondering if it matches the brochure.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="paren">(slowly, carefully)</p>
+        <p class="dialogue">Tu film banana chahta tha. Standup karna chahta tha. AI mein kuch karna chahta tha. Startup
+            bhi kiya. Podcast bhi. Studio bhi. Sab kuch kiya. Kuch complete nahi kiya?</p>
+
+        <p class="action">Su looks up. Meets his own younger eyes. There's no hiding from someone who IS you.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(the smallest smile — not amused, just caught)</p>
+        <p class="dialogue">Haan.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees</span>
+            Young Su's posture hasn't changed — still straight, still certain. Current Su has sunk an inch deeper into
+            his chair with every answer. The physical difference between them is growing in real time. Same bones,
+            different weight.
+        </div>
+
+        <h3>The Turn</h3>
+
+        <p class="char">YOUNG SU</p>
+        <p class="paren">(not accusing — genuinely curious, the way a child asks why the sky is blue)</p>
+        <p class="dialogue">Tujhe kisi cheez se darr lagta hai?</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(immediate, no pause — the one answer he doesn't need to think about)</p>
+        <p class="dialogue">Finish karne se.</p>
+
+        <p class="action">The word lands in the room and sits there. Neither of them moves.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="dialogue">Kyun?</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Kyunki jab tak kuch adhoora hai, toh usmein possibility hai. Finish kiya toh... judge hoga.
+            Aur agar judge hua toh shayad pata chalega ki... itna bhi khaas nahi tha.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What Su feels</span>
+            He just said the thing out loud. The thing he circles around in every conversation, every chapter, every
+            late-night walk. The reason he starts and stops. Not laziness. Not distraction. Terror. The terror that the
+            finished thing won't be good enough — and then the dream dies with evidence instead of quietly in a drawer.
+        </div>
+
+        <p class="action">Young Su is quiet for a long time. He looks at Su the way someone looks at a car crash on the
+            highway — not wanting to stare, unable to look away.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="paren">(softly, no performance, no comedy)</p>
+        <p class="dialogue">Mujhe lagta tha tu sab kar lega.</p>
+
+        <p class="action">Su's jaw tightens. His eyes go wet — not crying, just the body responding before the mind can
+            stop it. He blinks. Once. Twice. Swallows.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(voice steady, barely)</p>
+        <p class="dialogue">Mujhe bhi.</p>
+
+        <h3>The End of the Scene</h3>
+
+        <p class="action">Silence. Ten seconds. Neither speaks. Young Su looks at the mic. Touches it again — gently
+            this time, the way you touch something that belongs to someone who might break.</p>
+
+        <p class="char">YOUNG SU</p>
+        <p class="paren">(standing up, adjusting his T-shirt — the gesture of someone who's leaving)</p>
+        <p class="dialogue">Film bana. Kharaab bhi bani toh bana. Adhoora mat chhod is baar.</p>
+
+        <p class="action">Su nods. Doesn't speak. Watches Young Su. Young Su holds his gaze for a beat — not
+            challenging, not encouraging, just: looking. Two versions of the same face, separated by fifteen years of
+            not finishing things.</p>
+
+        <p class="action">And then the other chair is empty. The mic still swaying slightly from where Young Su touched
+            it. The amber light still on. Su alone.</p>
+
+        <p class="action">He picks up the glass of water. Takes a sip. Puts it down. Doesn't move it this time.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees (final frame)</span>
+            Su alone in the studio. Two chairs. One occupied. One empty. The mic on the empty side still swaying. The
+            amber light doesn't know the difference.
+        </div>
+
+        <div class="feel-box">
+            <span class="feel-label">What the audience feels</span>
+            Devastation wrapped in gentleness. The 20-year-old didn't yell, didn't accuse, didn't cry. He just said: "I
+            thought you'd do it all." And that's worse than any rage. Because rage has energy. Disappointment is just
+            gravity.
+        </div>
+
+        <p class="transition">CUT TO BLACK.</p>
+
+        <!-- ================================================================ -->
+        <!-- SCENE 2: HIS MOTHER -->
+        <!-- ================================================================ -->
+
+        <div class="scene-header">
+            <div class="scene-num">Studio Scene 02</div>
+            <div class="scene-title">The Woman Who Stayed</div>
+            <div class="scene-sub">Guest: Su's Mother (Su's face — dupatta, different bearing, maternal energy)</div>
+        </div>
+
+        <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+        <h3>Opening — She's Already There</h3>
+
+        <p class="action">This scene begins differently. Su walks in and the chair is already occupied. MAA is sitting
+            there — Su's face but with a dupatta, the posture of a woman who has carried the weight of a family's future
+            in her spine, hands folded in her lap the way Indian mothers fold hands when they're about to say something
+            they've been saving for years.</p>
+
+        <p class="action">She's not looking at Su when he enters. She's looking at the studio — the equipment, the
+            lights, the soundproofing, the cables. The way a mother inspects the apartment her child moved into:
+            silently cataloguing what's missing.</p>
+
+        <p class="action">Su sits. She finally looks at him. The look is diagnostic — not cold, just... the look of
+            someone who has been reading this face since it was born and doesn't need words to know how the story is
+            going.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees</span>
+            The same face, twice. But the version in the dupatta carries it differently — the jaw is softer, the eyes
+            move slower, the hands stay still. This is Su's face doing something Su's face never does: being calm.
+        </div>
+
+        <p class="action">Su adjusts the mic for her. She lets him. Watches his hands. The gesture is tender — the man
+            who can't take care of his career taking care of a microphone for his mother.</p>
+
+        <h3>The Conversation Begins</h3>
+
+        <p class="char">MAA</p>
+        <p class="paren">(not starting with a question — starting with a statement, the way mothers do)</p>
+        <p class="dialogue">Tu patla ho gaya hai.</p>
+
+        <p class="action">Su smiles. The first genuine, unguarded smile we've seen in any studio scene. The smile you
+            can only give to the person who made you.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Nahi hua hoon.</p>
+
+        <p class="char">MAA</p>
+        <p class="dialogue">Kha le dhang se. Baaki sab baad mein.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What the audience feels</span>
+            Warmth. Immediate. The audience has watched Su interrogate himself, torture himself, walk through smog at
+            2am. And this woman's first instinct is: are you eating. The contrast between Su's existential crisis and
+            his mother's practical love is both hilarious and gut-wrenching.
+        </div>
+
+        <h3>The Middle — Two Languages</h3>
+
+        <p class="action">The scene that follows is a conversation where two people are speaking the same language and
+            talking about completely different things. Su talks about his WORK. Maa talks about his LIFE. They keep
+            almost meeting in the middle and then sliding past each other.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Main ek film bana raha hoon.</p>
+
+        <p class="char">MAA</p>
+        <p class="paren">(carefully neutral — the neutrality of a woman who has heard "main kuch bana raha hoon" forty
+            times)</p>
+        <p class="dialogue">Accha.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Apne baare mein hai. Apni life ke baare mein.</p>
+
+        <p class="char">MAA</p>
+        <p class="dialogue">Apni life mein kya hai jo film mein dikhayega?</p>
+
+        <p class="action">The question is not cruel. It's not dismissive. It's the honest question of a mother who has
+            watched her son build fifty castles and move out of each one before the paint dries. She's not saying "your
+            life isn't interesting." She's saying: "I've watched your life. What part of it will you actually finish
+            showing?"</p>
+
+        <p class="action">Su hears the question under the question. His posture shifts — the tiny collapse that happens
+            when someone sees through your pitch.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(quieter now)</p>
+        <p class="dialogue">Comedy ke baare mein hai. Startup ke baare mein. AI ke baare mein. Sab kuch shuru karne aur
+            adhoora chhod dene ke baare mein.</p>
+
+        <p class="char">MAA</p>
+        <p class="paren">(pause — a long one — her hands unfold and then fold again)</p>
+        <p class="dialogue">Aur ye film bhi adhoori chhod dega?</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees</span>
+            Su's face flinching. Not a big reaction. Just the micro-movement around the eyes — the same face the guest
+            is wearing, reacting to the truth that face just delivered. The audience sees one face asking the question
+            and the same face absorbing the blow.
+        </div>
+
+        <p class="char">SU</p>
+        <p class="paren">(trying to laugh it off — it doesn't fully work)</p>
+        <p class="dialogue">Nahi. Is baar nahi.</p>
+
+        <p class="char">MAA</p>
+        <p class="dialogue">Ye bhi bola tha pichli baar.</p>
+
+        <p class="action">Su has no answer. His fingers go to the glass of water. He doesn't drink — just holds it. The
+            need to hold something.</p>
+
+        <h3>The Turn — What She Actually Wants to Say</h3>
+
+        <p class="action">A shift. Maa's hands unfold. She leans forward slightly — the Indian mother lean, the one that
+            precedes either a slap or the most important thing she'll ever say. This time it's the second one.</p>
+
+        <p class="char">MAA</p>
+        <p class="paren">(the voice changes — softer, the voice she probably uses at 3am when she can't sleep)</p>
+        <p class="dialogue">Mujhe film se matlab nahi hai. Na comedy se. Na startup se. Mujhe tujhse matlab hai.</p>
+
+        <p class="action">Su looks up.</p>
+
+        <p class="char">MAA</p>
+        <p class="dialogue">Tu khush hai?</p>
+
+        <p class="action">The simplest question in the world. Three words. And Su — the man who has an opinion about
+            everything, who can do standup for ten minutes without pausing, who writes in his notebook at midnight, who
+            debates film structure with artificial intelligence — has nothing.</p>
+
+        <p class="action">His mouth opens. Closes. His hand squeezes the glass.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(the voice of a man who has never answered this question honestly)</p>
+        <p class="dialogue">Pata nahi.</p>
+
+        <p class="char">MAA</p>
+        <p class="paren">(she nods — not surprised, not disappointed, just: confirmed)</p>
+        <p class="dialogue">Pata hona chahiye.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What Su feels</span>
+            Stripped. Every layer of performance, philosophy, humour, self-awareness — his mother just walked past all
+            of it and found the kid inside who still doesn't know if he's happy. She didn't need a studio or a mic or an
+            interview. She needed two minutes and the question every mother has the right to ask.
+        </div>
+
+        <h3>The End of the Scene</h3>
+
+        <p class="action">Maa reaches across the table. Her hand finds his — the one holding the glass. She doesn't take
+            the glass. She just puts her hand on top of his hand that's holding the glass. Three things touching: her
+            hand, his hand, the glass. A still life called "everything he's holding onto."</p>
+
+        <p class="char">MAA</p>
+        <p class="paren">(the mother voice, final, non-negotiable)</p>
+        <p class="dialogue">Jo bhi kare. Kha le dhang se.</p>
+
+        <p class="action">Su laughs. A real laugh — the kind that happens when something is so perfectly inadequate that
+            it becomes perfect. She came to say "are you happy" and she's leaving with "eat properly." This is how love
+            works in families — the biggest truths arrive dressed as the smallest concerns.</p>
+
+        <p class="action">She stands. Adjusts her dupatta. Looks at the studio one more time — the inspection never
+            fully ends.</p>
+
+        <p class="char">MAA</p>
+        <p class="paren">(at the door, not turning back)</p>
+        <p class="dialogue">Light off kar dena jab nikle. Bijli ka bill aata hai.</p>
+
+        <p class="action">Su watches her leave. The chair empties. The studio is his again. He looks at his hand — the
+            one she touched — and there's nothing there except the glass, which he now drinks from for the first time in
+            the scene. He was holding it the entire time. He just needed her to put her hand on it first.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees (final frame)</span>
+            Su drinking water. The amber light on the empty chair. The gentlest devastation: a man who didn't know he
+            was thirsty until his mother, without asking, told him to drink.
+        </div>
+
+        <div class="feel-box">
+            <span class="feel-label">What the audience feels</span>
+            If the 20-year-old scene was disappointment, this is ache. The dull, warm ache of being loved by someone who
+            sees you completely and still says "eat properly" because that's the only protection she can offer. Every
+            person in the audience who has a mother — which is everyone — feels this in their chest, not their head.
+        </div>
+
+        <p class="transition">CUT TO BLACK.</p>
+
+        <!-- ================================================================ -->
+        <!-- SCENE 3: THE EX -->
+        <!-- ================================================================ -->
+
+        <div class="scene-header">
+            <div class="scene-num">Studio Scene 03</div>
+            <div class="scene-title">The One Who Knew</div>
+            <div class="scene-sub">Guest: The Ex — together 10+ years, met as teenagers, broke up 5 years ago<br>(Su's
+                face — feminine energy, longer hair perhaps, quieter, a different stillness)</div>
+        </div>
+
+        <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+        <h3>Opening — The Silence Before</h3>
+
+        <p class="action">Su is already sitting. The mic is adjusted. The water is there. Everything is in place.</p>
+
+        <p class="action">He waits. This is different from the other scenes — he doesn't fidget. He doesn't touch the
+            glass. He doesn't adjust anything. He sits very still, the way people sit in a hospital waiting room. Not
+            calm. Braced.</p>
+
+        <p class="action">THE EX appears in the other chair. Not suddenly — more like a photograph developing. She was
+            always there; the image just took time to arrive. Su's face but with a different gravity — the jaw held
+            differently, the eyes slower, the hands resting on the armrests with the ease of someone who has already
+            decided what she thinks about you. The kind of face that has seen every version of you, including the ones
+            you hid.</p>
+
+        <p class="action">She doesn't look at the studio. She doesn't look at the equipment. She looks at Su. Directly.
+            The way you look at weathered furniture you once owned — with recognition, not attachment.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees</span>
+            Two people who know each other too well to fake anything. The amber light catches a face that's been divided
+            in two — the same features wearing two different decades of the same story. The air between them isn't
+            tense. It's thick. Like the air before Delhi rain.
+        </div>
+
+        <p class="action">A long beat. Neither speaks. This is the first studio scene that starts with silence — and the
+            silence is not empty. It's full. It's the silence of two people who have already said ten thousand things to
+            each other and now have to figure out which ones they haven't.</p>
+
+        <h3>The Conversation Begins</h3>
+
+        <p class="char">SU</p>
+        <p class="paren">(breaking the silence because someone has to, and it was always him)</p>
+        <p class="dialogue">Thanks for coming.</p>
+
+        <p class="char">THE EX</p>
+        <p class="paren">(the smallest smile — not warm, not cold, just: aware)</p>
+        <p class="dialogue">I didn't come. You imagined me here.</p>
+
+        <p class="action">This is the first moment the film acknowledges — through a character's mouth — that the studio
+            guests are not real. That Su is talking to himself. That the conversation is happening inside his head. The
+            audience already suspected it. Now they know.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What the audience feels</span>
+            A chill. The rules of the studio just changed. The other guests — Young Su, Maa — didn't acknowledge they
+            were imaginary. This one did. Which means she's the one Su is most honest with. Or the one his mind can't
+            fully control.
+        </div>
+
+        <p class="char">SU</p>
+        <p class="paren">(accepting this without surprise)</p>
+        <p class="dialogue">Haan.</p>
+
+        <p class="char">THE EX</p>
+        <p class="dialogue">Why?</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Because you're the only one who saw all of it.</p>
+
+        <p class="action">She nods. This is true. She was there for the first open mic. The first notebook. The first
+            time he walked three kilometres home instead of calling a cab. The first script that never got made. The
+            second one. The third. She was there when he started things and she was there when he stopped them. She is
+            the only human witness to the complete pattern.</p>
+
+        <h3>The Middle — What She Saw</h3>
+
+        <p class="char">THE EX</p>
+        <p class="paren">(not cruel, not kind — precise, the way someone is precise when they've stopped trying to
+            protect you)</p>
+        <p class="dialogue">Tu jaanta hai tera sabse bada problem kya hai?</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Bataa.</p>
+
+        <p class="char">THE EX</p>
+        <p class="dialogue">Tu bahut zyada sochta hai. Itna sochta hai ki sochna hi kaam ban jaata hai. Tu baith ke plan
+            banata hai. Strategy banata hai. Tools dhundhta hai. Setup karta hai. Aur jab sab ready hota hai — tab tak
+            thak jaata hai. Kyunki... plan banana bhi toh kaam hai na? Tujhe lagta hai tune kuch kiya. Lekin kiya kuch
+            nahi.</p>
+
+        <p class="action">Su doesn't respond. His jaw is tight. Not because she's wrong. Because she's reciting his
+            autopsy from memory.</p>
+
+        <p class="char">THE EX</p>
+        <p class="dialogue">Main dus saal dekha hai ye. Har baar naya plan. Har baar naya tool. Har baar "is baar alag
+            hoga." Aur har baar... same.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees</span>
+            Su's body has changed. His shoulders are higher. His hands are in his lap — hidden, fists maybe. The Ex sits
+            exactly as she sat when the scene began. She hasn't moved. She doesn't need to. Her stillness is the power
+            in the room. She's been watching this man for a decade. She doesn't need to lean forward. The truth leans
+            forward on its own.
+        </div>
+
+        <p class="char">SU</p>
+        <p class="paren">(defensive — the first time in any studio scene where Su pushes back)</p>
+        <p class="dialogue">Main koshish toh karta hoon.</p>
+
+        <p class="char">THE EX</p>
+        <p class="dialogue">Koshish aur commitment mein fark hota hai. Tu koshish karta hai. Committed kabhi nahi hua.
+            Kisi cheez se nahi.</p>
+
+        <p class="action">The pause that follows is the longest pause in the film. The word "kisi" hangs in the air — it
+            means "anything" but in the mouth of an ex, it also means "anyone." She's not just talking about comedy and
+            startups and films. She's talking about them. About ten years. About the commitment he couldn't make to the
+            person who was standing right next to him while he was busy not finishing things.</p>
+
+        <p class="action">Su hears both meanings. The audience hears both meanings. She says nothing else. She doesn't
+            need to.</p>
+
+        <div class="feel-box">
+            <span class="feel-label">What Su feels</span>
+            The worst feeling in the world: being told the truth by someone who earned the right to tell it. Not a
+            stranger. Not a critic. The person who held his hand through every beginning and watched him let go before
+            every ending. Including theirs.
+        </div>
+
+        <h3>The Turn — What He Asks</h3>
+
+        <p class="char">SU</p>
+        <p class="paren">(quietly, the performance completely gone — no comedian, no sage, no philosopher, just a man in
+            a chair)</p>
+        <p class="dialogue">Do you think I can do it?</p>
+
+        <p class="action">He asks in English. Not Hindi. The switch is involuntary — the language of vulnerability for a
+            man who performs in Hindi but breaks in English. The audience may not notice the switch. But Su does.</p>
+
+        <p class="char">THE EX</p>
+        <p class="paren">(she looks at him for a long time — the look of someone calculating how much honesty the other
+            person can survive)</p>
+        <p class="dialogue">I think you're capable of doing anything. I've always thought that. That was never the
+            question.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">What's the question?</p>
+
+        <p class="char">THE EX</p>
+        <p class="dialogue">Whether you'll let yourself.</p>
+
+        <p class="action">Su's eyes close. Just for a second. A blink that lasts too long. When they open, they're wet.
+            Not tears — not yet. Just the body's first response to being seen completely by someone who doesn't have to
+            be kind anymore and is being kind anyway.</p>
+
+        <h3>The End of the Scene</h3>
+
+        <p class="action">They sit in silence. This silence is different from the opening silence. The opening silence
+            was full of things unsaid. This silence is the silence AFTER the things have been said. It's lighter. Not
+            happy — just: lighter. The way a room feels after you open a window.</p>
+
+        <p class="char">THE EX</p>
+        <p class="paren">(after a long time, the voice softer now)</p>
+        <p class="dialogue">Ek cheez aur.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Hmm?</p>
+
+        <p class="char">THE EX</p>
+        <p class="dialogue">Main characters mein mera face mat rakhna. Woh weird lagega.</p>
+
+        <p class="action">Su laughs. A surprised, genuine, slightly broken laugh — the kind that escapes before you can
+            decide whether it's funny or devastating. It's both. She just punctured the entire premise of the film from
+            inside the film. She knows he's going to put his face on everyone. She knows because she knows HIM.</p>
+
+        <p class="action">When the laugh dies, she's gone. The chair is empty. This time, the mic on her side is
+            perfectly still — she never touched it. She was never that physical. She was always the one who sat still
+            and watched.</p>
+
+        <p class="action">Su sits alone. The amber light. The two mics. The glass of water — untouched this time. He
+            didn't need to hold anything during this conversation. He just needed to listen.</p>
+
+        <p class="action">He reaches for the mic on her side. Adjusts it slightly — the kind of adjustment that changes
+            nothing but means: I was here. You were here. This happened.</p>
+
+        <div class="see-box">
+            <span class="see-label">What the viewer sees (final frame)</span>
+            Su's hand on the mic that was never used. The empty chair still carrying the shape of someone who sat in it
+            for ten years and then stood up. The amber light holding both sides equally, the way it always does, the way
+            it doesn't know the difference between occupied and empty.
+        </div>
+
+        <div class="feel-box">
+            <span class="feel-label">What the audience feels</span>
+            If the mother scene was an ache, this is a bruise. The kind you find the next morning and don't remember
+            getting. The Ex didn't yell. She didn't cry. She didn't even seem particularly sad. She just told the truth
+            with the precision of someone who ran out of reasons to lie ten years into watching the same man make the
+            same mistake. And the last line — "mera face mat rakhna" — the audience laughs and then realises: she's
+            right. And he's going to do it anyway.
+        </div>
+
+        <p class="transition">CUT TO BLACK.</p>
+
+        <!-- ================================================================ -->
+        <!-- COMPARISON / NOTES -->
+        <!-- ================================================================ -->
+
+        <div class="section-divider">
+            <div class="line"></div><span class="label">Scene Architecture Notes</span>
+            <div class="line"></div>
+        </div>
+
+        <div class="note">
+            <strong>The three scenes are designed to escalate in emotional weight:</strong><br><br>
+            <strong>Scene 1 (Young Su):</strong> The question is "what happened to you?" — disappointment from
+            innocence. The audience learns Su's pattern for the first time. Su's defence is active — he explains, he
+            answers, he engages.<br><br>
+            <strong>Scene 2 (Maa):</strong> The question is "are you happy?" — concern from love. The audience sees the
+            person behind the pattern. Su's defence collapses — he can't answer the simplest question honestly. The
+            comedy (eat properly, electricity bill) softens the blade but doesn't remove it.<br><br>
+            <strong>Scene 3 (The Ex):</strong> The question is "will you let yourself?" — truth from witness. The
+            audience meets someone who has seen the complete evidence. Su has no defence — she knows him better than he
+            knows himself. The comedy (don't put my face) breaks the tension but also IS the tension — she's inside the
+            film dismantling the film's own conceit.<br><br>
+            <strong>Progression:</strong> Each guest arrives differently (Su walks in and Young Su appears → Maa is
+            already there → The Ex develops like a photograph). Each guest leaves differently (Young Su stands and walks
+            out → Maa gives instruction and leaves → The Ex simply vanishes). Each uses the glass of water differently
+            (Su fidgets with it → Maa puts her hand on his hand holding it → Su doesn't touch it at all). These small
+            physical threads give the scenes a shared language while letting each one feel distinct.<br><br>
+            <strong>Placement in the film:</strong> These scenes should NOT appear consecutively. Each belongs in a
+            different chapter, triggered by the theme of that chapter. Scene 1 fits Chapter 1 or 2. Scene 2 fits
+            wherever the family chapter lives. Scene 3 fits a late chapter — maybe 5 or 6 — when the audience has enough
+            context to feel the full weight.
+        </div>
+
+    </div>
+
+</body>
+
+</html>
