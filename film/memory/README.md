@@ -42,8 +42,21 @@ Su is making a film. It's a long process — months of writing, shooting, editin
 
 ### 4. Day Logs (read recent ones for context)
 | File | What it contains |
-|------|-----------------|
+|------|------------------|
 | [days/2026-03-07.md](days/2026-03-07.md) | Daily log — what was discussed, what was decided, what's pending |
+
+### 5. Previous Agent's Memory Archive (for deep context)
+Older memory files from the previous agent (Rejina/OpenClaw, Jan-Feb 2026) are at:
+`G:\0.cslab.ai\001.openClaw\root\.openclaw\workspace\memory\`
+
+**Key files in the old archive:**
+| File | What it contains |
+|------|------------------|
+| `film-entries.md` | All 5 diary entries with gold lines, themes, YouTube links |
+| `nap-series.md` | Full NAP podcast series bible — 6 episodes, shoot schedule, production notes |
+| `youtube-series-ai-art.md` | ai4lyf/myAIstories YouTube series strategy |
+| `video-models-knowledge.md` | Veo 3.1, Kling specs. Prompt formulas |
+| `2026-01-28.md` through `2026-02-23.md` | Daily logs with project history |
 
 *More day logs will be added as work continues.*
 
