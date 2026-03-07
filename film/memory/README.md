@@ -40,7 +40,12 @@ Su is making a film. It's a long process — months of writing, shooting, editin
 | [topics/ai-usage.md](topics/ai-usage.md) | How AI is used in the film — del Toro principle, what's allowed, what's not |
 | [topics/tone-and-feel.md](topics/tone-and-feel.md) | The film's tone — Nusrat principle, lyrical loneliness, fun despite failure |
 
-### 4. Day Logs (read recent ones for context)
+### 4. Chat History Archives
+| File | What it contains |
+|------|------------------|
+| [chat-history-feb24-mar07.md](chat-history-feb24-mar07.md) | Complete archive of the Feb 24 – Mar 7 conversation. Timeline, creative decisions, specific scenes, emotional arc. **Read this for full context.** |
+
+### 5. Day Logs (read recent ones for context)
 | File | What it contains |
 |------|------------------|
 | [days/2026-03-07.md](days/2026-03-07.md) | Daily log — what was discussed, what was decided, what's pending |
