@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SEARCH — Chapter Four: The Unfinished Comic</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Georgia&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #FAF8F0;
+            --ink: #1A1A1A;
+            --muted: #777;
+            --divider: #D4C9A8;
+            --amber: #A08040;
+            --vo-bg: rgba(106, 90, 160, 0.08);
+            --vo-border: rgba(106, 90, 160, 0.25);
+            --vo-text: #6A5AA0;
+            --note-bg: #F0ECE0;
+            --note-border: #D4C9A8;
+            --note-text: #6B5E40;
+            --new-bg: rgba(45, 106, 79, 0.05);
+            --new-border: rgba(45, 106, 79, 0.2);
+            --new-text: #2D6A4F;
+            --beat-bg: #F8F4EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.7
+        }
+
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #2A2520;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 999
+        }
+
+        .toolbar-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #D4A853;
+            letter-spacing: .05em
+        }
+
+        .toolbar-links {
+            display: flex;
+            gap: 16px
+        }
+
+        .toolbar-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #7B9FD4;
+            text-decoration: none;
+            letter-spacing: .04em
+        }
+
+        .toolbar-links a:hover {
+            color: #D4A853
+        }
+
+        .page {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 68px 32px 100px
+        }
+
+        .chapter-label {
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 24px
+        }
+
+        .chapter-title {
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 28px
+        }
+
+        .slug {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 28px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            letter-spacing: .02em
+        }
+
+        .action {
+            margin: 10px 0;
+            line-height: 1.7;
+            font-size: 13px
+        }
+
+        .char {
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 16px;
+            margin-bottom: 0;
+            font-size: 13px
+        }
+
+        .paren {
+            text-align: center;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--muted);
+            margin: 2px auto;
+            max-width: 300px
+        }
+
+        .dialogue {
+            text-align: center;
+            max-width: 360px;
+            margin: 4px auto 10px;
+            font-size: 13px;
+            line-height: 1.6
+        }
+
+        .transition {
+            text-align: right;
+            text-transform: uppercase;
+            font-size: 11px;
+            margin-top: 20px;
+            color: var(--muted);
+            letter-spacing: .05em
+        }
+
+        .vo-candidate {
+            background: var(--vo-bg);
+            border: 1px solid var(--vo-border);
+            border-left: 3px solid var(--vo-border);
+            border-radius: 0 4px 4px 0;
+            padding: 8px 14px;
+            margin: 8px 0 12px;
+            font-size: 12px;
+            color: var(--vo-text);
+            line-height: 1.6
+        }
+
+        .vo-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            opacity: .7;
+            display: block;
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        .beat-sheet {
+            background: var(--beat-bg);
+            border: 1px solid var(--divider);
+            border-radius: 6px;
+            padding: 20px 24px;
+            margin: 14px 0;
+            font-size: 12.5px;
+            line-height: 1.7
+        }
+
+        .beat-sheet .beat-title {
+            font-weight: 700;
+            color: var(--amber);
+            font-size: 11px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            margin-bottom: 14px
+        }
+
+        .beat-sheet p {
+            margin-bottom: 14px
+        }
+
+        .beat-sheet p:last-child {
+            margin-bottom: 0
+        }
+
+        .beat-sheet strong {
+            font-weight: 700
+        }
+
+        .beat-sheet em {
+            font-style: italic
+        }
+
+        .placeholder-box {
+            background: var(--new-bg);
+            border: 1px solid var(--new-border);
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin: 14px 0;
+            font-size: 12.5px;
+            line-height: 1.7
+        }
+
+        .placeholder-box .ph-title {
+            font-weight: 600;
+            color: var(--new-text);
+            font-size: 11px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: 10px
+        }
+
+        .placeholder-box p {
+            margin-bottom: 10px
+        }
+
+        .placeholder-box p:last-child {
+            margin-bottom: 0
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 36px 0 8px
+        }
+
+        .section-divider .line {
+            flex: 1;
+            height: 1px;
+            background: var(--divider)
+        }
+
+        .section-divider .label {
+            font-family: Georgia, serif;
+            font-size: 10px;
+            color: var(--amber);
+            letter-spacing: .12em;
+            text-transform: uppercase
+        }
+
+        .end-marker {
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: .08em;
+            margin-top: 36px;
+            font-size: 13px
+        }
+
+        @media(max-width:700px) {
+            .page {
+                padding: 56px 16px 60px
+            }
+
+            .toolbar {
+                padding: 0 12px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toolbar">
+        <div class="toolbar-title">Chapter Four — The Unfinished Comic</div>
+        <div class="toolbar-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="draft-zero.html">Draft Zero</a>
+            <a href="index.html">Hub</a>
+        </div>
+    </div>
+
+    <div class="page">
+
+        <p class="chapter-label">CHAPTER FOUR</p>
+        <p class="chapter-title">THE UNFINISHED COMIC</p>
+
+        <!-- ====== OPENING ====== -->
+        <p class="action">OVER BLACK:</p>
+        <p class="action">The sound of a pen scratching paper. Fast. Rhythmic. The sound of someone writing jokes.</p>
+
+        <p class="slug">INT. SU'S APARTMENT — DESK — NIGHT</p>
+
+        <p class="action">Close on Su's hand. Black ink on a yellow notepad. Lines crossed out. New lines written above
+            them. Arrows connecting one thought to another. The page looks like a crime scene investigation of humor —
+            evidence everywhere, no clear suspect.</p>
+
+        <p class="action">Wider: Su at his desk. Headphones on. The apartment that looks like it's been staged for a man
+            who lives alone and has opinions about it. He reads a line from the notepad. Mouths it silently. Shakes his
+            head. Crosses it out. Writes another. Mouths that one. The tiniest nod — not approval, just "maybe."</p>
+
+        <p class="action">He flips the notepad to a fresh page. Writes five words on his left hand — ink on skin, a
+            cheat sheet embedded in the body. Old habit.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== MONTAGE ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">Montage — Falling in Love</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="action">MONTAGE BEGINS —</p>
+
+        <p class="slug">INT. METRO — DAY</p>
+
+        <p class="action">Delhi Metro. Rush hour. Su standing in the middle of the coach, packed between commuters.
+            Headphones on. Sunglasses on — indoors, underground, in a metal tube. A woman next to him stares. A kid
+            points. An uncle does that specific Indian head-tilt that means "what's wrong with this fellow."</p>
+
+        <p class="action">Su doesn't notice. Behind the dark lenses, his lips
+            are moving — running lines, performing for an audience of zero in a train that smells like
+            Monday morning.</p>
+
+        <p class="action">The camera finds his face in the crowd. Holds. Around him the metro empties and fills at each
+            stop — bodies shuffling, doors hissing — and Su hasn't moved. Same spot. Same lips working.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== FIRST PERFORMANCE ====== -->
+        <p class="slug">INT. COMEDY CLUB — STAGE — NIGHT</p>
+
+        <p class="action">The same face. The same sunglasses. But now there's a spotlight. And a mic. And forty people
+            who paid to laugh.</p>
+
+        <p class="action">Su on stage. The first time we see him perform — and the film takes its time.</p>
+
+        <p class="action">He holds the mic like he holds a glass of scotch — comfortably, minimally.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(light, conversational)</p>
+        <p class="dialogue">Log mujhse poochte hain — "Sumeet, tu shades kyun pehenta hai?"</p>
+
+        <p class="action">Beat. He adjusts the sunglasses on his nose.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Meri girlfriend boli — "Sumeet, I'm sorry. I cheated on you. Maine tumhe andhere mein
+            rakha."</p>
+
+        <p class="action">He lets the setup sit. The room waits.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(deadpan)</p>
+        <p class="dialogue">Maine bola — "Baby doll, chill. Mujhe andhere mein rehna pasand hai."</p>
+
+        <p class="action">Laughter.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Mujhe shades pehenna itna pasand hai — I am jealous of blind people.</p>
+
+        <p class="action">A gasp, then bigger laughter. He's rolling now.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(leaning into the mic)</p>
+        <p class="dialogue">Unka toh sahi hai — kabhi bhi peheno, koi kuch nahi bolta. Meri favorite bimaari motiyabind
+            hai.</p>
+
+        <p class="action">The room erupts. A YOUNG WOMAN in the front row covers her face — laughing and horrified and
+            delighted.</p>
+
+        <p class="action">Su stands in the laughter. The shades make it impossible to know what he's doing in there. The
+            mouth says performer. Everything else is sealed.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== DIFFERENT NIGHT ====== -->
+        <p class="slug">INT. COMEDY CLUB — STAGE — DIFFERENT NIGHT</p>
+
+        <p class="action">Same sunglasses. Smaller room. Ten people in the audience. Su looks at his left hand — the
+            jokes written there.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Aaj main apne forgetting problem ke baare mein baat karna chahta tha—</p>
+
+        <p class="action">He pauses. Looks at his hand. Squints through the sunglasses at the ink that's half-smudged
+            from sweat.</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(genuinely struggling, which makes it funnier)</p>
+        <p class="dialogue">Main jokes haath pe likh ke aata hoon. Taaki bhoolun nahi. Last show mein — haath pe dekhnaa
+            hi bhool gaya.</p>
+
+        <p class="action">The room laughs. And in the middle of the laugh, Su's face does something it rarely does on
+            stage — it relaxes. For a second, behind the shades, behind the persona, behind the "character" he's built
+            to survive the spotlight — there's just a man who forgot to look at his own hand and made ten strangers
+            happy about it.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== BACKSEAT ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">Backseat Documentary</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="slug">INT. CAR — MOVING — NIGHT</p>
+
+        <p class="action">The backseat. Su is in the backseat. This is his documentary shot — the one he always
+            imagined, the camera right where he's sitting.</p>
+
+        <p class="action">COMEDIAN FRIEND driving. Another COMIC in the passenger seat. They are roasting someone who
+            isn't in the car.</p>
+
+        <p class="action">Delhi slides past the windows — neon signs, a chai stall operating outside the laws of time,
+            the smog catching headlights and turning them into halos.</p>
+
+        <p class="action">Su watches them. Smiles. Doesn't add to the conversation. He's here. He belongs to this, but
+            he's in the back. Watching the thing he loves from one seat removed.</p>
+
+        <p class="action">The camera holds on his face, lit intermittently by passing streetlights. Light. Dark. Light.
+            Dark. The rhythm of a man who keeps showing up to something he's not sure he's part of.</p>
+
+        <p class="action">60 seconds. No dialogue from Su. Just this.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== BRIEF FRAGMENTS ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">Brief Fragments</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="action">MONTAGE CONTINUES —</p>
+
+        <p class="action">— Su on stage, a MOMENT THAT CLICKS — whatever joke he's telling, it lands perfectly, the
+            laugh rolls, his body loosens, and for three seconds he is exactly where he's supposed to be.</p>
+
+        <p class="action">— Su sitting alone in an empty club after a show. Chairs stacked. The bartender cleaning up.
+            Su hasn't left. He's looking at the stage — the empty stage — the way religious people look at temples after
+            hours.</p>
+
+        <p class="action">END OF MONTAGE.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== HECKLER ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">The Heckler — Small</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="slug">INT. COMEDY CLUB — STAGE — ANOTHER NIGHT</p>
+
+        <p class="action">Mid-set. Su's in his rhythm. The shades, the easy lean into the mic. Twenty-odd people. He's
+            doing the forgetting bit.
+
+        <p class="action">A GUY in the second row pulls out his phone. Full brightness. Scrolling. Not hiding it.</p>
+
+        <p class="action">Su sees it. Doesn't stop mid-joke — finishes the punchline, gets the laugh, but his eyes stay
+            on the phone.</p>
+
+        <p class="action">And here's where it turns. Su should move on. Any working comic would. But something in him —
+            he pivots. Turns on the BRINGER-COMEDIAN who brought the phone guy. Goes after him. Not playful roasting.
+            Something with teeth.</p>
+
+        <p class="action">The room shifts. The laughter thins.</p>
+
+        <p class="action">Su finishes the set. Applause — but the air has changed. He walks off stage. Passes the
+            bringer near the exit. Doesn't look at him. The back of his neck is hot. He knows.</p>
+
+        <p class="action">The sage who slipped.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== BACKSTAGE ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">Backstage — The Glass Door</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="slug">INT. COMEDY CLUB — BACKSTAGE / HALLWAY — NIGHT</p>
+
+        <p class="action">Su standing near the exit. Other comics in a cluster — talking, planning, doing the thing that
+            makes careers: networking.</p>
+
+        <p class="action">A comic waves Su over. "Chal, baad mein sab jaa rahe hain—"</p>
+
+        <p class="action">Su hesitates. His hand goes to his bag strap. Adjusts it. The micro-movement of a man buying
+            himself two seconds to decide something he's already decided.</p>
+
+        <p class="action">He waves back. "Aaj nahi yaar, kal pakka." He pushes through the exit door.</p>
+
+        <p class="action">The door swings shut. Laughter on the other side. Muffled now. Su pulls his jacket tight — the
+            green one that still can't zip — and walks.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== THE DELHI NIGHT ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">The Delhi Night</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="slug">EXT. COMEDY CLUB — ESTABLISHING — NIGHT</p>
+
+        <p class="action">Delhi winter. A different year. A different version of the same ambition.</p>
+
+        <p class="action">The smog has settled into something personal tonight. Pollution charting the top of the box
+            office. The air tastes like something the city chewed
+            and didn't finish.</p>
+
+        <div class="vo-candidate">
+            <span class="vo-label">VO CANDIDATE</span>
+            These nights make things sadder than they actually are. You want to be warm and cozy — under a blanket,
+            watching a film, not thinking about your artistic future. Instead, you choose chaos and comedians as
+            company. What does that tell you about yourself? That you're either a crazy romantic who loves the idea of
+            becoming someone — or a hard-working asshole who wants to prove the world wrong — or just a man who hasn't
+            figured out which one he is.
+        </div>
+
+        <p class="slug">INT. COMEDY CLUB — CONTINUOUS</p>
+
+        <p class="action">9:00 PM. Su walks in. The green jacket that can't zip. A bag over his shoulder. Notes inside
+            the bag that he'll pretend he doesn't need.</p>
+
+        <p class="action">He spots THE GODFATHER across the room.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Kya scene hai aaj, bhai?</p>
+
+        <p class="char">THE GODFATHER</p>
+        <p class="paren">(holding a clipboard)</p>
+        <p class="dialogue">Packed hai. We'll see.</p>
+
+        <p class="action">Su finds a seat in the back. Where he always sits. He drops his bag. Unzips it halfway — the
+            notes visible, just in case.</p>
+
+        <p class="action">The first mic begins. Comics perform. Five minutes each. The machine of stand-up: take the
+            mic, make them laugh, give it back, sit down. Simple. Beautiful. Terrifying.</p>
+
+        <p class="action">The HOST calls the next name. Su straightens in his chair. Adjusts his jacket.</p>
+        <p class="action">Not his name.</p>
+        <p class="action">He settles back. Casual. Like he wasn't expecting it.</p>
+        <p class="action">Next name. He straightens again. Not him. And again. And again.</p>
+
+        <p class="action">Hope doesn't die loudly. It shrinks. The same movement, slightly smaller each time.</p>
+
+        <p class="action">12:00 AM. Second mic. Fresh comics. Su is still in the back. Three hours. Green jacket too
+            warm inside, too thin for outside — trapped in the jacket the way he's trapped in the room.</p>
+
+        <p class="action">1:30 AM. He walks to The Godfather. The same man he shook hands with four and a half hours
+            ago.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Koi spot milega?</p>
+
+        <p class="char">THE GODFATHER</p>
+        <p class="dialogue">Aaj nahi ho payega yaar. Next time pakka.</p>
+
+        <p class="action">"Next time pakka." The open mic ecosystem's version of "we should get coffee sometime."</p>
+
+        <p class="action">He grabs his bag. Jacket pulled tight — it can't zip, so he hugs it around himself, which is
+            just hugging nobody. He walks out.</p>
+
+        <p class="slug">EXT. DELHI STREETS — CONTINUOUS — 1:30 AM</p>
+
+        <p class="action">Su walks. Fast. Three kilometers to home. No headphones tonight. Just his breathing and Delhi
+            breathing
+            around him.</p>
+
+        <p class="action">His lips move. Not rehearsing jokes this time. Arguing. With The Godfather. With every comic
+            who got a spot tonight. With himself.</p>
+
+        <p class="action">He stops at a traffic light. No cars. 2 AM. The light is red and there's nobody coming for
+            kilometers and he stands there, waiting for it to turn green.</p>
+
+        <p class="slug">INT. SU'S APARTMENT — BATHROOM — 3:00 AM</p>
+
+        <p class="action">The shower handle turns. All the way cold. 3 AM in February.</p>
+
+        <div class="vo-candidate">
+            <span class="vo-label">VO CANDIDATE</span>
+            Maybe discipline is just another word for "I don't know how to be kind to myself."
+        </div>
+
+        <p class="action">He stands under the freezing water. Eyes open. Just tired. Seven hours to work.</p>
+
+        <p class="transition">CUT TO:</p>
+
+        <!-- ====== STUDIO ====== -->
+        <div class="section-divider">
+            <div class="line"></div><span class="label">Studio Confession: The Comedian</span>
+            <div class="line"></div>
+        </div>
+
+        <p class="slug">INT. PODCAST STUDIO — NIGHT</p>
+
+        <p class="action">Su in the studio. The amber light. The mic.</p>
+
+        <p class="action">He looks at the empty chair. A beat. THE COMEDIAN materialises. Su's face, but sharper,
+            kinetic, wearing a leather jacket. He's tossing the mic sponge in the air.</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="paren">(catching the sponge)</p>
+        <p class="dialogue">Toh bataaiye, Sumeet ji. Comedy kyun chhodi?</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(deflecting, rehearsed answer)</p>
+        <p class="dialogue">I didn't quit. Band ho gayi. COVID. Shows band. Momentum band. Aur jab sab wapas aaye...
+            main nahi aaya.</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="paren">(laughing out loud)</p>
+        <p class="dialogue">Bullshit. I'm the guy who didn't quit when the pandemic ended. I went back to the open mics
+            and ate shit for three years while you were buying overpriced air purifiers and calling it "evolution."</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">Main focus kar raha tha apni filmmaking pe.</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="dialogue">Tu chup raha tha. Standing on a stage with a mic is terrifying. You can't edit a bomb. If
+            they don't laugh, you die in real time. So you built a soundproof box where you're the only audience, and
+            you call it a film.</p>
+
+        <p class="action">Su's jaw tightens. He doesn't look at The Comedian.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">You think it's just fear? I have a people problem. My onstage self can make forty strangers
+            laugh. My offstage self can't do the networking an eighth-grader manages at a birthday party.</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="dialogue">Toh phir woh 1:30 AM waali night kya thi? Darpok? Ya pagal jo paanch ghante wait karke teen
+            kilometre pedal gaya?</p>
+
+        <p class="char">SU</p>
+        <p class="paren">(quietly)</p>
+        <p class="dialogue">Are you a crazy romantic who loves the idea of becoming someone, or a hard-working asshole
+            who wants to prove the world wrong, or just a man who hasn't figured out which one he is?</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="dialogue">Tu apne baare mein kahaniyan bahut acchi banata hai, bhai. Par sach yeh hai: Jo bhi hum
+            hain, apni wajah se hain. Jo bhi hum nahi hain, woh bhi apni wajah se hain.</p>
+
+        <p class="action">The Comedian leans forward. Serious now.</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="dialogue">Come back to the club. Write the 10 minutes. Stand in front of fifty drunk people in
+            Gurugram and try to make them put their phones down. That's real.</p>
+
+        <p class="char">SU</p>
+        <p class="dialogue">I can't. What if I'm not funny anymore?</p>
+
+        <p class="char">THE COMEDIAN</p>
+        <p class="paren">(smiling)</p>
+        <p class="dialogue">You never were that funny to begin with. You were just brave. Try being brave again.</p>
+
+        <p class="action">The Comedian stands up. Drops the mic sponge. Walks out the door.</p>
+
+        <p class="action">Su is alone. He looks at his left hand. The one he used to write jokes on. Nothing there now.
+        </p>
+
+        <p class="transition">CUT TO BLACK.</p>
+
+        <p class="end-marker">END OF CHAPTER FOUR</p>
+
+    </div>
+
+</body>
+
+</html>
