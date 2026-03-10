@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entry 8.5 — Analysis & Entry 09 Talking Points</title>
+    <meta name="description" content="Analysis of Entry 8.5 and revised talking points for Entry 09.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400&family=Outfit:wght@200;300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --grain-opacity: 0.04;
+            --warm-black: #1a1714;
+            --warm-dark: #242019;
+            --parchment: #e8dcc8;
+            --parchment-light: #f2e8d5;
+            --amber: #c4935a;
+            --amber-glow: #d4a76a;
+            --amber-deep: #8b6b3d;
+            --rust: #a0674b;
+            --sage: #7a8b6f;
+            --muted-blue: #6b7d8d;
+            --film-red: #8b4049;
+            --whisper: rgba(232, 220, 200, 0.06);
+            --border-line: rgba(196, 147, 90, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--warm-black);
+            color: var(--parchment);
+            line-height: 1.75;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: var(--grain-opacity);
+            pointer-events: none; z-index: 1000;
+        }
+        body::after {
+            content: '';
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 8, 5, 0.4) 100%);
+            pointer-events: none; z-index: 999;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--warm-black); }
+        ::-webkit-scrollbar-thumb { background: var(--amber-deep); border-radius: 3px; }
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(196, 147, 90, 0.3); color: var(--parchment-light); }
+
+        .container { max-width: 700px; margin: 0 auto; padding: 60px 28px 120px; }
+
+        .header {
+            text-align: center;
+            padding: 80px 0 50px;
+            border-bottom: 1px solid var(--border-line);
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: clamp(1.5rem, 4vw, 2.4rem);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            margin-bottom: 8px;
+        }
+        .header .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            opacity: 0.7;
+        }
+        .header .dateline {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--amber);
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+        .back-link {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            text-decoration: none;
+            padding: 14px 0;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--amber-glow); }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 1.4rem;
+            letter-spacing: 0.08em;
+            color: var(--parchment-light);
+            margin: 50px 0 20px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-line);
+        }
+
+        p {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            color: rgba(232, 220, 200, 0.85);
+            line-height: 1.8;
+        }
+        strong { color: var(--parchment-light); font-weight: 500; }
+        em { color: var(--amber); }
+
+        blockquote {
+            position: relative;
+            margin: 20px 0;
+            padding: 16px 20px 16px 24px;
+            border-left: 2px solid var(--amber-deep);
+            background: linear-gradient(135deg, rgba(196, 147, 90, 0.04), transparent);
+            border-radius: 0 4px 4px 0;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--amber-glow);
+            line-height: 1.7;
+        }
+
+        ul { margin: 14px 0; padding-left: 20px; }
+        li {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: rgba(232, 220, 200, 0.8);
+            line-height: 1.7;
+        }
+        li::marker { color: var(--amber-deep); }
+
+        /* Revelation card */
+        .rev {
+            margin-bottom: 32px;
+            padding: 24px 24px 20px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+        }
+        .rev-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 8px;
+        }
+        .rev-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1.05rem;
+            color: var(--amber-glow);
+            margin-bottom: 10px;
+        }
+        .rev p { font-size: 0.98rem; }
+
+        /* Talking Point */
+        .tp {
+            margin-bottom: 44px;
+            padding: 28px 28px 24px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+            transition: border-color 0.3s;
+        }
+        .tp:hover { border-color: var(--amber-deep); }
+
+        .tp-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: 2rem;
+            color: var(--amber-deep);
+            opacity: 0.4;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .tp-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+            color: var(--amber-glow);
+            margin-bottom: 12px;
+        }
+        .tp p { font-size: 1rem; color: rgba(232, 220, 200, 0.8); }
+        .tp strong { color: var(--parchment-light); }
+        .tp em { color: var(--amber); }
+        .tp ul { margin: 12px 0; }
+
+        .debate { border-left: 3px solid var(--rust); }
+        .debate .tp-title { color: var(--rust); }
+        .connection { border-left: 3px solid var(--sage); }
+        .connection .tp-title { color: var(--sage); }
+
+        .film-footer {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.4;
+        }
+        .film-footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 40px 20px 80px; }
+            .header { padding: 60px 0 40px; }
+            .tp { padding: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="index.html" class="back-link">← Back to Index</a>
+
+    <div class="header">
+        <h1>Entry 8.5</h1>
+        <div class="subtitle">Analysis & Entry 09 Talking Points (Revised)</div>
+        <div class="dateline">March 9–10, 2026 · <a href="https://youtu.be/VdidJOtRQko" style="color: var(--amber); text-decoration: none;">YouTube ↗</a></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 1: WHAT ENTRY 8.5 REVEALS                               -->
+    <!-- ============================================================ -->
+
+    <h2 class="section-title">What Entry 8.5 Reveals</h2>
+
+    <p>Entry 8.5 happened without talking points. That's what makes it honest — you went where your mind went, and your mind went to places the script hadn't found yet.</p>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 01</div>
+        <div class="rev-title">The 4th Wall Break as Chapter Bridge</div>
+        <p>This is the biggest structural idea you've had: <em>"Me looking into the camera can give them a definite final moment where that shift happens. And me talking to myself during the podcast could act as the buildup. And the me looking can be the final nail in the coffin and we move on to the next chapter."</em></p>
+        <p>This solves the chapter connection problem. Each chapter ends with the studio conversation building to a point → Su looks into the camera → one line of dialogue → next chapter begins. The 4th wall break isn't just a style choice — it's the structural glue of the film.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 02</div>
+        <div class="rev-title">"I'm Doing This to Fail"</div>
+        <p><em>"I have to do this, you know. Even if I fail magnanimously, I'll know and I'll keep my mouth shut. But I have to do this. I'm doing this to fail. I'm not doing this to become incredible. I just want to see."</em></p>
+        <p>This is the film's philosophy distilled to its purest form. Not ambition. Not redemption. Just: I need to see what happens when I actually try. This line belongs somewhere in the film — maybe in the studio, maybe in voiceover, maybe written on a notepad.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 03</div>
+        <div class="rev-title">The Forgetful Character Was a Defence Mechanism</div>
+        <p>You revealed the origin of the "bhoolne wala" jokes: <em>"My biggest insecurity was forgetting jokes on stage. So I wrote about it. I made a character around that forgetful personality, and just so that when I started randomly, people thought it's part of my act."</em></p>
+        <p>The bit isn't just funny — it's armour. Su turned his biggest fear into his act. The joke about writing on his hand and forgetting to look at his hand — that's not just comedy, that's survival strategy. This should inform how we present these jokes in the script: the audience should feel the cleverness of the defence, not just the punchline.</p>
+        <p>New joke from this entry: <em>"Main jokes hath pe likh leta hoon kyuki main jokes bhool jata hoon. Pichle show mein hath dekhna bhool gaya tha."</em></p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 04</div>
+        <div class="rev-title">Shades Throughout All Standup — DECIDED</div>
+        <p>You settled the debate: <em>"I think I should wear shades. Logic here is that I actually wore shades for a better part of my standup."</em></p>
+        <p>Shades in ALL standup scenes, not just the shades bit. They're part of who he was during that period. The bit is about them, but the wearing of them is bigger than the bit.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 05</div>
+        <div class="rev-title">The Car Window — It's the Kid</div>
+        <p>You confirmed something that goes deeper than we wrote: <em>"That's the kid in me who just wants to look outside. Like I used to do when I was a kid. And that is the easiest way to feel that connection to the kid."</em></p>
+        <p>And then: <em>"I couldn't even read a book or watch a film on my iPad. Because I just wanted to look outside."</em></p>
+        <p>And then the Barcelona story — losing earphones between Barcelona and Madrid, shoplifting replacements because the music + window combination was that essential. The kid who needs the window seat so badly he'll steal to maintain the ritual.</p>
+        <p>This isn't just a car scene. This is a portal to childhood. The car window IS the film's emotional shorthand for everything Su hasn't let go of.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 06</div>
+        <div class="rev-title">J-Cuts / L-Cuts as the Film's Edit Language</div>
+        <p><em>"I am using sound for edits, I can see that. I am pulling the sound ahead. Sound is coming before in almost every edit."</em></p>
+        <p>This is a significant stylistic decision. Sound arrives before image — the audio bridge pulls you into the next scene before you've left the current one. This creates a constant forward momentum, a feeling of being slightly ahead of yourself. Very much how Su's mind works: always in the next thing before the current thing is done.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 07</div>
+        <div class="rev-title">Himachal as a Location</div>
+        <p>The office trip to Himachal. You want Su to have a place he goes to — <em>"close by, he just goes there to unwind. It will give us opportunity for lyrical loneliness and beauty."</em></p>
+        <p>This could be its own chapter or a breathing section within another chapter. Mountains. Silence. The lyrical loneliness of travel. A contrast to Delhi's constant noise.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 08</div>
+        <div class="rev-title">The Writing Schedule — Real Deadlines</div>
+        <p>You set concrete timelines: Chapter 4 done this week (by March 14). Next chapter by March 21. Three chapters by end of March. Himachal chapter written in Himachal. Family chapter remaining.</p>
+        <p>This is the first time you've set deadlines. The engine is starting.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 09</div>
+        <div class="rev-title">Film Title Ideas — Nakamyaab / Nikamma</div>
+        <p><em>Nakamyaab</em> — the unsuccessful one, the one who didn't make it. <em>Nikamma</em> — the lazy procrastinator.</p>
+        <p>Both are self-deprecating. Both are Hindi. Both carry the Nusrat Principle: they sound like insults but there's love in claiming them for yourself. Worth developing further.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 10</div>
+        <div class="rev-title">Cricket as Connective Tissue</div>
+        <p>Cricket isn't a subplot — it's environmental texture. People watching matches on phones in the metro, at tea stalls, at content studio. Su talks to his office boy about cricket scores. India winning or losing is the emotional weather of the background. It's what makes Delhi feel alive and real.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 11</div>
+        <div class="rev-title">The Ex — Real Details Surface</div>
+        <p>12-13 years together. Lived together 2012-2017. She never wanted to be called "girlfriend." He can call her that now because she isn't one anymore. Met at a wedding recently — excited → drunk → blackout → she hated it. <em>"We couldn't stand each other."</em></p>
+        <p>The wedding scene: real, filmable, but expensive. But — all his friends are married, so real weddings are available. Something to think about.</p>
+    </div>
+
+    <div class="rev">
+        <div class="rev-label">REVELATION 12</div>
+        <div class="rev-title">"Everyone Was Alone When They Started"</div>
+        <p><em>"I have to stop saying that I am alone and I have to do everything on my own. Everyone was alone when they started it."</em></p>
+        <p>This corrects a self-narrative Su has been running. The loneliness isn't special — it's universal among creators. What's special is choosing to stay with the work anyway. This belongs in the film, possibly in The Comedian's mouth during the studio conversation.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 2: WHAT PROBLEMS ENTRY 8.5 SOLVED                       -->
+    <!-- ============================================================ -->
+
+    <h2 class="section-title">What Problems It Solved</h2>
+
+    <ul>
+        <li><strong>Chapter connection device:</strong> 4th wall break + studio conversation = bridge between chapters. This was the biggest open structural question.</li>
+        <li><strong>Shades debate:</strong> Wear them in ALL standup scenes. Settled.</li>
+        <li><strong>The "bhoolne wala" bit origin:</strong> It's a defence mechanism, not just comedy. This adds emotional depth to the jokes.</li>
+        <li><strong>Car scene confirmed:</strong> Not an invented scene — a lived ritual. The depth is real.</li>
+        <li><strong>Edit language:</strong> J-cuts/L-cuts. Sound leads image. The film has an editing style now.</li>
+        <li><strong>Timeline pressure:</strong> Deadlines set for the first time. The "someday" has a calendar now.</li>
+        <li><strong>What happens after the mic:</strong> He came home and worked on jokes. Assessed what landed. The day AFTER standup starts with writing. This tells us what the morning-after scene looks like.</li>
+        <li><strong>The story isn't ABOUT standup:</strong> <em>"I don't want to make a full film about standup. It's about things. Someone tried."</em> The comedy chapter is ONE lens. The story is bigger.</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <!-- PART 3: REVISED ENTRY 09 TALKING POINTS                      -->
+    <!-- ============================================================ -->
+
+    <h2 class="section-title">Entry 09 — Talking Points (Revised)</h2>
+
+    <p>These are built from Entry 8.5. You went somewhere real last night. Tonight, go deeper into what opened up.</p>
+
+    <div class="tp">
+        <div class="tp-num">01</div>
+        <div class="tp-title">The Chapter Bridge — How Does It Actually Work?</div>
+        <p>You said the 4th wall look + one line of dialogue can transition between chapters. Walk through it. Take Chapter 4 as the test case:</p>
+        <ul>
+            <li>The Comedian conversation builds to its final point</li>
+            <li>Su is alone. He looks at his empty hand</li>
+            <li>He looks into the camera. What does he SAY? What's the one line that bridges the comedy chapter to whatever comes next?</li>
+            <li>And then: does the next chapter START from that look? Or does it cut away and we find Su somewhere completely different?</li>
+        </ul>
+        <p>Try it. Say the line out loud. If it works for Chapter 4, you have the template for every chapter.</p>
+    </div>
+
+    <div class="tp">
+        <div class="tp-num">02</div>
+        <div class="tp-title">The Defence Mechanism — Perform the "Bhoolne Wala" Origin</div>
+        <p>You revealed that the forgetful bit was born from your biggest insecurity: forgetting jokes on stage. You built armour and called it a character.</p>
+        <p><strong>Talk about this for the film.</strong> When Su performs the "bhoolne wala" bit on stage and kills, the audience sees comedy. But now you know — and the FILM audience should sense — that underneath the laughter there's a man who invented a persona to survive his own fear. How do you show both at the same time? That's the Nusrat Principle in action.</p>
+        <p>Maybe the film shows it literally: Su on stage performing the forgetful bit, killing → cut to Su at his desk, ACTUALLY forgetting a line, the panic on his face → then he writes the joke about it. The origin and the result in the same sequence.</p>
+    </div>
+
+    <div class="tp">
+        <div class="tp-num">03</div>
+        <div class="tp-title">What Comes After the Mic?</div>
+        <p>You said: <em>"99 to 100% of the times after my mics, I came home. I would assess what I did right and wrong. I would try to make my jokes better."</em></p>
+        <p>This is the morning-after scene. Su at his desk. The notepad again. But now it's not empty — it's MARKED UP. Lines circled: "this worked." Lines crossed out: "this bombed." Arrows: "move this before that." The same notepad from the chapter's opening, but changed by the night.</p>
+        <p><strong>Does the chapter END here?</strong> Or is this the LOOP — the chapter opens with writing jokes, ends with rewriting jokes, and the circle is the point?</p>
+    </div>
+
+    <div class="tp debate">
+        <div class="tp-num">04</div>
+        <div class="tp-title">🎭 The Studio as Comedy Club</div>
+        <p>You said you'll use your studio to make a makeshift comedy club — spotlight, the whole thing.</p>
+        <p>This is a practical decision with creative consequences. If the SAME SPACE is both the podcast studio (amber light, two chairs) and the comedy club (spotlight, mic stand, audience implied), then the audience is seeing Su's studio transform based on his state of mind. The physical space shape-shifts.</p>
+        <p><strong>Is that intentional?</strong> The studio as a place that becomes whatever Su needs it to be? If so, that's powerful — it means the studio is literally a room where he can be anything, which is both his gift and his trap.</p>
+    </div>
+
+    <div class="tp">
+        <div class="tp-num">05</div>
+        <div class="tp-title">The Car Window — Go Deeper</div>
+        <p>Last night you said things that are already in the chapter, but you also went somewhere new: the Barcelona earphone story. Shoplifting because the music + window combination was non-negotiable.</p>
+        <p><strong>What's the SONG?</strong> When the kid in you looks out the window — when the Lyrical Loneliness Theme plays — what does it sound like in your head? Don't describe it in music theory. Describe the FEELING. Is it a humming? A guitar? Someone singing far away? What does the kid hear?</p>
+    </div>
+
+    <div class="tp connection">
+        <div class="tp-num">06</div>
+        <div class="tp-title">🔗 "Someone Tried" — What Is This Film Actually About?</div>
+        <p>You said: <em>"I don't want to make a full film about standup. It's about things. Someone tried."</em></p>
+        <p>This might be the closest you've come to the film's logline. Not "a man who doesn't finish things." Not "how to not make films." Not ambition or failure or comedy or loneliness. Just: <strong>Someone tried.</strong></p>
+        <p>Sit with that. Is that the film? Two words? If it is, then every chapter is just a different way of saying "someone tried" — tried comedy, tried love, tried work, tried making a film. And the film itself is the trying.</p>
+        <p>Also: does <em>"Nakamyaab"</em> still fit as a title? Or does <em>"Someone Tried"</em> open something else?</p>
+    </div>
+
+    <div class="tp">
+        <div class="tp-num">07</div>
+        <div class="tp-title">Himachal — What Does He Do There?</div>
+        <p>You want a Himachal section. You'll be there next month. But right now you said you have <em>"no idea what I can do in Himachal."</em></p>
+        <p>So: don't plan it. Go there. Film what you see. Let the chapter come from the place. But for tonight's entry, think about WHY Su goes to the mountains. Is he running from something or toward something? Is it part of the story or a pause from the story? What does lyrical loneliness look like when the city noise stops?</p>
+    </div>
+
+    <div class="tp debate">
+        <div class="tp-num">08</div>
+        <div class="tp-title">🎭 The Class Clown to the Comedian — Can You Show This?</div>
+        <p>You said: <em>"Till 10th I was a very class clown kind of a person. And maybe that part of me became... tried to become the comedian."</em></p>
+        <p>Then immediately: <em>"I don't know how to show it because then you need a classroom and a child actor."</em></p>
+        <p>You don't need a classroom. You need a FEELING. Maybe it's Su on stage, killing, and for ONE moment the spotlight softens and the laugh track sounds like a school corridor — the echo of a kid making his friends laugh. Or maybe it's in dialogue: someone says "tu school mein bhi aisa tha" and Su smiles the way people smile when someone remembers who they used to be.</p>
+    </div>
+
+    <div class="tp">
+        <div class="tp-num">09</div>
+        <div class="tp-title">The Process — "The Whole Thing Will Be Made Using AI First"</div>
+        <p>You said this clearly: generate the whole film using AI first. Then see what works, what can be shot for real, and what needs to stay generated.</p>
+        <p>This is the Del Toro Principle in action. AI as a tool for previz, for testing, for seeing the film before the film exists. The human work comes after — the shooting, the performing, the editing.</p>
+        <p><strong>For tonight:</strong> what scenes in Chapter 4 can you generate with AI right now, even rough? The metro? The car window? The rainy walk? If you can SEE these scenes — even badly generated — it might unlock the next level of writing.</p>
+    </div>
+
+    <div class="tp connection">
+        <div class="tp-num">10</div>
+        <div class="tp-title">🔗 The Writing Schedule — Hold Yourself to It</div>
+        <p>You set deadlines last night:</p>
+        <ul>
+            <li>Chapter 4 — this week (by March 14)</li>
+            <li>Next chapter — by March 21</li>
+            <li>Three chapters total by end of March</li>
+            <li>Himachal chapter — written in Himachal (next month)</li>
+            <li>Family chapter — remaining</li>
+        </ul>
+        <p>That's five chapters by end of April. Plus whatever the opening is. <strong>Is this real?</strong> Not aspirational — REAL. What do you need to do tomorrow to stay on track? The entry tonight should end with a plan for tomorrow's writing session.</p>
+    </div>
+
+</div>
+
+<footer class="film-footer">
+    <p>Entry 8.5 Analysis + Entry 09 Talking Points · March 10, 2026</p>
+</footer>
+
+</body>
+</html>
