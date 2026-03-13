@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beat Sheet V3 — The Full Film</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface-2: #1a1a25;
+    --border: #2a2a3a;
+    --text: #e0e0e8;
+    --text-dim: #8888a0;
+    --accent: #c9a84c;
+    --accent-soft: rgba(201, 168, 76, 0.15);
+    --red: #e05555;
+    --green: #55b875;
+    --blue: #5588cc;
+    --purple: #9b7ecc;
+    --orange: #d4875a;
+    --teal: #5aada0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  header .date {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  header .subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* ── Foundation block ── */
+  .foundation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+  }
+  .foundation h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .foundation p { margin-bottom: 0.8rem; font-size: 0.95rem; }
+  .foundation ul { margin: 0.8rem 0 0.8rem 1.5rem; font-size: 0.95rem; }
+  .foundation li { margin-bottom: 0.4rem; }
+  .foundation strong { color: #fff; }
+
+  /* ── Character cards ── */
+  .characters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 600px) { .characters { grid-template-columns: 1fr; } }
+
+  .char-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-left: 3px solid var(--accent);
+  }
+  .char-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.3rem;
+  }
+  .char-card .role {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+  .char-card p { font-size: 0.9rem; color: var(--text-dim); }
+  .char-card.comedian { border-left-color: var(--red); }
+  .char-card.kid { border-left-color: var(--green); }
+  .char-card.older { border-left-color: var(--purple); }
+
+  /* ── Movement headers ── */
+  .movement {
+    margin: 3rem 0 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .movement-number {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+  }
+  .movement h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 0.3rem;
+  }
+  .movement .mood {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* ── Scene beats ── */
+  .scene {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.2rem;
+    transition: border-color 0.3s;
+    position: relative;
+  }
+  .scene:hover { border-color: var(--accent); }
+
+  .scene-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .scene-id {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .scene h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: #fff;
+    flex: 1;
+  }
+  .scene p { font-size: 0.92rem; margin-bottom: 0.6rem; }
+  .scene .visual {
+    color: var(--teal);
+    font-size: 0.88rem;
+    font-style: italic;
+    margin: 0.6rem 0;
+  }
+  .scene .inner-voice {
+    background: var(--bg);
+    border-left: 2px solid var(--accent);
+    padding: 0.7rem 1rem;
+    margin: 0.8rem 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 0.88rem;
+  }
+  .scene .inner-voice .label {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.2rem;
+    font-style: normal;
+  }
+  .scene .truth {
+    background: var(--surface-2);
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--purple);
+  }
+  .scene .truth::before {
+    content: 'TRUTH: ';
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .tag.loc { background: rgba(85, 136, 204, 0.15); color: var(--blue); }
+  .tag.char-su { background: rgba(201, 168, 76, 0.15); color: var(--accent); }
+  .tag.char-comedian { background: rgba(224, 85, 85, 0.15); color: var(--red); }
+  .tag.char-kid { background: rgba(85, 184, 117, 0.15); color: var(--green); }
+  .tag.char-older { background: rgba(155, 126, 204, 0.15); color: var(--purple); }
+  .tag.tone { background: rgba(212, 135, 90, 0.15); color: var(--orange); }
+  .tag.shootable { background: rgba(90, 173, 160, 0.15); color: var(--teal); }
+
+  /* ── Dividers ── */
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* ── Rules block ── */
+  .rules {
+    background: var(--surface);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  .rules h3 {
+    color: var(--red);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.8rem;
+  }
+  .rules li { font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-dim); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    padding-top: 2rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Notes from Su ── */
+  .su-note {
+    background: rgba(201, 168, 76, 0.06);
+    border: 1px dashed var(--accent);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+  }
+  .su-note::before {
+    content: 'YOUR TURN: ';
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Beat Sheet V3</h1>
+  <div class="date">March 13, 2026</div>
+  <div class="subtitle">Six movements. Standalone scenes. A man, his armor, and the kid he used to be.</div>
+</header>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- FOUNDATION                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="foundation">
+  <h2>The Film in One Breath</h2>
+  <p>A 37-year-old man lives his daily life accompanied by a version of himself who can only handle the good times. The armor is charming, funny, and terrified of silence. One night, a locked room and a kid in a chair crack something open. The man doesn't need to become anyone. He just needs to stop performing.</p>
+
+  <p><strong>Runtime:</strong> ~90 minutes<br>
+  <strong>Tone:</strong> The Nusrat Principle — happy melodies about sad things. FUN. Warm. Aching.<br>
+  <strong>Structure:</strong> Six movements. Not chapters. Each movement is a collection of standalone scenes that share a mood. Scenes can be shot, rearranged, and rewritten independently.<br>
+  <strong>Rule:</strong> The studio is a mirror. Only Su's own face appears in it.</p>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CHARACTERS                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="characters">
+  <div class="char-card">
+    <h3>Su</h3>
+    <div class="role">The Man</div>
+    <p>37. Content alone. Overwhelmed by oneness sometimes. Withdrew from people to protect himself. The bleeding stopped but now nothing flows. Every relationship is at arm's length. Loves his mother but can't give her what she wants. Sees his own ego, observes it, still lets it win sometimes.</p>
+  </div>
+
+  <div class="char-card comedian">
+    <h3>The Comedian</h3>
+    <div class="role">The Scar Tissue — Constant Companion</div>
+    <p>Born the night Su needed armor. Walks with Su everywhere. Riffs in autos, at chai stalls, during boring meetings. BOLTS from anything real. Will not enter the studio. Performing aliveness 24/7. Can make forty strangers laugh. Can't sit across from one person and be seen. Terrified — and that's why he's funny.</p>
+  </div>
+
+  <div class="char-card kid">
+    <h3>The Kid</h3>
+    <div class="role">Before the Amputation — Studio Guest (First + Last)</div>
+    <p>~20 years old. From before everything got complicated. Can feel everything without it being destroyed. Runs towards people, not away. Doesn't know he's a ghost. Thinks he's just visiting. When he shows up in the studio, it's not nostalgia — it's a confrontation. Because he can do the one thing Su has forgotten: feel loved without flinching.</p>
+  </div>
+
+  <div class="char-card older">
+    <h3>The Older Su</h3>
+    <div class="role">The Mirror That Finished — Studio Guest (Later)</div>
+    <p>The version who made the film. Festivals. Reviews. Everything Su dreams about. But tired. Not triumphant. Proof that the problem was never about the film. He doesn't roast Su. He reads him like test results. The only version who walks in through the door — because the future has somewhere real to go.</p>
+  </div>
+</div>
+
+<div class="rules">
+  <h3>The Comedian's Rules</h3>
+  <ul>
+    <li>He is ALWAYS with Su — auto, office, walks, chai, dates. The audience doesn't know he's not real at first.</li>
+    <li>He NEVER enters the studio. The amber room demands honesty. He can't.</li>
+    <li>He BOLTS from heavy moments — mother's call, real conversations, silence that lasts too long.</li>
+    <li>He has ONE moment where he tries to stay. Fights it. Leaves anyway. That's the scene where the audience sees: he's not fun. He's terrified.</li>
+    <li>He is never in serious conversation with anyone other than Su. He lets real Su handle the world.</li>
+    <li>He disappears at the end — not dramatically. He's just... not there anymore. Su notices the silence. It doesn't hurt.</li>
+  </ul>
+</div>
+
+<div class="rules">
+  <h3>Su's Voice — How Philosophy Enters the Film</h3>
+  <ul>
+    <li><strong>Studio Recordings:</strong> Su talks into the mic. Not for a show. Not for anyone. Processing. Fragments of these recordings bleed over walking scenes, auto rides, mornings. Diegetic inner voice.</li>
+    <li><strong>The Comedian's Riffs:</strong> The same truths, but deflected through humor. He says profound things wrapped in jokes — and Su doesn't laugh because he hears what's underneath.</li>
+    <li><strong>Silence + Image:</strong> The Malick approach. Show the ceiling. The sky. The walk. Let the audience FEEL the oneness. No words needed for the deepest moments.</li>
+    <li><strong>The Kid Just Being:</strong> He doesn't philosophize. He embodies it. He IS the truth Su is trying to articulate. "Everything is a concept, like tomorrow" — the Kid would never say this. He'd just run outside.</li>
+    <li><strong>Integrity test:</strong> If a line feels like it belongs in a motivational video, cut it. If it feels like something you'd say at 2 AM looking at the ceiling, keep it.</li>
+  </ul>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOVEMENT 1                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="movement">
+  <span class="movement-number">MOVEMENT 1</span>
+  <h2>The Loop</h2>
+  <div class="mood">Warm. Rhythmic. The audience falls in love with Su's world before anything cracks.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">1.1</span>
+    <h3>Black — Sound of Breathing</h3>
+    <span class="tag tone">QUIET</span>
+  </div>
+  <p>Black screen. Someone breathing. Not distressed — deep, steady, like after a cold shower. The breathing becomes a hum. The Lyrical Loneliness theme. Then image: water hitting tile. Su's back. The cold shower ritual.</p>
+  <div class="visual">Camera: locked on the shower wall. Water runs. We see his silhouette. No face yet. The sound carries everything.</div>
+  <div class="truth">The first thing we hear is Su alone. The first thing we see is a ritual. The film opens on a man who has built a life of routines to keep himself steady.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">1.2</span>
+    <h3>The Morning</h3>
+    <span class="tag loc">HOME</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>Su's apartment. The lived-in chaos of a man who lives alone and has opinions about it. Kettle. Phone check. The notepad on the desk — ink on skin metaphor, words on paper, the cheat sheet of thoughts.</p>
+  <p>No dialogue. No voiceover. Just the sounds of a morning. The camera lingers on small things: the kettle's whistle, the phone face-down on the table, the un-made bed that's been un-made the same way for years.</p>
+  <div class="visual">Tsai Ming-liang energy. Static shots. The beauty of a mundane morning when no one is watching.</div>
+  <div class="su-note">What does YOUR morning actually look like? The real version, not the cinematic one. The 10 AM coffee. The notepad. The phone you don't check and then check. What is the FIRST thing you see when you open your eyes?</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">1.3</span>
+    <h3>The Auto — First Time We See the Comedian</h3>
+    <span class="tag loc">AUTO / DELHI STREETS</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">FUN</span>
+  </div>
+  <p>Su in an auto. The driver's playing loud Punjabi music. Su looks out the window — Delhi scrolling past. Then a voice beside him. The Comedian. Already mid-sentence. Riffing about the driver's music taste, about the traffic, about the auto's decoration.</p>
+  <p>The audience doesn't know yet that the Comedian isn't real. They think it's a friend. Two guys in an auto, shooting the shit. The Comedian is charismatic, fast, sharp. Su smiles but doesn't fully engage — like a man who's heard these riffs a thousand times.</p>
+  <div class="visual">Camera: over-the-shoulder, then the Comedian in frame, then back to Su. The auto's rearview mirror catches both of them — or does it only catch Su? Don't answer this yet. Let the audience figure it out.</div>
+  <div class="truth">The Comedian is introduced as a friend. The reveal that he's Su's defense mechanism comes later. For now, he's just the funniest person in the auto.</div>
+  <div class="su-note">The Comedian's riffs here should be YOUR actual auto observations. The stuff you think but don't say. The driver staring at girls. The signal-breaking. The bizarre dashboard decorations. What makes YOU smile in an auto?</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">1.4</span>
+    <h3>The Studio — Killing Time</h3>
+    <span class="tag loc">STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">QUIET</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>Evening. Su in the studio. Not recording anything. Flicking the mic, listening to the thud through the monitor. Adjusting the chair position. Moving the water glass. The rituals of a man who doesn't know how to begin, so he arranges the furniture instead.</p>
+  <p>He talks into the mic. Not a show. Not an entry. Just... thinking out loud.</p>
+  <div class="inner-voice">
+    <span class="label">Studio Recording (fragment)</span>
+    Something about love. About breathing. About how he's good company for a few hours but the person who can't be alone can never be happy with him. Not polished. Rambling. Real.
+  </div>
+  <p>He gets up to leave. Turns the door handle. It doesn't move.</p>
+  <div class="truth">The studio recording becomes the film's inner voice. We'll hear fragments of THIS recording over later scenes — the walking, the auto rides, the ceiling-staring. But right now, we just see a man talking to himself in a room. And then a door that won't open.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">1.5</span>
+    <h3>The Locked Room — The Kid Appears</h3>
+    <span class="tag loc">STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-kid">THE KID</span>
+    <span class="tag tone">WONDER</span>
+  </div>
+  <p>The door won't open. Su pulls. Calls someone. No answer. He stops — because the monitor is picking up sound. A rhythmic tapping. The same pattern he was tapping on the mic thirty seconds ago. Someone is tapping the other mic.</p>
+  <p>He looks at the camera viewfinder. In the frame: someone in the guest chair. Small. Turned away. A kid. The kid waves — not at Su, at the camera. Like he knows exactly where to look.</p>
+  <p>The Kid turns around. Grins. Touches everything — the mic, the lights, the cables. He's amazed. He doesn't know he's a ghost. He thinks this is the coolest room in the world.</p>
+  <p>The conversation that follows is NOT deep. It's fun. The Kid asks about the equipment. About what Su does here. About why there are two chairs. Su doesn't know how to answer. The Kid doesn't need deep answers — he just wants to know things.</p>
+  <p>Then someone opens the door from outside. The Kid is gone. The chair is empty. The memory card recorded nothing.</p>
+  <div class="visual">Amber light throughout. The Kid lit the same way as Su — the light doesn't know who's real and who's imaginary. Camera intimate: close-ups, hands on mic, the water glass, the Kid's face full of wonder.</div>
+  <div class="truth">The first studio encounter is LIGHT. Warm. Fun. The Nusrat melody before the Nusrat lyrics. The audience learns the rules of the locked room without any heaviness. The heaviness comes later.</div>
+  <div class="su-note">The Kid's dialogue should be things a genuinely curious 20-year-old would say in a studio for the first time. Not philosophical. Not wise. Just excited. "Ye camera mein red light kyun nahi aa rahi?"</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">1.6</span>
+    <h3>After the Kid — The Walk</h3>
+    <span class="tag loc">DELHI STREETS / NIGHT</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+  </div>
+  <p>Su walks out of the studio. Shaken. The Comedian is waiting outside. "Kya hua? Bhoot dekh liya?" Su doesn't answer. Walks. The Comedian walks with him. Tries to riff. Su isn't biting.</p>
+  <p>For the first time, the Comedian can't make Su laugh. He tries harder. Gets louder. Su just walks. The Comedian eventually shuts up. They walk in silence. This is the first crack — something happened in that room that the Comedian can't reach.</p>
+  <div class="visual">Long take. Two figures walking a Delhi street at night. One talking, one silent. Then both silent. The city around them is alive but they're in their own tunnel.</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOVEMENT 2                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="movement">
+  <span class="movement-number">MOVEMENT 2</span>
+  <h2>The Comedian's World</h2>
+  <div class="mood">Fast. Bright. The funniest part of the film. But underneath, the origin of armor.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.1</span>
+    <h3>Black — Sound of Laughter</h3>
+    <span class="tag tone">ENERGY</span>
+  </div>
+  <p>Black screen. Laughter. Not one person — a room full. The laughter builds, peaks, crashes. Then silence. Then a single voice: a comedian mid-set. The laughter swells again. Image fades in: the comedy club. Spotlight. Black curtain behind. A figure in shades. Su.</p>
+  <div class="truth">This movement is the Comedian's backstory — told in fragments. Not chronological. Not linear. Pieces of standup nights that add up to a picture of someone who was most alive on stage and most lost everywhere else.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.2</span>
+    <h3>Fragment — The Set</h3>
+    <span class="tag loc">COMEDY CLUB</span>
+    <span class="tag char-su">SU (PAST)</span>
+    <span class="tag tone">FUN</span>
+    <span class="tag shootable">NEEDS AUDIENCE</span>
+  </div>
+  <p>Shades on. Spotlight. Su doing a set. The material is sharp — observational, self-aware, the kind that makes people laugh because they recognize themselves. No before. No after. Just the set. The energy of a room that's with you.</p>
+  <p>We see fragments: the opener, a callback that lands, the crowd leaning in. The joy of being funny. The pure adrenaline of a room laughing at something you made up in your head at 3 AM.</p>
+  <div class="visual">Shot differently from everything else in the film. Handheld. Close. The spotlight burns. The shades reflect it. The faces in the audience are blurred (blurred faces rule). Just Su and the sound of laughter.</div>
+  <div class="su-note">These need to be YOUR jokes. Real material. The security/insecurity opener. The government bit. Whatever makes you feel most alive on stage. The film needs to SHOW why the Comedian exists — because performing was genuinely the best part of Su's life.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.3</span>
+    <h3>Fragment — The Phone Guy</h3>
+    <span class="tag loc">COMEDY CLUB</span>
+    <span class="tag char-su">SU (PAST)</span>
+    <span class="tag tone">SHIFT</span>
+  </div>
+  <p>Mid-set. Someone's phone goes off. Su handles it — starts roasting the guy. The audience loves it. Su keeps going. Gets personal. Gets mean. The room is laughing but the guy isn't. Su can feel the line being crossed but the laughter is a drug and he can't stop.</p>
+  <p>The bit ends. Applause. But something is different. Su's smile has changed. The shades hide the eyes but the jaw is tight.</p>
+  <div class="truth">The Comedian's reflex anger — the one that isn't calculated, just fires. This is what Su hates about the Comedian. This is why he stopped. Not because he wasn't good. Because he was good at being cruel.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.4</span>
+    <h3>Tapri — After the Show</h3>
+    <span class="tag loc">TEA STALL / NIGHT</span>
+    <span class="tag char-su">SU (PAST)</span>
+    <span class="tag tone">WARM</span>
+    <span class="tag shootable">NEEDS FRIENDS</span>
+  </div>
+  <p>The tapri. Comedian friends. Chai in glass cups. The sound of laughter continues — but softer now, private, between friends. Su is one of them. His hands around the cup. His face relaxed in a way we haven't seen.</p>
+  <p>Blurred faces. Blurred hands. The focus is on Su — his eyes, his laugh, the way he leans back against the wall. The voices around him are warm and real.</p>
+  <div class="visual">Focus rack: Su's face sharp, everything else soft. The only time in the film where Su looks genuinely relaxed around other people. The tapri is sanctuary.</div>
+  <div class="inner-voice">
+    <span class="label">Studio Recording (bleeding in, faint)</span>
+    I am good company for a few hours. Maybe a night. But the person who can't be alone... they can't be happy with me.
+  </div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.5</span>
+    <h3>Present — The Comedian in Daily Life</h3>
+    <span class="tag loc">VARIOUS</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">FUN</span>
+  </div>
+  <p>A montage of moments — not a traditional montage, more like postcards. The Comedian at Su's desk making fun of the emails. The Comedian in the kitchen critiquing how Su makes chai. The Comedian walking alongside him, narrating the city like a nature documentary.</p>
+  <p>These are the good times. This is why the Comedian exists — he makes the loneliness bearable. He turns every empty moment into material. The audience loves him. That's important. They need to love him before they understand what he costs.</p>
+  <div class="su-note">Write 4-5 of these moments as one-page sketches. What does the Comedian say when you're making chai? When you're stuck in traffic? When you see a couple fighting? These are YOUR observations but given to the Comedian's voice — faster, sharper, funnier.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.6</span>
+    <h3>The Comedian Tries to Stay</h3>
+    <span class="tag loc">HOME / EVENING</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">SHIFT</span>
+  </div>
+  <p>Su's phone rings. Maa. Su answers. The Comedian is there — sitting across the room, legs up on the coffee table, flipping through a notebook. Normal.</p>
+  <p>Maa talks. We don't hear her clearly — just the tone. The weight. Su's face changes. The conversation is about the thing it's always about. Marriage. Coming home. Being normal.</p>
+  <p>The Comedian shifts. Uncrosses his legs. The riffing energy drops. He looks at Su. He wants to say something funny — you can see it forming behind his eyes. But the room is too heavy. The words don't come.</p>
+  <p>He gets up. Walks to the door. Stops. His hand on the frame. He's fighting it — the urge to bolt. For one second, he's trying to be real. To stay in the room where something hurts.</p>
+  <p>He leaves. The door closes softly. Su is alone on the phone with his mother.</p>
+  <div class="truth">The almost-staying. The one time the audience sees that the Comedian isn't just fun. He's terrified. And that's why he's funny. Being funny is his only defense mechanism — and when it fails, he has nothing.</div>
+  <div class="su-note">This scene is the emotional core of the Comedian's character. The phone call doesn't need dialogue from Maa — just her TONE and Su's face. What does your face do when your mother talks about the thing you can't give her?</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.7</span>
+    <h3>Fragment — 1:30 AM in the Rain</h3>
+    <span class="tag loc">DELHI STREET / RAIN / NIGHT</span>
+    <span class="tag char-su">SU (PAST)</span>
+    <span class="tag tone">ACHE</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>The fragment that explains everything. A different night. Younger Su waited outside a comedy club for five hours. 1:30 AM. Never got a spot. The rain started. He stood there. Everyone else had gone home. The autos had stopped running.</p>
+  <p>He walked home. In the rain. Alone. No Comedian beside him — because the Comedian doesn't exist yet. This is the BEFORE. The version of Su who could feel the rain and just feel the rain, without turning it into a bit.</p>
+  <div class="visual">This should be the most beautiful shot in the film so far. Rain on empty Delhi streets. One figure walking. No umbrella. No rushing. The Lyrical Loneliness hum under the rain sound. This is NOT sadness. This is the lyrical loneliness itself — the thing Su is named after in this film.</div>
+  <div class="truth">The Comedian was born sometime between this rain walk and the phone guy set. Somewhere in between, Su decided feeling things without armor was too dangerous.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">2.8</span>
+    <h3>The Studio Door — The Comedian Won't Enter</h3>
+    <span class="tag loc">STUDIO CORRIDOR + STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">QUIET</span>
+  </div>
+  <p>Present. Su walks toward the studio. The Comedian is with him, riffing about something. They reach the door. Su goes to open it. The Comedian slows down.</p>
+  <p>"Chal na, kya karega andar baith ke. Chai peete hain."</p>
+  <p>Su opens the door. Steps inside. Looks back. The Comedian is standing in the corridor. He won't cross the threshold. He shrugs — casual, like it doesn't matter. But his feet don't move.</p>
+  <p>Su sits. Looks at the empty chair. The amber light. The two mics. From outside, the Comedian's voice: "Tera problem pata hai kya hai? Tu har jagah meaning dhundhta hai."</p>
+  <p>Su doesn't respond. He sits in the silence. After a while, he gets up and leaves. The Comedian is waiting outside: "Chal, chai peete hain." Like nothing happened.</p>
+  <div class="truth">The studio demands honesty. The Comedian cannot be honest. This scene tells the audience everything about who the Comedian is in one image: a man standing outside a door he can't walk through.</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOVEMENT 3                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="movement">
+  <span class="movement-number">MOVEMENT 3</span>
+  <h2>The Loneliness of Being Loved</h2>
+  <div class="mood">Lyrical. Soft. The film slows down. Su navigates the world of love, dates, family — the places where armor doesn't work.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">3.1</span>
+    <h3>The Date — Modern Love</h3>
+    <span class="tag loc">RESTAURANT / EVENING</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">BITTERSWEET</span>
+  </div>
+  <p>Su on a date. A modern one — app-matched, both pretending to be more interesting than they are. The Comedian sits at the next table, watching. He's quiet — not riffing, just observing. Giving Su space.</p>
+  <p>The date is fine. Pleasant. Forgettable. Su is present but not there. He's doing all the right things — asking questions, smiling, nodding. But his eyes are watching the candle. The girl notices. She says something. We don't hear it. We see Su's face trying to recalibrate.</p>
+  <p>After, walking to the auto stand. The Comedian finally speaks: "She was nice." Su: "Haan." The Comedian: "Tu bhi nice tha." The way he says "nice" — it's not a compliment. It's a diagnosis.</p>
+  <div class="visual">The date shot through glass — reflections, the restaurant's warm light making it look like a still life. The Comedian at the other table is in the background, out of focus. We can see him. She can't.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">3.2</span>
+    <h3>The Arranged Meeting</h3>
+    <span class="tag loc">CAFÉ OR FAMILY HOME</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">UNCOMFORTABLE</span>
+  </div>
+  <p>A girl his family set him up with. Different energy entirely. Both know why they're here. She's nice. Educated. The kind of person his mother describes on the phone. Su is so far away from this kind of life that the distance is almost physical.</p>
+  <p>The Comedian, for once, is respectful. He's not roasting the situation. He's sitting back, giving space, like even he knows there are lines. This shows a different shade — the Comedian isn't always a clown. He knows when to be quiet. He just chooses not to, most of the time.</p>
+  <div class="truth">Su isn't against love or marriage. He's against performing it. The difference between "I don't want to love" and "I can't love the way you need me to" — that's the gap the film lives in.</div>
+  <div class="su-note">Have you actually been on an arranged meeting? What was the most uncomfortable moment? The most human moment? The one that made you think "if I were a different person, this would work"?</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">3.3</span>
+    <h3>Walking Alone — Love as Breathing</h3>
+    <span class="tag loc">DELHI STREETS / LATE NIGHT</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">LYRICAL</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>Su walks. No Comedian tonight — he bolted hours ago. The city is half-asleep. Street dogs. Shuttered shops. The distant hum of a generator. Su's footsteps on asphalt.</p>
+  <div class="inner-voice">
+    <span class="label">Studio Recording (from an earlier night, bleeding in)</span>
+    Love is like breathing. In the moment of true devotion there is no separation between the devoted and the devotee. They are one. That is love for me. The spontaneous feeling not polluted by any kind of thought...
+  </div>
+  <p>We hear this over the walk. Not as narration — as something Su said once in an empty room, now floating over an empty street. The words are real. The setting makes them feel lived, not preached.</p>
+  <div class="visual">Long, slow tracking shot from behind. Su getting smaller as the street stretches. Or: static shot, Su walks through frame and out. The camera stays on the empty street. The audio continues. The absence IS the image.</div>
+  <div class="truth">In the moment of true devotion there is no separation. Su knows this. He FEELS this sometimes — the oneness with the universe, the overwhelming beauty of just existing. But he can't feel it with a person. He can feel it with a ceiling. With a street. With rain. Not with a person. That's what was amputated.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">3.4</span>
+    <h3>The Phone Call — Mother</h3>
+    <span class="tag loc">HOME / EVENING</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">ACHE</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>A proper phone call this time. Not long — mothers and sons who've stopped knowing how to talk to each other don't talk long. We hear her voice but not the words. We see Su's face. The effort of being a son who can't give his mother what she wants.</p>
+  <p>He says "haan" a lot. He says "theek hai." He says "baad mein baat karte hain." He hangs up. Sits. Stares at the phone. The silence in the apartment is the loudest thing in the film.</p>
+  <div class="truth">The mother doesn't need to be in the studio. This phone call IS the mother scene. A man who loves his mother but their love has become a negotiation neither of them wanted.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">3.5</span>
+    <h3>Studio Recording — The Ego</h3>
+    <span class="tag loc">STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">HONEST</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>Su at the mic. Late. Alone. Not expecting anyone tonight — the room isn't locked, the door is open. He's just talking.</p>
+  <div class="inner-voice">
+    <span class="label">Studio Recording (live, we see him say it)</span>
+    I see my ego. I observe it. I see its ebbs and flow. I understand it. And I still let it win. I'm getting better. But there's no point I'm trying to reach. There is no point to reach, actually. Everything is a concept. Like tomorrow.
+  </div>
+  <p>He laughs at his own words. Not a performance laugh. The laugh of a man who caught himself being profound and found it funny. He drinks water. Gets up. Leaves the mic on. The red light stays.</p>
+  <div class="truth">The deepest lines in the film should make Su LAUGH, not cry. Because he's not sad. He's a man who sees clearly and finds the clarity funny. The Nusrat Principle at work — the truth is heavy, the delivery is light.</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOVEMENT 4                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="movement">
+  <span class="movement-number">MOVEMENT 4</span>
+  <h2>The Mirror That Finished</h2>
+  <div class="mood">Colder. Quieter. The film's center of gravity. Su meets the version who did everything he dreams about — and it didn't help.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">4.1</span>
+    <h3>The Comedian Weakens</h3>
+    <span class="tag loc">VARIOUS</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">SHIFT</span>
+  </div>
+  <p>The Comedian's energy is dropping. His jokes land slower. His presence is less constant — he's not in every auto ride anymore. Sometimes Su looks to his right and the seat is empty. The Comedian shows up later, like he overslept. His riffs are recycled.</p>
+  <p>Something is changing. The studio visits — the Kid, the nights of talking into the mic — are doing something to Su that the Comedian can't counter. Su is becoming more honest. And honesty is the Comedian's poison.</p>
+  <div class="truth">The Comedian doesn't die in a dramatic scene. He fades. Like a radio station slowly going out of range. The signal was strong once. Now it crackles.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">4.2</span>
+    <h3>The Older Su Appears</h3>
+    <span class="tag loc">STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-older">OLDER SU</span>
+    <span class="tag tone">WEIGHT</span>
+  </div>
+  <p>Studio. Door locks. Su isn't scared anymore — he knows how this works now. He sits. Looks at the empty chair. Looks at the glass of water. Then he sees it — a face in the water's reflection. He looks up. The Older Su is there.</p>
+  <p>The Older Su is different from every other guest. He came through the door — the only one who uses the door, because the future has somewhere real to go. He looks around the studio like he recognizes everything. Touches the mic the way you touch a scar.</p>
+  <p>The conversation is not a roast. Not a therapy session. It's two men who are the same person separated by time. The Older Su is tired. Not broken — just done. He made the film. Festivals. Reviews. Everything. And it didn't fix the thing Su thinks it'll fix.</p>
+  <div class="inner-voice">
+    <span class="label">Dialogue seeds (not final)</span>
+    "Tu film bana liya?" / "Ban gayi. Sab ban gayi." / "Toh?" / "Toh kya? ... Ek aur cheez finish ho gayi. Bas."
+  </div>
+  <p>The Older Su's "bhaagna" version: "Tu time se bhag raha hai. ... Mujhse bhag ke kahan jayega?"</p>
+  <div class="truth">Finishing the film won't save Su. Not-finishing the film won't save Su either. The pattern is the problem, not the project. The Older Su knows this because he lived it.</div>
+  <div class="su-note">This is the hardest conversation to write because it's the one you're most afraid of. What does the successful version of you feel like? Is he happier? Or is he just... done? What would you ask him if he showed up tonight?</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">4.3</span>
+    <h3>After the Older Su — The World Feels Different</h3>
+    <span class="tag loc">VARIOUS / DAY</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">SHIFT</span>
+  </div>
+  <p>The next day. Something is different. Su moves slower. Not sadder — more present. He notices things: the light on the building across the street. The sound of the pressure cooker from a neighbor's kitchen. The way the auto driver's hands rest on the steering wheel at a red light.</p>
+  <p>The Comedian is barely there. A shadow in the corner. A voice that starts a sentence and doesn't finish it. Su doesn't miss him yet. But the silence is new.</p>
+  <div class="visual">The camera breathes for the first time. Longer holds. More air between shots. The film itself is slowing down because Su is slowing down.</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOVEMENT 5                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="movement">
+  <span class="movement-number">MOVEMENT 5</span>
+  <h2>The Unraveling</h2>
+  <div class="mood">Raw. The armor comes off. Not violently — like a man undressing at the end of a long day.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">5.1</span>
+    <h3>Su Goes to the Studio Voluntarily</h3>
+    <span class="tag loc">STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">QUIET</span>
+    <span class="tag shootable">SOLO SHOOT</span>
+  </div>
+  <p>For the first time, Su goes to the studio not because the door locked, not because he's killing time. He goes because he wants to sit in that chair. He turns on the mic. Talks. Really talks — not rambling, not performing. Just a man being honest with the only room that ever demanded it from him.</p>
+  <div class="inner-voice">
+    <span class="label">Studio Recording (the real one)</span>
+    What he says here should be from the entries. The real words. The ones that made him cry. Not cleaned up for cinema. Raw.
+  </div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">5.2</span>
+    <h3>The Comedian's Last Try</h3>
+    <span class="tag loc">HOME / EVENING</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-comedian">COMEDIAN</span>
+    <span class="tag tone">BITTERSWEET</span>
+  </div>
+  <p>The Comedian shows up. Full energy. Like the old days. He's got material — new stuff, good stuff. He's trying. He riffs about the arranged marriage girl. About the date. About how Su sat in the studio talking to himself like a "pagal aadmi."</p>
+  <p>Su watches him. There's no anger. No confrontation. Just clarity. Su sees through the performance now. He sees the terror underneath. The Comedian was never protecting him from the world — he was protecting him from feeling.</p>
+  <p>Su doesn't say any of this. He just looks at the Comedian the way you look at someone you've outgrown. With love. With sadness. With the knowledge that they can't come where you're going.</p>
+  <p>The Comedian feels it. The riff dies. He sits down. For a moment — just a moment — he's not performing. He's just a man sitting in a room with himself. Then he gets up and walks out. This time, he doesn't say "chal, chai peete hain." He just leaves.</p>
+  <div class="truth">The Comedian doesn't die. He isn't killed. He isn't confronted or defeated. He's loved. And the love is what makes him leave. Because love is the one thing the scar tissue can't survive.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">5.3</span>
+    <h3>Real Moments Break Through</h3>
+    <span class="tag loc">VARIOUS</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">WARM</span>
+  </div>
+  <p>A sequence of small real moments. Su calls his mother. Brief but warmer. He doesn't say anything different — but the tone has shifted. She notices. Doesn't say anything. Mothers notice.</p>
+  <p>Su watches a film alone. Something hits him. He cries. Not dramatically — his eyes just fill. He doesn't wipe them. He lets it happen. (First time in the film Su lets himself feel without armor or analysis.)</p>
+  <p>Su at his desk. Writing. Actually writing — not planning, not noting, not infrastructure. Words on paper. The pen moves.</p>
+  <div class="visual">These scenes should be BRIEF. Ten seconds each. No dialogue. Just images of a man who's starting to let things through.</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOVEMENT 6                                  -->
+<!-- ════════════════════════════════════════════ -->
+
+<div class="movement">
+  <span class="movement-number">MOVEMENT 6</span>
+  <h2>The Return</h2>
+  <div class="mood">Still. Clear. The Nusrat melody and the Nusrat lyrics finally become one thing.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">6.1</span>
+    <h3>The Kid Comes Back</h3>
+    <span class="tag loc">STUDIO</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag char-kid">THE KID</span>
+    <span class="tag tone">STILL</span>
+  </div>
+  <p>Studio. The door locks. Su sits. He doesn't look at the empty chair with dread or excitement. He just waits. He knows.</p>
+  <p>The Kid is there. Same kid. Same grin. But something is different — not in the Kid. In Su. Su can see him now. Really see him. Not as a ghost or a mechanism or a metaphor. As the version of himself who never needed armor because he didn't know the world would hurt him.</p>
+  <p>The conversation is short. The Kid says something devastatingly simple. Not philosophical. Not wise. Something a child would say that makes 37 years of living feel like a long detour.</p>
+  <div class="su-note">You said it yourself: "so childish and so elementary that all the learned experience of his life becomes irrelevant." You'll know the line when you hear it. It'll come from one of your 40-minute sessions. It might come from a place that has nothing to do with film or art — it might be something your mother said, or something you said to a stranger in an auto, or something the kid inside you says when you're staring at the ceiling at 3 AM. The line is already in you. You just haven't recorded the right entry yet.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">6.2</span>
+    <h3>Su Walks Out</h3>
+    <span class="tag loc">STUDIO → DELHI STREETS → DAWN</span>
+    <span class="tag char-su">SU</span>
+    <span class="tag tone">BREATHING</span>
+  </div>
+  <p>Su walks out of the studio. The Comedian is not waiting outside. The corridor is empty. Not ominously — just empty. The absence is quiet. Like a room after music stops. You don't miss the music. You just notice the silence is okay.</p>
+  <p>He walks. Doesn't take a cab. Doesn't take an auto. Walks. Delhi in the hours between night and morning. Street dogs. A chai stall opening. A sweeper. The city breathing.</p>
+  <p>The Lyrical Loneliness hum. But it doesn't sound lonely anymore. It sounds like breathing. Like the devoted and the devotee being one. Like a man and his city and the 3 AM air between them.</p>
+  <div class="visual">Long. Patient. No rush to end. The camera walks with him. Not behind him. Beside him. Like a companion that doesn't need to talk.</div>
+</div>
+
+<div class="scene">
+  <div class="scene-header">
+    <span class="scene-id">6.3</span>
+    <h3>The Last Image</h3>
+    <span class="tag tone">END</span>
+  </div>
+  <p>This is yours to decide. Some seeds:</p>
+  <p>Su walks until he reaches his building. Goes up the stairs. Opens the door to his studio. Sits. Adjusts the mic. Looks at the empty chair. Hits record. The red light comes on. He looks at the camera. Not a comedy look. Not a scared look. Just: <em>seen.</em> Black.</p>
+  <p>OR: Su walks. Dawn breaking. A real kid — a stranger — runs past him on the empty road. Running for the joy of it. Su watches. The kid disappears around a corner. Su starts walking again. Not running. But not standing still. Black.</p>
+  <p>OR: Su reaches home. Opens the door. The apartment is the same. But he sees the ceiling the way you see it when the oneness hits — not a ceiling, just sky painted over. He lies down. Stares up. The hum continues. Black.</p>
+  <div class="su-note">The last image of the film is a promise. What do you want the audience to carry out of the theatre? Is Su alone? Is he moving? Is he finally still? Record an entry about this. The answer is in your body, not your head.</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- STRUCTURAL NOTES                            -->
+<!-- ════════════════════════════════════════════ -->
+
+<hr class="divider">
+
+<div class="foundation">
+  <h2>How to Use This Beat Sheet</h2>
+  <ul>
+    <li><strong>These are scenes, not a shooting script.</strong> Each scene is a standalone short film. Write whichever one you can SEE right now. Not the one the structure demands.</li>
+    <li><strong>The movements are moods, not chapters.</strong> You might shoot scenes from Movement 3 and Movement 1 on the same day. The order is emotional, not chronological.</li>
+    <li><strong>Every scene marked <span class="tag shootable">SOLO SHOOT</span> can be shot with just you and a camera.</strong> That's more than half the film. Start there.</li>
+    <li><strong>The "YOUR TURN" boxes are your homework.</strong> Not writing assignments — speaking assignments. Take each one into a 40-minute session. Record it. The script comes from those recordings, not from this document.</li>
+    <li><strong>The Comedian needs a performer.</strong> Unless you play him too (different energy, same face — GenAI). Figure this out early.</li>
+    <li><strong>The Kid needs a performer.</strong> Same question. A real 20-year-old who looks like you? Or GenAI younger Su? Both have trade-offs.</li>
+    <li><strong>Scenes you can film THIS MONTH:</strong> 1.1, 1.2, 1.4, 2.7, 3.3, 3.4, 3.5, 5.1 — all solo, all your studio or Delhi streets.</li>
+  </ul>
+</div>
+
+<div class="foundation">
+  <h2>What Changed from V2 → V3</h2>
+  <ul>
+    <li><strong>Five studio guests → Two.</strong> Kid (first + last) and Older Su. The rest live in the real world.</li>
+    <li><strong>The Comedian: studio guest → constant companion.</strong> He's in every scene except the studio. He's the film's heartbeat until he isn't.</li>
+    <li><strong>Mother and Ex: studio scenes → life scenes.</strong> Phone calls, dates, the arranged meeting. Subtler. Not therapy sessions.</li>
+    <li><strong>Voiceover → Studio Recordings.</strong> Diegetic. Su talks into a mic. Fragments bleed over other scenes. Not narration — thinking out loud.</li>
+    <li><strong>Chapters → Movements.</strong> No rigid chapter breaks. Movements flow into each other. Each movement is a mood shift, not a plot point.</li>
+    <li><strong>Five "How to Not" titles → gone.</strong> The film doesn't need clever titles. It needs scenes that breathe.</li>
+  </ul>
+</div>
+
+<div class="foundation">
+  <h2>The Bhaagna Spine (Still There)</h2>
+  <p>Each version of Su still delivers their "you love to run" — but now spread differently:</p>
+  <ul>
+    <li><strong>The Comedian</strong> (throughout): Says it casually, as a joke. "Bhai, tu toh aise bhagta hai jaise koi peecha kar raha hai." It's funny when he says it. It's devastating when you realize he's the one enabling the running.</li>
+    <li><strong>The Kid</strong> (first visit): Doesn't say "bhaagna." Instead, he just... runs. In the studio. Touches things, moves, explores. He's physically embodying the running, but for him it's joy, not escape.</li>
+    <li><strong>The Older Su</strong>: "Mujhse bhag ke kahan jayega?" The version you can't outrun because he IS where the running leads.</li>
+    <li><strong>Mother</strong> (phone call, not studio): Doesn't say the word. But her silence after Su says "baad mein baat karte hain" — her silence IS the accusation. He's running from her. She doesn't need to name it.</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>Beat Sheet V3 — March 13, 2026</p>
+  <p style="margin-top: 0.5rem; color: var(--accent);">Not a blueprint. A compass. The scenes tell you where to walk. Your entries tell you what to say when you get there.</p>
+</div>
+
+</body>
+</html>
