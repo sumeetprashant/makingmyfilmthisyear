@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entry 11 — Talking Points & Lines</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface-2: #1a1a25;
+    --border: #2a2a3a;
+    --text: #e0e0e8;
+    --text-dim: #8888a0;
+    --accent: #c9a84c;
+    --accent-soft: rgba(201, 168, 76, 0.15);
+    --red: #e05555;
+    --green: #55b875;
+    --blue: #5588cc;
+    --purple: #9b7ecc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  header .date {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  header .subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  .context {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .context h2 {
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .context p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .point {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: border-color 0.3s;
+  }
+
+  .point:hover { border-color: var(--accent); }
+
+  .point-number {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .point h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  .point p { margin-bottom: 0.8rem; font-size: 0.95rem; }
+
+  .point .prompt {
+    background: var(--surface-2);
+    border-left: 2px solid var(--accent);
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  .point .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.4rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+
+  .tag.open { background: rgba(85, 136, 204, 0.15); color: var(--blue); }
+  .tag.locked { background: rgba(85, 184, 117, 0.15); color: var(--green); }
+  .tag.priority { background: rgba(224, 85, 85, 0.15); color: var(--red); }
+  .tag.lines { background: rgba(155, 126, 204, 0.15); color: var(--purple); }
+
+  blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .line-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.2rem 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #fff;
+  }
+
+  .line-block .speaker {
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .line-block .stage-dir {
+    color: var(--text-dim);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .line-block + .line-block {
+    margin-top: 0.5rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  .footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Entry 11</h1>
+  <div class="date">March 12, 2026 — Night</div>
+  <div class="subtitle">The last set of talking points. After this, you write.</div>
+</header>
+
+<div class="context">
+  <h2>Where We Are</h2>
+  <p>Entry 10 was the breakthrough. The locked room mechanism found its shape — the door that won't open, the guest who appears, the memory card that records nothing. Five guests in order: Kid, Comedian, Ex, Older Su, Mother. The mother's door opens but she stays. The kid returns last and says something devastatingly simple. Blurred faces for everyone except Su. Fragment-based storytelling. "I do things because I want to do them." The film now has its skeleton. What's left is the flesh — the exact lines, the exact feelings, the scenes you can see but haven't said out loud yet. Tonight is about saying them.</p>
+  <p style="margin-top: 0.8rem; color: var(--accent);">This document has LINES. Starting lines. They're not final — they're seeds. Continue from them. See where they take you.</p>
+</div>
+
+<!-- TALKING POINT 01 -->
+<div class="point">
+  <span class="point-number">POINT 01</span>
+  <span class="tag priority">PRIORITY</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Locked Room — The First Night, Beat by Beat</h3>
+  <p>You described the mechanism in Entry 10. But you haven't LIVED it. The first time the door locks, the first time Su hears someone on the other mic — that's not a mechanism. That's a scene. And it needs to breathe.</p>
+  <p>Here's how it might feel. Continue from these lines:</p>
+
+  <div class="line-block">
+    <span class="stage-dir">INT. STUDIO — NIGHT. Amber light. The room hums. Su is alone. He's playing with the mic, flicking it with his finger, listening to the thud through the monitor. He's not recording. He's killing time. He gets up to leave.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">He turns the door handle. It doesn't move. He pulls harder. Nothing. He pulls again — this time with his body weight. The door does not open.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    (calling out) Bhai? Koi hai? ... Hello?
+    <span class="stage-dir">Silence. He pulls out his phone. Calls someone. It rings. No answer. He calls again. Same.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">He stops. Because the monitor is picking up sound. A rhythmic tapping. The same rhythm he was tapping on the mic thirty seconds ago. Someone is tapping the other mic. The same pattern. Exactly the same.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">Su walks to the camera. Looks at the viewfinder. In the frame: someone sitting in the guest chair. Turned away. Small. A kid. The kid waves — not at Su, at the camera. Like he knows exactly where to look.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    (from across the room, not turning around) Ye camera mein red light kyun nahi aa rahi?
+    <span class="stage-dir">Beat. Su stares.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    ... Kaun hai tu?
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    (finally turns around. Grins.) Tu kaun hai?
+  </div>
+
+  <div class="prompt">Tonight: continue from "Tu kaun hai?" What does the kid say next? He's amazed by the studio — the mics, the lights, the cameras. He's touching everything. He doesn't know he's a ghost. He thinks he's just visiting. What does he ask Su? And what question does Su not know how to answer?</div>
+</div>
+
+<!-- TALKING POINT 02 -->
+<div class="point">
+  <span class="point-number">POINT 02</span>
+  <span class="tag priority">PRIORITY</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Kid's Final Line — The Film's Turning Point</h3>
+  <p>You said it yourself: the kid returns at the end and says something "so childish and so elementary that all the learned experience of his life becomes irrelevant." Not philosophical. Not wise. Simple.</p>
+  <p>The kid doesn't need 37 years of living to see what Su can't. That's the whole point. Here are some seeds — not answers, seeds. Say them out loud. See which one makes your chest tight:</p>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    Chal na, bahar chalte hain.
+    <span class="stage-dir">(Come on, let's go outside.)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    Tu roz yahaan aata hai? Bore nahi hota?
+    <span class="stage-dir">(You come here every day? Don't you get bored?)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    Tujhe pata hai kal kya hoga? ... Nahi na? Toh phir kyun soch raha hai?
+    <span class="stage-dir">(Do you know what'll happen tomorrow? ... No? Then why are you thinking about it?)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    Mujhe ghar jaana hai. Mummy wait kar rahi hogi.
+    <span class="stage-dir">(I want to go home. Mummy must be waiting.)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE KID</span>
+    (looking at all the equipment, the mics, the cameras, the screens) Ye sab se kya karta hai tu?
+    <span class="stage-dir">Beat.</span>
+    <span class="speaker">SU</span>
+    (quiet) ... kuch nahi.
+    <span class="stage-dir">(Nothing.)</span>
+    <span class="speaker">THE KID</span>
+    (without judgment, curious) Toh phir ye sab kyun hai?
+    <span class="stage-dir">(Then why is all this here?)</span>
+  </div>
+
+  <div class="prompt">Tonight: say each of these out loud. One of them will hit differently. Or none of them will and you'll say the real one — because sometimes the right line comes only after you've heard all the wrong ones. The kid's line should make Su walk out of the studio and never come back. Not because it's painful. Because it's so obvious that staying feels absurd.</div>
+</div>
+
+<!-- TALKING POINT 03 -->
+<div class="point">
+  <span class="point-number">POINT 03</span>
+  <span class="tag priority">PRIORITY</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Mother Scene — When She Speaks, the Film Cracks</h3>
+  <p>The door opens but she stays. She's not a version of Su — she's real. He breaks down. He apologises. Then the kid's tiny hand appears.</p>
+  <p>But what does Maa actually say? Her "tujhe bas bhaagna pasand hai" version — how does a mother say that?</p>
+
+  <div class="line-block">
+    <span class="stage-dir">INT. STUDIO — NIGHT. Amber light. Su enters. The door clicks behind him. He doesn't try the handle this time. He knows. He turns around. She's already sitting. Dupatta in place. Hands folded. Looking at him the way she's been looking at him since he was born.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">MAA</span>
+    Baith.
+    <span class="stage-dir">(Sit.)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">He sits. Long silence. She doesn't rush.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">MAA</span>
+    (reaches over, adjusts his collar. The gesture of a woman who's been fixing this boy's clothes for 37 years.) AC band kar. Sardi lag jayegi.
+    <span class="stage-dir">Su doesn't move. She sighs — the sigh of a mother who knows her instructions will be ignored.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">MAA</span>
+    Kab tak bhagega?
+    <span class="stage-dir">Not angry. Not sad. The way you ask someone what time the train leaves — practical, inevitable.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    Maa...
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">MAA</span>
+    Main bhi toh bhaagi hoon. Tere baap se bhaagi. Uske ghar se bhaagi. Apni life se bhaagi. Sirf ek jagah nahi bhaagi — tujhse. Tujhse main kaise bhagti?
+    <span class="stage-dir">(I also ran. Ran from your father. From his house. From my life. The only place I didn't run from — you. How could I run from you?)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">Su tries the door. It opens. He stares at it. Turns back. She's still there.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">MAA</span>
+    Ja. Tujhe jaana hai toh ja.
+    <span class="stage-dir">(Go. If you want to go, go.)</span>
+    <span class="stage-dir">He doesn't move. A tiny hand slips into his. The kid is there. Standing beside him.</span>
+  </div>
+
+  <div class="prompt">Tonight: did Maa ever actually say something like "kab tak bhagega" in real life? If yes, use her real words. If not — what does she actually say when she's worried about you? That's the line. Not what fits the screenplay. What she actually says.</div>
+</div>
+
+<!-- TALKING POINT 04 -->
+<div class="point">
+  <span class="point-number">POINT 04</span>
+  <span class="tag open">OPEN</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Full Chapter Map — Who Anchors What</h3>
+  <p>Five guests locked. But how many chapters? And which guest anchors which chapter? Entry 10 gave one mapping: Older Su = "How to Not Make Films." But the rest needs to be felt, not calculated.</p>
+  <p>Here's a proposal. React to it:</p>
+
+  <div class="line-block">
+    <span class="speaker">CHAPTER 1 — The Kid</span>
+    "How to Not Grow Up"
+    <span class="stage-dir">The locked room. First encounter. The kid explores the studio. Fun, amazement, wonder. The chapter that teaches the audience the rules of the film. Light. Warm. The Nusrat melody before the Nusrat lyrics.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">CHAPTER 2 — The Comedian</span>
+    "How to Not Kill It"
+    <span class="stage-dir">The standup chapter. One night — the set, the phone guy, the walk, the post-mic ritual. The Comedian in the studio calls him out: "Tu stage se bhag raha hai." Fragment-based cuts between studio and the night it all ended. Shades on. Classroom flash as audio bleed — kids laughing over adult laughter, 2-3 seconds, just a seed.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">CHAPTER 3 — The Ex</span>
+    "How to Not Love Someone"
+    <span class="stage-dir">The hardest one to write. She doesn't accuse. She's precise: "Koshish aur commitment mein fark hota hai." She dismantles his self-image quietly. The first time Su breaks in the studio — not crying, just silence. The kind of silence that fills a room.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">CHAPTER 4 — The Older Su / Director</span>
+    "How to Not Make Films"
+    <span class="stage-dir">The version of him that made it. Tired. Not triumphant. Tells Su every mistake — not cruelly, but like a doctor reading test results. "Tu time se bhag raha hai." Then: "Mujhse bhag ke kahan jayega?" The chapter where Su starts dreading the studio instead of wanting it.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">CHAPTER 5 — The Mother</span>
+    "How to Not Be a Son"
+    <span class="stage-dir">Or: just her name. No "How to." Because mothers don't fit in frameworks. The door opens but she stays. He apologises. The kid returns for the last time. The devastatingly simple line. Su walks out. The Lyrical Loneliness hum begins. The walk home. The film ends.</span>
+  </div>
+
+  <div class="prompt">Tonight: is this the right order? Are these the right episode titles? Does the film need chapters before the Kid (the daily life setup, the auto rides, the morning routine) — or does Chapter 1 start with the locked room directly? And: where does Himachal go? A chapter between the Ex and the Director? A breathing chapter — no studio, no guest, just Su and mountains and silence?</div>
+</div>
+
+<!-- TALKING POINT 05 -->
+<div class="point">
+  <span class="point-number">POINT 05</span>
+  <span class="tag open">OPEN</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Comedian's Studio Scene — Full Draft Lines</h3>
+  <p>The Comedian is Su's standup version — sharper, meaner, more alive on stage than Su has ever been off it. He doesn't hug Su. He roasts him. Because that's how comedians love each other.</p>
+
+  <div class="line-block">
+    <span class="speaker">THE COMEDIAN</span>
+    (leaning back, feet up, completely at home in the studio) Tera problem pata hai kya hai?
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    Nahi. Bata.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE COMEDIAN</span>
+    Tujhe stage pe jaana pasand hai. Stage se utarna pasand nahi hai. Utarte hi tu already soch raha hai — "ye line kaam nahi kari, ye wala beat change karna tha, ye pause zyada tha." Tu stage ke baad bhi stage pe hai. Tu kabhi utarta hi nahi.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    That's called craft.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE COMEDIAN</span>
+    (laughs) Craft? Bhai, craft woh hai jab tu next show mein fix karta hai. Tu toh fix karne ke liye next show mein jaata hi nahi. Tu fix karta rehta hai apne kamre mein. Notepad pe. Akele. Bina audience ke. Usse craft nahi bolte. Usse... dar bolte hain.
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">Silence. Su drinks water. The Comedian watches him.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE COMEDIAN</span>
+    Tu stage se bhag raha hai.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    (murmur, not to the comedian, to himself) Nahi... main failure se bhag raha hoon wahaan pe.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE COMEDIAN</span>
+    (quieter now) Same cheez hai, Sumeet. Same cheez.
+  </div>
+
+  <div class="prompt">Tonight: perform this. Out loud. Both sides. The Comedian's voice should be sharper than yours — faster, more rhythm, less pauses. He's the version of you that didn't overthink. And that line — "usse craft nahi bolte, usse dar bolte hain" — does it land? What does YOUR Comedian sound like? Because he's still you. Just the version that stayed on stage.</div>
+</div>
+
+<!-- TALKING POINT 06 -->
+<div class="point">
+  <span class="point-number">POINT 06</span>
+  <span class="tag open">OPEN</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Older Su / Director — The Weight of Success</h3>
+  <p>This one's different. The Older Su isn't cruel. He's not angry. He's tired. He's the version who made it — and making it didn't fix anything. He's proof that the problem was never about the film.</p>
+
+  <div class="line-block">
+    <span class="stage-dir">INT. STUDIO — NIGHT. Amber light, but it feels colder somehow. Su enters. He sits. Looks at the empty chair. Turns back. The Older Su is reflected in the glass of water first. Then he's just there.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">OLDER SU</span>
+    (looking around the studio, recognising everything) Ye mic abhi bhi yahaan hai?
+    <span class="stage-dir">He touches the mic the way you touch a scar. Then laughs — short, dry.</span>
+    Main bhi isi pe roya tha. Same chair. Same glass. Paani bhi utna hi kam hai.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    Tu film bana liya?
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">OLDER SU</span>
+    (nods, but the nod doesn't feel like victory) Ban gayi. Sab ban gayi. Film. Festival. Reviews. Sab.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    Toh?
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">OLDER SU</span>
+    Toh kya? Tu mujhse yeh sunna chahta hai ki sab theek ho gaya? Ki film bana li aur life set ho gayi?
+    <span class="stage-dir">Beat.</span>
+    Nahi hui. Ek aur cheez finish ho gayi. Bas.
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">Long silence. The Older Su leans forward.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">OLDER SU</span>
+    Tu responsibility se bhag raha hai.
+    <span class="stage-dir">Beat.</span>
+    Tu time se bhag raha hai.
+    <span class="stage-dir">Beat.</span>
+    Mujhse bhag ke kahan jayega?
+  </div>
+
+  <div class="prompt">Tonight: the Older Su is proof that success doesn't fix the pattern. "Ek aur cheez finish ho gayi. Bas." — is that what you're afraid of? That finishing the film won't actually change anything? Say it out loud. What does the successful version of you feel like? Is he happier? Or is he just... done?</div>
+</div>
+
+<!-- TALKING POINT 07 -->
+<div class="point">
+  <span class="point-number">POINT 07</span>
+  <span class="tag open">OPEN</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Title — Stop Thinking. Start Feeling.</h3>
+  <p>You've been circling: "How to Not Get Things Done," "How to Not Finish Things," "Nakamyaab," "Someone Tried." Each one rejected because it didn't fill you with fun and joy. The titles keep getting bigger — from filmmaking to productivity to living to being human.</p>
+  <p>But the film already told you what it is. The kid told you.</p>
+
+  <div class="line-block">
+    <span class="speaker">THE KID (from Entry 09)</span>
+    "We are born gods, all of us, and time makes us human."
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU (from Entry 09)</span>
+    "A kid refusing to grow up and just running and being creative in his own way, just curious."
+  </div>
+
+  <p>What if the title isn't a "How to" at all? What if the film's title is the thing the kid would say? Something a child would understand and an adult would spend 37 years trying to explain?</p>
+    <p>Some seeds — say them. Feel them:</p>
+
+  <div class="line-block">
+    <span class="stage-dir">Chal Na — (Let's go)</span>
+  </div>
+  <div class="line-block">
+    <span class="stage-dir">Bhaag — (Run)</span>
+  </div>
+  <div class="line-block">
+    <span class="stage-dir">The Kid Who Ran — English, poetic, festival-friendly</span>
+  </div>
+  <div class="line-block">
+    <span class="stage-dir">Kal — (Tomorrow) — because he's always running towards a tomorrow that never comes</span>
+  </div>
+  <div class="line-block">
+    <span class="stage-dir">Still Running — because at the end, he is. And that's okay.</span>
+  </div>
+
+  <div class="prompt">Tonight: forget the title for a second. Answer this one question out loud: "If the kid inside you could name this film — not the filmmaker, not the adult, the kid — what would he call it?" Say the first thing that comes. Don't edit it. That might be it.</div>
+</div>
+
+<!-- TALKING POINT 08 -->
+<div class="point">
+  <span class="point-number">POINT 08</span>
+  <span class="tag open">OPEN</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Walk Home — The Film's Last Image</h3>
+  <p>After the mother scene. After the kid's final line. Su walks out. He doesn't take a cab. He walks. The Lyrical Loneliness hum plays. He's sad but accepting.</p>
+  <p>But what's the VERY LAST shot? The film needs its final frame.</p>
+
+  <div class="line-block">
+    <span class="stage-dir">OPTION A: Su walks. We watch from behind. He gets smaller. The street gets longer. He doesn't look back. The hum fades. Black.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">OPTION B: Su walks until he passes an auto. The auto driver honks. "Bhai, chalein?" Su stops. Looks at the camera — the 4th wall break, but different this time. Not comedic. Not scared. Just... seen. He gets in the auto. It pulls away. The hum continues over engine noise. Black.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">OPTION C: Su walks. Dawn is breaking. He reaches his building. Goes up the stairs. Opens the door. His studio. The same studio. He sits. Adjusts the mic. Looks at the empty chair. But this time — he hits record. The red light comes on. He looks at the camera. Smiles. Black.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="stage-dir">OPTION D: Su walks. The city is asleep. He reaches a crossing. Stops. A kid — not the studio kid, a real kid, a stranger — runs past him on the empty road. Running nowhere. Running for the joy of it. Su watches. The kid disappears around a corner. Su starts walking again. Slightly faster. Not running. But not standing still. The hum plays. Black.</span>
+  </div>
+
+  <div class="prompt">Tonight: which of these made you feel something? Or is there a version you see that none of these capture? The last image of the film is a promise — it tells the audience what to take home. Is Su alone? Is he moving? Is he finally still? What does the audience carry out of the theatre?</div>
+</div>
+
+<!-- TALKING POINT 09 -->
+<div class="point">
+  <span class="point-number">POINT 09</span>
+  <span class="tag open">OPEN</span>
+  <h3>The Shades Problem — How He Looks at the Camera Through Shades</h3>
+  <p>You caught the loophole: shades in all standup scenes is locked, but the 4th wall look needs eyes. If he's wearing shades on stage, the audience can't see the break.</p>
+  <p>Three paths:</p>
+  <p><strong>1. The shades come down.</strong> One specific moment on stage where something happens (the phone guy, a heckler, a line that doesn't land) and he pushes the shades up to his forehead. His eyes are naked for the first time. He looks at the camera. The shift is physical and visible — the persona comes off.</p>
+  <p><strong>2. The reflection.</strong> We never see his eyes directly. But we see them reflected — in a glass, in a phone screen, in someone's glasses in the front row. The eyes are always there, just mediated. Like Su himself — present but never fully exposed.</p>
+  <p><strong>3. Light through the shades.</strong> The spotlight is strong enough that we CAN see his eyes through the lenses — barely, like shadows. It's not a clear look. It's a suggestion of a look. The audience feels it more than sees it.</p>
+  <div class="prompt">Tonight: which one? The shades coming down is the most dramatic. The reflection is the most clever. The light-through-lenses is the most Su — visible but hidden. Your call.</div>
+</div>
+
+<!-- TALKING POINT 10 -->
+<div class="point">
+  <span class="point-number">POINT 10</span>
+  <span class="tag locked">DECIDED IN ENTRY 10</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Film as Therapy — A Line for the Audience</h3>
+  <p>You said: "I don't want this to just be a therapy for me. I want it to be a therapy for everyone who watches it."</p>
+  <p>This isn't just an intention. This is the film's mission statement. And it should be spoken — once — somewhere in the film. Maybe in the studio. Maybe in voiceover. Maybe written on the notepad.</p>
+
+  <div class="line-block">
+    <span class="speaker">SU (to the OLDER VERSION, in the studio)</span>
+    Main ye film apne liye nahi bana raha.
+    <span class="stage-dir">(I'm not making this film for myself.)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">OLDER SU</span>
+    Toh kiske liye?
+    <span class="stage-dir">(Then for whom?)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    Har us aadmi ke liye jo raat ko uthke fridge ke saamne khada hota hai aur usse bhi nahi pata kyun.
+    <span class="stage-dir">(For every person who wakes up at night and stands in front of the fridge and doesn't even know why.)</span>
+  </div>
+
+  <div class="prompt">Tonight: is that line true? Or is it too neat? Maybe the real version is messier — something you've actually felt, not something written for a trailer. What does "therapy for the audience" actually mean to you? Not the concept. The feeling.</div>
+</div>
+
+<hr class="divider">
+
+<!-- TALKING POINT BONUS -->
+<div class="point">
+  <span class="point-number">BONUS</span>
+  <span class="tag lines">HAS LINES</span>
+  <h3>The Ex's Opening Line — She Dismantles the Premise</h3>
+  <p>From the studio mechanism: she resolves slowly, like a photograph developing. She's the first character to acknowledge that the studio guests are imaginary. Her first line is the most important first line in the film.</p>
+
+  <div class="line-block">
+    <span class="stage-dir">INT. STUDIO — NIGHT. Su enters. The chair is empty. He sits. Long silence. Minutes. He looks at the empty chair. Slowly — not supernatural, not dramatic — she's there. Like she was always there and the camera just decided to notice.</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    (softly, almost relieved) Thanks for coming.
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE EX</span>
+    Main aayi nahi. Tune imagine kiya mujhe yahaan.
+    <span class="stage-dir">(I didn't come. You imagined me here.)</span>
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">SU</span>
+    ...
+  </div>
+
+  <div class="line-block">
+    <span class="speaker">THE EX</span>
+    Pehle bhi yehi karta tha. Apne mann ka version bana lete the mera. Phir uss version se baat karte the. Mujhse kabhi baat ki?
+    <span class="stage-dir">(You used to do this before too. You'd make your own version of me upstairs. Then talk to that version. Did you ever talk to me?)</span>
+  </div>
+
+  <div class="prompt">Tonight: is this too sharp for the first 30 seconds? Or is that exactly right — she walks in and immediately sees through the entire premise of the film? The Ex is the only guest who calls bullshit on the mechanism itself. That's her power.</div>
+</div>
+
+<hr class="divider">
+
+<!-- FINAL BONUS -->
+<div class="point">
+  <span class="point-number">FINAL</span>
+  <span class="tag priority">THE BIG ONE</span>
+  <h3>What Has Changed Since Entry 01?</h3>
+  <p>Entry 01: "I used to be a writer. Now I can't think of one line to write."</p>
+  <p>Entry 05: "Purpose is something we bestow on things."</p>
+  <p>Entry 8.5: "I'm doing this to fail. I just want to see."</p>
+  <p>Entry 09: "The kid that never wanted to grow."</p>
+  <p>Entry 10: "I do things because I want to do them."</p>
+  <p>That's not a man who's stuck. That's a man who's been processing in real time across ten entries. The entries ARE the film's development. You went from "I can't think of one line" to a locked room mechanism, five guests in order, a progressive darkening arc, fragment-based storytelling, and a mother scene that makes your heart melt.</p>
+  <p>Tonight — Entry 11 — what has changed in YOU since Entry 01? Not in the film. In you.</p>
+  <div class="prompt">Don't plan this one. Just talk. Hit record and talk about what's different now. Are you the same person who said "I cannot live anymore without making a film"? Or has something shifted? That shift — whatever it is — is the film's ending. Because the film ends when YOU end the cycle. Not when the screenplay says so.</div>
+</div>
+
+<div class="footer">
+  <p>Entry 11 Talking Points — Generated March 12, 2026</p>
+  <p style="margin-top: 0.5rem; color: var(--accent);">Chapter 4 deadline: March 14 — 2 days</p>
+  <p style="margin-top: 0.5rem;">These are the last talking points. After this, you write. After this, you shoot. After this — there is a film.</p>
+</div>
+
+</body>
+</html>
