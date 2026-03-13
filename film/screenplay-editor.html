@@ -1,0 +1,3182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PageZero</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════ */
+/* VARIABLES                              */
+/* ═══════════════════════════════════════ */
+:root {
+  --bg: #1a1a1a;
+  --paper: #faf8f0;
+  --ink: #1a1a1a;
+  --toolbar-bg: #2a2520;
+  --status-bg: #232020;
+  --accent: #d4a853;
+  --muted: #888;
+  --btn-bg: #3a3530;
+  --btn-hover: #4a4540;
+  --scene: #5a9a6a;
+  --action-c: #8a9aa0;
+  --char: #5a8ac0;
+  --dialog: #c08a5a;
+  --paren: #9a6ab0;
+  --trans: #b09050;
+  --highlight: rgba(212,168,83,0.08);
+}
+
+/* ═══════════════════════════════════════ */
+/* RESET & BASE                           */
+/* ═══════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Courier Prime','Courier New',monospace;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+/* ═══════════════════════════════════════ */
+/* TOOLBAR                                */
+/* ═══════════════════════════════════════ */
+#toolbar{
+  position:fixed;top:0;left:0;right:0;
+  background:var(--toolbar-bg);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  flex-wrap:wrap;
+  z-index:100;
+  border-bottom:1px solid #333;
+}
+.toolbar-group{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.toolbar-sep{
+  width:1px;height:22px;
+  background:#444;margin:0 6px;
+}
+.logo{
+  font-size:12px;
+  color:var(--accent);
+  letter-spacing:.04em;
+  font-weight:700;
+  margin-right:8px;
+  white-space:nowrap;
+}
+#toolbar button{
+  background:var(--btn-bg);
+  color:#ccc;border:1px solid #444;
+  border-radius:4px;padding:4px 10px;
+  font-size:11px;cursor:pointer;
+  font-family:inherit;white-space:nowrap;
+}
+#toolbar button:hover{background:var(--btn-hover);color:#fff}
+#toolbar button.active{background:var(--accent);color:#222;border-color:var(--accent)}
+#titleInput{
+  background:transparent;border:1px solid transparent;
+  color:#ddd;font-size:12px;padding:4px 8px;
+  font-family:'Courier Prime',monospace;
+  border-radius:3px;width:240px;
+}
+#titleInput:focus{border-color:#555;outline:none;background:#2a2a2a}
+#titleInput::placeholder{color:#666}
+#typeSelect{
+  background:var(--btn-bg);color:#ddd;
+  border:1px solid #555;border-radius:4px;
+  padding:4px 6px;font-size:11px;
+  font-family:inherit;cursor:pointer;
+}
+#typeSelect:focus{outline:1px solid var(--accent)}
+.toolbar-label{color:#999;font-size:10px;letter-spacing:.05em}
+.toolbar-context{display:contents}
+.toolbar-context.hidden{display:none}
+#musicSearch{
+  background:transparent;border:1px solid transparent;
+  color:#ddd;font-size:12px;padding:4px 8px;
+  font-family:system-ui,-apple-system,sans-serif;
+  border-radius:3px;width:180px;
+}
+#musicSearch:focus{border-color:#555;outline:none;background:#2a2a2a}
+#musicSearch::placeholder{color:#666}
+
+/* ═══════════════════════════════════════ */
+/* TAB BAR                                */
+/* ═══════════════════════════════════════ */
+#tabbar{
+  width:100%;
+  display:flex;
+  gap:0;
+  padding:0 4px;
+  border-top:1px solid #333;
+  margin-top:4px;
+}
+.tab{
+  background:transparent;
+  color:#666;
+  border:none;
+  border-bottom:2px solid transparent;
+  padding:7px 20px;
+  font-size:11px;
+  font-family:system-ui,-apple-system,sans-serif;
+  cursor:pointer;
+  letter-spacing:.04em;
+  transition:color 0.15s,border-color 0.15s;
+}
+.tab:hover{color:#bbb}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ═══════════════════════════════════════ */
+/* TAB PANELS                             */
+/* ═══════════════════════════════════════ */
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ═══════════════════════════════════════ */
+/* MAIN EDITOR AREA                       */
+/* ═══════════════════════════════════════ */
+#panel-script{
+  padding-top:80px; /* overridden by JS ResizeObserver */
+  background:var(--bg);
+  min-height:100vh;
+}
+#editor{
+  max-width:680px;
+  margin:0 auto;
+  min-height:calc(100vh - 100px);
+  background:var(--paper);
+  padding:60px 72px 200px 90px;
+  font-size:13px;line-height:1.65;
+  color:var(--ink);
+  outline:none;
+  box-shadow:0 0 40px rgba(0,0,0,0.3);
+  caret-color:#333;
+}
+
+/* ═══════════════════════════════════════ */
+/* PARAGRAPH BASE                         */
+/* ═══════════════════════════════════════ */
+.para{
+  position:relative;
+  padding:2px 0;
+  min-height:1.65em;
+  transition:background 0.15s;
+  border-radius:2px;
+}
+.para:focus-within,
+.para:hover{
+  background:var(--highlight);
+}
+
+/* ═══════════════════════════════════════ */
+/* TYPE LABELS (left margin)              */
+/* ═══════════════════════════════════════ */
+.para::before{
+  position:absolute;
+  left:-68px;top:4px;
+  font-family:system-ui,-apple-system,sans-serif;
+  font-size:8px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  font-weight:600;
+  opacity:0;
+  transition:opacity 0.2s;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.para:hover::before,.para:focus-within::before{opacity:0.7}
+.para[data-type="scene-heading"]::before{content:'SCENE';color:var(--scene)}
+.para[data-type="action"]::before{content:'ACTION';color:var(--action-c)}
+.para[data-type="character"]::before{content:'CHAR';color:var(--char)}
+.para[data-type="dialogue"]::before{content:'DIAL';color:var(--dialog)}
+.para[data-type="parenthetical"]::before{content:'PAREN';color:var(--paren)}
+.para[data-type="transition"]::before{content:'TRANS';color:var(--trans)}
+.para[data-type="general"]::before{content:'GEN';color:var(--muted)}
+
+/* ═══════════════════════════════════════ */
+/* PARAGRAPH TYPE STYLES                  */
+/* ═══════════════════════════════════════ */
+.para[data-type="scene-heading"]{
+  font-weight:700;
+  text-transform:uppercase;
+  margin-top:22px;
+  margin-bottom:6px;
+  letter-spacing:.02em;
+}
+.para[data-type="action"]{
+  margin:8px 0;
+}
+.para[data-type="character"]{
+  text-align:center;
+  font-weight:700;
+  text-transform:uppercase;
+  margin-top:14px;
+  margin-bottom:0;
+}
+.para[data-type="parenthetical"]{
+  text-align:center;
+  font-style:italic;
+  font-size:12px;
+  color:#555;
+  margin:2px auto;
+  max-width:280px;
+}
+.para[data-type="dialogue"]{
+  text-align:center;
+  max-width:340px;
+  margin:3px auto 8px;
+}
+.para[data-type="transition"]{
+  text-align:right;
+  text-transform:uppercase;
+  font-size:11px;
+  letter-spacing:.05em;
+  color:#555;
+  margin-top:18px;
+  margin-bottom:4px;
+}
+.para[data-type="general"]{
+  margin:8px 0;
+}
+/* Centered alignment override */
+.para[data-align="center"]{text-align:center}
+.para[data-align="right"]{text-align:right}
+
+/* Empty paragraph placeholder */
+.para:only-child:empty::after{
+  content:'Start writing your screenplay...  (Tab to change type)';
+  color:#aaa;font-style:italic;pointer-events:none;
+}
+.para:empty:not(:only-child)::after{
+  content:'\200B'; /* zero-width space to maintain height */
+}
+
+/* ═══════════════════════════════════════ */
+/* STATUS BAR                             */
+/* ═══════════════════════════════════════ */
+#statusbar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--status-bg);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:4px 16px;
+  font-size:10px;
+  color:#777;
+  border-top:1px solid #333;
+  font-family:system-ui,-apple-system,sans-serif;
+  z-index:100;
+}
+#saveStatus{color:var(--scene)}
+
+/* ═══════════════════════════════════════ */
+/* HELP PANEL                             */
+/* ═══════════════════════════════════════ */
+#helpPanel{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:#2a2520;color:#ddd;
+  border:1px solid #555;border-radius:8px;
+  padding:20px 28px;z-index:200;
+  font-size:12px;min-width:320px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+#helpPanel.hidden{display:none}
+#helpPanel h3{
+  color:var(--accent);margin-bottom:14px;
+  font-size:14px;font-family:inherit;
+}
+#helpPanel table{width:100%;border-collapse:collapse;margin-bottom:16px}
+#helpPanel td{padding:4px 8px;border-bottom:1px solid #333}
+#helpPanel td:first-child{
+  color:var(--accent);font-weight:700;
+  white-space:nowrap;width:100px;
+}
+#helpPanel button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
+  padding:6px 16px;cursor:pointer;font-family:inherit;
+  display:block;margin:0 auto;
+}
+#helpPanel button:hover{background:var(--btn-hover)}
+#helpOverlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.5);z-index:199;
+}
+#helpOverlay.hidden{display:none}
+
+/* ═══════════════════════════════════════ */
+/* COMMENTS & EDIT TRACKING               */
+/* ═══════════════════════════════════════ */
+/* Comment dot indicator */
+.cdot{
+  position:absolute;
+  right:-28px;top:6px;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:#e8a020;
+  cursor:pointer;
+  display:block;
+  user-select:none;
+  -webkit-user-select:none;
+  z-index:10;
+  transition:transform 0.15s,background 0.15s;
+  box-shadow:0 0 0 2px rgba(232,160,32,0.25);
+}
+.cdot:hover{
+  transform:scale(1.4);
+  background:#f0c040;
+  box-shadow:0 0 0 3px rgba(232,160,32,0.4);
+}
+/* Comment tooltip */
+#commentTooltip{
+  position:fixed;
+  background:#2a2520;color:#ddd;
+  border:1px solid #555;border-radius:6px;
+  padding:10px 14px;
+  font-size:11px;line-height:1.5;
+  font-family:system-ui,-apple-system,sans-serif;
+  max-width:320px;min-width:180px;
+  z-index:250;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  pointer-events:auto;
+}
+#commentTooltip.hidden{display:none}
+.cmt-item{
+  padding:6px 0;
+  border-bottom:1px solid #3a3a3a;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.cmt-item:last-child{border-bottom:none}
+.cmt-text{flex:1;white-space:pre-wrap;word-break:break-word}
+.cmt-time{font-size:9px;color:#777;white-space:nowrap}
+.cmt-del{
+  background:none;border:none;color:#a55;
+  cursor:pointer;font-size:14px;line-height:1;
+  padding:0 2px;flex-shrink:0;
+}
+.cmt-del:hover{color:#f66}
+.cmt-add-hint{
+  display:block;margin-top:6px;
+  font-size:10px;color:#888;text-align:center;
+}
+/* Comment input popup */
+#commentInput{
+  position:fixed;
+  background:#2a2520;color:#ddd;
+  border:1px solid var(--accent);border-radius:6px;
+  padding:12px 14px;
+  font-size:12px;
+  z-index:260;
+  box-shadow:0 4px 24px rgba(0,0,0,0.5);
+  width:300px;
+}
+#commentInput.hidden{display:none}
+#commentText{
+  width:100%;
+  background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:4px;
+  padding:8px;font-size:12px;
+  font-family:system-ui,-apple-system,sans-serif;
+  resize:vertical;
+}
+#commentText:focus{outline:1px solid var(--accent);border-color:var(--accent)}
+#commentInput button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
+  padding:5px 14px;cursor:pointer;font-size:11px;
+  font-family:inherit;
+}
+#commentInput button:hover{background:var(--btn-hover)}
+#commentInput button.primary{background:var(--accent);color:#222;border-color:var(--accent)}
+#commentInput button.primary:hover{background:#e0b860}
+/* Strikethrough / edit marks */
+del.edit-mark{
+  text-decoration:line-through;
+  color:#c44;
+  opacity:0.8;
+  background:rgba(200,60,60,0.06);
+}
+ins.edit-mark{
+  text-decoration:none;
+  color:#2a7a2a;
+  background:rgba(40,160,40,0.08);
+}
+/* Hidden states for toggles */
+.hide-changes del.edit-mark{display:none}
+.hide-changes ins.edit-mark{color:inherit;background:none}
+.hide-comments .cdot{display:none}
+
+/* ═══════════════════════════════════════ */
+/* MUSIC & MOOD PANEL                     */
+/* ═══════════════════════════════════════ */
+#panel-music{
+  padding-top:80px; /* overridden by JS ResizeObserver */
+  background:var(--bg);
+  min-height:100vh;
+}
+.music-container{
+  max-width:780px;
+  margin:0 auto;
+  padding:24px 20px 120px;
+}
+.music-empty{
+  text-align:center;
+  color:#666;
+  padding:80px 20px;
+  font-family:system-ui,-apple-system,sans-serif;
+  font-size:14px;
+  line-height:2;
+}
+.music-empty strong{color:var(--accent)}
+
+/* Mood filter strip */
+.mood-strip{
+  display:flex;flex-wrap:wrap;gap:8px;
+  padding:12px 0 20px;
+  border-bottom:1px solid #333;
+  margin-bottom:20px;
+  min-height:20px;
+}
+.mood-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 12px;border-radius:12px;
+  font-size:11px;
+  font-family:system-ui,-apple-system,sans-serif;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:all 0.15s;
+  user-select:none;
+  color:#ddd;
+}
+.mood-pill:hover{opacity:0.85}
+.mood-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mood-pill.active{border-color:currentColor;box-shadow:0 0 0 1px currentColor}
+.mood-pill.add-mood{
+  color:#777;border:1px dashed #555;
+  font-size:13px;padding:3px 10px;
+}
+.mood-pill.add-mood:hover{color:#aaa;border-color:#777}
+
+/* Music cards */
+.music-list{display:flex;flex-direction:column;gap:12px}
+.music-card{
+  background:var(--paper);
+  border-radius:6px;
+  padding:16px 20px;
+  color:var(--ink);
+  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+  position:relative;
+  transition:box-shadow 0.15s;
+}
+.music-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.music-card-header{
+  display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+}
+.music-card-title{
+  font-family:'Courier Prime',monospace;
+  font-size:14px;font-weight:700;color:var(--ink);
+}
+.music-card-artist{
+  font-size:12px;color:#888;
+  font-family:system-ui,sans-serif;
+}
+.music-card-moods{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.music-card-moods .mood-pill{
+  font-size:10px;padding:2px 8px;cursor:default;
+}
+.music-card-notes{
+  font-size:12px;color:#555;line-height:1.5;
+  margin:8px 0 4px;
+  font-family:system-ui,sans-serif;
+  white-space:pre-wrap;
+}
+.music-card-scenes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.scene-tag{
+  font-size:10px;
+  background:rgba(90,154,106,0.12);
+  color:var(--scene);
+  padding:2px 8px;border-radius:3px;
+  font-family:'Courier Prime',monospace;
+  text-transform:uppercase;letter-spacing:.03em;
+}
+.scene-tag.missing{
+  color:#888;border:1px dashed #666;background:none;
+}
+.music-card-link{
+  display:inline-block;margin-top:6px;
+  font-size:11px;color:var(--accent);
+  text-decoration:none;
+  font-family:system-ui,sans-serif;
+}
+.music-card-link:hover{text-decoration:underline}
+.music-card-actions{
+  position:absolute;top:12px;right:12px;
+  display:flex;gap:4px;
+  opacity:0;transition:opacity 0.15s;
+}
+.music-card:hover .music-card-actions{opacity:1}
+.music-card-actions button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
+  padding:3px 8px;font-size:10px;cursor:pointer;
+  font-family:system-ui,sans-serif;
+}
+.music-card-actions button:hover{background:var(--btn-hover);color:#fff}
+
+/* Music form (slide-in from right) */
+.music-form{
+  position:fixed;top:0;right:0;bottom:0;
+  width:380px;
+  background:#2a2520;
+  border-left:1px solid #444;
+  z-index:150;
+  overflow-y:auto;
+  box-shadow:-4px 0 24px rgba(0,0,0,0.4);
+  transition:transform 0.2s ease;
+}
+.music-form.hidden{transform:translateX(100%);pointer-events:none}
+.music-form-inner{padding:24px}
+.music-form h3{
+  color:var(--accent);
+  font-family:'Courier Prime',monospace;
+  margin-bottom:20px;font-size:14px;
+}
+.music-form label{
+  display:block;color:#999;
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:.05em;margin:14px 0 4px;
+  font-family:system-ui,sans-serif;
+}
+.music-form input[type="text"],
+.music-form textarea,
+.music-form select{
+  width:100%;
+  background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:4px;
+  padding:8px 10px;font-size:12px;
+  font-family:system-ui,sans-serif;
+}
+.music-form input:focus,
+.music-form textarea:focus,
+.music-form select:focus{
+  outline:none;border-color:var(--accent);
+}
+.music-form select[multiple]{min-height:80px}
+.mood-picker{display:flex;flex-wrap:wrap;gap:6px}
+.mood-picker .mood-pill{cursor:pointer}
+.mood-picker .mood-pill.selected{
+  border-color:currentColor;
+  box-shadow:0 0 0 2px currentColor;
+}
+.music-form-actions{
+  display:flex;gap:8px;
+  justify-content:flex-end;
+  margin-top:24px;
+}
+.music-form-actions button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
+  padding:8px 20px;font-size:12px;
+  cursor:pointer;font-family:inherit;
+}
+.music-form-actions button:hover{background:var(--btn-hover)}
+.music-form-actions button.primary{
+  background:var(--accent);color:#222;border-color:var(--accent);
+}
+.music-form-actions button.primary:hover{background:#e0b860}
+
+/* Mood editor modal */
+#moodEditor{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:#2a2520;color:#ddd;
+  border:1px solid #555;border-radius:8px;
+  padding:24px;z-index:200;
+  min-width:340px;max-width:420px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  font-family:system-ui,-apple-system,sans-serif;
+}
+#moodEditor.hidden{display:none}
+#moodEditorOverlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.5);z-index:199;
+}
+#moodEditorOverlay.hidden{display:none}
+.mood-editor-row{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 0;border-bottom:1px solid #333;
+}
+.mood-editor-row input[type="text"]{
+  flex:1;background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:3px;
+  padding:4px 8px;font-size:12px;
+  font-family:system-ui,sans-serif;
+}
+.mood-editor-row input[type="color"]{
+  width:32px;height:24px;border:none;
+  border-radius:3px;cursor:pointer;
+  background:transparent;
+}
+.mood-editor-row button{
+  background:none;border:none;color:#a55;
+  cursor:pointer;font-size:16px;padding:0 4px;
+}
+.mood-editor-row button:hover{color:#f66}
+
+/* ═══════════════════════════════════════ */
+/* BEATS PANEL                            */
+/* ═══════════════════════════════════════ */
+#panel-beats{
+  padding-top:80px; /* overridden by JS ResizeObserver */
+  background:var(--bg);
+  min-height:100vh;
+}
+.beats-container{
+  max-width:860px;
+  margin:0 auto;
+  padding:24px 20px 120px;
+}
+.beats-empty{
+  text-align:center;
+  color:#666;
+  padding:80px 20px;
+  font-family:system-ui,-apple-system,sans-serif;
+  font-size:14px;
+  line-height:2;
+}
+.beats-empty strong{color:var(--accent)}
+#beatSearch{
+  background:transparent;border:1px solid transparent;
+  color:#ddd;font-size:12px;padding:4px 8px;
+  font-family:system-ui,-apple-system,sans-serif;
+  border-radius:3px;width:180px;
+}
+#beatSearch:focus{border-color:#555;outline:none;background:#2a2a2a}
+#beatSearch::placeholder{color:#666}
+
+/* Beat movement headers */
+.beat-movement-header{
+  display:flex;align-items:center;gap:10px;
+  margin-top:32px;margin-bottom:14px;
+  padding-bottom:8px;
+  border-bottom:1px solid #333;
+}
+.beat-movement-header:first-child{margin-top:0}
+.beat-movement-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--accent);color:#222;
+  font-size:11px;font-weight:700;
+  font-family:system-ui,sans-serif;
+  flex-shrink:0;
+}
+.beat-movement-title{
+  font-family:'Courier Prime',monospace;
+  font-size:14px;font-weight:700;
+  color:#ccc;letter-spacing:.02em;
+}
+
+/* Beat cards */
+.beat-card{
+  background:var(--paper);
+  border-radius:6px;
+  padding:16px 20px;
+  margin-bottom:10px;
+  color:var(--ink);
+  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+  border-left:4px solid #999;
+  position:relative;
+  transition:box-shadow 0.15s;
+}
+.beat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.beat-card.status-writing{border-left-color:var(--accent)}
+.beat-card.status-done{border-left-color:#2ecc71}
+
+.beat-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:6px;
+}
+.beat-id{
+  display:inline-block;
+  background:rgba(212,168,83,0.15);
+  color:var(--accent);
+  font-size:11px;font-weight:700;
+  padding:2px 8px;border-radius:3px;
+  font-family:'Courier Prime',monospace;
+  letter-spacing:.03em;
+  flex-shrink:0;
+}
+.beat-title{
+  font-family:'Courier Prime',monospace;
+  font-size:14px;font-weight:700;color:var(--ink);
+}
+
+.beat-tags{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin:6px 0 8px;
+}
+.beat-tag{
+  font-size:10px;
+  padding:2px 8px;border-radius:3px;
+  font-family:system-ui,sans-serif;
+  letter-spacing:.03em;
+}
+.beat-tag.tag-location{background:rgba(90,138,192,0.12);color:#5a8ac0}
+.beat-tag.tag-char{background:rgba(192,138,90,0.12);color:#c08a5a}
+.beat-tag.tag-tone{background:rgba(230,126,34,0.12);color:#e67e22}
+
+.beat-desc{
+  font-size:12px;color:#555;line-height:1.5;
+  margin:6px 0;
+  font-family:system-ui,sans-serif;
+  white-space:pre-wrap;
+  overflow:hidden;
+  cursor:pointer;
+}
+.beat-desc.collapsed{
+  max-height:4.5em; /* ~3 lines */
+  position:relative;
+}
+.beat-desc.collapsed::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:1.5em;
+  background:linear-gradient(transparent,var(--paper));
+  pointer-events:none;
+}
+
+.beat-visual{
+  font-size:12px;color:#2a9d8f;
+  font-style:italic;line-height:1.5;
+  margin:6px 0;
+  font-family:system-ui,sans-serif;
+  white-space:pre-wrap;
+}
+
+.beat-truth{
+  font-size:12px;line-height:1.5;
+  margin:8px 0;padding:8px 12px;
+  background:rgba(154,106,176,0.08);
+  border-left:3px solid #9a6ab0;
+  border-radius:0 4px 4px 0;
+  color:#6a4a7a;
+  font-family:system-ui,sans-serif;
+  white-space:pre-wrap;
+}
+
+.beat-notes-area{
+  width:100%;
+  background:#f5f3eb;
+  border:1px solid #e0ddd0;
+  border-radius:4px;
+  padding:8px 10px;
+  font-size:12px;
+  font-family:system-ui,sans-serif;
+  color:#444;
+  resize:vertical;
+  min-height:36px;
+  margin-top:8px;
+}
+.beat-notes-area:focus{outline:none;border-color:var(--accent)}
+.beat-notes-area::placeholder{color:#aaa}
+
+.beat-actions{
+  display:flex;gap:4px;
+  justify-content:flex-end;
+  margin-top:8px;
+  opacity:0;transition:opacity 0.15s;
+}
+.beat-card:hover .beat-actions{opacity:1}
+.beat-actions button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
+  padding:3px 8px;font-size:10px;cursor:pointer;
+  font-family:system-ui,sans-serif;
+}
+.beat-actions button:hover{background:var(--btn-hover);color:#fff}
+
+.beat-status-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 10px;border-radius:10px;
+  font-size:10px;font-family:system-ui,sans-serif;
+  cursor:pointer;user-select:none;
+  border:1px solid transparent;
+  transition:all 0.15s;
+  margin-left:auto;
+  flex-shrink:0;
+}
+.beat-status-pill.st-pending{background:#eee;color:#999}
+.beat-status-pill.st-writing{background:rgba(212,168,83,0.15);color:var(--accent);border-color:var(--accent)}
+.beat-status-pill.st-done{background:rgba(46,204,113,0.12);color:#2ecc71;border-color:#2ecc71}
+.beat-status-pill:hover{opacity:0.8}
+
+/* Beat form (slide-in from right) — same as music form */
+.beat-form{
+  position:fixed;top:0;right:0;bottom:0;
+  width:400px;
+  background:#2a2520;
+  border-left:1px solid #444;
+  z-index:150;
+  overflow-y:auto;
+  box-shadow:-4px 0 24px rgba(0,0,0,0.4);
+  transition:transform 0.2s ease;
+}
+.beat-form.hidden{transform:translateX(100%);pointer-events:none}
+.beat-form-inner{padding:24px}
+.beat-form h3{
+  color:var(--accent);
+  font-family:'Courier Prime',monospace;
+  margin-bottom:20px;font-size:14px;
+}
+.beat-form label{
+  display:block;color:#999;
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:.05em;margin:14px 0 4px;
+  font-family:system-ui,sans-serif;
+}
+.beat-form input[type="text"],
+.beat-form input[type="number"],
+.beat-form textarea,
+.beat-form select{
+  width:100%;
+  background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:4px;
+  padding:8px 10px;font-size:12px;
+  font-family:system-ui,sans-serif;
+}
+.beat-form input:focus,
+.beat-form textarea:focus,
+.beat-form select:focus{
+  outline:none;border-color:var(--accent);
+}
+.beat-form .char-checks{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-top:4px;
+}
+.beat-form .char-checks label{
+  display:inline-flex;align-items:center;gap:4px;
+  margin:0;font-size:12px;text-transform:none;
+  letter-spacing:0;color:#ccc;cursor:pointer;
+}
+.beat-form .char-checks input[type="checkbox"]{
+  width:auto;accent-color:var(--accent);
+}
+.beat-form-actions{
+  display:flex;gap:8px;
+  justify-content:flex-end;
+  margin-top:24px;
+}
+.beat-form-actions button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
+  padding:8px 20px;font-size:12px;
+  cursor:pointer;font-family:inherit;
+}
+.beat-form-actions button:hover{background:var(--btn-hover)}
+.beat-form-actions button.primary{
+  background:var(--accent);color:#222;border-color:var(--accent);
+}
+.beat-form-actions button.primary:hover{background:#e0b860}
+
+/* ═══════════════════════════════════════ */
+/* TOAST NOTIFICATION                     */
+/* ═══════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:50px;left:50%;
+  transform:translateX(-50%);
+  background:#333;color:#eee;
+  padding:8px 20px;border-radius:6px;
+  font-size:12px;font-family:inherit;
+  opacity:0;transition:opacity 0.3s;
+  pointer-events:none;z-index:300;
+}
+#toast.show{opacity:1}
+
+/* ═══════════════════════════════════════ */
+/* SCROLLBAR                              */
+/* ═══════════════════════════════════════ */
+main::-webkit-scrollbar{width:8px}
+main::-webkit-scrollbar-track{background:var(--bg)}
+main::-webkit-scrollbar-thumb{background:#444;border-radius:4px}
+main::-webkit-scrollbar-thumb:hover{background:#555}
+
+/* ═══════════════════════════════════════ */
+/* PRINT                                  */
+/* ═══════════════════════════════════════ */
+@media print{
+  #toolbar,#tabbar,#statusbar,#helpPanel,#helpOverlay,#toast,#commentTooltip,#commentInput,.cdot,#panel-music,#musicForm,#moodEditor,#moodEditorOverlay,#panel-beats,#beatForm{display:none!important}
+  #panel-script{display:block!important;padding-top:0!important}
+  del.edit-mark{display:none!important}
+  ins.edit-mark{color:inherit!important;background:none!important}
+  body{background:#fff}
+  main{overflow:visible;background:#fff}
+  #editor{
+    box-shadow:none;max-width:none;
+    padding:1in 1in 1in 1.5in;
+  }
+  .para::before{display:none}
+  .para{page-break-inside:avoid}
+}
+
+/* ═══════════════════════════════════════ */
+/* RESPONSIVE                             */
+/* ═══════════════════════════════════════ */
+@media(max-width:800px){
+  #editor{padding:40px 32px 160px 50px}
+  .para::before{left:-42px;font-size:7px}
+  #titleInput{width:140px}
+  .music-form{width:320px}
+  .beat-form{width:340px}
+  .music-container{padding:16px 12px 120px}
+  .beats-container{padding:16px 12px 120px}
+}
+@media(max-width:500px){
+  #editor{padding:24px 16px 120px 16px}
+  .para::before{display:none}
+  #toolbar{padding:4px 8px}
+  #titleInput{width:100px;font-size:11px}
+  .music-form{width:100%}
+  .beat-form{width:100%}
+  .music-card{padding:12px 14px}
+  .music-card-title{font-size:13px}
+  .beat-card{padding:12px 14px}
+  .beat-title{font-size:13px}
+  #musicSearch{width:120px}
+  #beatSearch{width:120px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- TOOLBAR                                -->
+<!-- ═══════════════════════════════════════ -->
+<div id="toolbar">
+  <div class="toolbar-group">
+    <span class="logo">PageZero</span>
+  </div>
+  <div class="toolbar-group">
+    <button onclick="openFile()" title="Open file (Ctrl+O)">Open</button>
+    <button onclick="saveProject()" title="Save project (Ctrl+Shift+S)">Save Project</button>
+  </div>
+  <div class="toolbar-sep"></div>
+  <div class="toolbar-group">
+    <input id="titleInput" type="text" placeholder="Untitled Project" spellcheck="false">
+  </div>
+
+  <!-- Script-specific toolbar -->
+  <div id="toolbar-script" class="toolbar-context">
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <button onclick="newScript()" title="New script">New Script</button>
+      <button onclick="saveFDX()" title="Save as Final Draft FDX (Ctrl+S)">Save FDX</button>
+      <button onclick="copyText()" title="Copy screenplay as plain text">Copy Text</button>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <span class="toolbar-label">TYPE</span>
+      <select id="typeSelect" onchange="changeType(this.value)">
+        <option value="scene-heading">Scene Heading</option>
+        <option value="action" selected>Action</option>
+        <option value="character">Character</option>
+        <option value="dialogue">Dialogue</option>
+        <option value="parenthetical">Parenthetical</option>
+        <option value="transition">Transition</option>
+        <option value="general">General</option>
+      </select>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <button onclick="strikeText()" title="Strikethrough selected text (Ctrl+D)" style="text-decoration:line-through;font-weight:bold">S</button>
+      <button onclick="addComment()" title="Add note to paragraph (Ctrl+M)">+ Note</button>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <button id="btnNotes" onclick="toggleComments()" class="active" title="Show/hide comment markers">Notes</button>
+      <button id="btnChanges" onclick="toggleChanges()" class="active" title="Show/hide tracked changes">Changes</button>
+    </div>
+  </div>
+
+  <!-- Music-specific toolbar (hidden by default) -->
+  <div id="toolbar-music" class="toolbar-context hidden">
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <button onclick="addMusicEntry()" title="Add a new music entry">+ Song</button>
+      <button onclick="manageMoods()" title="Manage mood palette">Moods</button>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <input id="musicSearch" type="text" placeholder="Search music..." spellcheck="false" oninput="filterMusicBySearch(this.value)">
+    </div>
+  </div>
+
+  <!-- Beats-specific toolbar (hidden by default) -->
+  <div id="toolbar-beats" class="toolbar-context hidden">
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <button onclick="addBeat()">+ Scene</button>
+      <select id="movementFilter" onchange="filterByMovement(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
+        <option value="">All Movements</option>
+      </select>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <input id="beatSearch" type="text" placeholder="Search beats..." spellcheck="false" oninput="filterBeatsBySearch(this.value)">
+    </div>
+  </div>
+
+  <div class="toolbar-sep"></div>
+  <div class="toolbar-group">
+    <button onclick="toggleHelp()" title="Keyboard shortcuts" style="font-weight:bold">?</button>
+  </div>
+
+  <!-- TAB BAR (inside toolbar so it flows after wrapped toolbar items) -->
+  <div id="tabbar">
+    <button class="tab active" data-tab="script" onclick="switchTab('script')">Script</button>
+    <button class="tab" data-tab="music" onclick="switchTab('music')">Music &amp; Mood</button>
+    <button class="tab" data-tab="beats" onclick="switchTab('beats')">Beats</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PANEL: SCRIPT                          -->
+<!-- ═══════════════════════════════════════ -->
+<main id="panel-script" class="tab-panel active">
+  <div id="editor" contenteditable="true" spellcheck="true">
+    <div class="para" data-type="action"></div>
+  </div>
+</main>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PANEL: MUSIC & MOOD                    -->
+<!-- ═══════════════════════════════════════ -->
+<div id="panel-music" class="tab-panel">
+  <div class="music-container">
+    <div id="moodStrip" class="mood-strip"></div>
+    <div id="musicList" class="music-list"></div>
+    <div id="musicEmpty" class="music-empty">
+      <p>No music or mood entries yet.</p>
+      <p>Click <strong>+ Song</strong> in the toolbar to add your first piece.</p>
+      <p style="color:#555;font-size:12px;margin-top:20px">Track the songs, themes, and moods that shape your story.<br>Link them to scenes in your screenplay.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PANEL: BEATS                           -->
+<!-- ═══════════════════════════════════════ -->
+<div id="panel-beats" class="tab-panel">
+  <div class="beats-container">
+    <div id="beatsList"></div>
+    <div id="beatsEmpty" class="beats-empty">
+      <p>No scenes yet.</p>
+      <p>Click <strong>+ Scene</strong> in the toolbar to start building your beat board.</p>
+      <p style="color:#555;font-size:12px;margin-top:20px">Organize your film scene by scene. Track what you're writing, what's done, and what's next.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- MUSIC FORM (slide-in)                  -->
+<!-- ═══════════════════════════════════════ -->
+<div id="musicForm" class="music-form hidden">
+  <div class="music-form-inner">
+    <h3 id="musicFormTitle">Add Music Entry</h3>
+    <label>Title *</label>
+    <input id="mfTitle" type="text" placeholder="Song or theme name">
+    <label>Artist / Composer</label>
+    <input id="mfArtist" type="text" placeholder="Optional">
+    <label>Moods</label>
+    <div id="mfMoods" class="mood-picker"></div>
+    <label>Link to Scene</label>
+    <select id="mfScene" multiple title="Hold Ctrl to select multiple scenes"></select>
+    <label>Notes</label>
+    <textarea id="mfNotes" rows="4" placeholder="How does this piece connect to the story?"></textarea>
+    <label>Link (URL)</label>
+    <input id="mfLink" type="text" placeholder="YouTube or Spotify URL">
+    <div class="music-form-actions">
+      <button onclick="cancelMusicForm()">Cancel</button>
+      <button class="primary" onclick="saveMusicEntry()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOOD EDITOR MODAL -->
+<div id="moodEditorOverlay" class="hidden" onclick="closeMoodEditor()"></div>
+<div id="moodEditor" class="hidden">
+  <h3 style="color:var(--accent);font-size:14px;margin-bottom:16px;font-family:'Courier Prime',monospace">Mood Palette</h3>
+  <div id="moodEditorList"></div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <input id="newMoodName" type="text" placeholder="New mood name" style="flex:1;background:#1e1e1e;color:#ddd;border:1px solid #444;border-radius:3px;padding:4px 8px;font-size:12px">
+    <button onclick="addNewMood()" style="background:var(--btn-bg);color:#ccc;border:1px solid #555;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer">Add</button>
+  </div>
+  <div style="text-align:right;margin-top:16px">
+    <button onclick="closeMoodEditor()" style="background:var(--btn-bg);color:#ccc;border:1px solid #555;border-radius:4px;padding:6px 16px;font-size:12px;cursor:pointer">Done</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- BEAT FORM (slide-in)                   -->
+<!-- ═══════════════════════════════════════ -->
+<div id="beatForm" class="beat-form hidden">
+  <div class="beat-form-inner">
+    <h3 id="beatFormTitle">Add Scene Beat</h3>
+    <label>Scene ID *</label>
+    <input id="bfSceneId" type="text" placeholder="e.g. 1.1, 2.3">
+    <label>Title *</label>
+    <input id="bfTitle" type="text" placeholder="Scene title">
+    <label>Movement #</label>
+    <input id="bfMovement" type="number" min="1" max="20" value="1" style="width:80px">
+    <label>Movement Title</label>
+    <input id="bfMovementTitle" type="text" placeholder="e.g. The Loop">
+    <label>Location</label>
+    <input id="bfLocation" type="text" placeholder="e.g. STUDIO, HOME">
+    <label>Characters</label>
+    <div class="char-checks">
+      <label><input type="checkbox" value="su"> Su</label>
+      <label><input type="checkbox" value="comedian"> Comedian</label>
+      <label><input type="checkbox" value="kid"> Kid</label>
+      <label><input type="checkbox" value="older-su"> Older Su</label>
+    </div>
+    <label>Tone</label>
+    <input id="bfTone" type="text" placeholder="e.g. quiet, fun, shift">
+    <label>Description</label>
+    <textarea id="bfDesc" rows="4" placeholder="What happens in this scene..."></textarea>
+    <label>Visual Notes</label>
+    <textarea id="bfVisual" rows="3" placeholder="Camera, lighting, visual language..."></textarea>
+    <label>Truth</label>
+    <textarea id="bfTruth" rows="3" placeholder="The emotional truth of this scene..."></textarea>
+    <label>Notes</label>
+    <textarea id="bfNotes" rows="3" placeholder="Your working notes..."></textarea>
+    <label>Status</label>
+    <select id="bfStatus">
+      <option value="pending">Pending</option>
+      <option value="writing">Writing</option>
+      <option value="done">Done</option>
+    </select>
+    <div class="beat-form-actions">
+      <button onclick="cancelBeatForm()">Cancel</button>
+      <button class="primary" onclick="saveBeat()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- STATUS BAR                             -->
+<!-- ═══════════════════════════════════════ -->
+<div id="statusbar">
+  <span id="stats">0 paragraphs</span>
+  <span id="saveStatus"></span>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- HELP PANEL                             -->
+<!-- ═══════════════════════════════════════ -->
+<div id="helpOverlay" class="hidden" onclick="toggleHelp()"></div>
+<div id="helpPanel" class="hidden">
+  <h3>PageZero &mdash; Shortcuts</h3>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Global</p>
+  <table>
+    <tr><td>Ctrl+S</td><td>Save as FDX file (clean export)</td></tr>
+    <tr><td>Ctrl+Shift+S</td><td>Save Project (with all data)</td></tr>
+    <tr><td>Ctrl+O</td><td>Open file (FDX, HTML, or Project)</td></tr>
+    <tr><td>Escape</td><td>Close panels / forms</td></tr>
+  </table>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Script Tab</p>
+  <table>
+    <tr><td>Tab</td><td>Cycle paragraph type forward</td></tr>
+    <tr><td>Shift+Tab</td><td>Cycle paragraph type backward</td></tr>
+    <tr><td>Enter</td><td>New paragraph (smart type)</td></tr>
+    <tr><td>Shift+Enter</td><td>Line break within paragraph</td></tr>
+    <tr><td>Ctrl+1&ndash;6</td><td>Set paragraph type</td></tr>
+    <tr><td>Ctrl+D</td><td>Strikethrough selected text</td></tr>
+    <tr><td>Ctrl+M</td><td>Add note to paragraph</td></tr>
+  </table>
+  <p style="color:#999;font-size:11px;margin:8px 0 6px;line-height:1.5">
+    Smart Enter: Character &rarr; Dialogue &rarr; Character. Transition &rarr; Scene Heading.
+  </p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Music &amp; Mood Tab</p>
+  <table>
+    <tr><td>+ Song</td><td>Add music entry (toolbar button)</td></tr>
+    <tr><td>Moods</td><td>Edit mood palette (toolbar button)</td></tr>
+  </table>
+  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
+    Click mood pills to filter. Cards show scene links from your script.
+  </p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Beats Tab</p>
+  <table>
+    <tr><td>+ Scene</td><td>Add a new beat / scene card</td></tr>
+    <tr><td>Status pill</td><td>Click to cycle: Pending &rarr; Writing &rarr; Done</td></tr>
+    <tr><td>Movement</td><td>Filter by movement from dropdown</td></tr>
+  </table>
+  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
+    Track your scenes on a beat board. Click descriptions to expand. Notes auto-save.
+  </p>
+  <button onclick="toggleHelp()">Close</button>
+</div>
+
+<!-- COMMENT UI -->
+<div id="commentTooltip" class="hidden"></div>
+<div id="commentInput" class="hidden">
+  <textarea id="commentText" placeholder="Add a note..." rows="3"></textarea>
+  <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:8px">
+    <button onclick="cancelComment()">Cancel</button>
+    <button class="primary" onclick="saveComment()">Save</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- JAVASCRIPT                             -->
+<!-- ═══════════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════
+const TYPES = ['scene-heading','action','character','dialogue','parenthetical','transition','general'];
+
+const SMART_NEXT = {
+  'scene-heading': 'action',
+  'action': 'action',
+  'character': 'dialogue',
+  'parenthetical': 'dialogue',
+  'dialogue': 'character',
+  'transition': 'scene-heading',
+  'general': 'action'
+};
+
+const FDX_TO_INTERNAL = {
+  'Scene Heading': 'scene-heading',
+  'Action': 'action',
+  'Character': 'character',
+  'Dialogue': 'dialogue',
+  'Parenthetical': 'parenthetical',
+  'Transition': 'transition',
+  'General': 'general',
+  'Shot': 'scene-heading'
+};
+
+const INTERNAL_TO_FDX = {
+  'scene-heading': 'Scene Heading',
+  'action': 'Action',
+  'character': 'Character',
+  'dialogue': 'Dialogue',
+  'parenthetical': 'Parenthetical',
+  'transition': 'Transition',
+  'general': 'General'
+};
+
+const HTML_CLASS_MAP = {
+  'slug': 'scene-heading',
+  'action': 'action',
+  'char': 'character',
+  'dialogue': 'dialogue',
+  'paren': 'parenthetical',
+  'transition': 'transition',
+  'chapter-label': 'action',
+  'chapter-title': 'action',
+  'end-marker': 'action'
+};
+
+const AUTOSAVE_KEY = 'pagezero-autosave-v4';
+
+// ═══════════════════════════════════════
+// DOM REFS
+// ═══════════════════════════════════════
+const editor = document.getElementById('editor');
+const typeSelect = document.getElementById('typeSelect');
+const titleInput = document.getElementById('titleInput');
+const statsEl = document.getElementById('stats');
+const saveStatusEl = document.getElementById('saveStatus');
+const toastEl = document.getElementById('toast');
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let saveTimeout = null;
+let toastTimeout = null;
+let comments = {};        // { paraId: [{ text, time }] }
+let showComments = true;
+let showChanges = true;
+let commentTargetId = null; // para ID being commented on
+let activeTab = 'script';
+
+// ═══════════════════════════════════════
+// MUSIC STATE
+// ═══════════════════════════════════════
+let musicEntries = [];
+let moodPalette = [
+  { name: 'longing',    color: '#9b59b6' },
+  { name: 'tension',    color: '#e74c3c' },
+  { name: 'triumph',    color: '#f1c40f' },
+  { name: 'melancholy', color: '#5a8ac0' },
+  { name: 'warmth',     color: '#e67e22' },
+  { name: 'joy',        color: '#2ecc71' }
+];
+let activeMoodFilter = null;
+let editingMusicId = null;
+
+// ═══════════════════════════════════════
+// TAB SYSTEM
+// ═══════════════════════════════════════
+function switchTab(tabId) {
+  if (tabId === activeTab) return;
+
+  // Deactivate current tab button and panel
+  const curTab = document.querySelector('.tab.active');
+  if (curTab) curTab.classList.remove('active');
+  const curPanel = document.querySelector('.tab-panel.active');
+  if (curPanel) curPanel.classList.remove('active');
+
+  // Hide current toolbar context
+  const curCtx = document.getElementById('toolbar-' + activeTab);
+  if (curCtx) curCtx.classList.add('hidden');
+
+  // Activate new tab
+  const newTab = document.querySelector('[data-tab="' + tabId + '"]');
+  if (newTab) newTab.classList.add('active');
+  const newPanel = document.getElementById('panel-' + tabId);
+  if (newPanel) newPanel.classList.add('active');
+
+  // Show new toolbar context
+  const newCtx = document.getElementById('toolbar-' + tabId);
+  if (newCtx) newCtx.classList.remove('hidden');
+
+  activeTab = tabId;
+  updateStatusForTab(tabId);
+  scheduleSave();
+}
+
+function updateStatusForTab(tabId) {
+  if (tabId === 'script') {
+    updateStats();
+  } else if (tabId === 'music') {
+    const count = musicEntries.length;
+    statsEl.textContent = count + ' music entr' + (count === 1 ? 'y' : 'ies');
+  } else if (tabId === 'beats') {
+    const total = beatEntries.length;
+    const done = beatEntries.filter(function(e) { return e.status === 'done'; }).length;
+    const writing = beatEntries.filter(function(e) { return e.status === 'writing'; }).length;
+    statsEl.textContent = total + ' beats \u00B7 ' + done + ' done \u00B7 ' + writing + ' writing';
+  }
+}
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toastEl.classList.remove('show'), 2000);
+}
+
+// ═══════════════════════════════════════
+// PARAGRAPH MANAGEMENT
+// ═══════════════════════════════════════
+function genId() { return 'p' + Math.random().toString(36).substr(2, 9); }
+
+function makePara(type, text) {
+  const div = document.createElement('div');
+  div.className = 'para';
+  div.dataset.type = type || 'action';
+  div.dataset.id = genId();
+  if (text) div.textContent = text;
+  return div;
+}
+
+function getCurrentPara() {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return null;
+  let node = sel.anchorNode;
+  while (node && node !== editor) {
+    if (node.nodeType === 1 && node.classList && node.classList.contains('para')) return node;
+    node = node.parentNode;
+  }
+  return null;
+}
+
+function setCursor(el, offset) {
+  const sel = window.getSelection();
+  const range = document.createRange();
+  if (!el) return;
+
+  if (el.childNodes.length === 0) {
+    el.appendChild(document.createTextNode(''));
+  }
+
+  let target = el.firstChild;
+  // Navigate to text node
+  while (target && target.nodeType !== 3 && target.firstChild) {
+    target = target.firstChild;
+  }
+  if (!target || target.nodeType !== 3) {
+    target = el;
+    range.setStart(target, 0);
+  } else {
+    range.setStart(target, Math.min(offset, target.length));
+  }
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function setCursorEnd(el) {
+  if (!el) return;
+  const sel = window.getSelection();
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  range.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function isAtStart(para) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return false;
+  const range = sel.getRangeAt(0);
+  if (!range.collapsed) return false;
+  const testRange = document.createRange();
+  testRange.selectNodeContents(para);
+  testRange.setEnd(range.startContainer, range.startOffset);
+  return testRange.toString().length === 0;
+}
+
+// ═══════════════════════════════════════
+// KEYBOARD HANDLING
+// ═══════════════════════════════════════
+editor.addEventListener('keydown', function(e) {
+  // Ctrl+Shift+S: Save Project
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'S') {
+    e.preventDefault();
+    saveProject();
+    return;
+  }
+
+  // Ctrl+S: Save FDX
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    saveFDX();
+    return;
+  }
+
+  // Ctrl+O: Open
+  if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
+    e.preventDefault();
+    openFile();
+    return;
+  }
+
+  // Ctrl+D: Strikethrough
+  if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+    e.preventDefault();
+    strikeText();
+    return;
+  }
+
+  // Ctrl+M: Add comment
+  if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
+    e.preventDefault();
+    addComment();
+    return;
+  }
+
+  // Ctrl+1-6: Set type
+  if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '6') {
+    e.preventDefault();
+    const types = ['scene-heading','action','character','dialogue','parenthetical','transition'];
+    changeType(types[parseInt(e.key) - 1]);
+    return;
+  }
+
+  // Tab: Cycle type
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const para = getCurrentPara();
+    if (!para) return;
+    const current = para.dataset.type;
+    const idx = TYPES.indexOf(current);
+    const dir = e.shiftKey ? -1 : 1;
+    const next = TYPES[(idx + dir + TYPES.length) % TYPES.length];
+    para.dataset.type = next;
+    typeSelect.value = next;
+    scheduleSave();
+    return;
+  }
+
+  // Enter: New paragraph (Shift+Enter = line break)
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleEnter();
+    return;
+  }
+
+  // Backspace at start: merge with previous
+  if (e.key === 'Backspace') {
+    const para = getCurrentPara();
+    if (para && isAtStart(para)) {
+      const prev = para.previousElementSibling;
+      if (prev && prev.classList.contains('para')) {
+        e.preventDefault();
+        const prevLen = prev.textContent.length;
+        // Merge text into previous
+        // Handle <br> elements in the text content
+        const textContent = para.textContent;
+        prev.textContent = prev.textContent + textContent;
+        para.remove();
+        setCursor(prev, prevLen);
+        updateToolbar();
+        scheduleSave();
+      }
+    }
+  }
+});
+
+function handleEnter() {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return;
+
+  const range = sel.getRangeAt(0);
+  const currentPara = getCurrentPara();
+  if (!currentPara) return;
+
+  // Delete selected content
+  if (!range.collapsed) {
+    range.deleteContents();
+  }
+
+  const currentType = currentPara.dataset.type;
+  const isEmpty = !currentPara.textContent.trim();
+
+  // Empty non-action paragraph: change to action instead of creating new
+  if (isEmpty && currentType !== 'action') {
+    currentPara.dataset.type = 'action';
+    typeSelect.value = 'action';
+    scheduleSave();
+    return;
+  }
+
+  // Extract text from cursor to end of paragraph
+  const tailRange = document.createRange();
+  tailRange.setStart(range.startContainer, range.startOffset);
+
+  // Set end to end of paragraph content
+  if (currentPara.childNodes.length > 0) {
+    tailRange.setEndAfter(currentPara.lastChild);
+  }
+
+  const tailText = tailRange.toString();
+  tailRange.deleteContents();
+
+  // Clean up trailing <br>
+  while (currentPara.lastChild && currentPara.lastChild.nodeName === 'BR') {
+    currentPara.lastChild.remove();
+  }
+
+  // Smart next type
+  const nextType = SMART_NEXT[currentType] || 'action';
+
+  // Create new paragraph
+  const newPara = makePara(nextType, tailText);
+  currentPara.after(newPara);
+
+  // Cursor at start of new paragraph
+  setCursor(newPara, 0);
+
+  updateToolbar();
+  scheduleSave();
+}
+
+// ═══════════════════════════════════════
+// PASTE HANDLING
+// ═══════════════════════════════════════
+editor.addEventListener('paste', function(e) {
+  e.preventDefault();
+  const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+  const lines = text.split(/\r?\n/);
+
+  if (lines.length <= 1) {
+    document.execCommand('insertText', false, text);
+    scheduleSave();
+    return;
+  }
+
+  // Multi-line paste
+  // First line goes at cursor position
+  document.execCommand('insertText', false, lines[0]);
+
+  let currentPara = getCurrentPara();
+  if (!currentPara) return;
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    const type = guessType(line);
+    const newPara = makePara(type, line);
+    currentPara.after(newPara);
+    currentPara = newPara;
+  }
+
+  setCursorEnd(currentPara);
+  updateToolbar();
+  scheduleSave();
+});
+
+function guessType(line) {
+  const t = line.trim();
+  if (!t) return 'action';
+  if (/^(INT\.|EXT\.|INT\/EXT\.|I\/E\.)/i.test(t)) return 'scene-heading';
+  if (/^(CUT TO:|FADE OUT\.|FADE IN:|FADE TO:|DISSOLVE TO:|SMASH CUT|MATCH CUT)$/i.test(t)) return 'transition';
+  if (/^\(.*\)$/.test(t)) return 'parenthetical';
+  return 'action';
+}
+
+// ═══════════════════════════════════════
+// EDITOR NORMALIZATION
+// ═══════════════════════════════════════
+function normalizeEditor() {
+  // Fix direct text nodes
+  const nodesToFix = [];
+  for (const node of editor.childNodes) {
+    if (node.nodeType === 3 && node.textContent.trim()) {
+      nodesToFix.push(node);
+    }
+  }
+  for (const node of nodesToFix) {
+    const para = makePara('action', node.textContent);
+    node.replaceWith(para);
+  }
+
+  // Fix non-para elements (browser may create plain divs)
+  for (const child of Array.from(editor.children)) {
+    if (!child.classList.contains('para')) {
+      const text = child.textContent;
+      const para = makePara('action', text);
+      child.replaceWith(para);
+    }
+  }
+
+  // Ensure at least one paragraph
+  if (editor.children.length === 0) {
+    const para = makePara('action', '');
+    editor.appendChild(para);
+    setCursor(para, 0);
+  }
+
+  // Ensure all paragraphs have IDs
+  for (const p of editor.querySelectorAll('.para')) {
+    if (!p.dataset.id) p.dataset.id = genId();
+  }
+}
+
+// ═══════════════════════════════════════
+// INPUT & SELECTION TRACKING
+// ═══════════════════════════════════════
+editor.addEventListener('input', function() {
+  normalizeEditor();
+  updateToolbar();
+  updateStats();
+  scheduleSave();
+});
+
+document.addEventListener('selectionchange', function() {
+  updateToolbar();
+});
+
+// ═══════════════════════════════════════
+// TYPE MANAGEMENT
+// ═══════════════════════════════════════
+function changeType(type) {
+  const para = getCurrentPara();
+  if (!para) return;
+  para.dataset.type = type;
+  typeSelect.value = type;
+  editor.focus();
+  scheduleSave();
+}
+
+function updateToolbar() {
+  const para = getCurrentPara();
+  if (para) {
+    typeSelect.value = para.dataset.type || 'action';
+  }
+}
+
+// ═══════════════════════════════════════
+// FDX IMPORT
+// ═══════════════════════════════════════
+function importFDX(xmlStr, filename) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlStr, 'text/xml');
+  const paragraphs = doc.querySelectorAll('Paragraph');
+
+  if (paragraphs.length === 0) {
+    toast('No paragraphs found in FDX file');
+    return;
+  }
+
+  editor.innerHTML = '';
+  comments = {};
+
+  for (const p of paragraphs) {
+    const fdxType = p.getAttribute('Type') || 'Action';
+    const alignment = p.getAttribute('Alignment');
+    const type = FDX_TO_INTERNAL[fdxType] || 'action';
+
+    // Collect all Text elements
+    const texts = p.querySelectorAll('Text');
+    let content = '';
+    for (const t of texts) {
+      content += t.textContent;
+    }
+
+    const para = makePara(type, content);
+    if (alignment) {
+      para.dataset.align = alignment.toLowerCase();
+    }
+    editor.appendChild(para);
+  }
+
+  // Set title from filename
+  if (filename) {
+    const name = filename.replace(/\.fdx$/i, '').replace(/[-_]/g, ' ');
+    titleInput.value = name;
+  }
+
+  // Focus first paragraph
+  const first = editor.querySelector('.para');
+  if (first) setCursor(first, 0);
+
+  updateStats();
+  scheduleSave();
+  toast('Loaded ' + paragraphs.length + ' paragraphs from FDX');
+}
+
+// ═══════════════════════════════════════
+// HTML IMPORT
+// ═══════════════════════════════════════
+function importHTML(htmlStr, filename) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlStr, 'text/html');
+
+  // Find all screenplay elements
+  const selectors = Object.keys(HTML_CLASS_MAP).map(c => '.' + c).join(',');
+  const elements = doc.querySelectorAll(selectors);
+
+  // Also get vo-candidate, section-divider text, beat-sheet, placeholder-box
+  const allElements = doc.querySelectorAll(
+    selectors + ',.vo-candidate,.section-divider .label,.beat-sheet,.placeholder-box'
+  );
+
+  if (allElements.length === 0) {
+    // Fallback: just get all <p> elements
+    const ps = doc.querySelectorAll('p');
+    if (ps.length === 0) {
+      toast('No screenplay elements found');
+      return;
+    }
+    editor.innerHTML = '';
+    for (const p of ps) {
+      editor.appendChild(makePara('action', p.textContent));
+    }
+  } else {
+    editor.innerHTML = '';
+    for (const el of allElements) {
+      let type = 'action';
+      let text = el.textContent.trim();
+
+      // Check class mapping
+      for (const [cls, t] of Object.entries(HTML_CLASS_MAP)) {
+        if (el.classList.contains(cls)) {
+          type = t;
+          break;
+        }
+      }
+
+      // Special elements
+      if (el.classList.contains('vo-candidate')) {
+        // Strip VO label text
+        const label = el.querySelector('.vo-label');
+        if (label) text = text.replace(label.textContent, '').trim();
+        type = 'action'; // Import as action with a note prefix
+        text = '[VO] ' + text;
+      }
+      if (el.classList.contains('label') && el.closest('.section-divider')) {
+        type = 'general';
+        text = '--- ' + text + ' ---';
+      }
+
+      // Handle centered alignment
+      const isCentered = el.classList.contains('chapter-label') ||
+                         el.classList.contains('chapter-title') ||
+                         el.classList.contains('end-marker');
+
+      if (text || !isCentered) {
+        const para = makePara(type, text);
+        if (isCentered) para.dataset.align = 'center';
+        editor.appendChild(para);
+      }
+    }
+  }
+
+  if (filename) {
+    const name = filename.replace(/\.html?$/i, '').replace(/[-_]/g, ' ');
+    titleInput.value = name;
+  }
+
+  const first = editor.querySelector('.para');
+  if (first) setCursor(first, 0);
+
+  updateStats();
+  scheduleSave();
+  toast('Loaded from HTML');
+}
+
+// ═══════════════════════════════════════
+// FDX EXPORT
+// ═══════════════════════════════════════
+function generateFDX() {
+  const paras = editor.querySelectorAll('.para');
+  let xml = '<?xml version="1.0" encoding="UTF-8" ?>\n';
+  xml += '<FinalDraft DocumentType="Script" Template="No" Version="5">\n';
+  xml += '<Content>\n';
+
+  for (const para of paras) {
+    const type = INTERNAL_TO_FDX[para.dataset.type] || 'Action';
+    const align = para.dataset.align;
+
+    // Get clean text: strip deleted text, unwrap inserted text, remove comment dots
+    const clone = para.cloneNode(true);
+    clone.querySelectorAll('.cdot').forEach(d => d.remove());
+    clone.querySelectorAll('del.edit-mark').forEach(d => d.remove());
+    clone.querySelectorAll('ins.edit-mark').forEach(ins => ins.replaceWith(...ins.childNodes));
+    let cleanText = clone.textContent;
+
+    // Strip [VO] prefix if present (was added during HTML import)
+    if (cleanText.startsWith('[VO] ')) {
+      cleanText = cleanText.substring(5);
+    }
+
+    let attrs = `Type="${type}"`;
+    if (align && align !== 'left') {
+      attrs += ` Alignment="${align.charAt(0).toUpperCase() + align.slice(1)}"`;
+    }
+
+    xml += `\n<Paragraph ${attrs}>\n`;
+    xml += `<Text>${escapeXML(cleanText)}</Text>\n`;
+    xml += `</Paragraph>\n`;
+  }
+
+  xml += '\n</Content>\n';
+  xml += '</FinalDraft>\n';
+  return xml;
+}
+
+function escapeXML(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function saveFDX() {
+  const xml = generateFDX();
+  const title = titleInput.value.trim() || 'screenplay';
+  const filename = title
+    .replace(/[^a-z0-9\- ]/gi, '')
+    .replace(/\s+/g, '-')
+    .toLowerCase() + '.fdx';
+  downloadFile(filename, xml, 'application/xml');
+  toast('Saved: ' + filename);
+  saveStatusEl.textContent = 'Exported';
+}
+
+function downloadFile(name, content, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════
+// SAVE / IMPORT PROJECT (.json)
+// ═══════════════════════════════════════
+function saveProject() {
+  // Clone editor and strip comment dots (they're rebuilt from comments data)
+  const clone = editor.cloneNode(true);
+  clone.querySelectorAll('.cdot').forEach(d => d.remove());
+
+  const project = {
+    format: 'screenplay-editor-project',
+    version: 3,
+    title: titleInput.value,
+    html: clone.innerHTML,
+    comments: comments,
+    music: musicEntries,
+    moodPalette: moodPalette,
+    beats: beatEntries,
+    activeTab: activeTab,
+    timestamp: new Date().toISOString()
+  };
+
+  const json = JSON.stringify(project, null, 2);
+  const title = titleInput.value.trim() || 'screenplay';
+  const filename = title
+    .replace(/[^a-z0-9\- ]/gi, '')
+    .replace(/\s+/g, '-')
+    .toLowerCase() + '.project.json';
+  downloadFile(filename, json, 'application/json');
+  toast('Project saved: ' + filename);
+  saveStatusEl.textContent = 'Project saved';
+}
+
+function importProject(jsonStr, filename) {
+  try {
+    const project = JSON.parse(jsonStr);
+    if (!project.html) {
+      toast('Invalid project file');
+      return;
+    }
+
+    editor.innerHTML = project.html;
+    titleInput.value = project.title || '';
+    comments = project.comments || {};
+    musicEntries = project.music || [];
+    // Beats: for v1/v2 projects use defaults, for v3+ use saved data (or empty if explicitly saved with none)
+    if (project.version >= 3) {
+      beatEntries = project.beats || [];
+    } else {
+      beatEntries = getDefaultBeats();
+    }
+    if (project.moodPalette && project.moodPalette.length > 0) moodPalette = project.moodPalette;
+    normalizeEditor();
+    renderCommentDots();
+    renderMoodStrip();
+    renderMusicList();
+    renderBeatsList();
+    populateMovementFilter();
+    updateStats();
+    scheduleSave();
+
+    // Restore active tab
+    if (project.activeTab && document.getElementById('panel-' + project.activeTab)) {
+      switchTab(project.activeTab);
+    }
+
+    const noteCount = Object.values(comments).reduce(function(sum, arr) { return sum + arr.length; }, 0);
+    const delCount = editor.querySelectorAll('del.edit-mark').length;
+    const songCount = musicEntries.length;
+    const beatCount = beatEntries.length;
+    let msg = 'Project loaded';
+    const parts = [];
+    if (noteCount > 0) parts.push(noteCount + ' notes');
+    if (delCount > 0) parts.push(delCount + ' edits');
+    if (songCount > 0) parts.push(songCount + ' songs');
+    if (beatCount > 0) parts.push(beatCount + ' beats');
+    if (parts.length > 0) {
+      msg += ' (' + parts.join(', ') + ')';
+    }
+    toast(msg);
+  } catch (e) {
+    toast('Error reading project file');
+  }
+}
+
+// ═══════════════════════════════════════
+// COPY AS TEXT
+// ═══════════════════════════════════════
+function copyText() {
+  const paras = editor.querySelectorAll('.para');
+  let text = '';
+
+  for (const para of paras) {
+    const type = para.dataset.type;
+    const content = para.textContent.trim();
+    if (!content && type === 'action') { text += '\n'; continue; }
+
+    switch (type) {
+      case 'scene-heading':
+        text += '\n' + content.toUpperCase() + '\n\n';
+        break;
+      case 'character':
+        text += '\t\t\t' + content.toUpperCase() + '\n';
+        break;
+      case 'parenthetical':
+        text += '\t\t' + content + '\n';
+        break;
+      case 'dialogue':
+        text += '\t\t' + content + '\n\n';
+        break;
+      case 'transition':
+        text += '\t\t\t\t\t' + content.toUpperCase() + '\n\n';
+        break;
+      default:
+        text += content + '\n\n';
+    }
+  }
+
+  navigator.clipboard.writeText(text.trim()).then(() => {
+    toast('Copied to clipboard');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text.trim();
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Copied to clipboard');
+  });
+}
+
+// ═══════════════════════════════════════
+// FILE OPERATIONS
+// ═══════════════════════════════════════
+function openFile() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.fdx,.html,.htm,.json';
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const content = ev.target.result;
+      const name = file.name.toLowerCase();
+      if (name.endsWith('.fdx')) {
+        importFDX(content, file.name);
+      } else if (name.endsWith('.json')) {
+        importProject(content, file.name);
+      } else {
+        importHTML(content, file.name);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function newScript() {
+  if (editor.textContent.trim() && !confirm('Start a new script? Unsaved changes will be in autosave.')) {
+    return;
+  }
+  editor.innerHTML = '';
+  comments = {};
+  const para = makePara('action', '');
+  editor.appendChild(para);
+  titleInput.value = '';
+  setCursor(para, 0);
+  updateStats();
+  scheduleSave();
+  toast('New script');
+}
+
+// ═══════════════════════════════════════
+// AUTOSAVE
+// ═══════════════════════════════════════
+function scheduleSave() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(autosave, 1500);
+  saveStatusEl.textContent = '';
+}
+
+function autosave() {
+  try {
+    // Strip comment dots from saved HTML (they're rebuilt from comments data)
+    const clone = editor.cloneNode(true);
+    clone.querySelectorAll('.cdot').forEach(d => d.remove());
+    const data = {
+      title: titleInput.value,
+      html: clone.innerHTML,
+      comments: comments,
+      music: musicEntries,
+      moodPalette: moodPalette,
+      beats: beatEntries,
+      activeTab: activeTab,
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+    saveStatusEl.textContent = 'Saved';
+  } catch (e) {
+    saveStatusEl.textContent = 'Save failed';
+  }
+}
+
+function loadAutosave() {
+  try {
+    const raw = localStorage.getItem(AUTOSAVE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (data.html) {
+      editor.innerHTML = data.html;
+      titleInput.value = data.title || '';
+      comments = data.comments || {};
+      musicEntries = data.music || [];
+      beatEntries = data.beats || getDefaultBeats();
+      if (data.moodPalette && data.moodPalette.length > 0) moodPalette = data.moodPalette;
+      normalizeEditor();
+      renderCommentDots();
+      updateStats();
+      // Restore active tab
+      if (data.activeTab && document.getElementById('panel-' + data.activeTab)) {
+        switchTab(data.activeTab);
+      }
+      return true;
+    }
+  } catch (e) {}
+  return false;
+}
+
+// ═══════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════
+function updateStats() {
+  const paras = editor.querySelectorAll('.para');
+  const text = editor.textContent.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const pages = Math.max(1, Math.round(words / 250));
+  statsEl.textContent = paras.length + ' paragraphs \u00B7 ' + words + ' words \u00B7 ~' + pages + ' pg';
+}
+
+// ═══════════════════════════════════════
+// HELP
+// ═══════════════════════════════════════
+function toggleHelp() {
+  const panel = document.getElementById('helpPanel');
+  const overlay = document.getElementById('helpOverlay');
+  panel.classList.toggle('hidden');
+  overlay.classList.toggle('hidden');
+}
+
+// ═══════════════════════════════════════
+// DRAG & DROP
+// ═══════════════════════════════════════
+editor.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+});
+
+editor.addEventListener('drop', function(e) {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const content = ev.target.result;
+    if (file.name.toLowerCase().endsWith('.fdx')) {
+      importFDX(content, file.name);
+    } else if (file.name.toLowerCase().match(/\.html?$/)) {
+      importHTML(content, file.name);
+    }
+  };
+  reader.readAsText(file);
+});
+
+// ═══════════════════════════════════════
+// GLOBAL SHORTCUTS (when not in editor)
+// ═══════════════════════════════════════
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'S') {
+    e.preventDefault();
+    saveProject();
+    return;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    saveFDX();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
+    e.preventDefault();
+    openFile();
+  }
+  if (e.key === 'Escape') {
+    const beatForm = document.getElementById('beatForm');
+    if (!beatForm.classList.contains('hidden')) { cancelBeatForm(); return; }
+    const musicForm = document.getElementById('musicForm');
+    if (!musicForm.classList.contains('hidden')) { cancelMusicForm(); return; }
+    const moodEd = document.getElementById('moodEditor');
+    if (!moodEd.classList.contains('hidden')) { closeMoodEditor(); return; }
+    if (!commentInput.classList.contains('hidden')) { cancelComment(); return; }
+    const panel = document.getElementById('helpPanel');
+    if (!panel.classList.contains('hidden')) toggleHelp();
+    hideCommentTooltip();
+  }
+});
+
+// ═══════════════════════════════════════
+// COMMENTS SYSTEM
+// ═══════════════════════════════════════
+const commentTooltip = document.getElementById('commentTooltip');
+const commentInput = document.getElementById('commentInput');
+const commentTextEl = document.getElementById('commentText');
+
+function escapeHTML(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderCommentDots() {
+  // Remove all existing dots
+  editor.querySelectorAll('.cdot').forEach(d => d.remove());
+  if (!showComments) return;
+
+  for (const [paraId, cmts] of Object.entries(comments)) {
+    if (!cmts || cmts.length === 0) continue;
+    const para = editor.querySelector('[data-id="' + paraId + '"]');
+    if (!para) continue;
+
+    const dot = document.createElement('span');
+    dot.className = 'cdot';
+    dot.contentEditable = 'false';
+    dot.dataset.paraId = paraId;
+    dot.dataset.count = cmts.length;
+    para.appendChild(dot);
+  }
+}
+
+function showCommentTooltipFor(paraId, anchorEl) {
+  const cmts = comments[paraId];
+  if (!cmts || cmts.length === 0) { hideCommentTooltip(); return; }
+
+  let html = '';
+  cmts.forEach(function(c, i) {
+    const timeStr = c.time ? new Date(c.time).toLocaleDateString() : '';
+    html += '<div class="cmt-item">';
+    html += '<span class="cmt-text">' + escapeHTML(c.text) + '</span>';
+    if (timeStr) html += '<span class="cmt-time">' + timeStr + '</span>';
+    html += '<button class="cmt-del" onclick="deleteComment(\'' + paraId + '\',' + i + ')" title="Delete">&times;</button>';
+    html += '</div>';
+  });
+  html += '<span class="cmt-add-hint">Click dot to add more</span>';
+  commentTooltip.innerHTML = html;
+
+  // Position near the dot
+  const rect = anchorEl.getBoundingClientRect();
+  const tipW = 300;
+  let left = rect.right + 12;
+  let top = rect.top - 10;
+
+  // Keep on screen
+  if (left + tipW > window.innerWidth) left = rect.left - tipW - 12;
+  if (top < 10) top = 10;
+  if (top + 200 > window.innerHeight) top = window.innerHeight - 210;
+
+  commentTooltip.style.left = left + 'px';
+  commentTooltip.style.top = top + 'px';
+  commentTooltip.classList.remove('hidden');
+}
+
+function hideCommentTooltip() {
+  commentTooltip.classList.add('hidden');
+}
+
+function deleteComment(paraId, index) {
+  if (!comments[paraId]) return;
+  comments[paraId].splice(index, 1);
+  if (comments[paraId].length === 0) delete comments[paraId];
+  renderCommentDots();
+  hideCommentTooltip();
+  scheduleSave();
+  toast('Note deleted');
+}
+
+function addComment() {
+  const para = getCurrentPara();
+  if (!para) { toast('Click in a paragraph first'); return; }
+  if (!para.dataset.id) para.dataset.id = genId();
+  commentTargetId = para.dataset.id;
+
+  // Position near paragraph
+  const rect = para.getBoundingClientRect();
+  let left = rect.right + 20;
+  let top = rect.top;
+  if (left + 320 > window.innerWidth) left = Math.max(10, rect.left - 320);
+  if (top + 150 > window.innerHeight) top = window.innerHeight - 160;
+
+  commentInput.style.left = left + 'px';
+  commentInput.style.top = top + 'px';
+  commentInput.classList.remove('hidden');
+  commentTextEl.value = '';
+  commentTextEl.focus();
+}
+
+function saveComment() {
+  const text = commentTextEl.value.trim();
+  if (!text || !commentTargetId) { cancelComment(); return; }
+  if (!comments[commentTargetId]) comments[commentTargetId] = [];
+  comments[commentTargetId].push({ text: text, time: new Date().toISOString() });
+  commentInput.classList.add('hidden');
+  commentTargetId = null;
+  renderCommentDots();
+  scheduleSave();
+  toast('Note added');
+}
+
+function cancelComment() {
+  commentInput.classList.add('hidden');
+  commentTargetId = null;
+  editor.focus();
+}
+
+// Hover events for comment dots
+let hoverDotTimeout = null;
+editor.addEventListener('mouseover', function(e) {
+  if (e.target.classList.contains('cdot')) {
+    clearTimeout(hoverDotTimeout);
+    showCommentTooltipFor(e.target.dataset.paraId, e.target);
+  }
+});
+editor.addEventListener('mouseout', function(e) {
+  if (e.target.classList.contains('cdot')) {
+    hoverDotTimeout = setTimeout(function() {
+      if (!commentTooltip.matches(':hover')) hideCommentTooltip();
+    }, 200);
+  }
+});
+commentTooltip.addEventListener('mouseleave', function() {
+  hoverDotTimeout = setTimeout(hideCommentTooltip, 150);
+});
+commentTooltip.addEventListener('mouseenter', function() {
+  clearTimeout(hoverDotTimeout);
+});
+
+// Click dot to add another comment
+editor.addEventListener('click', function(e) {
+  if (e.target.classList.contains('cdot')) {
+    e.stopPropagation();
+    const para = e.target.closest('.para');
+    if (para) {
+      commentTargetId = para.dataset.id;
+      const rect = e.target.getBoundingClientRect();
+      let left = rect.right + 12;
+      let top = rect.top;
+      if (left + 320 > window.innerWidth) left = Math.max(10, rect.left - 320);
+      commentInput.style.left = left + 'px';
+      commentInput.style.top = top + 'px';
+      commentInput.classList.remove('hidden');
+      commentTextEl.value = '';
+      commentTextEl.focus();
+    }
+  }
+});
+
+// Enter to save comment, Escape to cancel
+commentTextEl.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    saveComment();
+  }
+  if (e.key === 'Escape') {
+    cancelComment();
+  }
+});
+
+// Toggle comments visibility
+function toggleComments() {
+  showComments = !showComments;
+  const btn = document.getElementById('btnNotes');
+  btn.classList.toggle('active', showComments);
+  if (showComments) {
+    document.body.classList.remove('hide-comments');
+    renderCommentDots();
+  } else {
+    document.body.classList.add('hide-comments');
+    editor.querySelectorAll('.cdot').forEach(d => d.remove());
+    hideCommentTooltip();
+  }
+}
+
+// ═══════════════════════════════════════
+// STRIKETHROUGH / EDIT TRACKING
+// ═══════════════════════════════════════
+function strikeText() {
+  const sel = window.getSelection();
+  if (!sel.rangeCount || sel.isCollapsed) {
+    toast('Select text first');
+    return;
+  }
+  const range = sel.getRangeAt(0);
+
+  // Check if selection is already inside a del — if so, unwrap it
+  let parent = range.commonAncestorContainer;
+  if (parent.nodeType === 3) parent = parent.parentNode;
+  if (parent.tagName === 'DEL' && parent.classList.contains('edit-mark')) {
+    // Unwrap: remove the <del>, keep content
+    parent.replaceWith(...parent.childNodes);
+    toast('Strikethrough removed');
+    scheduleSave();
+    return;
+  }
+
+  // Wrap selection in <del>
+  try {
+    const del = document.createElement('del');
+    del.className = 'edit-mark';
+    range.surroundContents(del);
+    toast('Text struck through');
+    scheduleSave();
+  } catch (err) {
+    // surroundContents fails if selection crosses element boundaries
+    toast('Select text within a single paragraph');
+  }
+}
+
+// Toggle tracked changes visibility
+function toggleChanges() {
+  showChanges = !showChanges;
+  const btn = document.getElementById('btnChanges');
+  btn.classList.toggle('active', showChanges);
+  if (showChanges) {
+    document.body.classList.remove('hide-changes');
+  } else {
+    document.body.classList.add('hide-changes');
+  }
+}
+
+// ═══════════════════════════════════════
+// SCENE REFERENCE HELPERS
+// ═══════════════════════════════════════
+function getSceneHeadings() {
+  const headings = [];
+  editor.querySelectorAll('.para[data-type="scene-heading"]').forEach(function(p) {
+    const text = p.textContent.trim();
+    if (text) headings.push({ id: p.dataset.id, text: text });
+  });
+  return headings;
+}
+
+function sceneExists(sceneText) {
+  return getSceneHeadings().some(function(h) { return h.text === sceneText; });
+}
+
+function populateSceneSelect() {
+  const sel = document.getElementById('mfScene');
+  sel.innerHTML = '';
+  getSceneHeadings().forEach(function(h) {
+    const opt = document.createElement('option');
+    opt.value = h.text;
+    opt.textContent = h.text;
+    sel.appendChild(opt);
+  });
+}
+
+// ═══════════════════════════════════════
+// MUSIC & MOOD MODULE
+// ═══════════════════════════════════════
+function genMusicId() { return 'm_' + Math.random().toString(36).substr(2, 9); }
+
+// --- Rendering ---
+function renderMoodStrip() {
+  const strip = document.getElementById('moodStrip');
+  strip.innerHTML = '';
+  moodPalette.forEach(function(mood) {
+    const pill = document.createElement('span');
+    pill.className = 'mood-pill' + (activeMoodFilter === mood.name ? ' active' : '');
+    pill.innerHTML = '<span class="dot" style="background:' + mood.color + '"></span>' + escapeHTML(mood.name);
+    pill.style.color = mood.color;
+    pill.onclick = function() { filterByMood(mood.name); };
+    strip.appendChild(pill);
+  });
+  // Add "+" pill
+  const addPill = document.createElement('span');
+  addPill.className = 'mood-pill add-mood';
+  addPill.textContent = '+';
+  addPill.title = 'Manage moods';
+  addPill.onclick = manageMoods;
+  strip.appendChild(addPill);
+}
+
+function renderMusicList() {
+  const list = document.getElementById('musicList');
+  const empty = document.getElementById('musicEmpty');
+  list.innerHTML = '';
+
+  // Filter entries
+  let entries = musicEntries;
+  const searchVal = document.getElementById('musicSearch') ? document.getElementById('musicSearch').value.toLowerCase() : '';
+
+  if (activeMoodFilter) {
+    entries = entries.filter(function(e) { return e.moods.indexOf(activeMoodFilter) !== -1; });
+  }
+  if (searchVal) {
+    entries = entries.filter(function(e) {
+      return (e.title + ' ' + e.artist + ' ' + e.notes).toLowerCase().indexOf(searchVal) !== -1;
+    });
+  }
+
+  if (entries.length === 0 && musicEntries.length === 0) {
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#666;padding:40px;font-family:system-ui,sans-serif;font-size:13px">No matches for current filter.</div>';
+    return;
+  }
+
+  entries.forEach(function(entry) {
+    list.appendChild(renderMusicCard(entry));
+  });
+}
+
+function renderMusicCard(entry) {
+  const card = document.createElement('div');
+  card.className = 'music-card';
+
+  // Header: title + artist
+  let html = '<div class="music-card-header">';
+  html += '<span class="music-card-title">' + escapeHTML(entry.title) + '</span>';
+  if (entry.artist) html += '<span class="music-card-artist">' + escapeHTML(entry.artist) + '</span>';
+  html += '</div>';
+
+  // Mood pills
+  if (entry.moods && entry.moods.length > 0) {
+    html += '<div class="music-card-moods">';
+    entry.moods.forEach(function(mName) {
+      const m = moodPalette.find(function(p) { return p.name === mName; });
+      const color = m ? m.color : '#888';
+      html += '<span class="mood-pill" style="color:' + color + '"><span class="dot" style="background:' + color + '"></span>' + escapeHTML(mName) + '</span>';
+    });
+    html += '</div>';
+  }
+
+  // Notes
+  if (entry.notes) {
+    html += '<div class="music-card-notes">' + escapeHTML(entry.notes) + '</div>';
+  }
+
+  // Scene tags
+  if (entry.linkedScenes && entry.linkedScenes.length > 0) {
+    html += '<div class="music-card-scenes">';
+    entry.linkedScenes.forEach(function(s) {
+      const exists = sceneExists(s);
+      html += '<span class="scene-tag' + (exists ? '' : ' missing') + '">' + escapeHTML(s) + (exists ? '' : ' ?') + '</span>';
+    });
+    html += '</div>';
+  }
+
+  // Link
+  if (entry.link) {
+    html += '<a class="music-card-link" href="' + escapeHTML(entry.link) + '" target="_blank" rel="noopener">' + escapeHTML(entry.link.replace(/^https?:\/\//, '').substring(0, 40)) + '</a>';
+  }
+
+  // Actions (edit/delete)
+  html += '<div class="music-card-actions">';
+  html += '<button onclick="editMusicEntry(\'' + entry.id + '\')">Edit</button>';
+  html += '<button onclick="deleteMusicEntry(\'' + entry.id + '\')">Del</button>';
+  html += '</div>';
+
+  card.innerHTML = html;
+  return card;
+}
+
+// --- CRUD ---
+function addMusicEntry() {
+  editingMusicId = null;
+  document.getElementById('musicFormTitle').textContent = 'Add Music Entry';
+  document.getElementById('mfTitle').value = '';
+  document.getElementById('mfArtist').value = '';
+  document.getElementById('mfNotes').value = '';
+  document.getElementById('mfLink').value = '';
+
+  // Populate mood picker
+  renderMoodPicker([]);
+
+  // Populate scene selector
+  populateSceneSelect();
+
+  // Show form
+  const form = document.getElementById('musicForm');
+  form.classList.remove('hidden');
+  document.getElementById('mfTitle').focus();
+}
+
+function editMusicEntry(id) {
+  const entry = musicEntries.find(function(e) { return e.id === id; });
+  if (!entry) return;
+
+  editingMusicId = id;
+  document.getElementById('musicFormTitle').textContent = 'Edit Music Entry';
+  document.getElementById('mfTitle').value = entry.title;
+  document.getElementById('mfArtist').value = entry.artist || '';
+  document.getElementById('mfNotes').value = entry.notes || '';
+  document.getElementById('mfLink').value = entry.link || '';
+
+  renderMoodPicker(entry.moods || []);
+  populateSceneSelect();
+
+  // Pre-select linked scenes
+  const sel = document.getElementById('mfScene');
+  if (entry.linkedScenes) {
+    for (let i = 0; i < sel.options.length; i++) {
+      sel.options[i].selected = entry.linkedScenes.indexOf(sel.options[i].value) !== -1;
+    }
+  }
+
+  const form = document.getElementById('musicForm');
+  form.classList.remove('hidden');
+  document.getElementById('mfTitle').focus();
+}
+
+function saveMusicEntry() {
+  const title = document.getElementById('mfTitle').value.trim();
+  if (!title) { toast('Title is required'); return; }
+
+  const artist = document.getElementById('mfArtist').value.trim();
+  const notes = document.getElementById('mfNotes').value.trim();
+  const link = document.getElementById('mfLink').value.trim();
+
+  // Collect selected moods
+  const moods = [];
+  document.querySelectorAll('#mfMoods .mood-pill.selected').forEach(function(p) {
+    moods.push(p.dataset.mood);
+  });
+
+  // Collect selected scenes
+  const linkedScenes = [];
+  const sel = document.getElementById('mfScene');
+  for (let i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].selected) linkedScenes.push(sel.options[i].value);
+  }
+
+  if (editingMusicId) {
+    // Update existing
+    const entry = musicEntries.find(function(e) { return e.id === editingMusicId; });
+    if (entry) {
+      entry.title = title;
+      entry.artist = artist;
+      entry.moods = moods;
+      entry.linkedScenes = linkedScenes;
+      entry.notes = notes;
+      entry.link = link;
+    }
+    toast('Song updated');
+  } else {
+    // Create new
+    musicEntries.push({
+      id: genMusicId(),
+      title: title,
+      artist: artist,
+      moods: moods,
+      linkedScenes: linkedScenes,
+      notes: notes,
+      link: link,
+      createdAt: new Date().toISOString()
+    });
+    toast('Song added');
+  }
+
+  cancelMusicForm();
+  renderMusicList();
+  updateStatusForTab('music');
+  scheduleSave();
+}
+
+function deleteMusicEntry(id) {
+  if (!confirm('Delete this music entry?')) return;
+  musicEntries = musicEntries.filter(function(e) { return e.id !== id; });
+  renderMusicList();
+  updateStatusForTab('music');
+  scheduleSave();
+  toast('Entry removed');
+}
+
+function cancelMusicForm() {
+  document.getElementById('musicForm').classList.add('hidden');
+  editingMusicId = null;
+}
+
+// --- Mood Picker (inside form) ---
+function renderMoodPicker(selectedMoods) {
+  const picker = document.getElementById('mfMoods');
+  picker.innerHTML = '';
+  moodPalette.forEach(function(mood) {
+    const pill = document.createElement('span');
+    pill.className = 'mood-pill' + (selectedMoods.indexOf(mood.name) !== -1 ? ' selected' : '');
+    pill.dataset.mood = mood.name;
+    pill.style.color = mood.color;
+    pill.innerHTML = '<span class="dot" style="background:' + mood.color + '"></span>' + escapeHTML(mood.name);
+    pill.onclick = function() { pill.classList.toggle('selected'); };
+    picker.appendChild(pill);
+  });
+}
+
+// --- Mood Filtering ---
+function filterByMood(moodName) {
+  activeMoodFilter = (activeMoodFilter === moodName) ? null : moodName;
+  renderMoodStrip();
+  renderMusicList();
+}
+
+function filterMusicBySearch(query) {
+  renderMusicList();
+}
+
+// --- Mood Palette Management ---
+function manageMoods() {
+  renderMoodEditorList();
+  document.getElementById('moodEditorOverlay').classList.remove('hidden');
+  document.getElementById('moodEditor').classList.remove('hidden');
+}
+
+function closeMoodEditor() {
+  document.getElementById('moodEditorOverlay').classList.add('hidden');
+  document.getElementById('moodEditor').classList.add('hidden');
+  renderMoodStrip();
+  renderMoodPicker(getSelectedMoodsFromPicker());
+  scheduleSave();
+}
+
+function renderMoodEditorList() {
+  const list = document.getElementById('moodEditorList');
+  list.innerHTML = '';
+  moodPalette.forEach(function(mood, idx) {
+    const row = document.createElement('div');
+    row.className = 'mood-editor-row';
+    row.innerHTML =
+      '<input type="color" value="' + mood.color + '" onchange="updateMoodColor(' + idx + ',this.value)">' +
+      '<input type="text" value="' + escapeHTML(mood.name) + '" onchange="updateMoodName(' + idx + ',this.value)">' +
+      '<button onclick="removeMood(' + idx + ')" title="Delete">&times;</button>';
+    list.appendChild(row);
+  });
+}
+
+function addNewMood() {
+  const input = document.getElementById('newMoodName');
+  const name = input.value.trim().toLowerCase();
+  if (!name) return;
+  if (moodPalette.some(function(m) { return m.name === name; })) {
+    toast('Mood already exists');
+    return;
+  }
+  // Generate a random-ish color
+  const hue = Math.floor(Math.random() * 360);
+  const color = 'hsl(' + hue + ',60%,55%)';
+  moodPalette.push({ name: name, color: color });
+  input.value = '';
+  renderMoodEditorList();
+  toast('Mood added: ' + name);
+}
+
+function updateMoodName(idx, newName) {
+  const oldName = moodPalette[idx].name;
+  newName = newName.trim().toLowerCase();
+  if (!newName || newName === oldName) return;
+  // Rename in all entries
+  musicEntries.forEach(function(e) {
+    const i = e.moods.indexOf(oldName);
+    if (i !== -1) e.moods[i] = newName;
+  });
+  moodPalette[idx].name = newName;
+}
+
+function updateMoodColor(idx, newColor) {
+  moodPalette[idx].color = newColor;
+}
+
+function removeMood(idx) {
+  const name = moodPalette[idx].name;
+  moodPalette.splice(idx, 1);
+  // Remove from all entries
+  musicEntries.forEach(function(e) {
+    e.moods = e.moods.filter(function(m) { return m !== name; });
+  });
+  renderMoodEditorList();
+  toast('Mood removed');
+}
+
+function getSelectedMoodsFromPicker() {
+  const selected = [];
+  document.querySelectorAll('#mfMoods .mood-pill.selected').forEach(function(p) {
+    selected.push(p.dataset.mood);
+  });
+  return selected;
+}
+
+// ═══════════════════════════════════════
+// BEATS MODULE
+// ═══════════════════════════════════════
+let beatEntries = [];
+let editingBeatId = null;
+let activeMovementFilter = '';
+let beatSearchQuery = '';
+
+function genBeatId() {
+  return 'b_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+}
+
+function getDefaultBeats() {
+  return [
+    { id:'b_1_1', movement:1, movementTitle:'The Loop', sceneId:'1.1', title:'Black \u2014 Sound of Breathing', location:'BLACK', characters:['su'], tone:'quiet', description:'Black screen. Someone breathing. Not distressed \u2014 deep, steady, like after a cold shower. The breathing becomes a hum. The Lyrical Loneliness theme. Then image: water hitting tile. Su\'s back. The cold shower ritual.', visual:'Camera: locked on the shower wall. Water runs. We see his silhouette. No face yet.', truth:'The first thing we hear is Su alone. The first thing we see is a ritual.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_2', movement:1, movementTitle:'The Loop', sceneId:'1.2', title:'The Morning', location:'HOME', characters:['su'], tone:'warm', description:'Su\'s apartment. The lived-in chaos of a man who lives alone. Kettle. Phone check. The notepad on the desk. No dialogue. No voiceover. Just the sounds of a morning.', visual:'Tsai Ming-liang energy. Static shots. The beauty of a mundane morning when no one is watching.', truth:'The beauty of a mundane morning when no one is watching.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_3', movement:1, movementTitle:'The Loop', sceneId:'1.3', title:'The Auto \u2014 First Time We See the Comedian', location:'AUTO / DELHI STREETS', characters:['su','comedian'], tone:'fun', description:'Su in an auto. The driver\'s playing loud Punjabi music. Then a voice beside him. The Comedian. Already mid-sentence. Riffing about the driver\'s music taste, the traffic, the auto\'s decoration. The audience doesn\'t know the Comedian isn\'t real yet.', visual:'Camera: over-the-shoulder, then the Comedian in frame. The auto\'s rearview mirror catches both of them \u2014 or does it only catch Su?', truth:'The Comedian is introduced as a friend. The reveal comes later.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_4', movement:1, movementTitle:'The Loop', sceneId:'1.4', title:'The Studio \u2014 Killing Time', location:'STUDIO', characters:['su'], tone:'quiet', description:'Evening. Su in the studio. Not recording anything. Flicking the mic, listening to the thud. Adjusting the chair. Moving the water glass. He talks into the mic \u2014 not a show, just thinking out loud. Then he gets up to leave. The door handle doesn\'t move.', visual:'', truth:'The studio recording becomes the film\'s inner voice. But right now, it\'s just a man talking to himself in a room. And then a door that won\'t open.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_5', movement:1, movementTitle:'The Loop', sceneId:'1.5', title:'The Locked Room \u2014 The Kid Appears', location:'STUDIO', characters:['su','kid'], tone:'wonder', description:'The door won\'t open. The monitor picks up a rhythmic tapping \u2014 same pattern Su was tapping. Someone in the guest chair. A kid. He waves at the camera. The conversation is NOT deep \u2014 it\'s fun. The Kid asks about the equipment, the lights. Then someone opens the door from outside. The Kid is gone. Memory card recorded nothing.', visual:'Amber light throughout. The Kid lit the same way as Su \u2014 the light doesn\'t know who\'s real.', truth:'The first studio encounter is LIGHT. Warm. Fun. The Nusrat melody before the Nusrat lyrics.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_6', movement:1, movementTitle:'The Loop', sceneId:'1.6', title:'After the Kid \u2014 The Walk', location:'DELHI STREETS / NIGHT', characters:['su','comedian'], tone:'shift', description:'Su walks out. Shaken. The Comedian is waiting outside. Tries to riff. Su isn\'t biting. For the first time, the Comedian can\'t make Su laugh. They walk in silence. The first crack.', visual:'Long take. Two figures walking a Delhi street at night. One talking, one silent. Then both silent.', truth:'Something happened in that room that the Comedian can\'t reach.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_1', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.1', title:'Black \u2014 Sound of Laughter', location:'BLACK / COMEDY CLUB', characters:['su'], tone:'energy', description:'Black screen. Laughter builds, peaks, crashes. Then silence. A single voice mid-set. The laughter swells. Image fades in: the comedy club. Spotlight. Black curtain. A figure in shades. Su.', visual:'', truth:'This movement is the Comedian\'s backstory \u2014 told in fragments, not chronological.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_2', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.2', title:'Fragment \u2014 The Set', location:'COMEDY CLUB', characters:['su'], tone:'fun', description:'Shades on. Spotlight. Su doing a set. The material is sharp. No before, no after. Just the set. The energy of a room that\'s with you.', visual:'Handheld. Close. The spotlight burns. The shades reflect it. Audience faces blurred.', truth:'The film needs to SHOW why the Comedian exists \u2014 performing was genuinely the best part of Su\'s life.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_3', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.3', title:'Fragment \u2014 The Phone Guy', location:'COMEDY CLUB', characters:['su'], tone:'shift', description:'Mid-set. Someone\'s phone goes off. Su roasts the guy. Gets personal. Gets mean. The room laughs but the guy doesn\'t. Su feels the line being crossed but the laughter is a drug. The bit ends. Applause. But his smile has changed.', visual:'', truth:'The Comedian\'s reflex anger \u2014 not calculated, just fires. This is what Su hates about the Comedian. This is why he stopped.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_4', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.4', title:'Tapri \u2014 After the Show', location:'TEA STALL / NIGHT', characters:['su'], tone:'warm', description:'Comedian friends. Chai in glass cups. Blurred faces, blurred hands. Focus on Su \u2014 his eyes, his laugh, the way he leans back. The only time Su looks genuinely relaxed around other people.', visual:'Focus rack: Su\'s face sharp, everything else soft. The tapri is sanctuary.', truth:'The only time in the film where Su looks genuinely relaxed around other people.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_5', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.5', title:'Present \u2014 The Comedian in Daily Life', location:'VARIOUS', characters:['su','comedian'], tone:'fun', description:'Postcards. The Comedian at Su\'s desk making fun of emails. In the kitchen critiquing chai. Walking alongside, narrating the city like a nature documentary. The good times. Why the Comedian exists \u2014 he makes the loneliness bearable.', visual:'', truth:'The audience needs to love the Comedian before they understand what he costs.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_6', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.6', title:'The Comedian Tries to Stay', location:'HOME / EVENING', characters:['su','comedian'], tone:'shift', description:'Su\'s phone rings. Maa. The Comedian is there. Maa talks \u2014 we hear the tone, not words. Su\'s face changes. The Comedian shifts. He wants to say something funny. The words don\'t come. He gets up. Walks to the door. Stops. His hand on the frame. Fighting the urge to bolt. He leaves. The door closes softly.', visual:'', truth:'The almost-staying. The one time the audience sees the Comedian isn\'t just fun. He\'s terrified. That\'s why he\'s funny.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_7', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.7', title:'Fragment \u2014 1:30 AM in the Rain', location:'DELHI STREET / RAIN / NIGHT', characters:['su'], tone:'ache', description:'Younger Su waited outside a comedy club for five hours. Never got a spot. The rain started. He walked home alone. No Comedian beside him \u2014 because the Comedian doesn\'t exist yet. This is the BEFORE.', visual:'The most beautiful shot in the film. Rain on empty Delhi streets. One figure. No umbrella. The Lyrical Loneliness hum under rain sound.', truth:'The Comedian was born sometime between this rain walk and the phone guy set.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_8', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.8', title:'The Studio Door \u2014 The Comedian Won\'t Enter', location:'STUDIO CORRIDOR + STUDIO', characters:['su','comedian'], tone:'quiet', description:'Su walks toward the studio. The Comedian slows. "Chal na, kya karega andar baith ke." Su opens the door. Steps inside. Looks back. The Comedian is standing in the corridor. He won\'t cross. Su sits in silence. From outside: "Tera problem pata hai? Tu har jagah meaning dhundhta hai." Su doesn\'t respond.', visual:'', truth:'The studio demands honesty. The Comedian cannot be honest. A man standing outside a door he can\'t walk through.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_1', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.1', title:'The Date \u2014 Modern Love', location:'RESTAURANT / EVENING', characters:['su','comedian'], tone:'bittersweet', description:'Su on a date. App-matched. The Comedian sits at the next table, watching. Quiet for once. The date is pleasant. Forgettable. After, walking to the auto stand. Comedian: "She was nice." Su: "Haan." Comedian: "Tu bhi nice tha." The way he says "nice" \u2014 it\'s a diagnosis.', visual:'The date shot through glass \u2014 reflections, warm light. The Comedian at the other table, out of focus.', truth:'The distance between "I don\'t want to love" and "I can\'t love the way you need me to."', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_2', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.2', title:'The Arranged Meeting', location:'CAFE OR FAMILY HOME', characters:['su','comedian'], tone:'uncomfortable', description:'A girl his family set him up with. She\'s nice. Educated. Su is so far away from this kind of life. The Comedian, for once, is respectful. Not roasting. He knows there are lines. A different shade of the Comedian.', visual:'', truth:'Su isn\'t against love or marriage. He\'s against performing it.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_3', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.3', title:'Walking Alone \u2014 Love as Breathing', location:'DELHI STREETS / LATE NIGHT', characters:['su'], tone:'lyrical', description:'Su walks. No Comedian tonight. The city half-asleep. Street dogs. Shuttered shops. Studio recording bleeds in: "Love is like breathing. In the moment of true devotion there is no separation between the devoted and the devotee..."', visual:'Long, slow tracking shot from behind. Or static shot \u2014 Su walks through frame and out. Camera stays on empty street.', truth:'Su can feel oneness with a ceiling, a street, rain. Not with a person. That\'s what was amputated.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_4', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.4', title:'The Phone Call \u2014 Mother', location:'HOME / EVENING', characters:['su'], tone:'ache', description:'A proper phone call. Not long. He says "haan" a lot. "Theek hai." "Baad mein baat karte hain." Hangs up. Sits. Stares at the phone. The silence is the loudest thing in the film.', visual:'', truth:'The mother doesn\'t need to be in the studio. This phone call IS the mother scene.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_5', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.5', title:'Studio Recording \u2014 The Ego', location:'STUDIO', characters:['su'], tone:'honest', description:'Su at the mic. Late. Door open \u2014 not expecting anyone. "I see my ego. I observe it. I see its ebbs and flow. I understand it. And I still let it win." He laughs at his own words. The laugh of a man who found his own profundity funny.', visual:'', truth:'The deepest lines in the film should make Su LAUGH, not cry. The Nusrat Principle.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_4_1', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.1', title:'The Comedian Weakens', location:'VARIOUS', characters:['su','comedian'], tone:'shift', description:'The Comedian\'s energy drops. Jokes land slower. He\'s not in every auto ride anymore. Sometimes the seat is empty. His riffs are recycled. The studio visits are doing something the Comedian can\'t counter.', visual:'', truth:'The Comedian doesn\'t die in a dramatic scene. He fades. Like a radio station going out of range.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_4_2', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.2', title:'The Older Su Appears', location:'STUDIO', characters:['su','older-su'], tone:'weight', description:'Studio. Door locks. Su isn\'t scared anymore. He sees a face in the water\'s reflection. The Older Su came through the door \u2014 the only guest who uses it. He made the film. Festivals. Reviews. Everything. And it didn\'t fix the thing Su thinks it\'ll fix. "Ek aur cheez finish ho gayi. Bas."', visual:'The amber light feels colder somehow. The Older Su touches the mic the way you touch a scar.', truth:'Finishing the film won\'t save Su. Not-finishing won\'t either. The pattern is the problem, not the project.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_4_3', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.3', title:'After the Older Su \u2014 The World Feels Different', location:'VARIOUS / DAY', characters:['su'], tone:'shift', description:'The next day. Su moves slower. Not sadder \u2014 more present. He notices things: light on buildings, pressure cooker sounds, the auto driver\'s hands at a red light. The Comedian is barely there. A shadow.', visual:'The camera breathes for the first time. Longer holds. More air. The film itself is slowing down.', truth:'Su is slowing down. The film slows with him.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_5_1', movement:5, movementTitle:'The Unraveling', sceneId:'5.1', title:'Su Goes to the Studio Voluntarily', location:'STUDIO', characters:['su'], tone:'quiet', description:'For the first time, Su goes because he wants to. Not because the door locked. He turns on the mic. Talks. Really talks \u2014 not rambling, not performing. Just honest.', visual:'', truth:'The studio demanded honesty. For the first time, Su gives it voluntarily.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_5_2', movement:5, movementTitle:'The Unraveling', sceneId:'5.2', title:'The Comedian\'s Last Try', location:'HOME / EVENING', characters:['su','comedian'], tone:'bittersweet', description:'The Comedian shows up. Full energy. New material. He\'s trying. Su watches without anger \u2014 just clarity. He sees through the performance now. The Comedian feels it. The riff dies. For a moment he\'s not performing. Then he gets up and walks out. No "chal, chai peete hain" this time.', visual:'', truth:'The Comedian isn\'t killed or confronted. He\'s loved. And love is the one thing scar tissue can\'t survive.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_5_3', movement:5, movementTitle:'The Unraveling', sceneId:'5.3', title:'Real Moments Break Through', location:'VARIOUS', characters:['su'], tone:'warm', description:'Small real moments. Su calls his mother \u2014 brief but warmer. She notices the shift. Su watches a film alone and his eyes fill. He doesn\'t wipe them. Su at his desk, actually writing \u2014 not planning. Words on paper.', visual:'BRIEF scenes. Ten seconds each. No dialogue. Just images of a man letting things through.', truth:'Su is letting things through for the first time.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_6_1', movement:6, movementTitle:'The Return', sceneId:'6.1', title:'The Kid Comes Back', location:'STUDIO', characters:['su','kid'], tone:'still', description:'Studio. Door locks. Su waits. He knows. The Kid is there. Same grin. But Su can see him now \u2014 really see him. Not as a ghost or mechanism. As the version who never needed armor. The Kid says something devastatingly simple.', visual:'', truth:'The Kid\'s line should make Su walk out and never come back. Not because it\'s painful. Because staying feels absurd.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_6_2', movement:6, movementTitle:'The Return', sceneId:'6.2', title:'Su Walks Out', location:'STUDIO \u2192 DELHI STREETS \u2192 DAWN', characters:['su'], tone:'breathing', description:'Su walks out. The Comedian is not waiting outside. The corridor is empty. Not ominously \u2014 just empty. He walks. Delhi between night and morning. Street dogs. A chai stall opening. The Lyrical Loneliness hum \u2014 but it doesn\'t sound lonely anymore. It sounds like breathing.', visual:'Long. Patient. The camera walks beside him. Like a companion that doesn\'t need to talk.', truth:'The devoted and the devotee are one. A man and his city and the 3 AM air between them.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_6_3', movement:6, movementTitle:'The Return', sceneId:'6.3', title:'The Last Image', location:'TBD', characters:['su'], tone:'end', description:'The final frame. Options: Su in the studio hitting record for the first time, smiling at camera. OR a real kid running past him on an empty road. OR Su lying on his bed, staring at the ceiling, seeing sky. The audience carries this image out of the theatre.', visual:'', truth:'The last image is a promise. What does the audience take home?', notes:'', status:'pending', createdAt:new Date().toISOString() }
+  ];
+}
+
+// --- Rendering ---
+function renderBeatsList() {
+  var list = document.getElementById('beatsList');
+  var empty = document.getElementById('beatsEmpty');
+  list.innerHTML = '';
+
+  // Filter entries
+  var entries = beatEntries.slice();
+
+  if (activeMovementFilter) {
+    var mNum = parseInt(activeMovementFilter);
+    entries = entries.filter(function(e) { return e.movement === mNum; });
+  }
+
+  if (beatSearchQuery) {
+    var q = beatSearchQuery.toLowerCase();
+    entries = entries.filter(function(e) {
+      return (e.title + ' ' + e.sceneId + ' ' + e.description + ' ' + e.location + ' ' + e.tone + ' ' + (e.characters || []).join(' ') + ' ' + (e.truth || '') + ' ' + (e.visual || '') + ' ' + (e.notes || '')).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  if (entries.length === 0 && beatEntries.length === 0) {
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#666;padding:40px;font-family:system-ui,sans-serif;font-size:13px">No matches for current filter.</div>';
+    return;
+  }
+
+  // Group by movement
+  var movements = {};
+  entries.forEach(function(e) {
+    var key = e.movement || 0;
+    if (!movements[key]) movements[key] = { title: e.movementTitle || 'Movement ' + key, entries: [] };
+    movements[key].entries.push(e);
+  });
+
+  var movementKeys = Object.keys(movements).sort(function(a, b) { return parseInt(a) - parseInt(b); });
+  movementKeys.forEach(function(key) {
+    var m = movements[key];
+    // Movement header
+    var header = document.createElement('div');
+    header.className = 'beat-movement-header';
+    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span>';
+    list.appendChild(header);
+    // Cards
+    m.entries.forEach(function(entry) {
+      list.appendChild(renderBeatCard(entry));
+    });
+  });
+}
+
+function renderBeatCard(entry) {
+  var card = document.createElement('div');
+  card.className = 'beat-card status-' + (entry.status || 'pending');
+  card.dataset.id = entry.id;
+
+  var html = '';
+  // Header: status pill + scene ID + title
+  html += '<div class="beat-header">';
+  html += '<span class="beat-id">' + escapeHTML(entry.sceneId || '') + '</span>';
+  html += '<span class="beat-title">' + escapeHTML(entry.title || '') + '</span>';
+  var statusLabel = { pending: 'Pending', writing: 'Writing', done: 'Done' };
+  var statusClass = { pending: 'st-pending', writing: 'st-writing', done: 'st-done' };
+  var st = entry.status || 'pending';
+  html += '<span class="beat-status-pill ' + (statusClass[st] || 'st-pending') + '" onclick="cycleBeatStatus(\'' + entry.id + '\')" title="Click to cycle status">' + (statusLabel[st] || 'Pending') + '</span>';
+  html += '</div>';
+
+  // Tags: location, characters, tone
+  html += '<div class="beat-tags">';
+  if (entry.location) html += '<span class="beat-tag tag-location">' + escapeHTML(entry.location) + '</span>';
+  if (entry.characters && entry.characters.length > 0) {
+    entry.characters.forEach(function(c) {
+      html += '<span class="beat-tag tag-char">' + escapeHTML(c) + '</span>';
+    });
+  }
+  if (entry.tone) html += '<span class="beat-tag tag-tone">' + escapeHTML(entry.tone) + '</span>';
+  html += '</div>';
+
+  // Description (collapsed by default)
+  if (entry.description) {
+    html += '<div class="beat-desc collapsed" onclick="this.classList.toggle(\'collapsed\')" title="Click to expand/collapse">' + escapeHTML(entry.description) + '</div>';
+  }
+
+  // Visual notes
+  if (entry.visual) {
+    html += '<div class="beat-visual">' + escapeHTML(entry.visual) + '</div>';
+  }
+
+  // Truth
+  if (entry.truth) {
+    html += '<div class="beat-truth">' + escapeHTML(entry.truth) + '</div>';
+  }
+
+  // Notes textarea (always visible)
+  html += '<textarea class="beat-notes-area" placeholder="Working notes..." oninput="updateBeatNotes(\'' + entry.id + '\',this.value)">' + escapeHTML(entry.notes || '') + '</textarea>';
+
+  // Actions
+  html += '<div class="beat-actions">';
+  html += '<button onclick="editBeat(\'' + entry.id + '\')">Edit</button>';
+  html += '<button onclick="deleteBeat(\'' + entry.id + '\')">Del</button>';
+  html += '</div>';
+
+  card.innerHTML = html;
+  return card;
+}
+
+// --- CRUD ---
+function addBeat() {
+  editingBeatId = null;
+  document.getElementById('beatFormTitle').textContent = 'Add Scene Beat';
+  document.getElementById('bfSceneId').value = '';
+  document.getElementById('bfTitle').value = '';
+  document.getElementById('bfMovement').value = '1';
+  document.getElementById('bfMovementTitle').value = '';
+  document.getElementById('bfLocation').value = '';
+  document.getElementById('bfTone').value = '';
+  document.getElementById('bfDesc').value = '';
+  document.getElementById('bfVisual').value = '';
+  document.getElementById('bfTruth').value = '';
+  document.getElementById('bfNotes').value = '';
+  document.getElementById('bfStatus').value = 'pending';
+  // Clear character checkboxes
+  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]').forEach(function(cb) { cb.checked = false; });
+
+  var form = document.getElementById('beatForm');
+  form.classList.remove('hidden');
+  document.getElementById('bfSceneId').focus();
+}
+
+function editBeat(id) {
+  var entry = beatEntries.find(function(e) { return e.id === id; });
+  if (!entry) return;
+
+  editingBeatId = id;
+  document.getElementById('beatFormTitle').textContent = 'Edit Scene Beat';
+  document.getElementById('bfSceneId').value = entry.sceneId || '';
+  document.getElementById('bfTitle').value = entry.title || '';
+  document.getElementById('bfMovement').value = entry.movement || 1;
+  document.getElementById('bfMovementTitle').value = entry.movementTitle || '';
+  document.getElementById('bfLocation').value = entry.location || '';
+  document.getElementById('bfTone').value = entry.tone || '';
+  document.getElementById('bfDesc').value = entry.description || '';
+  document.getElementById('bfVisual').value = entry.visual || '';
+  document.getElementById('bfTruth').value = entry.truth || '';
+  document.getElementById('bfNotes').value = entry.notes || '';
+  document.getElementById('bfStatus').value = entry.status || 'pending';
+
+  // Set character checkboxes
+  var chars = entry.characters || [];
+  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]').forEach(function(cb) {
+    cb.checked = chars.indexOf(cb.value) !== -1;
+  });
+
+  var form = document.getElementById('beatForm');
+  form.classList.remove('hidden');
+  document.getElementById('bfSceneId').focus();
+}
+
+function saveBeat() {
+  var sceneId = document.getElementById('bfSceneId').value.trim();
+  var title = document.getElementById('bfTitle').value.trim();
+  if (!sceneId || !title) { toast('Scene ID and Title are required'); return; }
+
+  var movement = parseInt(document.getElementById('bfMovement').value) || 1;
+  var movementTitle = document.getElementById('bfMovementTitle').value.trim();
+  var location = document.getElementById('bfLocation').value.trim();
+  var tone = document.getElementById('bfTone').value.trim();
+  var description = document.getElementById('bfDesc').value.trim();
+  var visual = document.getElementById('bfVisual').value.trim();
+  var truth = document.getElementById('bfTruth').value.trim();
+  var notes = document.getElementById('bfNotes').value.trim();
+  var status = document.getElementById('bfStatus').value;
+
+  // Collect characters
+  var characters = [];
+  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]:checked').forEach(function(cb) {
+    characters.push(cb.value);
+  });
+
+  if (editingBeatId) {
+    var entry = beatEntries.find(function(e) { return e.id === editingBeatId; });
+    if (entry) {
+      entry.sceneId = sceneId;
+      entry.title = title;
+      entry.movement = movement;
+      entry.movementTitle = movementTitle;
+      entry.location = location;
+      entry.characters = characters;
+      entry.tone = tone;
+      entry.description = description;
+      entry.visual = visual;
+      entry.truth = truth;
+      entry.notes = notes;
+      entry.status = status;
+    }
+    toast('Beat updated');
+  } else {
+    beatEntries.push({
+      id: genBeatId(),
+      movement: movement,
+      movementTitle: movementTitle,
+      sceneId: sceneId,
+      title: title,
+      location: location,
+      characters: characters,
+      tone: tone,
+      description: description,
+      visual: visual,
+      truth: truth,
+      notes: notes,
+      status: status,
+      createdAt: new Date().toISOString()
+    });
+    toast('Beat added');
+  }
+
+  cancelBeatForm();
+  renderBeatsList();
+  populateMovementFilter();
+  updateStatusForTab('beats');
+  scheduleSave();
+}
+
+function deleteBeat(id) {
+  if (!confirm('Delete this beat?')) return;
+  beatEntries = beatEntries.filter(function(e) { return e.id !== id; });
+  renderBeatsList();
+  populateMovementFilter();
+  updateStatusForTab('beats');
+  scheduleSave();
+  toast('Beat removed');
+}
+
+function cancelBeatForm() {
+  document.getElementById('beatForm').classList.add('hidden');
+  editingBeatId = null;
+}
+
+// --- Status cycling ---
+function cycleBeatStatus(id) {
+  var entry = beatEntries.find(function(e) { return e.id === id; });
+  if (!entry) return;
+  var cycle = { pending: 'writing', writing: 'done', done: 'pending' };
+  entry.status = cycle[entry.status || 'pending'] || 'pending';
+  renderBeatsList();
+  scheduleSave();
+}
+
+// --- Inline notes ---
+function updateBeatNotes(id, text) {
+  var entry = beatEntries.find(function(e) { return e.id === id; });
+  if (!entry) return;
+  entry.notes = text;
+  scheduleSave();
+}
+
+// --- Filtering ---
+function filterByMovement(value) {
+  activeMovementFilter = value;
+  renderBeatsList();
+}
+
+function filterBeatsBySearch(query) {
+  beatSearchQuery = query;
+  renderBeatsList();
+}
+
+function populateMovementFilter() {
+  var sel = document.getElementById('movementFilter');
+  var currentVal = sel.value;
+  // Keep the first "All Movements" option
+  sel.innerHTML = '<option value="">All Movements</option>';
+  // Get distinct movements
+  var seen = {};
+  beatEntries.forEach(function(e) {
+    if (!seen[e.movement]) {
+      seen[e.movement] = e.movementTitle || 'Movement ' + e.movement;
+    }
+  });
+  var keys = Object.keys(seen).sort(function(a, b) { return parseInt(a) - parseInt(b); });
+  keys.forEach(function(k) {
+    var opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = k + '. ' + seen[k];
+    sel.appendChild(opt);
+  });
+  // Restore selection
+  sel.value = currentVal;
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+(function init() {
+  if (!loadAutosave()) {
+    // Start with empty editor
+    normalizeEditor();
+    // Default beats on first load
+    beatEntries = getDefaultBeats();
+  }
+  renderMoodStrip();
+  renderMusicList();
+  renderBeatsList();
+  populateMovementFilter();
+  updateStats();
+  editor.focus();
+
+  // Keep panel padding in sync with toolbar height (handles wrap at narrow widths)
+  const toolbar = document.getElementById('toolbar');
+  function syncPanelPadding() {
+    const h = toolbar.offsetHeight + 4;
+    document.getElementById('panel-script').style.paddingTop = h + 'px';
+    document.getElementById('panel-music').style.paddingTop = h + 'px';
+    document.getElementById('panel-beats').style.paddingTop = h + 'px';
+  }
+  syncPanelPadding();
+  new ResizeObserver(syncPanelPadding).observe(toolbar);
+
+  // Check for file in URL hash (e.g., #open)
+  if (location.hash === '#new') {
+    newScript();
+  }
+})();
+</script>
+</body>
+</html>
