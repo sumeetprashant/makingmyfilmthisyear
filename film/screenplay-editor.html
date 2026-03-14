@@ -124,27 +124,27 @@ body{
 /* TAB BAR                                */
 /* ═══════════════════════════════════════ */
 #tabbar{
-  width:100%;
   display:flex;
-  gap:0;
-  padding:0 4px;
-  border-top:1px solid #333;
-  margin-top:4px;
+  gap:6px;
+  padding:0;
+  margin:0;
 }
 .tab{
   background:transparent;
   color:#666;
   border:none;
   border-bottom:2px solid transparent;
-  padding:7px 20px;
+  padding:6px 16px;
   font-size:11px;
   font-family:system-ui,-apple-system,sans-serif;
   cursor:pointer;
   letter-spacing:.04em;
   transition:color 0.15s,border-color 0.15s;
 }
-.tab:hover{color:#bbb}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+#toolbar .tab{background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;color:#666}
+#toolbar .tab:hover{color:#bbb;background:transparent!important}
+#toolbar .tab.active{color:var(--accent)!important;border-bottom-color:var(--accent)!important;background:transparent!important}
+.toolbar-right{margin-left:auto;display:flex;align-items:center;gap:4px}
 
 /* ═══════════════════════════════════════ */
 /* TAB PANELS                             */
@@ -685,6 +685,7 @@ html:not(.dark) .music-form{
   grid-template-columns:repeat(auto-fill, minmax(420px, 1fr));
   gap:16px;
   margin-bottom:16px;
+  align-items:start;
 }
 .beats-empty{
   text-align:center;
@@ -735,10 +736,12 @@ html:not(.dark) .music-form{
   box-shadow:0 2px 12px rgba(0,0,0,0.2);
   border-left:4px solid #999;
   position:relative;
-  overflow:hidden;
+  overflow:visible;
   cursor:pointer;
   transition:box-shadow 0.15s;
+  display:flex;flex-direction:column;
 }
+.beat-card .beat-actions{margin-top:auto}
 .beat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
 .beat-card.status-writing{border-left-color:var(--accent)}
 .beat-card.status-done{border-left-color:#2ecc71}
@@ -776,23 +779,13 @@ html:not(.dark) .music-form{
 .beat-tag.tag-tone{background:rgba(230,126,34,0.12);color:#e67e22}
 
 .beat-desc{
-  font-size:12px;color:#555;line-height:1.5;
+  font-size:12px;color:#999;line-height:1.5;
   margin:6px 0;
   font-family:system-ui,sans-serif;
   white-space:pre-wrap;
-  overflow:hidden;
-  cursor:pointer;
 }
-.beat-desc.collapsed{
-  max-height:4.5em; /* ~3 lines */
-  position:relative;
-}
-.beat-desc.collapsed::after{
-  content:'';
-  position:absolute;bottom:0;left:0;right:0;
-  height:1.5em;
-  background:linear-gradient(transparent,var(--paper));
-  pointer-events:none;
+.beat-card.focused .beat-desc{
+  color:#bbb;
 }
 
 .beat-visual{
@@ -815,6 +808,7 @@ html:not(.dark) .music-form{
 }
 
 .beat-notes-area{
+  display:none;
   width:100%;
   background:#f5f3eb;
   border:1px solid #e0ddd0;
@@ -827,14 +821,17 @@ html:not(.dark) .music-form{
   min-height:36px;
   margin-top:8px;
 }
+.beat-card.focused .beat-notes-area{display:block}
 .beat-notes-area:focus{outline:none;border-color:var(--accent)}
 .beat-notes-area::placeholder{color:#aaa}
 
 .beat-actions{
   display:flex;gap:4px;
   justify-content:flex-end;
-  margin-top:8px;
-  opacity:0;transition:opacity 0.15s;
+  margin-top:10px;
+  padding-top:8px;
+  border-top:1px solid rgba(255,255,255,0.04);
+  opacity:0.5;transition:opacity 0.15s;
 }
 .beat-card:hover .beat-actions{opacity:1}
 .beat-actions button{
@@ -888,8 +885,9 @@ body.beats-dragging, body.beats-dragging *{cursor:grabbing!important}
   position:fixed;
   top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:56vw;max-height:62vh;
+  width:56vw;max-height:72vh;
   overflow-y:auto;z-index:100;
+  padding:32px 36px 28px 36px;
   background:rgba(30,28,24,0.72);
   backdrop-filter:blur(24px) saturate(1.4);
   -webkit-backdrop-filter:blur(24px) saturate(1.4);
@@ -907,10 +905,11 @@ html:not(.dark) .beat-card.focused{
   z-index:90;cursor:pointer;
 }
 .beat-card.focused .beat-title{font-size:24px}
-.beat-card.focused .beat-desc{font-size:16px;line-height:1.6}
-.beat-card.focused .beat-notes-area{font-size:15px;min-height:120px}
+.beat-card.focused .beat-desc{font-size:16px;line-height:1.7;margin-top:4px}
+.beat-card.focused .beat-notes-area{font-size:15px;min-height:100px;margin-top:8px}
 .beat-card.focused .beat-id{font-size:14px}
-.beat-card.focused .beat-header{margin-bottom:14px}
+.beat-card.focused .beat-header{margin-bottom:16px}
+.beat-card.focused .beat-top-section{margin-bottom:18px}
 
 /* Top section layout (image top-right) */
 .beat-top-section{
@@ -950,15 +949,23 @@ html.dark select{background:#2a2520;color:#ccc;border-color:#444}
 html.dark input[type="text"]{background:#2a2520;color:#ccc;border-color:#444}
 
 /* Dark mode toggle */
-.dark-toggle{
-  background:none;border:1px solid #555;
-  color:#ccc;border-radius:50%;
-  width:30px;height:30px;
-  cursor:pointer;font-size:14px;
+#toolbar .dark-toggle{
+  background:none!important;border:none!important;
+  color:#888;box-shadow:none;
+  cursor:pointer;font-size:16px;
+  padding:4px;
   display:flex;align-items:center;justify-content:center;
-  transition:all 0.15s;
+  transition:color 0.15s,opacity 0.15s;
+  opacity:0.5;
 }
-.dark-toggle:hover{border-color:var(--accent);color:var(--accent)}
+#toolbar .dark-toggle:hover{color:var(--accent);opacity:1;background:none!important}
+#toolbar .toolbar-right button.help-btn{
+  background:none!important;border:none!important;
+  color:#888;box-shadow:none;
+  font-size:14px;padding:4px;opacity:0.5;
+  cursor:pointer;transition:color 0.15s,opacity 0.15s;
+}
+#toolbar .toolbar-right button.help-btn:hover{color:var(--accent);opacity:1;background:none!important}
 
 /* Beat form (slide-in from right) — same as music form */
 .beat-form{
@@ -1122,6 +1129,12 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   <div class="toolbar-group">
     <input id="titleInput" type="text" placeholder="Untitled Project" spellcheck="false">
   </div>
+  <div class="toolbar-sep"></div>
+  <div id="tabbar">
+    <button class="tab" data-tab="beats" onclick="switchTab('beats')">Beats</button>
+    <button class="tab" data-tab="music" onclick="switchTab('music')">Music &amp; Mood</button>
+    <button class="tab active" data-tab="script" onclick="switchTab('script')">Script</button>
+  </div>
 
   <!-- Script-specific toolbar -->
   <div id="toolbar-script" class="toolbar-context">
@@ -1173,13 +1186,6 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   <div id="toolbar-beats" class="toolbar-context hidden">
     <div class="toolbar-sep"></div>
     <div class="toolbar-group">
-      <button onclick="addBeat()">+ Scene</button>
-      <select id="movementFilter" onchange="filterByMovement(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
-        <option value="">All Movements</option>
-      </select>
-    </div>
-    <div class="toolbar-sep"></div>
-    <div class="toolbar-group">
       <button id="btnStoryboard" onclick="setBeatView('storyboard')">Storyboard</button>
       <button id="btnIndexCard" class="active" onclick="setBeatView('index')">Index Card</button>
       <select id="beatAspectRatio" onchange="setBeatAspectRatio(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
@@ -1189,6 +1195,10 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
         <option value="4/3">4:3</option>
         <option value="1/1">1:1 Square</option>
       </select>
+      <button onclick="addBeat()">+ Scene</button>
+      <select id="movementFilter" onchange="filterByMovement(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
+        <option value="">All Movements</option>
+      </select>
     </div>
     <div class="toolbar-sep"></div>
     <div class="toolbar-group">
@@ -1196,17 +1206,9 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     </div>
   </div>
 
-  <div class="toolbar-sep"></div>
-  <div class="toolbar-group">
-    <button onclick="toggleHelp()" title="Keyboard shortcuts" style="font-weight:bold">?</button>
+  <div class="toolbar-right">
+    <button class="help-btn" onclick="toggleHelp()" title="Keyboard shortcuts">?</button>
     <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">&#9790;</button>
-  </div>
-
-  <!-- TAB BAR (inside toolbar so it flows after wrapped toolbar items) -->
-  <div id="tabbar">
-    <button class="tab active" data-tab="script" onclick="switchTab('script')">Script</button>
-    <button class="tab" data-tab="music" onclick="switchTab('music')">Music &amp; Mood</button>
-    <button class="tab" data-tab="beats" onclick="switchTab('beats')">Beats</button>
   </div>
 </div>
 
@@ -3212,7 +3214,7 @@ function buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass) {
 
   // Description (collapsed by default)
   if (entry.description) {
-    html += '<div class="beat-desc collapsed" onclick="event.stopPropagation();this.classList.toggle(\'collapsed\')" title="Click to expand/collapse">' + escapeHTML(entry.description) + '</div>';
+    html += '<div class="beat-desc">' + escapeHTML(entry.description) + '</div>';
   }
 
   // Visual notes (italic gold)
