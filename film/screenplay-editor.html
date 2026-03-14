@@ -26,6 +26,21 @@
   --paren: #9a6ab0;
   --trans: #b09050;
   --highlight: rgba(212,168,83,0.08);
+  --focus-card-bg: #e8e4dc;
+  --faded:#8a8070;
+  --border:#333;
+}
+html.dark{
+  --bg:#0d0d0d;
+  --paper:#1c1916;
+  --ink:#e0d8cc;
+  --faded:#8a8070;
+  --accent:#d4a853;
+  --accent-dim:rgba(212,168,83,0.08);
+  --border:#333;
+  --btn-bg:#2a2520;
+  --btn-hover:#3a352e;
+  --focus-card-bg:#2c2c2c;
 }
 
 /* ═══════════════════════════════════════ */
@@ -531,14 +546,22 @@ ins.edit-mark{
 
 /* Music form (slide-in from right) */
 .music-form{
-  position:fixed;top:0;right:0;bottom:0;
+  position:fixed;top:var(--form-top,0);right:0;bottom:0;
   width:380px;
-  background:#2a2520;
-  border-left:1px solid #444;
+  background:rgba(30,28,24,0.78);
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  border-left:1px solid rgba(255,255,255,0.06);
   z-index:150;
   overflow-y:auto;
-  box-shadow:-4px 0 24px rgba(0,0,0,0.4);
+  box-shadow:-4px 0 24px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04);
   transition:transform 0.2s ease;
+  border-radius:12px 0 0 0;
+}
+html:not(.dark) .music-form{
+  background:rgba(250,248,240,0.82);
+  box-shadow:-4px 0 24px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.4);
+  border-left:1px solid rgba(0,0,0,0.08);
 }
 .music-form.hidden{transform:translateX(100%);pointer-events:none}
 .music-form-inner{padding:24px}
@@ -591,6 +614,22 @@ ins.edit-mark{
 }
 .music-form-actions button.primary:hover{background:#e0b860}
 
+/* Form panel header with close button */
+.form-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.form-header h3{margin-bottom:0}
+.form-close-btn{
+  background:none;border:none;color:#999;
+  font-size:22px;cursor:pointer;padding:0 4px;
+  line-height:1;transition:color 0.15s;
+}
+.form-close-btn:hover{color:var(--accent)}
+/* Form overlay for click-outside */
+.form-overlay{
+  position:fixed;inset:0;z-index:140;
+  background:transparent;
+}
+.form-overlay.hidden{display:none}
+
 /* Mood editor modal */
 #moodEditor{
   position:fixed;top:50%;left:50%;
@@ -638,9 +677,14 @@ ins.edit-mark{
   min-height:100vh;
 }
 .beats-container{
-  max-width:860px;
-  margin:0 auto;
-  padding:24px 20px 120px;
+  padding:24px 32px 120px;
+  width:100%;
+}
+.beat-movement-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(420px, 1fr));
+  gap:16px;
+  margin-bottom:16px;
 }
 .beats-empty{
   text-align:center;
@@ -686,12 +730,13 @@ ins.edit-mark{
 .beat-card{
   background:var(--paper);
   border-radius:6px;
-  padding:16px 20px;
-  margin-bottom:10px;
+  padding:18px 20px 18px 24px;
   color:var(--ink);
   box-shadow:0 2px 12px rgba(0,0,0,0.2);
   border-left:4px solid #999;
   position:relative;
+  overflow:hidden;
+  cursor:pointer;
   transition:box-shadow 0.15s;
 }
 .beat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
@@ -705,7 +750,7 @@ ins.edit-mark{
   display:inline-block;
   background:rgba(212,168,83,0.15);
   color:var(--accent);
-  font-size:11px;font-weight:700;
+  font-size:12px;font-weight:700;
   padding:2px 8px;border-radius:3px;
   font-family:'Courier Prime',monospace;
   letter-spacing:.03em;
@@ -713,7 +758,7 @@ ins.edit-mark{
 }
 .beat-title{
   font-family:'Courier Prime',monospace;
-  font-size:14px;font-weight:700;color:var(--ink);
+  font-size:16px;font-weight:700;color:var(--ink);
 }
 
 .beat-tags{
@@ -807,7 +852,6 @@ ins.edit-mark{
   cursor:pointer;user-select:none;
   border:1px solid transparent;
   transition:all 0.15s;
-  margin-left:auto;
   flex-shrink:0;
 }
 .beat-status-pill.st-pending{background:#eee;color:#999}
@@ -815,16 +859,125 @@ ins.edit-mark{
 .beat-status-pill.st-done{background:rgba(46,204,113,0.12);color:#2ecc71;border-color:#2ecc71}
 .beat-status-pill:hover{opacity:0.8}
 
+/* Drag handle */
+.beat-drag-handle{
+  position:absolute;left:0;top:0;bottom:0;
+  width:24px;cursor:grab;cursor:-webkit-grab;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.15s;
+  color:var(--faded);font-size:10px;
+  user-select:none;
+}
+.beat-card:hover .beat-drag-handle{opacity:0.5}
+.beat-drag-handle:hover{opacity:1!important}
+.beat-drag-handle:active{cursor:grabbing;cursor:-webkit-grabbing}
+.beat-card.dragging{opacity:0.4;cursor:grabbing!important}
+.beat-card.dragging *{cursor:grabbing!important}
+body.beats-dragging, body.beats-dragging *{cursor:grabbing!important}
+
+/* Drop indicator */
+.beat-drop-indicator{
+  height:2px;background:var(--accent);
+  margin:4px 0;border-radius:1px;
+  box-shadow:0 0 6px var(--accent);
+  transition:opacity 0.15s;
+}
+
+/* Focus mode */
+.beat-card.focused{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:56vw;max-height:62vh;
+  overflow-y:auto;z-index:100;
+  background:rgba(30,28,24,0.72);
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.06);
+  border-left-width:5px;border-radius:12px;
+}
+html:not(.dark) .beat-card.focused{
+  background:rgba(250,248,240,0.72);
+  box-shadow:0 8px 32px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+.beats-focus-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(8px);
+  z-index:90;cursor:pointer;
+}
+.beat-card.focused .beat-title{font-size:24px}
+.beat-card.focused .beat-desc{font-size:16px;line-height:1.6}
+.beat-card.focused .beat-notes-area{font-size:15px;min-height:120px}
+.beat-card.focused .beat-id{font-size:14px}
+.beat-card.focused .beat-header{margin-bottom:14px}
+
+/* Top section layout (image top-right) */
+.beat-top-section{
+  display:flex;gap:12px;margin-bottom:8px;
+}
+.beat-top-left{flex:1;min-width:0}
+.beat-top-left .beat-status-pill{margin-left:0}
+.beat-thumb{
+  width:90px;height:70px;
+  background-size:contain;background-repeat:no-repeat;
+  background-position:center;flex-shrink:0;border-radius:4px;
+}
+.beat-card.focused .beat-top-section{gap:16px;margin-bottom:14px}
+.beat-card.focused .beat-thumb{width:160px;height:120px;border-radius:6px}
+
+/* Storyboard view */
+.beat-card.view-storyboard{
+  background-size:cover;background-position:center;
+  min-height:220px;display:flex;flex-direction:column;
+  justify-content:flex-end;
+}
+.beat-card.view-storyboard .beat-storyboard-overlay{
+  background:linear-gradient(transparent, rgba(0,0,0,0.85));
+  padding:18px 20px;margin:-18px -20px;
+  border-radius:0 0 6px 6px;
+}
+.beat-card.view-storyboard .beat-title{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
+.beat-card.view-storyboard .beat-id{background:rgba(0,0,0,0.4);color:#fff}
+.beat-card.view-storyboard .beat-desc{color:rgba(255,255,255,0.85)}
+
+/* Dark mode overrides */
+html.dark #toolbar{background:#1a1714;border-bottom-color:#333}
+html.dark #tabbar button{background:#2a2520;color:#ccc;border-color:#444}
+html.dark #tabbar button.active{background:var(--accent);color:#222}
+html.dark #statusbar{background:#1a1714;color:#888;border-top-color:#333}
+html.dark select{background:#2a2520;color:#ccc;border-color:#444}
+html.dark input[type="text"]{background:#2a2520;color:#ccc;border-color:#444}
+
+/* Dark mode toggle */
+.dark-toggle{
+  background:none;border:1px solid #555;
+  color:#ccc;border-radius:50%;
+  width:30px;height:30px;
+  cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.dark-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
 /* Beat form (slide-in from right) — same as music form */
 .beat-form{
-  position:fixed;top:0;right:0;bottom:0;
+  position:fixed;top:var(--form-top,0);right:0;bottom:0;
   width:400px;
-  background:#2a2520;
-  border-left:1px solid #444;
+  background:rgba(30,28,24,0.78);
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  border-left:1px solid rgba(255,255,255,0.06);
   z-index:150;
   overflow-y:auto;
-  box-shadow:-4px 0 24px rgba(0,0,0,0.4);
+  box-shadow:-4px 0 24px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04);
   transition:transform 0.2s ease;
+  border-radius:12px 0 0 0;
+}
+html:not(.dark) .beat-form{
+  background:rgba(250,248,240,0.82);
+  box-shadow:-4px 0 24px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.4);
+  border-left:1px solid rgba(0,0,0,0.08);
 }
 .beat-form.hidden{transform:translateX(100%);pointer-events:none}
 .beat-form-inner{padding:24px}
@@ -934,6 +1087,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   .beat-form{width:340px}
   .music-container{padding:16px 12px 120px}
   .beats-container{padding:16px 12px 120px}
+  .beat-movement-grid{grid-template-columns:1fr}
 }
 @media(max-width:500px){
   #editor{padding:24px 16px 120px 16px}
@@ -1026,6 +1180,18 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     </div>
     <div class="toolbar-sep"></div>
     <div class="toolbar-group">
+      <button id="btnStoryboard" onclick="setBeatView('storyboard')">Storyboard</button>
+      <button id="btnIndexCard" class="active" onclick="setBeatView('index')">Index Card</button>
+      <select id="beatAspectRatio" onchange="setBeatAspectRatio(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
+        <option value="auto">Auto height</option>
+        <option value="16/9">16:9</option>
+        <option value="2.39/1">2.39:1 Scope</option>
+        <option value="4/3">4:3</option>
+        <option value="1/1">1:1 Square</option>
+      </select>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
       <input id="beatSearch" type="text" placeholder="Search beats..." spellcheck="false" oninput="filterBeatsBySearch(this.value)">
     </div>
   </div>
@@ -1033,6 +1199,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   <div class="toolbar-sep"></div>
   <div class="toolbar-group">
     <button onclick="toggleHelp()" title="Keyboard shortcuts" style="font-weight:bold">?</button>
+    <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">&#9790;</button>
   </div>
 
   <!-- TAB BAR (inside toolbar so it flows after wrapped toolbar items) -->
@@ -1084,9 +1251,10 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
 <!-- ═══════════════════════════════════════ -->
 <!-- MUSIC FORM (slide-in)                  -->
 <!-- ═══════════════════════════════════════ -->
+<div id="formOverlay" class="form-overlay hidden" onclick="closeActiveForm()"></div>
 <div id="musicForm" class="music-form hidden">
   <div class="music-form-inner">
-    <h3 id="musicFormTitle">Add Music Entry</h3>
+    <div class="form-header"><h3 id="musicFormTitle">Add Music Entry</h3><button class="form-close-btn" onclick="cancelMusicForm()" title="Close">&times;</button></div>
     <label>Title *</label>
     <input id="mfTitle" type="text" placeholder="Song or theme name">
     <label>Artist / Composer</label>
@@ -1125,7 +1293,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
 <!-- ═══════════════════════════════════════ -->
 <div id="beatForm" class="beat-form hidden">
   <div class="beat-form-inner">
-    <h3 id="beatFormTitle">Add Scene Beat</h3>
+    <div class="form-header"><h3 id="beatFormTitle">Add Scene Beat</h3><button class="form-close-btn" onclick="cancelBeatForm()" title="Close">&times;</button></div>
     <label>Scene ID *</label>
     <input id="bfSceneId" type="text" placeholder="e.g. 1.1, 2.3">
     <label>Title *</label>
@@ -1165,6 +1333,9 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     </div>
   </div>
 </div>
+
+<!-- Hidden file input for beat image upload -->
+<input type="file" id="beatImageInput" accept="image/*" style="display:none">
 
 <!-- ═══════════════════════════════════════ -->
 <!-- STATUS BAR                             -->
@@ -1285,7 +1456,7 @@ const HTML_CLASS_MAP = {
   'end-marker': 'action'
 };
 
-const AUTOSAVE_KEY = 'pagezero-autosave-v4';
+const AUTOSAVE_KEY = 'pagezero-autosave-v5';
 
 // ═══════════════════════════════════════
 // DOM REFS
@@ -2107,7 +2278,23 @@ function autosave() {
       activeTab: activeTab,
       timestamp: new Date().toISOString()
     };
-    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+    try {
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+    } catch (quotaErr) {
+      // QuotaExceededError: strip images and retry
+      if (quotaErr.name === 'QuotaExceededError' || quotaErr.code === 22) {
+        var strippedBeats = beatEntries.map(function(b) {
+          var copy = Object.assign({}, b);
+          copy.image = null;
+          return copy;
+        });
+        data.beats = strippedBeats;
+        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+        toast('Images stripped from save (storage full)');
+      } else {
+        throw quotaErr;
+      }
+    }
     saveStatusEl.textContent = 'Saved';
   } catch (e) {
     saveStatusEl.textContent = 'Save failed';
@@ -2116,7 +2303,20 @@ function autosave() {
 
 function loadAutosave() {
   try {
-    const raw = localStorage.getItem(AUTOSAVE_KEY);
+    var raw = localStorage.getItem(AUTOSAVE_KEY);
+    // v4 -> v5 migration
+    if (!raw) {
+      var v4raw = localStorage.getItem('pagezero-autosave-v4');
+      if (v4raw) {
+        var v4data = JSON.parse(v4raw);
+        if (v4data.beats) {
+          v4data.beats.forEach(function(b) { if (!b.image) b.image = null; });
+        }
+        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(v4data));
+        try { localStorage.removeItem('pagezero-autosave-v4'); } catch(e2){}
+        raw = localStorage.getItem(AUTOSAVE_KEY);
+      }
+    }
     if (!raw) return false;
     const data = JSON.parse(raw);
     if (data.html) {
@@ -2201,7 +2401,18 @@ document.addEventListener('keydown', function(e) {
     e.preventDefault();
     openFile();
   }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+    var beatsPanel = document.getElementById('panel-beats');
+    if (beatsPanel && beatsPanel.style.display !== 'none' && beatsPanel.classList.contains('active')) {
+      e.preventDefault();
+      undoBeatMove();
+      return;
+    }
+  }
   if (e.key === 'Escape') {
+    // Unfocus beat card first
+    var focusedCard = document.querySelector('.beat-card.focused');
+    if (focusedCard) { unfocusBeatCard(); return; }
     const beatForm = document.getElementById('beatForm');
     if (!beatForm.classList.contains('hidden')) { cancelBeatForm(); return; }
     const musicForm = document.getElementById('musicForm');
@@ -2600,6 +2811,7 @@ function addMusicEntry() {
   // Show form
   const form = document.getElementById('musicForm');
   form.classList.remove('hidden');
+  document.getElementById('formOverlay').classList.remove('hidden');
   document.getElementById('mfTitle').focus();
 }
 
@@ -2627,6 +2839,7 @@ function editMusicEntry(id) {
 
   const form = document.getElementById('musicForm');
   form.classList.remove('hidden');
+  document.getElementById('formOverlay').classList.remove('hidden');
   document.getElementById('mfTitle').focus();
 }
 
@@ -2695,6 +2908,7 @@ function deleteMusicEntry(id) {
 
 function cancelMusicForm() {
   document.getElementById('musicForm').classList.add('hidden');
+  document.getElementById('formOverlay').classList.add('hidden');
   editingMusicId = null;
 }
 
@@ -2812,6 +3026,11 @@ let beatEntries = [];
 let editingBeatId = null;
 let activeMovementFilter = '';
 let beatSearchQuery = '';
+var currentBeatView = 'index';
+var currentBeatAspect = 'auto';
+var beatMoveUndoStack = [];
+var draggedBeatId = null;
+var _handDragIcon = null;
 
 function genBeatId() {
   return 'b_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
@@ -2896,30 +3115,89 @@ function renderBeatsList() {
     // Movement header
     var header = document.createElement('div');
     header.className = 'beat-movement-header';
-    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span>';
+    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span><span style="color:#888;font-size:11px;font-family:system-ui,sans-serif;margin-left:8px">' + m.entries.length + ' scene' + (m.entries.length !== 1 ? 's' : '') + '</span>';
     list.appendChild(header);
-    // Cards
+
+    // Grid container
+    var grid = document.createElement('div');
+    grid.className = 'beat-movement-grid';
+    grid.dataset.movement = key;
+    grid.addEventListener('dragover', handleDragOver);
+    grid.addEventListener('drop', function(e) { handleDrop(e, parseInt(key)); });
+
     m.entries.forEach(function(entry) {
-      list.appendChild(renderBeatCard(entry));
+      grid.appendChild(renderBeatCard(entry));
     });
+    list.appendChild(grid);
   });
+
+  // Apply aspect ratio
+  if (currentBeatAspect !== 'auto') {
+    setBeatAspectRatio(currentBeatAspect, true);
+  }
 }
 
 function renderBeatCard(entry) {
   var card = document.createElement('div');
-  card.className = 'beat-card status-' + (entry.status || 'pending');
+  var st = entry.status || 'pending';
+  var hasThumb = !!(entry.image);
+  var isStoryboard = (currentBeatView === 'storyboard' && hasThumb);
+
+  card.className = 'beat-card status-' + st;
+  if (isStoryboard) card.classList.add('view-storyboard');
   card.dataset.id = entry.id;
+  card.draggable = true;
+  card.addEventListener('dragstart', function(e) { handleDragStart(e, entry.id); });
+  card.addEventListener('dragend', handleDragEnd);
+  card.addEventListener('click', function(e) { handleBeatCardClick(e, entry.id); });
+
+  if (isStoryboard) {
+    card.style.backgroundImage = 'url(' + entry.image + ')';
+  }
 
   var html = '';
-  // Header: status pill + scene ID + title
-  html += '<div class="beat-header">';
-  html += '<span class="beat-id">' + escapeHTML(entry.sceneId || '') + '</span>';
-  html += '<span class="beat-title">' + escapeHTML(entry.title || '') + '</span>';
+  // Drag handle
+  html += '<div class="beat-drag-handle" title="Drag to reorder">\u22ee\u22ee</div>';
+
   var statusLabel = { pending: 'Pending', writing: 'Writing', done: 'Done' };
   var statusClass = { pending: 'st-pending', writing: 'st-writing', done: 'st-done' };
-  var st = entry.status || 'pending';
-  html += '<span class="beat-status-pill ' + (statusClass[st] || 'st-pending') + '" onclick="cycleBeatStatus(\'' + entry.id + '\')" title="Click to cycle status">' + (statusLabel[st] || 'Pending') + '</span>';
-  html += '</div>';
+
+  if (isStoryboard) {
+    // Storyboard view: content in overlay
+    html += '<div class="beat-storyboard-overlay">';
+    html += buildBeatCardInner(entry, st, false, statusLabel, statusClass);
+    html += '</div>';
+  } else {
+    html += buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass);
+  }
+
+  card.innerHTML = html;
+  return card;
+}
+
+function buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass) {
+  var html = '';
+
+  if (hasThumb) {
+    // Thumbnail layout
+    html += '<div class="beat-top-section">';
+    html += '<div class="beat-top-left">';
+    html += '<div class="beat-header">';
+    html += '<span class="beat-id">' + escapeHTML(entry.sceneId || '') + '</span>';
+    html += '<span class="beat-status-pill ' + (statusClass[st] || 'st-pending') + '" onclick="event.stopPropagation();cycleBeatStatus(\'' + entry.id + '\')" title="Click to cycle status">' + (statusLabel[st] || 'Pending') + '</span>';
+    html += '<span class="beat-title">' + escapeHTML(entry.title || '') + '</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="beat-thumb" style="background-image:url(' + entry.image + ')"></div>';
+    html += '</div>';
+  } else {
+    // Standard header: ID -> Status Pill -> Title
+    html += '<div class="beat-header">';
+    html += '<span class="beat-id">' + escapeHTML(entry.sceneId || '') + '</span>';
+    html += '<span class="beat-status-pill ' + (statusClass[st] || 'st-pending') + '" onclick="event.stopPropagation();cycleBeatStatus(\'' + entry.id + '\')" title="Click to cycle status">' + (statusLabel[st] || 'Pending') + '</span>';
+    html += '<span class="beat-title">' + escapeHTML(entry.title || '') + '</span>';
+    html += '</div>';
+  }
 
   // Tags: location, characters, tone
   html += '<div class="beat-tags">';
@@ -2934,10 +3212,10 @@ function renderBeatCard(entry) {
 
   // Description (collapsed by default)
   if (entry.description) {
-    html += '<div class="beat-desc collapsed" onclick="this.classList.toggle(\'collapsed\')" title="Click to expand/collapse">' + escapeHTML(entry.description) + '</div>';
+    html += '<div class="beat-desc collapsed" onclick="event.stopPropagation();this.classList.toggle(\'collapsed\')" title="Click to expand/collapse">' + escapeHTML(entry.description) + '</div>';
   }
 
-  // Visual notes
+  // Visual notes (italic gold)
   if (entry.visual) {
     html += '<div class="beat-visual">' + escapeHTML(entry.visual) + '</div>';
   }
@@ -2948,16 +3226,20 @@ function renderBeatCard(entry) {
   }
 
   // Notes textarea (always visible)
-  html += '<textarea class="beat-notes-area" placeholder="Working notes..." oninput="updateBeatNotes(\'' + entry.id + '\',this.value)">' + escapeHTML(entry.notes || '') + '</textarea>';
+  html += '<textarea class="beat-notes-area" placeholder="Working notes..." onclick="event.stopPropagation()" oninput="updateBeatNotes(\'' + entry.id + '\',this.value)">' + escapeHTML(entry.notes || '') + '</textarea>';
 
   // Actions
   html += '<div class="beat-actions">';
-  html += '<button onclick="editBeat(\'' + entry.id + '\')">Edit</button>';
-  html += '<button onclick="deleteBeat(\'' + entry.id + '\')">Del</button>';
+  html += '<button onclick="event.stopPropagation();editBeat(\'' + entry.id + '\')">Edit</button>';
+  if (entry.image) {
+    html += '<button onclick="event.stopPropagation();removeImage(\'' + entry.id + '\')">-Img</button>';
+  } else {
+    html += '<button onclick="event.stopPropagation();triggerImageUpload(\'' + entry.id + '\')">+Img</button>';
+  }
+  html += '<button onclick="event.stopPropagation();deleteBeat(\'' + entry.id + '\')">Del</button>';
   html += '</div>';
 
-  card.innerHTML = html;
-  return card;
+  return html;
 }
 
 // --- CRUD ---
@@ -2980,6 +3262,7 @@ function addBeat() {
 
   var form = document.getElementById('beatForm');
   form.classList.remove('hidden');
+  document.getElementById('formOverlay').classList.remove('hidden');
   document.getElementById('bfSceneId').focus();
 }
 
@@ -3009,6 +3292,7 @@ function editBeat(id) {
 
   var form = document.getElementById('beatForm');
   form.classList.remove('hidden');
+  document.getElementById('formOverlay').classList.remove('hidden');
   document.getElementById('bfSceneId').focus();
 }
 
@@ -3089,7 +3373,15 @@ function deleteBeat(id) {
 
 function cancelBeatForm() {
   document.getElementById('beatForm').classList.add('hidden');
+  document.getElementById('formOverlay').classList.add('hidden');
   editingBeatId = null;
+}
+
+function closeActiveForm() {
+  var bf = document.getElementById('beatForm');
+  var mf = document.getElementById('musicForm');
+  if (!bf.classList.contains('hidden')) cancelBeatForm();
+  if (!mf.classList.contains('hidden')) cancelMusicForm();
 }
 
 // --- Status cycling ---
@@ -3145,9 +3437,265 @@ function populateMovementFilter() {
 }
 
 // ═══════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════
+function toggleDarkMode() {
+  document.documentElement.classList.toggle('dark');
+  var isDark = document.documentElement.classList.contains('dark');
+  try { localStorage.setItem('pagezero-theme', isDark ? 'dark' : 'light'); } catch(e){}
+  var btn = document.querySelector('.dark-toggle');
+  if (btn) btn.innerHTML = isDark ? '&#9788;' : '&#9790;';
+}
+
+// ═══════════════════════════════════════
+// BEAT VIEW TOGGLE
+// ═══════════════════════════════════════
+function setBeatView(view) {
+  currentBeatView = view;
+  var btnS = document.getElementById('btnStoryboard');
+  var btnI = document.getElementById('btnIndexCard');
+  if (btnS) { btnS.classList.toggle('active', view === 'storyboard'); }
+  if (btnI) { btnI.classList.toggle('active', view === 'index'); }
+  try { localStorage.setItem('pagezero-beat-view', view); } catch(e){}
+  renderBeatsList();
+}
+
+// ═══════════════════════════════════════
+// ASPECT RATIO
+// ═══════════════════════════════════════
+function setBeatAspectRatio(ratio, skipSave) {
+  currentBeatAspect = ratio;
+  var cards = document.querySelectorAll('.beat-card');
+  cards.forEach(function(c) {
+    c.style.aspectRatio = (ratio === 'auto') ? '' : ratio;
+  });
+  var sel = document.getElementById('beatAspectRatio');
+  if (sel) sel.value = ratio;
+  if (!skipSave) try { localStorage.setItem('pagezero-beat-aspect', ratio); } catch(e){}
+}
+
+// ═══════════════════════════════════════
+// FOCUS MODE
+// ═══════════════════════════════════════
+function handleBeatCardClick(e, id) {
+  // Don't focus if clicking interactive elements
+  var target = e.target;
+  if (target.closest('button') || target.closest('textarea') ||
+      target.closest('.beat-status-pill') || target.closest('.beat-drag-handle')) return;
+
+  var card = e.currentTarget;
+  if (card.classList.contains('focused')) return;
+
+  // Create overlay
+  var overlay = document.createElement('div');
+  overlay.className = 'beats-focus-overlay';
+  overlay.onclick = function() { unfocusBeatCard(); };
+  document.body.insertBefore(overlay, document.body.firstChild);
+
+  // Move card to body and focus it
+  card.classList.add('focused');
+}
+
+function unfocusBeatCard() {
+  var focused = document.querySelector('.beat-card.focused');
+  if (focused) {
+    focused.classList.remove('focused');
+  }
+  var overlay = document.querySelector('.beats-focus-overlay');
+  if (overlay) overlay.remove();
+}
+
+// ═══════════════════════════════════════
+// DRAG TO REORDER
+// ═══════════════════════════════════════
+function getHandDragIcon() {
+  if (_handDragIcon) return _handDragIcon;
+  var c = document.createElement('canvas');
+  c.width = 48; c.height = 48;
+  var ctx = c.getContext('2d');
+  ctx.font = '36px serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('\u270b', 24, 24);
+  c.style.cssText = 'position:fixed;top:-9999px;left:-9999px;pointer-events:none;';
+  document.body.appendChild(c);
+  _handDragIcon = c;
+  return c;
+}
+
+function handleDragStart(e, id) {
+  draggedBeatId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', id);
+  document.body.classList.add('beats-dragging');
+  var card = e.target.closest('.beat-card');
+  if (card) {
+    var hand = getHandDragIcon();
+    e.dataTransfer.setDragImage(hand, 24, 24);
+    setTimeout(function(){ card.classList.add('dragging'); }, 0);
+  }
+}
+
+function handleDragEnd(e) {
+  document.body.classList.remove('beats-dragging');
+  var dragging = document.querySelectorAll('.beat-card.dragging');
+  dragging.forEach(function(c){ c.classList.remove('dragging'); });
+  var indicators = document.querySelectorAll('.beat-drop-indicator');
+  indicators.forEach(function(ind){ ind.remove(); });
+  draggedBeatId = null;
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function handleDrop(e, targetMovement) {
+  e.preventDefault();
+  var id = e.dataTransfer.getData('text/plain');
+  if (!id) return;
+
+  var sourceIdx = beatEntries.findIndex(function(en){ return en.id === id; });
+  if (sourceIdx === -1) return;
+
+  pushBeatMoveUndo();
+
+  var entry = beatEntries[sourceIdx];
+
+  var targetCard = e.target.closest('.beat-card');
+  var targetIdx = -1;
+  if (targetCard) {
+    var targetId = targetCard.getAttribute('data-id');
+    targetIdx = beatEntries.findIndex(function(en){ return en.id === targetId; });
+  }
+
+  beatEntries.splice(sourceIdx, 1);
+
+  if (targetMovement && entry.movement !== targetMovement) {
+    entry.movement = targetMovement;
+    var peer = beatEntries.find(function(en){ return en.movement === targetMovement; });
+    if (peer) entry.movementTitle = peer.movementTitle;
+  }
+
+  if (targetIdx !== -1) {
+    if (sourceIdx < targetIdx) targetIdx--;
+    beatEntries.splice(targetIdx, 0, entry);
+  } else {
+    beatEntries.push(entry);
+  }
+
+  renderBeatsList();
+  autosave();
+  toast('Scene moved');
+}
+
+// ═══════════════════════════════════════
+// UNDO STACK
+// ═══════════════════════════════════════
+function pushBeatMoveUndo() {
+  beatMoveUndoStack.push(beatEntries.map(function(e) {
+    return { id: e.id, movement: e.movement, movementTitle: e.movementTitle };
+  }));
+  if (beatMoveUndoStack.length > 30) beatMoveUndoStack.shift();
+}
+
+function undoBeatMove() {
+  if (beatMoveUndoStack.length === 0) { toast('Nothing to undo'); return; }
+  var snapshot = beatMoveUndoStack.pop();
+  var newOrder = [];
+  snapshot.forEach(function(snap) {
+    var entry = beatEntries.find(function(e) { return e.id === snap.id; });
+    if (entry) {
+      entry.movement = snap.movement;
+      entry.movementTitle = snap.movementTitle;
+      newOrder.push(entry);
+    }
+  });
+  beatEntries.forEach(function(e) {
+    if (!newOrder.find(function(n) { return n.id === e.id; })) newOrder.push(e);
+  });
+  beatEntries = newOrder;
+  renderBeatsList();
+  autosave();
+  toast('Move undone');
+}
+
+// ═══════════════════════════════════════
+// IMAGE UPLOAD
+// ═══════════════════════════════════════
+function handleImageFile(file, beatId) {
+  if (!file || !file.type.startsWith('image/')) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxW = 800;
+      var w = img.width, h = img.height;
+      if (w > maxW) { h = h * maxW / w; w = maxW; }
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      if (dataUrl.length > 150000) {
+        toast('Image too large, try a smaller one');
+        return;
+      }
+      var entry = beatEntries.find(function(e){ return e.id === beatId; });
+      if (entry) {
+        entry.image = dataUrl;
+        renderBeatsList();
+        autosave();
+        toast('Image added');
+      }
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function triggerImageUpload(beatId) {
+  var input = document.getElementById('beatImageInput');
+  input.onchange = function() {
+    if (input.files.length > 0) handleImageFile(input.files[0], beatId);
+    input.value = '';
+  };
+  input.click();
+}
+
+function removeImage(beatId) {
+  var entry = beatEntries.find(function(e){ return e.id === beatId; });
+  if (entry) {
+    entry.image = null;
+    renderBeatsList();
+    autosave();
+    toast('Image removed');
+  }
+}
+
+// ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
 (function init() {
+  // Load dark mode preference BEFORE first render to avoid flash
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem('pagezero-theme'); } catch(e){}
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+    var dkBtn = document.querySelector('.dark-toggle');
+    if (dkBtn) dkBtn.innerHTML = '&#9788;';
+  }
+
+  // Load beat view and aspect preferences
+  try { currentBeatView = localStorage.getItem('pagezero-beat-view') || 'index'; } catch(e){}
+  try { currentBeatAspect = localStorage.getItem('pagezero-beat-aspect') || 'auto'; } catch(e){}
+  // Sync view toggle buttons
+  var btnS = document.getElementById('btnStoryboard');
+  var btnI = document.getElementById('btnIndexCard');
+  if (btnS) btnS.classList.toggle('active', currentBeatView === 'storyboard');
+  if (btnI) btnI.classList.toggle('active', currentBeatView === 'index');
+  var arSel = document.getElementById('beatAspectRatio');
+  if (arSel) arSel.value = currentBeatAspect;
+
   if (!loadAutosave()) {
     // Start with empty editor
     normalizeEditor();
@@ -3168,6 +3716,7 @@ function populateMovementFilter() {
     document.getElementById('panel-script').style.paddingTop = h + 'px';
     document.getElementById('panel-music').style.paddingTop = h + 'px';
     document.getElementById('panel-beats').style.paddingTop = h + 'px';
+    document.documentElement.style.setProperty('--form-top', h + 'px');
   }
   syncPanelPadding();
   new ResizeObserver(syncPanelPadding).observe(toolbar);
