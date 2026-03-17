@@ -4368,15 +4368,16 @@ function removeImage(beatId) {
         cvCtx.save();
         cvCtx.translate(ox, oy);
         cvCtx.scale(z, z);
-        cvCtx.strokeStyle = 'rgba(212,168,83,0.6)';
-        cvCtx.lineWidth = 2;
-        cvCtx.setLineDash([6, 4]);
+        cvCtx.strokeStyle = 'rgba(212,168,83,0.7)';
+        cvCtx.lineWidth = 5;
+        cvCtx.lineCap = 'round';
         cvCtx.beginPath();
         cvCtx.moveTo(fromPt.x, fromPt.y);
         var tempWorld = cvScreenToWorld(cvConnTempX, cvConnTempY);
-        cvCtx.lineTo(tempWorld.x, tempWorld.y);
+        var tdx = Math.abs(tempWorld.x - fromPt.x);
+        var cpOff = Math.max(tdx * 0.5, 60);
+        cvCtx.bezierCurveTo(fromPt.x + cpOff, fromPt.y, tempWorld.x - cpOff, tempWorld.y, tempWorld.x, tempWorld.y);
         cvCtx.stroke();
-        cvCtx.setLineDash([]);
         cvCtx.restore();
       }
     }
@@ -4440,13 +4441,13 @@ function removeImage(beatId) {
 
   function cvGetEdgePoint(node, side) {
     var cx = node.x + node.width / 2;
-    var cy = node.y + node.height / 2;
+    var portY = node.y + 25; // port near top header area
     switch (side) {
       case 'top': return { x: cx, y: node.y };
-      case 'right': return { x: node.x + node.width, y: cy };
+      case 'right': return { x: node.x + node.width, y: portY };
       case 'bottom': return { x: cx, y: node.y + node.height };
-      case 'left': return { x: node.x, y: cy };
-      default: return { x: cx, y: cy };
+      case 'left': return { x: node.x, y: portY };
+      default: return { x: cx, y: portY };
     }
   }
 
@@ -5175,15 +5176,16 @@ function removeImage(beatId) {
         cvCtx.save();
         cvCtx.translate(ox, oy);
         cvCtx.scale(z, z);
-        cvCtx.strokeStyle = 'rgba(212,168,83,0.6)';
-        cvCtx.lineWidth = 2;
-        cvCtx.setLineDash([6, 4]);
+        cvCtx.strokeStyle = 'rgba(212,168,83,0.7)';
+        cvCtx.lineWidth = 5;
+        cvCtx.lineCap = 'round';
         cvCtx.beginPath();
         cvCtx.moveTo(fromPt.x, fromPt.y);
         var tempWorld = cvScreenToWorld(cvConnTempX, cvConnTempY);
-        cvCtx.lineTo(tempWorld.x, tempWorld.y);
+        var tdx = Math.abs(tempWorld.x - fromPt.x);
+        var cpOff = Math.max(tdx * 0.5, 60);
+        cvCtx.bezierCurveTo(fromPt.x + cpOff, fromPt.y, tempWorld.x - cpOff, tempWorld.y, tempWorld.x, tempWorld.y);
         cvCtx.stroke();
-        cvCtx.setLineDash([]);
         cvCtx.restore();
       }
     }
