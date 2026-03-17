@@ -5232,6 +5232,10 @@ function removeImage(beatId) {
       var collapsed = tb.classList.toggle('collapsed');
       toggle.innerHTML = collapsed ? '&#x270E;' : '&#x25BC;';
       toggle.title = collapsed ? 'Expand toolbar' : 'Collapse toolbar';
+      // When collapsing, switch back to Select mode so user can still pan/interact
+      if (collapsed && window.cvSetMode) {
+        window.cvSetMode('select');
+      }
       try { localStorage.setItem('pz-cv-toolbar-collapsed', collapsed ? '1' : '0'); } catch(e){}
     }
     window.cvToggleToolbar = cvToggleToolbar;
@@ -5916,9 +5920,11 @@ function removeImage(beatId) {
     cvHandleWheel(e);
   }, { passive: false });
 
-  // Double-click to create text box
+  // Double-click to create text box (only in select mode, not during pan/draw)
   cvContainer.addEventListener('dblclick', function(e) {
     if (activeTab !== 'canvas') return;
+    if (cvMode !== 'select') return;
+    if (cvPanning) return;
     if (e.target.closest('.cv-node') || e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
     var wp = cvScreenToWorld(e.clientX, e.clientY);
     cvAddTextNode(wp.x, wp.y);
