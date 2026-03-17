@@ -4493,7 +4493,11 @@ function removeImage(beatId) {
       var beatsBtn = document.createElement('button');
       beatsBtn.textContent = 'Beats';
       beatsBtn.title = 'Send to Beats';
-      beatsBtn.onclick = function(e) { e.stopPropagation(); cvShowBeatsModal(node.id); };
+      beatsBtn.onclick = function(e) {
+        e.stopPropagation();
+        var rect = beatsBtn.getBoundingClientRect();
+        cvShowBeatsModal(node.id, rect.right + 10, rect.top);
+      };
       tb.appendChild(beatsBtn);
     }
 
@@ -5059,7 +5063,7 @@ function removeImage(beatId) {
         if (cvContextTarget) cvDeleteNode(cvContextTarget);
         break;
       case 'sendbeats':
-        if (cvContextTarget) cvShowBeatsModal(cvContextTarget);
+        if (cvContextTarget) cvShowBeatsModal(cvContextTarget, cvLastCtxScreenX + 10, cvLastCtxScreenY);
         break;
       case 'duplicate':
         if (cvContextTarget) cvDuplicateNode(cvContextTarget);
@@ -5540,9 +5544,24 @@ function removeImage(beatId) {
   });
 
   // ── Send to Beats ──
-  function cvShowBeatsModal(nodeId) {
+  function cvShowBeatsModal(nodeId, anchorX, anchorY) {
     var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
     if (!node) return;
+
+    // Auto-detect movement from title (e.g. "Scene 1.7", "2.8", "1.3 The Auto")
+    var titleMatch = (node.title || '').match(/(\d+)\.\d+/);
+    if (titleMatch) {
+      var movNum = parseInt(titleMatch[1]);
+      var movements = {};
+      beatEntries.forEach(function(b) {
+        if (!movements[b.movement]) movements[b.movement] = b.movementTitle || ('Movement ' + b.movement);
+      });
+      if (movements[movNum]) {
+        // Direct send — skip the picker
+        cvSendToBeat(nodeId, movNum, movements[movNum]);
+        return;
+      }
+    }
 
     var list = document.getElementById('cv-beats-list');
     list.innerHTML = '';
@@ -5554,7 +5573,6 @@ function removeImage(beatId) {
         movements[b.movement] = b.movementTitle || ('Movement ' + b.movement);
       }
     });
-    // If no beats, show all-purpose option
     var keys = Object.keys(movements).sort(function(a, b) { return parseInt(a) - parseInt(b); });
     if (keys.length === 0) {
       list.innerHTML = '<div style="color:var(--faded);font-size:12px;padding:8px">No movements yet. Add beats first.</div>';
@@ -5571,7 +5589,21 @@ function removeImage(beatId) {
     }
 
     document.getElementById('cv-beats-overlay').style.display = 'block';
-    document.getElementById('cv-beats-modal').style.display = 'block';
+    var modal = document.getElementById('cv-beats-modal');
+    modal.style.display = 'block';
+
+    // Position next to the node instead of center
+    if (anchorX === undefined) {
+      // Calculate from node position
+      var z = cvData.viewport.zoom;
+      var ox = cvData.viewport.x;
+      var oy = cvData.viewport.y;
+      anchorX = (node.x + node.width) * z + ox + 20;
+      anchorY = node.y * z + oy;
+    }
+    modal.style.top = Math.max(60, anchorY) + 'px';
+    modal.style.left = Math.min(anchorX, window.innerWidth - 340) + 'px';
+    modal.style.transform = 'none';
   }
   window.cvShowBeatsModal = cvShowBeatsModal;
 
