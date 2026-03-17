@@ -5230,7 +5230,7 @@ function removeImage(beatId) {
     // ── Collapse / Expand ──
     function cvToggleToolbar() {
       var collapsed = tb.classList.toggle('collapsed');
-      toggle.innerHTML = collapsed ? '&#x2699;' : '&#x25BC;';
+      toggle.innerHTML = collapsed ? '&#x270E;' : '&#x25BC;';
       toggle.title = collapsed ? 'Expand toolbar' : 'Collapse toolbar';
       try { localStorage.setItem('pz-cv-toolbar-collapsed', collapsed ? '1' : '0'); } catch(e){}
     }
@@ -5240,7 +5240,7 @@ function removeImage(beatId) {
     try {
       if (localStorage.getItem('pz-cv-toolbar-collapsed') === '1') {
         tb.classList.add('collapsed');
-        toggle.innerHTML = '&#x2699;';
+        toggle.innerHTML = '&#x270E;';
         toggle.title = 'Expand toolbar';
       }
     } catch(e){}
@@ -5256,10 +5256,10 @@ function removeImage(beatId) {
       }
     } catch(e){}
 
-    // ── Drag: works on grip when expanded, whole toolbar when collapsed ──
-    function startDrag(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    // ── Unified drag system ──
+    var dragging = false, didDrag = false, justExpanded = false, startX, startY, startLeft, startTop;
+
+    function beginDrag(e) {
       dragging = true;
       didDrag = false;
       startX = e.clientX;
@@ -5268,55 +5268,86 @@ function removeImage(beatId) {
       var container = cvContainer.getBoundingClientRect();
       startLeft = rect.left - container.left;
       startTop = rect.top - container.top;
+      // Switch to absolute left/top positioning
+      tb.style.left = startLeft + 'px';
+      tb.style.top = startTop + 'px';
       tb.style.right = 'auto';
       tb.style.bottom = 'auto';
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp);
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup', onDragEnd);
     }
 
-    function onMove(e) {
+    function onDragMove(e) {
       if (!dragging) return;
       var dx = e.clientX - startX;
       var dy = e.clientY - startY;
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
+      if (!didDrag) return; // don't move until threshold
       var container = cvContainer.getBoundingClientRect();
-      var tbRect = tb.getBoundingClientRect();
-      var nx = Math.max(0, Math.min(container.width - tbRect.width, startLeft + dx));
-      var ny = Math.max(0, Math.min(container.height - tbRect.height, startTop + dy));
+      var tbW = tb.offsetWidth, tbH = tb.offsetHeight;
+      var nx = Math.max(0, Math.min(container.width - tbW, startLeft + dx));
+      var ny = Math.max(0, Math.min(container.height - tbH, startTop + dy));
       tb.style.left = nx + 'px';
       tb.style.top = ny + 'px';
     }
 
-    function onUp() {
+    function onDragEnd(e) {
       dragging = false;
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('mousemove', onDragMove);
+      document.removeEventListener('mouseup', onDragEnd);
+      // Save position
       try {
         localStorage.setItem('pz-cv-toolbar-pos', JSON.stringify({
           x: parseInt(tb.style.left),
           y: parseInt(tb.style.top)
         }));
-      } catch(e){}
+      } catch(ex){}
+      // If no drag happened and collapsed, expand
+      if (!didDrag && tb.classList.contains('collapsed')) {
+        // Expand, then reposition so it doesn't go off-screen
+        justExpanded = true;
+        setTimeout(function() { justExpanded = false; }, 300);
+        cvToggleToolbar();
+        setTimeout(function() {
+          var container = cvContainer.getBoundingClientRect();
+          var tbRect = tb.getBoundingClientRect();
+          var cLeft = tbRect.left - container.left;
+          var cTop = tbRect.top - container.top;
+          if (cLeft + tbRect.width > container.width) {
+            tb.style.left = Math.max(0, container.width - tbRect.width - 8) + 'px';
+          }
+          if (cTop + tbRect.height > container.height) {
+            tb.style.top = Math.max(0, container.height - tbRect.height - 8) + 'px';
+          }
+          try {
+            localStorage.setItem('pz-cv-toolbar-pos', JSON.stringify({
+              x: parseInt(tb.style.left),
+              y: parseInt(tb.style.top)
+            }));
+          } catch(ex){}
+        }, 10);
+      }
     }
 
-    // Grip: always drag
-    grip.addEventListener('mousedown', startDrag);
+    // Grip handle: drag when expanded
+    grip.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      beginDrag(e);
+    });
 
-    // When collapsed: the whole toolbar is draggable, click (without drag) expands
+    // Collapsed toolbar: drag or click-to-expand
     tb.addEventListener('mousedown', function(e) {
       if (!tb.classList.contains('collapsed')) return;
       if (e.button !== 0) return;
-      startDrag(e);
-    });
-    tb.addEventListener('click', function(e) {
-      if (!tb.classList.contains('collapsed')) return;
-      if (didDrag) return; // was a drag, don't toggle
-      cvToggleToolbar();
+      e.preventDefault();
+      beginDrag(e);
     });
 
-    // Toggle button: collapse when expanded
+    // Toggle button: collapse when expanded (ignore if just expanded from mouseup)
     toggle.addEventListener('click', function(e) {
       e.stopPropagation();
+      if (justExpanded) return;
       if (!tb.classList.contains('collapsed')) {
         cvToggleToolbar();
       }
