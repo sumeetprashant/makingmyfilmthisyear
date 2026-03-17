@@ -440,11 +440,12 @@ body{
 #helpPanel{
   position:fixed;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  background:#2a2520;color:#ddd;
-  border:1px solid #555;border-radius:8px;
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--movement-border);border-radius:8px;
   padding:20px 28px;z-index:200;
   font-size:12px;min-width:320px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  font-family:inherit;
 }
 #helpPanel.hidden{display:none}
 #helpPanel h3{
@@ -452,14 +453,17 @@ body{
   font-size:14px;font-family:inherit;
 }
 #helpPanel table{width:100%;border-collapse:collapse;margin-bottom:16px}
-#helpPanel td{padding:4px 8px;border-bottom:1px solid #333}
+#helpPanel td{padding:4px 8px;border-bottom:1px solid var(--movement-border)}
 #helpPanel td:first-child{
   color:var(--accent);font-weight:700;
   white-space:nowrap;width:100px;
 }
+#helpPanel td:last-child{
+  color:var(--desc-color);
+}
 #helpPanel button{
-  background:var(--btn-bg);color:#ccc;
-  border:1px solid #555;border-radius:4px;
+  background:var(--btn-bg);color:var(--ink);
+  border:1px solid var(--movement-border);border-radius:4px;
   padding:6px 16px;cursor:pointer;font-family:inherit;
   display:block;margin:0 auto;
 }
@@ -469,6 +473,19 @@ body{
   background:rgba(0,0,0,0.5);z-index:199;
 }
 #helpOverlay.hidden{display:none}
+.help-section-label{
+  color:var(--accent);font-size:10px;text-transform:uppercase;
+  letter-spacing:.06em;margin:12px 0 8px;
+}
+.help-section-label:first-of-type{margin-top:0;margin-bottom:8px}
+.help-hint{
+  color:var(--muted,var(--desc-color));font-size:11px;
+  margin:8px 0 6px;line-height:1.5;
+}
+.help-hint-sub{
+  color:var(--muted,var(--desc-color));font-size:10px;
+  margin-top:8px;line-height:1.5;opacity:0.7;
+}
 
 /* ═══════════════════════════════════════ */
 /* COMMENTS & EDIT TRACKING               */
@@ -2004,14 +2021,14 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
 <div id="helpOverlay" class="hidden" onclick="toggleHelp()"></div>
 <div id="helpPanel" class="hidden">
   <h3>PageZero &mdash; Shortcuts</h3>
-  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Global</p>
+  <p class="help-section-label">Global</p>
   <table>
     <tr><td>Ctrl+S</td><td>Save as FDX file (clean export)</td></tr>
     <tr><td>Ctrl+Shift+S</td><td>Save Project (with all data)</td></tr>
     <tr><td>Ctrl+O</td><td>Open file (FDX, HTML, or Project)</td></tr>
     <tr><td>Escape</td><td>Close panels / forms</td></tr>
   </table>
-  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Script Tab</p>
+  <p class="help-section-label">Script Tab</p>
   <table>
     <tr><td>Tab</td><td>Cycle paragraph type forward</td></tr>
     <tr><td>Shift+Tab</td><td>Cycle paragraph type backward</td></tr>
@@ -2021,27 +2038,27 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <tr><td>Ctrl+D</td><td>Strikethrough selected text</td></tr>
     <tr><td>Ctrl+M</td><td>Add note to paragraph</td></tr>
   </table>
-  <p style="color:#999;font-size:11px;margin:8px 0 6px;line-height:1.5">
+  <p class="help-hint">
     Smart Enter: Character &rarr; Dialogue &rarr; Character. Transition &rarr; Scene Heading.
   </p>
-  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Music &amp; Mood Tab</p>
+  <p class="help-section-label">Music &amp; Mood Tab</p>
   <table>
     <tr><td>+ Song</td><td>Add music entry (toolbar button)</td></tr>
     <tr><td>Moods</td><td>Edit mood palette (toolbar button)</td></tr>
   </table>
-  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
+  <p class="help-hint-sub">
     Click mood pills to filter. Cards show scene links from your script.
   </p>
-  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Beats Tab</p>
+  <p class="help-section-label">Beats Tab</p>
   <table>
     <tr><td>+ Scene</td><td>Add a new beat / scene card</td></tr>
     <tr><td>Status pill</td><td>Click to cycle: Pending &rarr; Writing &rarr; Done</td></tr>
     <tr><td>Movement</td><td>Filter by movement from dropdown</td></tr>
   </table>
-  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
+  <p class="help-hint-sub">
     Track your scenes on a beat board. Click descriptions to expand. Notes auto-save.
   </p>
-  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Canvas Tab</p>
+  <p class="help-section-label">Canvas Tab</p>
   <table>
     <tr><td>Double-click</td><td>Create new text box</td></tr>
     <tr><td>Space + drag</td><td>Pan the canvas</td></tr>
@@ -2051,7 +2068,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr>
     <tr><td>Right-click</td><td>Context menu</td></tr>
   </table>
-  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
+  <p class="help-hint-sub">
     Freeform workspace. Drag images from desktop. Connect nodes by dragging edge dots.
   </p>
   <button onclick="toggleHelp()">Close</button>
