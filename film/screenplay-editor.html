@@ -1091,6 +1091,316 @@ html:not(.dark) .beat-form{
 #toast.show{opacity:1}
 
 /* ═══════════════════════════════════════ */
+/* CANVAS TAB                             */
+/* ═══════════════════════════════════════ */
+#panel-canvas{
+  position:relative;
+  background:var(--bg);
+  min-height:100vh;
+  overflow:hidden;
+}
+#canvas-container{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  overflow:hidden;
+  cursor:default;
+  background:color-mix(in srgb, var(--bg) 85%, black);
+}
+#canvas-surface{
+  position:absolute;top:0;left:0;
+  pointer-events:auto;
+}
+#canvas-nodes{
+  position:absolute;top:0;left:0;
+  width:0;height:0;
+  transform-origin:0 0;
+}
+
+/* Canvas node (text box or image) */
+.cv-node{
+  position:absolute;
+  background:rgba(30,28,24,0.72);
+  backdrop-filter:blur(16px) saturate(1.3);
+  -webkit-backdrop-filter:blur(16px) saturate(1.3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  min-width:120px;min-height:60px;
+  user-select:none;
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+html:not(.dark) .cv-node{
+  background:rgba(250,248,240,0.78);
+  box-shadow:0 4px 20px rgba(0,0,0,0.1);
+}
+.cv-node.selected{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent), 0 4px 20px rgba(0,0,0,0.3);
+}
+.cv-node-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:4px 8px;
+  cursor:grab;
+  font-size:10px;
+  color:var(--faded);
+  font-family:system-ui,-apple-system,sans-serif;
+  border-bottom:1px solid var(--actions-border);
+  flex-shrink:0;
+}
+.cv-node-header:active{cursor:grabbing}
+.cv-node-body{
+  flex:1;
+  padding:8px 10px;
+  overflow:auto;
+  color:var(--ink);
+  font-size:13px;
+  line-height:1.5;
+  font-family:system-ui,-apple-system,sans-serif;
+  outline:none;
+  cursor:text;
+  user-select:text;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+.cv-node-body:empty::before{
+  content:'Double-click to type...';
+  color:var(--faded);
+  font-style:italic;
+  pointer-events:none;
+}
+.cv-node-body img{
+  max-width:100%;
+  height:auto;
+  border-radius:4px;
+  display:block;
+  pointer-events:none;
+}
+.cv-node-resize{
+  position:absolute;right:0;bottom:0;
+  width:16px;height:16px;
+  cursor:nwse-resize;
+  opacity:0;
+  transition:opacity 0.15s;
+}
+.cv-node:hover .cv-node-resize{opacity:0.5}
+.cv-node-resize::after{
+  content:'';display:block;
+  position:absolute;right:3px;bottom:3px;
+  width:8px;height:8px;
+  border-right:2px solid var(--faded);
+  border-bottom:2px solid var(--faded);
+}
+
+/* Node hover toolbar */
+.cv-node-toolbar{
+  position:absolute;top:-32px;left:0;
+  display:flex;gap:4px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.15s;
+  z-index:10;
+}
+.cv-node:hover .cv-node-toolbar{opacity:1;pointer-events:auto}
+.cv-node-toolbar button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
+  padding:2px 8px;font-size:10px;cursor:pointer;
+  font-family:system-ui,sans-serif;
+  white-space:nowrap;
+}
+.cv-node-toolbar button:hover{background:var(--btn-hover);color:#fff}
+
+/* Connection dots on nodes */
+.cv-conn-dot{
+  position:absolute;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--accent);
+  border:2px solid var(--paper);
+  cursor:crosshair;
+  opacity:0;
+  transition:opacity 0.15s;
+  z-index:5;
+}
+.cv-node:hover .cv-conn-dot{opacity:0.7}
+.cv-conn-dot:hover{opacity:1!important;transform:scale(1.3)}
+.cv-conn-dot.top{top:-5px;left:50%;margin-left:-5px}
+.cv-conn-dot.right{right:-5px;top:50%;margin-top:-5px}
+.cv-conn-dot.bottom{bottom:-5px;left:50%;margin-left:-5px}
+.cv-conn-dot.left{left:-5px;top:50%;margin-top:-5px}
+
+/* Canvas floating toolbar */
+#canvas-toolbar{
+  position:absolute;top:8px;left:50%;
+  transform:translateX(-50%);
+  display:flex;align-items:center;gap:4px;
+  background:rgba(30,28,24,0.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid #444;
+  border-radius:8px;
+  padding:4px 10px;
+  z-index:20;
+  font-family:system-ui,-apple-system,sans-serif;
+}
+html:not(.dark) #canvas-toolbar{
+  background:rgba(250,248,240,0.88);
+  border-color:var(--border);
+}
+#canvas-toolbar button{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
+  padding:3px 10px;font-size:11px;cursor:pointer;
+  font-family:system-ui,sans-serif;
+  white-space:nowrap;
+}
+#canvas-toolbar button:hover{background:var(--btn-hover);color:#fff}
+#canvas-toolbar button.active{background:var(--accent);color:#222;border-color:var(--accent)}
+#canvas-toolbar .cv-sep{
+  width:1px;height:18px;background:#444;margin:0 4px;
+}
+#canvas-toolbar .cv-zoom-label{
+  color:#999;font-size:11px;min-width:44px;text-align:center;
+  user-select:none;
+}
+
+/* Drawing color picker */
+#cv-draw-colors{
+  display:none;align-items:center;gap:4px;
+  margin-left:4px;
+}
+#cv-draw-colors.visible{display:flex}
+.cv-color-swatch{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid transparent;cursor:pointer;
+  transition:border-color 0.15s;
+}
+.cv-color-swatch:hover,.cv-color-swatch.active{
+  border-color:#fff;
+}
+#cv-line-width{
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
+  padding:2px 4px;font-size:10px;cursor:pointer;
+  font-family:system-ui,sans-serif;
+}
+
+/* Minimap */
+#canvas-minimap{
+  position:absolute;bottom:32px;right:12px;
+  width:160px;height:110px;
+  background:rgba(0,0,0,0.35);
+  border:1px solid #444;
+  border-radius:6px;
+  overflow:hidden;
+  z-index:15;
+  cursor:pointer;
+}
+#canvas-minimap canvas{
+  width:100%;height:100%;
+}
+#canvas-minimap .minimap-viewport{
+  position:absolute;
+  border:1px solid var(--accent);
+  background:rgba(212,168,83,0.1);
+  pointer-events:none;
+}
+
+/* Canvas context menu */
+#cv-context-menu{
+  position:fixed;
+  background:rgba(30,28,24,0.95);
+  backdrop-filter:blur(12px);
+  border:1px solid #444;
+  border-radius:6px;
+  padding:4px 0;
+  z-index:300;
+  min-width:180px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  font-family:system-ui,-apple-system,sans-serif;
+  font-size:12px;
+  display:none;
+}
+html:not(.dark) #cv-context-menu{
+  background:rgba(250,248,240,0.95);
+  border-color:var(--border);
+}
+#cv-context-menu .cv-ctx-item{
+  padding:6px 16px;
+  color:var(--ink);
+  cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:background 0.1s;
+}
+#cv-context-menu .cv-ctx-item:hover{
+  background:rgba(212,168,83,0.15);
+}
+#cv-context-menu .cv-ctx-sep{
+  height:1px;background:#444;margin:4px 0;
+}
+#cv-context-menu .cv-ctx-sub{position:relative}
+#cv-context-menu .cv-ctx-sub .cv-ctx-submenu{
+  display:none;
+  position:absolute;left:100%;top:-4px;
+  background:rgba(30,28,24,0.95);
+  backdrop-filter:blur(12px);
+  border:1px solid #444;
+  border-radius:6px;
+  padding:4px 0;
+  min-width:160px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+html:not(.dark) #cv-context-menu .cv-ctx-sub .cv-ctx-submenu{
+  background:rgba(250,248,240,0.95);
+  border-color:var(--border);
+}
+#cv-context-menu .cv-ctx-sub:hover .cv-ctx-submenu{display:block}
+
+/* Send to Beats modal */
+#cv-beats-modal{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(30,28,24,0.92);
+  backdrop-filter:blur(20px);
+  border:1px solid #444;border-radius:8px;
+  padding:20px 24px;z-index:300;
+  min-width:300px;max-width:420px;max-height:60vh;
+  overflow-y:auto;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  font-family:system-ui,-apple-system,sans-serif;
+  display:none;
+}
+html:not(.dark) #cv-beats-modal{
+  background:rgba(250,248,240,0.92);
+}
+#cv-beats-modal h3{
+  color:var(--accent);font-size:14px;
+  font-family:'Courier Prime',monospace;
+  margin-bottom:12px;
+}
+#cv-beats-modal .cv-beats-list{
+  display:flex;flex-direction:column;gap:4px;
+}
+#cv-beats-modal .cv-beats-item{
+  padding:8px 12px;
+  border-radius:4px;
+  cursor:pointer;
+  color:var(--ink);font-size:12px;
+  transition:background 0.1s;
+}
+#cv-beats-modal .cv-beats-item:hover{
+  background:rgba(212,168,83,0.15);
+}
+#cv-beats-modal .cv-beats-item .cv-bm-num{
+  color:var(--accent);font-weight:700;margin-right:6px;
+}
+#cv-beats-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.4);z-index:299;
+  display:none;
+}
+
+/* ═══════════════════════════════════════ */
 /* SCROLLBAR                              */
 /* ═══════════════════════════════════════ */
 main::-webkit-scrollbar{width:8px}
@@ -1102,7 +1412,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
 /* PRINT                                  */
 /* ═══════════════════════════════════════ */
 @media print{
-  #toolbar,#tabbar,#statusbar,#helpPanel,#helpOverlay,#toast,#commentTooltip,#commentInput,.cdot,#panel-music,#musicForm,#moodEditor,#moodEditorOverlay,#panel-beats,#beatForm{display:none!important}
+  #toolbar,#tabbar,#statusbar,#helpPanel,#helpOverlay,#toast,#commentTooltip,#commentInput,.cdot,#panel-music,#musicForm,#moodEditor,#moodEditorOverlay,#panel-beats,#beatForm,#panel-canvas,#cv-context-menu,#cv-beats-modal,#cv-beats-overlay{display:none!important}
   #panel-script{display:block!important;padding-top:0!important}
   del.edit-mark{display:none!important}
   ins.edit-mark{color:inherit!important;background:none!important}
@@ -1128,6 +1438,9 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   .music-container{padding:16px 12px 120px}
   .beats-container{padding:16px 12px 120px}
   .beat-movement-grid{grid-template-columns:1fr}
+  #canvas-minimap{width:120px;height:80px;bottom:28px;right:8px}
+  #canvas-toolbar{padding:3px 6px}
+  #canvas-toolbar button{padding:2px 6px;font-size:10px}
 }
 @media(max-width:500px){
   #editor{padding:24px 16px 120px 16px}
@@ -1167,6 +1480,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <button class="tab" data-tab="beats" onclick="switchTab('beats')">Beats</button>
     <button class="tab" data-tab="music" onclick="switchTab('music')">Music &amp; Mood</button>
     <button class="tab active" data-tab="script" onclick="switchTab('script')">Script</button>
+    <button class="tab" data-tab="canvas" onclick="switchTab('canvas')">Canvas</button>
   </div>
 
   <!-- Script-specific toolbar -->
@@ -1239,6 +1553,14 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     </div>
   </div>
 
+  <!-- Canvas-specific toolbar (hidden by default) -->
+  <div id="toolbar-canvas" class="toolbar-context hidden">
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <span style="color:#999;font-size:10px;letter-spacing:.05em">CANVAS</span>
+    </div>
+  </div>
+
   <div class="toolbar-right">
     <button class="help-btn" onclick="toggleHelp()" title="Keyboard shortcuts">?</button>
     <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">&#9790;</button>
@@ -1282,6 +1604,62 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PANEL: CANVAS                          -->
+<!-- ═══════════════════════════════════════ -->
+<div id="panel-canvas" class="tab-panel">
+  <div id="canvas-container">
+    <canvas id="canvas-surface"></canvas>
+    <div id="canvas-nodes"></div>
+    <!-- Canvas floating toolbar -->
+    <div id="canvas-toolbar">
+      <button id="cv-btn-select" class="active" onclick="cvSetMode('select')" title="Select (V)">Select</button>
+      <button id="cv-btn-draw" onclick="cvSetMode('draw')" title="Draw (Shift+drag)">Draw</button>
+      <button id="cv-btn-eraser" onclick="cvSetMode('eraser')" title="Eraser">Eraser</button>
+      <div id="cv-draw-colors">
+        <span class="cv-color-swatch active" style="background:#fff" data-color="#ffffff" onclick="cvSetDrawColor(this)"></span>
+        <span class="cv-color-swatch" style="background:#d4a853" data-color="#d4a853" onclick="cvSetDrawColor(this)"></span>
+        <span class="cv-color-swatch" style="background:#e74c3c" data-color="#e74c3c" onclick="cvSetDrawColor(this)"></span>
+        <span class="cv-color-swatch" style="background:#5a9a6a" data-color="#5a9a6a" onclick="cvSetDrawColor(this)"></span>
+        <span class="cv-color-swatch" style="background:#5a8ac0" data-color="#5a8ac0" onclick="cvSetDrawColor(this)"></span>
+        <select id="cv-line-width" onchange="cvSetLineWidth(this.value)" title="Line width">
+          <option value="2">Thin</option>
+          <option value="4" selected>Medium</option>
+          <option value="8">Thick</option>
+        </select>
+      </div>
+      <div class="cv-sep"></div>
+      <button onclick="cvUndo()" title="Undo (Ctrl+Z)">Undo</button>
+      <button onclick="cvRedo()" title="Redo (Ctrl+Shift+Z)">Redo</button>
+      <div class="cv-sep"></div>
+      <span class="cv-zoom-label" id="cv-zoom-label">100%</span>
+      <button onclick="cvZoomToFit()" title="Zoom to fit all nodes">Fit</button>
+    </div>
+    <!-- Minimap -->
+    <div id="canvas-minimap">
+      <canvas id="minimap-canvas"></canvas>
+      <div class="minimap-viewport"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Canvas context menu -->
+<div id="cv-context-menu"></div>
+
+<!-- Send to Beats modal -->
+<div id="cv-beats-overlay" onclick="cvCloseBeatsModal()"></div>
+<div id="cv-beats-modal">
+  <h3>Send to Beats</h3>
+  <p style="font-size:11px;color:var(--faded);margin-bottom:10px">Pick a movement:</p>
+  <div class="cv-beats-list" id="cv-beats-list"></div>
+  <div style="text-align:right;margin-top:12px">
+    <button onclick="cvCloseBeatsModal()" style="background:var(--btn-bg);color:#ccc;border:1px solid #555;border-radius:4px;padding:6px 16px;font-size:12px;cursor:pointer">Cancel</button>
+  </div>
+</div>
+
+<!-- Hidden file input for canvas image upload -->
+<input type="file" id="canvasImageInput" accept="image/*" style="display:none">
 
 <!-- ═══════════════════════════════════════ -->
 <!-- MUSIC FORM (slide-in)                  -->
@@ -1422,6 +1800,19 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   </table>
   <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
     Track your scenes on a beat board. Click descriptions to expand. Notes auto-save.
+  </p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Canvas Tab</p>
+  <table>
+    <tr><td>Double-click</td><td>Create new text box</td></tr>
+    <tr><td>Space + drag</td><td>Pan the canvas</td></tr>
+    <tr><td>Scroll</td><td>Zoom in/out</td></tr>
+    <tr><td>Shift + drag</td><td>Freehand draw</td></tr>
+    <tr><td>Del / Backspace</td><td>Delete selected node</td></tr>
+    <tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr>
+    <tr><td>Right-click</td><td>Context menu</td></tr>
+  </table>
+  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
+    Freeform workspace. Drag images from desktop. Connect nodes by dragging edge dots.
   </p>
   <button onclick="toggleHelp()">Close</button>
 </div>
@@ -1571,6 +1962,10 @@ function updateStatusForTab(tabId) {
     const done = beatEntries.filter(function(e) { return e.status === 'done'; }).length;
     const writing = beatEntries.filter(function(e) { return e.status === 'writing'; }).length;
     statsEl.textContent = total + ' beats \u00B7 ' + done + ' done \u00B7 ' + writing + ' writing';
+  } else if (tabId === 'canvas') {
+    var nodeCount = typeof cvData !== 'undefined' ? cvData.nodes.length : 0;
+    var drawCount = typeof cvData !== 'undefined' ? cvData.drawings.length : 0;
+    statsEl.textContent = nodeCount + ' nodes \u00B7 ' + drawCount + ' drawings';
   }
 }
 
@@ -2133,6 +2528,7 @@ function saveProject() {
     music: musicEntries,
     moodPalette: moodPalette,
     beats: beatEntries,
+    canvas: (typeof cvData !== 'undefined') ? cvData : null,
     activeTab: activeTab,
     timestamp: new Date().toISOString()
   };
@@ -2167,6 +2563,10 @@ function importProject(jsonStr, filename) {
       beatEntries = getDefaultBeats();
     }
     if (project.moodPalette && project.moodPalette.length > 0) moodPalette = project.moodPalette;
+    // Load canvas data
+    if (project.canvas && typeof cvLoadData === 'function') {
+      cvLoadData(project.canvas);
+    }
     normalizeEditor();
     renderCommentDots();
     renderMoodStrip();
@@ -2310,6 +2710,7 @@ function autosave() {
       music: musicEntries,
       moodPalette: moodPalette,
       beats: beatEntries,
+      canvas: (typeof cvData !== 'undefined') ? cvData : null,
       activeTab: activeTab,
       timestamp: new Date().toISOString()
     };
@@ -2361,6 +2762,8 @@ function loadAutosave() {
       musicEntries = data.music || [];
       beatEntries = data.beats || getDefaultBeats();
       if (data.moodPalette && data.moodPalette.length > 0) moodPalette = data.moodPalette;
+      // Canvas data loaded after init via cvLoadData
+      if (data.canvas) window._pendingCanvasData = data.canvas;
       normalizeEditor();
       renderCommentDots();
       updateStats();
@@ -2445,6 +2848,14 @@ document.addEventListener('keydown', function(e) {
     }
   }
   if (e.key === 'Escape') {
+    // Close canvas context menu
+    if (typeof cvHideContextMenu === 'function') cvHideContextMenu();
+    if (typeof cvCloseBeatsModal === 'function') cvCloseBeatsModal();
+    // Canvas: deselect or exit draw mode
+    if (activeTab === 'canvas' && typeof cvHandleEscape === 'function') {
+      cvHandleEscape();
+      return;
+    }
     // Unfocus beat card first
     var focusedCard = document.querySelector('.beat-card.focused');
     if (focusedCard) { unfocusBeatCard(); return; }
@@ -3751,7 +4162,17 @@ function removeImage(beatId) {
     document.getElementById('panel-script').style.paddingTop = h + 'px';
     document.getElementById('panel-music').style.paddingTop = h + 'px';
     document.getElementById('panel-beats').style.paddingTop = h + 'px';
+    var canvasPanel = document.getElementById('panel-canvas');
+    if (canvasPanel) {
+      canvasPanel.style.paddingTop = h + 'px';
+      var cc = document.getElementById('canvas-container');
+      if (cc) cc.style.top = '0';
+    }
     document.documentElement.style.setProperty('--form-top', h + 'px');
+    // Resize canvas if active
+    if (typeof cvResizeCanvas === 'function' && activeTab === 'canvas') {
+      cvResizeCanvas();
+    }
   }
   syncPanelPadding();
   new ResizeObserver(syncPanelPadding).observe(toolbar);
@@ -3759,6 +4180,1511 @@ function removeImage(beatId) {
   // Check for file in URL hash (e.g., #open)
   if (location.hash === '#new') {
     newScript();
+  }
+})();
+
+// ═══════════════════════════════════════
+// CANVAS MODULE
+// ═══════════════════════════════════════
+(function initCanvas() {
+  // ── Data ──
+  var cvData = window.cvData = {
+    nodes: [],
+    connections: [],
+    drawings: [],
+    viewport: { x: 0, y: 0, zoom: 1 }
+  };
+
+  var CANVAS_SAVE_KEY = 'pagezero-canvas-v1';
+
+  // ── Canvas State ──
+  var cvMode = 'select'; // 'select', 'draw', 'eraser'
+  var cvSelectedNodeId = null;
+  var cvDraggingNode = false;
+  var cvDragOffsetX = 0, cvDragOffsetY = 0;
+  var cvResizingNode = false;
+  var cvResizeStartW = 0, cvResizeStartH = 0, cvResizeStartX = 0, cvResizeStartY = 0;
+  var cvPanning = false;
+  var cvPanStartX = 0, cvPanStartY = 0;
+  var cvPanStartOffX = 0, cvPanStartOffY = 0;
+  var cvSpaceDown = false;
+  var cvDrawing = false;
+  var cvCurrentStroke = null;
+  var cvDrawColor = '#ffffff';
+  var cvDrawWidth = 4;
+  var cvConnecting = false;
+  var cvConnFromNode = null;
+  var cvConnFromSide = '';
+  var cvConnTempX = 0, cvConnTempY = 0;
+  var cvUndoStack = [];
+  var cvRedoStack = [];
+  var cvSaveTimer = null;
+  var cvNextNodeId = 1;
+  var cvNextConnId = 1;
+  var cvNextDrawId = 1;
+  var cvAnimFrame = null;
+  var cvContextTarget = null; // node id or null for context menu
+
+  // ── DOM Refs ──
+  var cvContainer = document.getElementById('canvas-container');
+  var cvCanvas = document.getElementById('canvas-surface');
+  var cvCtx = cvCanvas.getContext('2d');
+  var cvNodesEl = document.getElementById('canvas-nodes');
+  var cvToolbar = document.getElementById('canvas-toolbar');
+  var cvZoomLabel = document.getElementById('cv-zoom-label');
+  var cvMinimapCanvas = document.getElementById('minimap-canvas');
+  var cvMinimapCtx = cvMinimapCanvas.getContext('2d');
+  var cvMinimapViewport = cvContainer.querySelector('.minimap-viewport');
+  var cvContextMenu = document.getElementById('cv-context-menu');
+
+  // ── Helpers ──
+  function cvGenId(prefix) {
+    return prefix + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  }
+
+  function cvScreenToWorld(sx, sy) {
+    var rect = cvContainer.getBoundingClientRect();
+    var lx = sx - rect.left;
+    var ly = sy - rect.top;
+    return {
+      x: (lx - cvData.viewport.x) / cvData.viewport.zoom,
+      y: (ly - cvData.viewport.y) / cvData.viewport.zoom
+    };
+  }
+
+  function cvWorldToScreen(wx, wy) {
+    var rect = cvContainer.getBoundingClientRect();
+    return {
+      x: wx * cvData.viewport.zoom + cvData.viewport.x + rect.left,
+      y: wy * cvData.viewport.zoom + cvData.viewport.y + rect.top
+    };
+  }
+
+  // ── Resize Canvas ──
+  function cvResizeCanvas() {
+    var rect = cvContainer.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    cvCanvas.width = rect.width * dpr;
+    cvCanvas.height = rect.height * dpr;
+    cvCanvas.style.width = rect.width + 'px';
+    cvCanvas.style.height = rect.height + 'px';
+    cvCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cvRender();
+  }
+  window.cvResizeCanvas = cvResizeCanvas;
+
+  // ── Transform Nodes ──
+  function cvUpdateTransform() {
+    var z = cvData.viewport.zoom;
+    var ox = cvData.viewport.x;
+    var oy = cvData.viewport.y;
+    cvNodesEl.style.transform = 'translate(' + ox + 'px,' + oy + 'px) scale(' + z + ')';
+    cvZoomLabel.textContent = Math.round(z * 100) + '%';
+  }
+
+  // ── Render Loop ──
+  function cvRender() {
+    var rect = cvContainer.getBoundingClientRect();
+    var w = rect.width;
+    var h = rect.height;
+    var z = cvData.viewport.zoom;
+    var ox = cvData.viewport.x;
+    var oy = cvData.viewport.y;
+
+    cvCtx.clearRect(0, 0, w, h);
+
+    // Draw dot grid
+    var gridSize = 40;
+    var gridOpacity = Math.min(0.3, 0.15 * z);
+    if (gridOpacity > 0.02) {
+      var isDark = document.documentElement.classList.contains('dark');
+      cvCtx.fillStyle = isDark ? 'rgba(255,255,255,' + gridOpacity + ')' : 'rgba(0,0,0,' + gridOpacity + ')';
+      var startX = (ox % (gridSize * z));
+      var startY = (oy % (gridSize * z));
+      var dotR = Math.max(0.8, 1.2 * z);
+      for (var gx = startX; gx < w; gx += gridSize * z) {
+        for (var gy = startY; gy < h; gy += gridSize * z) {
+          cvCtx.beginPath();
+          cvCtx.arc(gx, gy, dotR, 0, Math.PI * 2);
+          cvCtx.fill();
+        }
+      }
+    }
+
+    // Draw freehand strokes
+    cvData.drawings.forEach(function(d) {
+      if (!d.points || d.points.length < 2) return;
+      cvCtx.save();
+      cvCtx.translate(ox, oy);
+      cvCtx.scale(z, z);
+      cvCtx.strokeStyle = d.color || '#fff';
+      cvCtx.lineWidth = (d.width || 2) / z * z;
+      cvCtx.lineCap = 'round';
+      cvCtx.lineJoin = 'round';
+      cvCtx.beginPath();
+      cvCtx.moveTo(d.points[0][0], d.points[0][1]);
+      for (var i = 1; i < d.points.length; i++) {
+        cvCtx.lineTo(d.points[i][0], d.points[i][1]);
+      }
+      cvCtx.stroke();
+      cvCtx.restore();
+    });
+
+    // Draw current in-progress stroke
+    if (cvDrawing && cvCurrentStroke && cvCurrentStroke.points.length > 1) {
+      cvCtx.save();
+      cvCtx.translate(ox, oy);
+      cvCtx.scale(z, z);
+      cvCtx.strokeStyle = cvCurrentStroke.color;
+      cvCtx.lineWidth = cvCurrentStroke.width;
+      cvCtx.lineCap = 'round';
+      cvCtx.lineJoin = 'round';
+      cvCtx.beginPath();
+      cvCtx.moveTo(cvCurrentStroke.points[0][0], cvCurrentStroke.points[0][1]);
+      for (var j = 1; j < cvCurrentStroke.points.length; j++) {
+        cvCtx.lineTo(cvCurrentStroke.points[j][0], cvCurrentStroke.points[j][1]);
+      }
+      cvCtx.stroke();
+      cvCtx.restore();
+    }
+
+    // Draw connections
+    cvData.connections.forEach(function(conn) {
+      var fromNode = cvData.nodes.find(function(n) { return n.id === conn.from; });
+      var toNode = cvData.nodes.find(function(n) { return n.id === conn.to; });
+      if (!fromNode || !toNode) return;
+      cvDrawConnection(fromNode, toNode, conn.label);
+    });
+
+    // Draw temp connection line while connecting
+    if (cvConnecting && cvConnFromNode) {
+      var fn = cvData.nodes.find(function(n) { return n.id === cvConnFromNode; });
+      if (fn) {
+        var fromPt = cvGetEdgePoint(fn, cvConnFromSide);
+        cvCtx.save();
+        cvCtx.translate(ox, oy);
+        cvCtx.scale(z, z);
+        cvCtx.strokeStyle = 'rgba(212,168,83,0.6)';
+        cvCtx.lineWidth = 2;
+        cvCtx.setLineDash([6, 4]);
+        cvCtx.beginPath();
+        cvCtx.moveTo(fromPt.x, fromPt.y);
+        var tempWorld = cvScreenToWorld(cvConnTempX, cvConnTempY);
+        cvCtx.lineTo(tempWorld.x, tempWorld.y);
+        cvCtx.stroke();
+        cvCtx.setLineDash([]);
+        cvCtx.restore();
+      }
+    }
+
+    cvUpdateMinimap();
+  }
+
+  function cvDrawConnection(fromNode, toNode, label) {
+    var z = cvData.viewport.zoom;
+    var ox = cvData.viewport.x;
+    var oy = cvData.viewport.y;
+    var fx = fromNode.x + fromNode.width / 2;
+    var fy = fromNode.y + fromNode.height / 2;
+    var tx = toNode.x + toNode.width / 2;
+    var ty = toNode.y + toNode.height / 2;
+
+    cvCtx.save();
+    cvCtx.translate(ox, oy);
+    cvCtx.scale(z, z);
+
+    // Bezier curve
+    var dx = tx - fx;
+    var dy = ty - fy;
+    var cx1 = fx + dx * 0.4;
+    var cy1 = fy;
+    var cx2 = tx - dx * 0.4;
+    var cy2 = ty;
+
+    cvCtx.strokeStyle = 'rgba(212,168,83,0.5)';
+    cvCtx.lineWidth = 2;
+    cvCtx.beginPath();
+    cvCtx.moveTo(fx, fy);
+    cvCtx.bezierCurveTo(cx1, cy1, cx2, cy2, tx, ty);
+    cvCtx.stroke();
+
+    // Arrow at end
+    var angle = Math.atan2(ty - cy2, tx - cx2);
+    cvCtx.fillStyle = 'rgba(212,168,83,0.7)';
+    cvCtx.beginPath();
+    cvCtx.moveTo(tx, ty);
+    cvCtx.lineTo(tx - 8 * Math.cos(angle - 0.35), ty - 8 * Math.sin(angle - 0.35));
+    cvCtx.lineTo(tx - 8 * Math.cos(angle + 0.35), ty - 8 * Math.sin(angle + 0.35));
+    cvCtx.closePath();
+    cvCtx.fill();
+
+    // Label
+    if (label) {
+      var mx = (fx + tx) / 2;
+      var my = (fy + ty) / 2;
+      cvCtx.font = '11px system-ui, sans-serif';
+      cvCtx.fillStyle = 'rgba(212,168,83,0.85)';
+      cvCtx.textAlign = 'center';
+      cvCtx.textBaseline = 'bottom';
+      cvCtx.fillText(label, mx, my - 4);
+    }
+
+    cvCtx.restore();
+  }
+
+  function cvGetEdgePoint(node, side) {
+    var cx = node.x + node.width / 2;
+    var cy = node.y + node.height / 2;
+    switch (side) {
+      case 'top': return { x: cx, y: node.y };
+      case 'right': return { x: node.x + node.width, y: cy };
+      case 'bottom': return { x: cx, y: node.y + node.height };
+      case 'left': return { x: node.x, y: cy };
+      default: return { x: cx, y: cy };
+    }
+  }
+
+  // ── Node DOM Creation ──
+  function cvCreateNodeEl(node) {
+    var el = document.createElement('div');
+    el.className = 'cv-node';
+    if (node.id === cvSelectedNodeId) el.classList.add('selected');
+    el.dataset.nodeId = node.id;
+    el.style.left = node.x + 'px';
+    el.style.top = node.y + 'px';
+    el.style.width = node.width + 'px';
+    el.style.height = node.height + 'px';
+    el.style.zIndex = node.zIndex || 1;
+    if (node.color) {
+      el.style.borderLeftColor = node.color;
+      el.style.borderLeftWidth = '4px';
+    }
+
+    // Hover toolbar
+    var tb = document.createElement('div');
+    tb.className = 'cv-node-toolbar';
+    var delBtn = document.createElement('button');
+    delBtn.textContent = 'x';
+    delBtn.title = 'Delete';
+    delBtn.onclick = function(e) { e.stopPropagation(); cvDeleteNode(node.id); };
+    tb.appendChild(delBtn);
+
+    if (node.type === 'text') {
+      var beatsBtn = document.createElement('button');
+      beatsBtn.textContent = 'Beats';
+      beatsBtn.title = 'Send to Beats';
+      beatsBtn.onclick = function(e) { e.stopPropagation(); cvShowBeatsModal(node.id); };
+      tb.appendChild(beatsBtn);
+    }
+
+    var colorBtn = document.createElement('button');
+    colorBtn.textContent = 'Color';
+    colorBtn.title = 'Change color';
+    colorBtn.onclick = function(e) {
+      e.stopPropagation();
+      var input = document.createElement('input');
+      input.type = 'color';
+      input.value = node.color || '#d4a853';
+      input.style.position = 'fixed';
+      input.style.top = '-9999px';
+      document.body.appendChild(input);
+      input.addEventListener('input', function() {
+        node.color = input.value;
+        cvRenderNodes();
+        cvScheduleSave();
+      });
+      input.addEventListener('change', function() {
+        document.body.removeChild(input);
+      });
+      input.click();
+    };
+    tb.appendChild(colorBtn);
+    el.appendChild(tb);
+
+    // Connection dots
+    ['top', 'right', 'bottom', 'left'].forEach(function(side) {
+      var dot = document.createElement('div');
+      dot.className = 'cv-conn-dot ' + side;
+      dot.dataset.side = side;
+      dot.dataset.nodeId = node.id;
+      dot.addEventListener('mousedown', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        cvConnecting = true;
+        cvConnFromNode = node.id;
+        cvConnFromSide = side;
+        cvConnTempX = e.clientX;
+        cvConnTempY = e.clientY;
+      });
+      el.appendChild(dot);
+    });
+
+    // Header (drag handle)
+    var header = document.createElement('div');
+    header.className = 'cv-node-header';
+    header.textContent = node.type === 'image' ? 'Image' : 'Note';
+    header.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      cvSelectNode(node.id);
+      cvDraggingNode = true;
+      var worldPt = cvScreenToWorld(e.clientX, e.clientY);
+      cvDragOffsetX = worldPt.x - node.x;
+      cvDragOffsetY = worldPt.y - node.y;
+    });
+    el.appendChild(header);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'cv-node-body';
+    if (node.type === 'text') {
+      body.contentEditable = 'true';
+      body.spellcheck = false;
+      body.innerHTML = node.content || '';
+      body.addEventListener('input', function() {
+        node.content = body.innerHTML;
+        cvScheduleSave();
+      });
+      body.addEventListener('mousedown', function(e) {
+        e.stopPropagation();
+        cvSelectNode(node.id);
+      });
+      body.addEventListener('focus', function() {
+        cvSelectNode(node.id);
+      });
+    } else if (node.type === 'image') {
+      var img = document.createElement('img');
+      img.src = node.content || '';
+      img.draggable = false;
+      body.appendChild(img);
+      body.addEventListener('mousedown', function(e) {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        cvSelectNode(node.id);
+        cvDraggingNode = true;
+        var worldPt = cvScreenToWorld(e.clientX, e.clientY);
+        cvDragOffsetX = worldPt.x - node.x;
+        cvDragOffsetY = worldPt.y - node.y;
+      });
+    }
+    el.appendChild(body);
+
+    // Resize handle
+    var resize = document.createElement('div');
+    resize.className = 'cv-node-resize';
+    resize.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      e.stopPropagation();
+      e.preventDefault();
+      cvSelectNode(node.id);
+      cvResizingNode = true;
+      cvResizeStartW = node.width;
+      cvResizeStartH = node.height;
+      cvResizeStartX = e.clientX;
+      cvResizeStartY = e.clientY;
+    });
+    el.appendChild(resize);
+
+    // Context menu on right-click
+    el.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      cvSelectNode(node.id);
+      cvShowNodeContextMenu(e.clientX, e.clientY, node.id);
+    });
+
+    return el;
+  }
+
+  // ── Render Nodes DOM ──
+  function cvRenderNodes() {
+    cvNodesEl.innerHTML = '';
+    // Sort by zIndex
+    var sorted = cvData.nodes.slice().sort(function(a, b) { return (a.zIndex || 1) - (b.zIndex || 1); });
+    sorted.forEach(function(node) {
+      cvNodesEl.appendChild(cvCreateNodeEl(node));
+    });
+    cvUpdateTransform();
+  }
+
+  // ── Node Operations ──
+  function cvAddTextNode(wx, wy) {
+    cvPushUndo();
+    var node = {
+      id: cvGenId('n'),
+      type: 'text',
+      x: wx - 150,
+      y: wy - 100,
+      width: 300,
+      height: 200,
+      content: '',
+      color: '',
+      zIndex: cvGetMaxZ() + 1
+    };
+    cvData.nodes.push(node);
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    // Focus the new node's body
+    var el = cvNodesEl.querySelector('[data-node-id="' + node.id + '"] .cv-node-body');
+    if (el) { setTimeout(function() { el.focus(); }, 50); }
+    cvSelectNode(node.id);
+    return node;
+  }
+
+  function cvAddImageNode(dataUrl, wx, wy) {
+    cvPushUndo();
+    var node = {
+      id: cvGenId('n'),
+      type: 'image',
+      x: wx - 200,
+      y: wy - 150,
+      width: 400,
+      height: 300,
+      content: dataUrl,
+      color: '',
+      zIndex: cvGetMaxZ() + 1
+    };
+    cvData.nodes.push(node);
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    cvSelectNode(node.id);
+  }
+
+  function cvDeleteNode(id) {
+    cvPushUndo();
+    cvData.nodes = cvData.nodes.filter(function(n) { return n.id !== id; });
+    cvData.connections = cvData.connections.filter(function(c) { return c.from !== id && c.to !== id; });
+    if (cvSelectedNodeId === id) cvSelectedNodeId = null;
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    updateStatusForTab('canvas');
+  }
+
+  function cvDuplicateNode(id) {
+    var orig = cvData.nodes.find(function(n) { return n.id === id; });
+    if (!orig) return;
+    cvPushUndo();
+    var dup = JSON.parse(JSON.stringify(orig));
+    dup.id = cvGenId('n');
+    dup.x += 30;
+    dup.y += 30;
+    dup.zIndex = cvGetMaxZ() + 1;
+    cvData.nodes.push(dup);
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    cvSelectNode(dup.id);
+  }
+
+  function cvBringToFront(id) {
+    var node = cvData.nodes.find(function(n) { return n.id === id; });
+    if (!node) return;
+    node.zIndex = cvGetMaxZ() + 1;
+    cvRenderNodes();
+    cvScheduleSave();
+  }
+
+  function cvSendToBack(id) {
+    var node = cvData.nodes.find(function(n) { return n.id === id; });
+    if (!node) return;
+    var minZ = cvGetMinZ();
+    node.zIndex = minZ - 1;
+    cvRenderNodes();
+    cvScheduleSave();
+  }
+
+  function cvGetMaxZ() {
+    if (cvData.nodes.length === 0) return 0;
+    return Math.max.apply(null, cvData.nodes.map(function(n) { return n.zIndex || 1; }));
+  }
+
+  function cvGetMinZ() {
+    if (cvData.nodes.length === 0) return 1;
+    return Math.min.apply(null, cvData.nodes.map(function(n) { return n.zIndex || 1; }));
+  }
+
+  function cvSelectNode(id) {
+    if (cvSelectedNodeId === id) return;
+    cvSelectedNodeId = id;
+    cvNodesEl.querySelectorAll('.cv-node').forEach(function(el) {
+      el.classList.toggle('selected', el.dataset.nodeId === id);
+    });
+  }
+
+  function cvDeselectAll() {
+    cvSelectedNodeId = null;
+    cvNodesEl.querySelectorAll('.cv-node.selected').forEach(function(el) {
+      el.classList.remove('selected');
+    });
+  }
+
+  // ── Connection Operations ──
+  function cvAddConnection(fromId, toId) {
+    if (fromId === toId) return;
+    // Check if connection already exists
+    var exists = cvData.connections.some(function(c) {
+      return (c.from === fromId && c.to === toId) || (c.from === toId && c.to === fromId);
+    });
+    if (exists) return;
+    cvPushUndo();
+    cvData.connections.push({
+      id: cvGenId('c'),
+      from: fromId,
+      to: toId,
+      label: ''
+    });
+    cvRender();
+    cvScheduleSave();
+  }
+
+  function cvDeleteConnection(id) {
+    cvPushUndo();
+    cvData.connections = cvData.connections.filter(function(c) { return c.id !== id; });
+    cvRender();
+    cvScheduleSave();
+  }
+
+  // ── Undo/Redo ──
+  function cvPushUndo() {
+    cvUndoStack.push(JSON.stringify(cvData));
+    if (cvUndoStack.length > 50) cvUndoStack.shift();
+    cvRedoStack = [];
+  }
+
+  function cvUndo() {
+    if (cvUndoStack.length === 0) { toast('Nothing to undo'); return; }
+    cvRedoStack.push(JSON.stringify(cvData));
+    var state = JSON.parse(cvUndoStack.pop());
+    cvData.nodes = state.nodes || [];
+    cvData.connections = state.connections || [];
+    cvData.drawings = state.drawings || [];
+    // Keep viewport
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    toast('Undone');
+  }
+  window.cvUndo = cvUndo;
+
+  function cvRedo() {
+    if (cvRedoStack.length === 0) { toast('Nothing to redo'); return; }
+    cvUndoStack.push(JSON.stringify(cvData));
+    var state = JSON.parse(cvRedoStack.pop());
+    cvData.nodes = state.nodes || [];
+    cvData.connections = state.connections || [];
+    cvData.drawings = state.drawings || [];
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    toast('Redone');
+  }
+  window.cvRedo = cvRedo;
+
+  // ── Mode Setting ──
+  function cvSetMode(mode) {
+    cvMode = mode;
+    document.getElementById('cv-btn-select').classList.toggle('active', mode === 'select');
+    document.getElementById('cv-btn-draw').classList.toggle('active', mode === 'draw');
+    document.getElementById('cv-btn-eraser').classList.toggle('active', mode === 'eraser');
+    var drawColors = document.getElementById('cv-draw-colors');
+    if (mode === 'draw') {
+      drawColors.classList.add('visible');
+      cvContainer.style.cursor = 'crosshair';
+    } else if (mode === 'eraser') {
+      drawColors.classList.remove('visible');
+      cvContainer.style.cursor = 'pointer';
+    } else {
+      drawColors.classList.remove('visible');
+      cvContainer.style.cursor = 'default';
+    }
+  }
+  window.cvSetMode = cvSetMode;
+
+  function cvSetDrawColor(el) {
+    document.querySelectorAll('.cv-color-swatch').forEach(function(s) { s.classList.remove('active'); });
+    el.classList.add('active');
+    cvDrawColor = el.dataset.color;
+  }
+  window.cvSetDrawColor = cvSetDrawColor;
+
+  function cvSetLineWidth(val) {
+    cvDrawWidth = parseInt(val) || 4;
+  }
+  window.cvSetLineWidth = cvSetLineWidth;
+
+  // ── Pan & Zoom ──
+  function cvHandleWheel(e) {
+    e.preventDefault();
+    var rect = cvContainer.getBoundingClientRect();
+    var mx = e.clientX - rect.left;
+    var my = e.clientY - rect.top;
+    var oldZoom = cvData.viewport.zoom;
+    var delta = -e.deltaY * 0.001;
+    var newZoom = Math.max(0.1, Math.min(5, oldZoom * (1 + delta)));
+    var zoomFactor = newZoom / oldZoom;
+    cvData.viewport.x = mx - (mx - cvData.viewport.x) * zoomFactor;
+    cvData.viewport.y = my - (my - cvData.viewport.y) * zoomFactor;
+    cvData.viewport.zoom = newZoom;
+    cvUpdateTransform();
+    cvRender();
+  }
+
+  function cvZoomToFit() {
+    if (cvData.nodes.length === 0) {
+      cvData.viewport = { x: 0, y: 0, zoom: 1 };
+      cvUpdateTransform();
+      cvRender();
+      return;
+    }
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    cvData.nodes.forEach(function(n) {
+      if (n.x < minX) minX = n.x;
+      if (n.y < minY) minY = n.y;
+      if (n.x + n.width > maxX) maxX = n.x + n.width;
+      if (n.y + n.height > maxY) maxY = n.y + n.height;
+    });
+    var rect = cvContainer.getBoundingClientRect();
+    var pad = 60;
+    var cw = rect.width - pad * 2;
+    var ch = rect.height - pad * 2;
+    var nw = maxX - minX;
+    var nh = maxY - minY;
+    if (nw === 0 || nh === 0) return;
+    var zoom = Math.min(cw / nw, ch / nh, 2);
+    zoom = Math.max(0.1, Math.min(5, zoom));
+    cvData.viewport.zoom = zoom;
+    cvData.viewport.x = (rect.width - nw * zoom) / 2 - minX * zoom;
+    cvData.viewport.y = (rect.height - nh * zoom) / 2 - minY * zoom;
+    cvUpdateTransform();
+    cvRender();
+  }
+  window.cvZoomToFit = cvZoomToFit;
+
+  // ── Minimap ──
+  function cvUpdateMinimap() {
+    var mw = 160;
+    var mh = 110;
+    cvMinimapCanvas.width = mw;
+    cvMinimapCanvas.height = mh;
+    cvMinimapCtx.clearRect(0, 0, mw, mh);
+
+    if (cvData.nodes.length === 0) {
+      cvMinimapViewport.style.display = 'none';
+      return;
+    }
+
+    // Find bounds of all nodes
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    cvData.nodes.forEach(function(n) {
+      if (n.x < minX) minX = n.x;
+      if (n.y < minY) minY = n.y;
+      if (n.x + n.width > maxX) maxX = n.x + n.width;
+      if (n.y + n.height > maxY) maxY = n.y + n.height;
+    });
+
+    var pad = 100;
+    minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+    var worldW = maxX - minX;
+    var worldH = maxY - minY;
+    if (worldW <= 0 || worldH <= 0) return;
+    var scale = Math.min(mw / worldW, mh / worldH);
+
+    // Draw node rectangles
+    cvData.nodes.forEach(function(n) {
+      var x = (n.x - minX) * scale;
+      var y = (n.y - minY) * scale;
+      var w = n.width * scale;
+      var h = n.height * scale;
+      cvMinimapCtx.fillStyle = n.color || (n.type === 'image' ? '#5a8ac0' : '#d4a853');
+      cvMinimapCtx.globalAlpha = 0.7;
+      cvMinimapCtx.fillRect(x, y, Math.max(2, w), Math.max(2, h));
+    });
+    cvMinimapCtx.globalAlpha = 1;
+
+    // Draw viewport rectangle
+    var rect = cvContainer.getBoundingClientRect();
+    var vx = (-cvData.viewport.x / cvData.viewport.zoom - minX) * scale;
+    var vy = (-cvData.viewport.y / cvData.viewport.zoom - minY) * scale;
+    var vw = (rect.width / cvData.viewport.zoom) * scale;
+    var vh = (rect.height / cvData.viewport.zoom) * scale;
+    cvMinimapViewport.style.display = 'block';
+    cvMinimapViewport.style.left = Math.max(0, vx) + 'px';
+    cvMinimapViewport.style.top = Math.max(0, vy) + 'px';
+    cvMinimapViewport.style.width = Math.min(mw, vw) + 'px';
+    cvMinimapViewport.style.height = Math.min(mh, vh) + 'px';
+
+    // Store for click-to-jump
+    cvMinimapCanvas._worldBounds = { minX: minX, minY: minY, worldW: worldW, worldH: worldH, scale: scale };
+  }
+
+  // Click on minimap to jump
+  document.getElementById('canvas-minimap').addEventListener('mousedown', function(e) {
+    var bounds = cvMinimapCanvas._worldBounds;
+    if (!bounds) return;
+    var rect = e.currentTarget.getBoundingClientRect();
+    var mx = e.clientX - rect.left;
+    var my = e.clientY - rect.top;
+    var worldX = mx / bounds.scale + bounds.minX;
+    var worldY = my / bounds.scale + bounds.minY;
+    var cRect = cvContainer.getBoundingClientRect();
+    cvData.viewport.x = -worldX * cvData.viewport.zoom + cRect.width / 2;
+    cvData.viewport.y = -worldY * cvData.viewport.zoom + cRect.height / 2;
+    cvUpdateTransform();
+    cvRender();
+  });
+
+  // ── Context Menu ──
+  function cvShowNodeContextMenu(cx, cy, nodeId) {
+    cvContextTarget = nodeId;
+    var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
+    if (!node) return;
+    var html = '';
+    if (node.type === 'text') {
+      html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'edit\')">Edit</div>';
+    }
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'delete\')">Delete</div>';
+    if (node.type === 'text') {
+      html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'sendbeats\')">Send to Beats</div>';
+    }
+    html += '<div class="cv-ctx-sep"></div>';
+    // Color submenu
+    html += '<div class="cv-ctx-sub"><div class="cv-ctx-item">Change Color &#9656;</div>';
+    html += '<div class="cv-ctx-submenu">';
+    ['#d4a853','#e74c3c','#5a9a6a','#5a8ac0','#9b59b6','#e67e22','#2ecc71',''].forEach(function(c) {
+      var label = c || 'None';
+      var swatch = c ? '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + c + ';margin-right:6px;vertical-align:middle"></span>' : '';
+      html += '<div class="cv-ctx-item" onclick="cvCtxColor(\'' + c + '\')">' + swatch + label + '</div>';
+    });
+    html += '</div></div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'duplicate\')">Duplicate</div>';
+    html += '<div class="cv-ctx-sep"></div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'front\')">Bring to Front</div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'back\')">Send to Back</div>';
+
+    cvContextMenu.innerHTML = html;
+    cvContextMenu.style.left = cx + 'px';
+    cvContextMenu.style.top = cy + 'px';
+    cvContextMenu.style.display = 'block';
+
+    // Keep on screen
+    var cmRect = cvContextMenu.getBoundingClientRect();
+    if (cmRect.right > window.innerWidth) cvContextMenu.style.left = (cx - cmRect.width) + 'px';
+    if (cmRect.bottom > window.innerHeight) cvContextMenu.style.top = (cy - cmRect.height) + 'px';
+  }
+
+  function cvShowCanvasContextMenu(cx, cy) {
+    cvContextTarget = null;
+    var html = '';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'newtext\')">New Text Box</div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'addimage\')">Add Image</div>';
+    html += '<div class="cv-ctx-sep"></div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'toggledraw\')">Toggle Drawing Mode</div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'togglegrid\')">Toggle Grid</div>';
+    html += '<div class="cv-ctx-sep"></div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'zoomfit\')">Zoom to Fit</div>';
+    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'clearall\')">Clear All</div>';
+
+    cvContextMenu.innerHTML = html;
+    cvContextMenu.style.left = cx + 'px';
+    cvContextMenu.style.top = cy + 'px';
+    cvContextMenu.style.display = 'block';
+  }
+
+  // Store the last right-click position for "New Text Box" etc.
+  var cvLastCtxScreenX = 0, cvLastCtxScreenY = 0;
+
+  function cvHideContextMenu() {
+    cvContextMenu.style.display = 'none';
+  }
+  window.cvHideContextMenu = cvHideContextMenu;
+
+  // Global click hides context menu
+  document.addEventListener('mousedown', function(e) {
+    if (!cvContextMenu.contains(e.target)) {
+      cvHideContextMenu();
+    }
+  });
+
+  // Context menu actions
+  window.cvCtxAction = function(action) {
+    cvHideContextMenu();
+    var pt = cvScreenToWorld(cvLastCtxScreenX, cvLastCtxScreenY);
+    switch (action) {
+      case 'edit':
+        if (cvContextTarget) {
+          var el = cvNodesEl.querySelector('[data-node-id="' + cvContextTarget + '"] .cv-node-body');
+          if (el) el.focus();
+        }
+        break;
+      case 'delete':
+        if (cvContextTarget) cvDeleteNode(cvContextTarget);
+        break;
+      case 'sendbeats':
+        if (cvContextTarget) cvShowBeatsModal(cvContextTarget);
+        break;
+      case 'duplicate':
+        if (cvContextTarget) cvDuplicateNode(cvContextTarget);
+        break;
+      case 'front':
+        if (cvContextTarget) cvBringToFront(cvContextTarget);
+        break;
+      case 'back':
+        if (cvContextTarget) cvSendToBack(cvContextTarget);
+        break;
+      case 'newtext':
+        cvAddTextNode(pt.x, pt.y);
+        break;
+      case 'addimage':
+        cvTriggerImageUpload(pt.x, pt.y);
+        break;
+      case 'toggledraw':
+        cvSetMode(cvMode === 'draw' ? 'select' : 'draw');
+        break;
+      case 'togglegrid':
+        cvToggleGrid();
+        break;
+      case 'zoomfit':
+        cvZoomToFit();
+        break;
+      case 'clearall':
+        if (confirm('Clear all canvas content? This cannot be undone.')) {
+          cvPushUndo();
+          cvData.nodes = [];
+          cvData.connections = [];
+          cvData.drawings = [];
+          cvRenderNodes();
+          cvRender();
+          cvScheduleSave();
+          toast('Canvas cleared');
+        }
+        break;
+    }
+  };
+
+  window.cvCtxColor = function(color) {
+    cvHideContextMenu();
+    if (cvContextTarget) {
+      var node = cvData.nodes.find(function(n) { return n.id === cvContextTarget; });
+      if (node) {
+        node.color = color;
+        cvRenderNodes();
+        cvScheduleSave();
+      }
+    }
+  };
+
+  // ── Grid toggle ──
+  var cvShowGrid = true;
+  function cvToggleGrid() {
+    cvShowGrid = !cvShowGrid;
+    cvRender();
+    toast(cvShowGrid ? 'Grid on' : 'Grid off');
+  }
+
+  // Override dot grid drawing to respect toggle
+  var _origRender = cvRender;
+  cvRender = function() {
+    var rect = cvContainer.getBoundingClientRect();
+    var w = rect.width;
+    var h = rect.height;
+    var z = cvData.viewport.zoom;
+    var ox = cvData.viewport.x;
+    var oy = cvData.viewport.y;
+
+    cvCtx.clearRect(0, 0, w, h);
+
+    // Draw dot grid
+    if (cvShowGrid) {
+      var gridSize = 40;
+      var gridOpacity = Math.min(0.3, 0.15 * z);
+      if (gridOpacity > 0.02) {
+        var isDark = document.documentElement.classList.contains('dark');
+        cvCtx.fillStyle = isDark ? 'rgba(255,255,255,' + gridOpacity + ')' : 'rgba(0,0,0,' + gridOpacity + ')';
+        var startX = (ox % (gridSize * z));
+        var startY = (oy % (gridSize * z));
+        var dotR = Math.max(0.8, 1.2 * z);
+        for (var gx = startX; gx < w; gx += gridSize * z) {
+          for (var gy = startY; gy < h; gy += gridSize * z) {
+            cvCtx.beginPath();
+            cvCtx.arc(gx, gy, dotR, 0, Math.PI * 2);
+            cvCtx.fill();
+          }
+        }
+      }
+    }
+
+    // Draw freehand strokes
+    cvData.drawings.forEach(function(d) {
+      if (!d.points || d.points.length < 2) return;
+      cvCtx.save();
+      cvCtx.translate(ox, oy);
+      cvCtx.scale(z, z);
+      cvCtx.strokeStyle = d.color || '#fff';
+      cvCtx.lineWidth = d.width || 2;
+      cvCtx.lineCap = 'round';
+      cvCtx.lineJoin = 'round';
+      cvCtx.beginPath();
+      cvCtx.moveTo(d.points[0][0], d.points[0][1]);
+      for (var i = 1; i < d.points.length; i++) {
+        cvCtx.lineTo(d.points[i][0], d.points[i][1]);
+      }
+      cvCtx.stroke();
+      cvCtx.restore();
+    });
+
+    // Draw current in-progress stroke
+    if (cvDrawing && cvCurrentStroke && cvCurrentStroke.points.length > 1) {
+      cvCtx.save();
+      cvCtx.translate(ox, oy);
+      cvCtx.scale(z, z);
+      cvCtx.strokeStyle = cvCurrentStroke.color;
+      cvCtx.lineWidth = cvCurrentStroke.width;
+      cvCtx.lineCap = 'round';
+      cvCtx.lineJoin = 'round';
+      cvCtx.beginPath();
+      cvCtx.moveTo(cvCurrentStroke.points[0][0], cvCurrentStroke.points[0][1]);
+      for (var j = 1; j < cvCurrentStroke.points.length; j++) {
+        cvCtx.lineTo(cvCurrentStroke.points[j][0], cvCurrentStroke.points[j][1]);
+      }
+      cvCtx.stroke();
+      cvCtx.restore();
+    }
+
+    // Draw connections
+    cvData.connections.forEach(function(conn) {
+      var fromNode = cvData.nodes.find(function(n) { return n.id === conn.from; });
+      var toNode = cvData.nodes.find(function(n) { return n.id === conn.to; });
+      if (!fromNode || !toNode) return;
+      cvDrawConnection(fromNode, toNode, conn.label);
+    });
+
+    // Draw temp connection line
+    if (cvConnecting && cvConnFromNode) {
+      var fn = cvData.nodes.find(function(n) { return n.id === cvConnFromNode; });
+      if (fn) {
+        var fromPt = cvGetEdgePoint(fn, cvConnFromSide);
+        cvCtx.save();
+        cvCtx.translate(ox, oy);
+        cvCtx.scale(z, z);
+        cvCtx.strokeStyle = 'rgba(212,168,83,0.6)';
+        cvCtx.lineWidth = 2;
+        cvCtx.setLineDash([6, 4]);
+        cvCtx.beginPath();
+        cvCtx.moveTo(fromPt.x, fromPt.y);
+        var tempWorld = cvScreenToWorld(cvConnTempX, cvConnTempY);
+        cvCtx.lineTo(tempWorld.x, tempWorld.y);
+        cvCtx.stroke();
+        cvCtx.setLineDash([]);
+        cvCtx.restore();
+      }
+    }
+
+    cvUpdateMinimap();
+  };
+
+  // ── Mouse Events on Container ──
+  cvContainer.addEventListener('mousedown', function(e) {
+    if (activeTab !== 'canvas') return;
+    // Ignore clicks on toolbar, minimap, nodes
+    if (e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
+    if (e.target.closest('.cv-node')) return;
+
+    var isMidButton = e.button === 1;
+    var isLeftButton = e.button === 0;
+
+    // Right-click: show canvas context menu
+    if (e.button === 2) return; // handled by contextmenu event
+
+    // Drawing mode
+    if (isLeftButton && (cvMode === 'draw' || (e.shiftKey && cvMode === 'select'))) {
+      e.preventDefault();
+      cvDeselectAll();
+      cvDrawing = true;
+      var wp = cvScreenToWorld(e.clientX, e.clientY);
+      cvCurrentStroke = {
+        id: cvGenId('d'),
+        points: [[wp.x, wp.y]],
+        color: cvDrawColor,
+        width: cvDrawWidth
+      };
+      return;
+    }
+
+    // Eraser mode
+    if (isLeftButton && cvMode === 'eraser') {
+      e.preventDefault();
+      cvEraseAt(e.clientX, e.clientY);
+      return;
+    }
+
+    // Pan: Space+drag or middle button
+    if (isLeftButton && (cvSpaceDown || isMidButton)) {
+      e.preventDefault();
+      cvPanning = true;
+      cvPanStartX = e.clientX;
+      cvPanStartY = e.clientY;
+      cvPanStartOffX = cvData.viewport.x;
+      cvPanStartOffY = cvData.viewport.y;
+      cvContainer.style.cursor = 'grabbing';
+      return;
+    }
+
+    // Panning with left click on empty space
+    if (isLeftButton && cvMode === 'select') {
+      e.preventDefault();
+      cvDeselectAll();
+      cvPanning = true;
+      cvPanStartX = e.clientX;
+      cvPanStartY = e.clientY;
+      cvPanStartOffX = cvData.viewport.x;
+      cvPanStartOffY = cvData.viewport.y;
+      cvContainer.style.cursor = 'grabbing';
+    }
+  });
+
+  // Context menu on canvas background
+  cvContainer.addEventListener('contextmenu', function(e) {
+    if (activeTab !== 'canvas') return;
+    if (e.target.closest('.cv-node') || e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
+    e.preventDefault();
+    cvLastCtxScreenX = e.clientX;
+    cvLastCtxScreenY = e.clientY;
+    cvShowCanvasContextMenu(e.clientX, e.clientY);
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (activeTab !== 'canvas') return;
+
+    // Panning
+    if (cvPanning) {
+      cvData.viewport.x = cvPanStartOffX + (e.clientX - cvPanStartX);
+      cvData.viewport.y = cvPanStartOffY + (e.clientY - cvPanStartY);
+      cvUpdateTransform();
+      cvRender();
+      return;
+    }
+
+    // Node dragging
+    if (cvDraggingNode && cvSelectedNodeId) {
+      var node = cvData.nodes.find(function(n) { return n.id === cvSelectedNodeId; });
+      if (node) {
+        var wp = cvScreenToWorld(e.clientX, e.clientY);
+        node.x = wp.x - cvDragOffsetX;
+        node.y = wp.y - cvDragOffsetY;
+        var el = cvNodesEl.querySelector('[data-node-id="' + node.id + '"]');
+        if (el) {
+          el.style.left = node.x + 'px';
+          el.style.top = node.y + 'px';
+        }
+        cvRender(); // update connections
+      }
+      return;
+    }
+
+    // Node resizing
+    if (cvResizingNode && cvSelectedNodeId) {
+      var rNode = cvData.nodes.find(function(n) { return n.id === cvSelectedNodeId; });
+      if (rNode) {
+        var dx = (e.clientX - cvResizeStartX) / cvData.viewport.zoom;
+        var dy = (e.clientY - cvResizeStartY) / cvData.viewport.zoom;
+        rNode.width = Math.max(120, cvResizeStartW + dx);
+        rNode.height = Math.max(60, cvResizeStartH + dy);
+        var rEl = cvNodesEl.querySelector('[data-node-id="' + rNode.id + '"]');
+        if (rEl) {
+          rEl.style.width = rNode.width + 'px';
+          rEl.style.height = rNode.height + 'px';
+        }
+        cvRender();
+      }
+      return;
+    }
+
+    // Drawing
+    if (cvDrawing && cvCurrentStroke) {
+      var dwp = cvScreenToWorld(e.clientX, e.clientY);
+      cvCurrentStroke.points.push([dwp.x, dwp.y]);
+      cvRender();
+      return;
+    }
+
+    // Connection drawing
+    if (cvConnecting) {
+      cvConnTempX = e.clientX;
+      cvConnTempY = e.clientY;
+      cvRender();
+      return;
+    }
+  });
+
+  document.addEventListener('mouseup', function(e) {
+    if (activeTab !== 'canvas') return;
+
+    // End panning
+    if (cvPanning) {
+      cvPanning = false;
+      cvContainer.style.cursor = cvMode === 'draw' ? 'crosshair' : (cvMode === 'eraser' ? 'pointer' : 'default');
+    }
+
+    // End node drag
+    if (cvDraggingNode) {
+      cvDraggingNode = false;
+      cvScheduleSave();
+    }
+
+    // End resize
+    if (cvResizingNode) {
+      cvResizingNode = false;
+      cvScheduleSave();
+    }
+
+    // End drawing
+    if (cvDrawing && cvCurrentStroke) {
+      cvDrawing = false;
+      if (cvCurrentStroke.points.length > 1) {
+        cvPushUndo();
+        cvData.drawings.push(cvCurrentStroke);
+        cvScheduleSave();
+        updateStatusForTab('canvas');
+      }
+      cvCurrentStroke = null;
+      cvRender();
+    }
+
+    // End connection
+    if (cvConnecting) {
+      // Find target node under cursor
+      var targetEl = document.elementFromPoint(e.clientX, e.clientY);
+      if (targetEl) {
+        var nodeEl = targetEl.closest('.cv-node');
+        if (nodeEl && nodeEl.dataset.nodeId !== cvConnFromNode) {
+          cvAddConnection(cvConnFromNode, nodeEl.dataset.nodeId);
+        }
+      }
+      cvConnecting = false;
+      cvConnFromNode = null;
+      cvRender();
+    }
+  });
+
+  // Wheel for zoom
+  cvContainer.addEventListener('wheel', function(e) {
+    if (activeTab !== 'canvas') return;
+    if (e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
+    cvHandleWheel(e);
+  }, { passive: false });
+
+  // Double-click to create text box
+  cvContainer.addEventListener('dblclick', function(e) {
+    if (activeTab !== 'canvas') return;
+    if (e.target.closest('.cv-node') || e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
+    var wp = cvScreenToWorld(e.clientX, e.clientY);
+    cvAddTextNode(wp.x, wp.y);
+  });
+
+  // ── Keyboard ──
+  document.addEventListener('keydown', function(e) {
+    if (activeTab !== 'canvas') return;
+    // Don't interfere with text editing
+    if (e.target.closest('.cv-node-body[contenteditable]')) {
+      // Only handle Escape inside editable
+      if (e.key === 'Escape') {
+        e.target.blur();
+        return;
+      }
+      return;
+    }
+
+    if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      cvSpaceDown = true;
+      cvContainer.style.cursor = 'grab';
+    }
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (cvSelectedNodeId) {
+        e.preventDefault();
+        cvDeleteNode(cvSelectedNodeId);
+      }
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      cvUndo();
+    }
+    if ((e.ctrlKey || e.metaKey) && ((e.key === 'z' && e.shiftKey) || e.key === 'Z')) {
+      e.preventDefault();
+      cvRedo();
+    }
+  });
+
+  document.addEventListener('keyup', function(e) {
+    if (e.key === ' ' || e.code === 'Space') {
+      cvSpaceDown = false;
+      if (!cvPanning) {
+        cvContainer.style.cursor = cvMode === 'draw' ? 'crosshair' : (cvMode === 'eraser' ? 'pointer' : 'default');
+      }
+    }
+  });
+
+  // ── Eraser ──
+  function cvEraseAt(sx, sy) {
+    var wp = cvScreenToWorld(sx, sy);
+    var eraseRadius = 20 / cvData.viewport.zoom;
+    var erased = false;
+    cvData.drawings = cvData.drawings.filter(function(d) {
+      if (!d.points) return true;
+      for (var i = 0; i < d.points.length; i++) {
+        var dx = d.points[i][0] - wp.x;
+        var dy = d.points[i][1] - wp.y;
+        if (dx * dx + dy * dy < eraseRadius * eraseRadius) {
+          erased = true;
+          return false;
+        }
+      }
+      return true;
+    });
+    if (erased) {
+      cvPushUndo();
+      cvRender();
+      cvScheduleSave();
+    }
+  }
+
+  // ── Image Upload for Canvas ──
+  function cvTriggerImageUpload(wx, wy) {
+    var input = document.getElementById('canvasImageInput');
+    input.onchange = function() {
+      if (input.files.length > 0) {
+        cvProcessImageFile(input.files[0], wx, wy);
+      }
+      input.value = '';
+    };
+    input.click();
+  }
+
+  function cvProcessImageFile(file, wx, wy) {
+    if (!file || !file.type.startsWith('image/')) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var maxW = 800;
+        var w = img.width, h = img.height;
+        if (w > maxW) { h = h * maxW / w; w = maxW; }
+        canvas.width = w; canvas.height = h;
+        var ctx2 = canvas.getContext('2d');
+        ctx2.drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        cvAddImageNode(dataUrl, wx, wy);
+        toast('Image added to canvas');
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Drag & drop images onto canvas
+  cvContainer.addEventListener('dragover', function(e) {
+    if (activeTab !== 'canvas') return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  });
+
+  cvContainer.addEventListener('drop', function(e) {
+    if (activeTab !== 'canvas') return;
+    e.preventDefault();
+    var file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      var wp = cvScreenToWorld(e.clientX, e.clientY);
+      cvProcessImageFile(file, wp.x, wp.y);
+    }
+  });
+
+  // ── Send to Beats ──
+  function cvShowBeatsModal(nodeId) {
+    var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
+    if (!node) return;
+
+    var list = document.getElementById('cv-beats-list');
+    list.innerHTML = '';
+
+    // Get distinct movements from beatEntries
+    var movements = {};
+    beatEntries.forEach(function(b) {
+      if (!movements[b.movement]) {
+        movements[b.movement] = b.movementTitle || ('Movement ' + b.movement);
+      }
+    });
+    // If no beats, show all-purpose option
+    var keys = Object.keys(movements).sort(function(a, b) { return parseInt(a) - parseInt(b); });
+    if (keys.length === 0) {
+      list.innerHTML = '<div style="color:var(--faded);font-size:12px;padding:8px">No movements yet. Add beats first.</div>';
+    } else {
+      keys.forEach(function(k) {
+        var item = document.createElement('div');
+        item.className = 'cv-beats-item';
+        item.innerHTML = '<span class="cv-bm-num">' + k + '.</span> ' + escapeHTML(movements[k]);
+        item.onclick = function() {
+          cvSendToBeat(nodeId, parseInt(k), movements[k]);
+        };
+        list.appendChild(item);
+      });
+    }
+
+    document.getElementById('cv-beats-overlay').style.display = 'block';
+    document.getElementById('cv-beats-modal').style.display = 'block';
+  }
+  window.cvShowBeatsModal = cvShowBeatsModal;
+
+  function cvSendToBeat(nodeId, movementNum, movementTitle) {
+    var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
+    if (!node) return;
+
+    // Get text content from node
+    var content = '';
+    if (node.type === 'text') {
+      var el = cvNodesEl.querySelector('[data-node-id="' + nodeId + '"] .cv-node-body');
+      content = el ? el.textContent : (node.content || '');
+    }
+
+    // Create a new beat
+    var nextSceneId = movementNum + '.' + (beatEntries.filter(function(b) { return b.movement === movementNum; }).length + 1);
+    beatEntries.push({
+      id: genBeatId(),
+      movement: movementNum,
+      movementTitle: movementTitle,
+      sceneId: nextSceneId,
+      title: content.substring(0, 60).split('\n')[0] || 'From Canvas',
+      location: '',
+      characters: [],
+      tone: '',
+      description: content,
+      visual: '',
+      truth: '',
+      notes: 'Imported from Canvas',
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    });
+
+    renderBeatsList();
+    populateMovementFilter();
+    scheduleSave();
+    cvCloseBeatsModal();
+    toast('Sent to Movement ' + movementNum);
+  }
+
+  function cvCloseBeatsModal() {
+    document.getElementById('cv-beats-overlay').style.display = 'none';
+    document.getElementById('cv-beats-modal').style.display = 'none';
+  }
+  window.cvCloseBeatsModal = cvCloseBeatsModal;
+
+  // ── Escape handler ──
+  function cvHandleEscape() {
+    if (cvMode !== 'select') {
+      cvSetMode('select');
+      return;
+    }
+    if (cvSelectedNodeId) {
+      cvDeselectAll();
+      return;
+    }
+  }
+  window.cvHandleEscape = cvHandleEscape;
+
+  // ── Persistence ──
+  function cvScheduleSave() {
+    clearTimeout(cvSaveTimer);
+    cvSaveTimer = setTimeout(function() {
+      try {
+        localStorage.setItem(CANVAS_SAVE_KEY, JSON.stringify(cvData));
+      } catch (e) {
+        // If quota exceeded, strip image content
+        var stripped = JSON.parse(JSON.stringify(cvData));
+        stripped.nodes = stripped.nodes.map(function(n) {
+          if (n.type === 'image') n.content = '';
+          return n;
+        });
+        try {
+          localStorage.setItem(CANVAS_SAVE_KEY, JSON.stringify(stripped));
+        } catch (e2) { /* give up */ }
+      }
+      // Also trigger main autosave
+      scheduleSave();
+    }, 1000);
+  }
+
+  function cvLoadFromStorage() {
+    try {
+      var raw = localStorage.getItem(CANVAS_SAVE_KEY);
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data.nodes) cvData.nodes = data.nodes;
+        if (data.connections) cvData.connections = data.connections;
+        if (data.drawings) cvData.drawings = data.drawings;
+        if (data.viewport) {
+          cvData.viewport.x = data.viewport.x || 0;
+          cvData.viewport.y = data.viewport.y || 0;
+          cvData.viewport.zoom = data.viewport.zoom || 1;
+        }
+      }
+    } catch (e) {}
+  }
+
+  function cvLoadData(data) {
+    if (!data) return;
+    if (data.nodes) cvData.nodes = data.nodes;
+    if (data.connections) cvData.connections = data.connections;
+    if (data.drawings) cvData.drawings = data.drawings;
+    if (data.viewport) {
+      cvData.viewport.x = data.viewport.x || 0;
+      cvData.viewport.y = data.viewport.y || 0;
+      cvData.viewport.zoom = data.viewport.zoom || 1;
+    }
+    cvRenderNodes();
+    cvRender();
+  }
+  window.cvLoadData = cvLoadData;
+
+  // ── Window Resize ──
+  window.addEventListener('resize', function() {
+    if (activeTab === 'canvas') cvResizeCanvas();
+  });
+
+  // ── Tab Switch Hook ──
+  var _origSwitchTab = window.switchTab;
+  // We patch switchTab to resize canvas when entering the tab
+  var _patchedSwitchTab = false;
+  function patchSwitchTab() {
+    if (_patchedSwitchTab) return;
+    _patchedSwitchTab = true;
+    var origFn = switchTab;
+    switchTab = function(tabId) {
+      origFn(tabId);
+      if (tabId === 'canvas') {
+        setTimeout(function() {
+          cvResizeCanvas();
+          cvUpdateTransform();
+          cvRender();
+        }, 50);
+      }
+    };
+  }
+  patchSwitchTab();
+
+  // ── Initialize ──
+  cvLoadFromStorage();
+  // Also check for pending data from autosave
+  if (window._pendingCanvasData) {
+    cvLoadData(window._pendingCanvasData);
+    delete window._pendingCanvasData;
+  }
+  cvRenderNodes();
+  // Initial resize if canvas is visible
+  if (activeTab === 'canvas') {
+    setTimeout(function() { cvResizeCanvas(); cvRender(); }, 100);
   }
 })();
 </script>
