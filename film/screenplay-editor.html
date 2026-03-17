@@ -1062,6 +1062,7 @@ body.beats-dragging, body.beats-dragging *{cursor:grabbing!important}
   border:1px solid var(--border);
   box-shadow:0 8px 32px rgba(0,0,0,0.5);
   border-left-width:5px;border-radius:12px;
+  cursor:text;user-select:text;
 }
 .beats-focus-overlay{
   position:fixed;inset:0;
@@ -4325,6 +4326,9 @@ function getHandDragIcon() {
 }
 
 function handleDragStart(e, id) {
+  // Don't allow dragging in focus mode — user needs to select text
+  var card = e.target.closest('.beat-card');
+  if (card && card.classList.contains('focused')) { e.preventDefault(); return; }
   draggedBeatId = id;
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/plain', id);
