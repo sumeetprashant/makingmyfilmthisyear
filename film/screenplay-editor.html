@@ -1267,7 +1267,7 @@ html:not(.dark) .beat-form{
   background:#1e1c18;
 }
 html:not(.dark) #canvas-container{
-  background:#2a2722;
+  background:#e8e4dc;
 }
 #canvas-surface{
   position:absolute;top:0;left:0;
@@ -1295,13 +1295,22 @@ html:not(.dark) #canvas-container{
   transition:border-color 0.15s, box-shadow 0.15s;
 }
 html:not(.dark) .cv-node{
-  background:rgba(40,36,30,0.80);
-  border-color:rgba(255,255,255,0.12);
-  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  background:rgba(255,255,255,0.88);
+  border-color:rgba(0,0,0,0.12);
+  box-shadow:0 4px 20px rgba(0,0,0,0.1);
 }
-html:not(.dark) .cv-node .cv-node-body{color:#e0d8cc}
+html:not(.dark) .cv-node .cv-node-body{color:#2a2520}
 html:not(.dark) .cv-node .cv-node-header{color:#8a8070}
-html:not(.dark) .cv-node .cv-node-body:empty::before{color:#6a6560}
+html:not(.dark) .cv-node .cv-node-body:empty::before{color:#aaa}
+html:not(.dark) .cv-node-title:hover{background:rgba(0,0,0,0.04)}
+html:not(.dark) .cv-node-title:focus{background:rgba(0,0,0,0.06);color:#2a2520}
+html:not(.dark) .cv-node-toolbar button{
+  background:rgba(255,255,255,0.9);color:#555;
+  border-color:rgba(0,0,0,0.12);
+}
+html:not(.dark) .cv-node-toolbar button:hover{background:#fff;color:#222}
+html:not(.dark) .cv-conn-dot{border-color:#faf8f0}
+html:not(.dark) .cv-node-resize::after{border-color:#aaa}
 .cv-node.selected{
   border-color:var(--accent);
   box-shadow:0 0 0 2px var(--accent), 0 4px 20px rgba(0,0,0,0.3);
@@ -1423,9 +1432,15 @@ html:not(.dark) .cv-node .cv-node-body:empty::before{color:#6a6560}
   font-family:system-ui,-apple-system,sans-serif;
 }
 html:not(.dark) #canvas-toolbar{
-  background:rgba(250,248,240,0.88);
-  border-color:var(--border);
+  background:rgba(255,255,255,0.9);
+  border-color:rgba(0,0,0,0.12);
 }
+html:not(.dark) #canvas-toolbar button{
+  background:#f0ebe0;color:#555;border-color:rgba(0,0,0,0.1);
+}
+html:not(.dark) #canvas-toolbar button:hover{background:#e0dbd0;color:#222}
+html:not(.dark) #canvas-toolbar button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+html:not(.dark) #canvas-toolbar .cv-sep{background:rgba(0,0,0,0.12)}
 #canvas-toolbar button{
   background:var(--btn-bg);color:#ccc;
   border:1px solid #444;border-radius:4px;
@@ -1478,6 +1493,10 @@ html:not(.dark) #canvas-toolbar{
 #canvas-minimap canvas{
   width:100%;height:100%;
 }
+html:not(.dark) #canvas-minimap{
+  background:rgba(255,255,255,0.5);
+  border-color:rgba(0,0,0,0.12);
+}
 #canvas-minimap .minimap-viewport{
   position:absolute;
   border:1px solid var(--accent);
@@ -1501,9 +1520,11 @@ html:not(.dark) #canvas-toolbar{
   display:none;
 }
 html:not(.dark) #cv-context-menu{
-  background:rgba(250,248,240,0.95);
-  border-color:var(--border);
+  background:rgba(255,255,255,0.95);
+  border-color:rgba(0,0,0,0.12);
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
 }
+html:not(.dark) #cv-context-menu .cv-ctx-sep{background:rgba(0,0,0,0.08)}
 #cv-context-menu .cv-ctx-item{
   padding:6px 16px;
   color:var(--ink);
@@ -1530,8 +1551,9 @@ html:not(.dark) #cv-context-menu{
   box-shadow:0 4px 20px rgba(0,0,0,0.4);
 }
 html:not(.dark) #cv-context-menu .cv-ctx-sub .cv-ctx-submenu{
-  background:rgba(250,248,240,0.95);
-  border-color:var(--border);
+  background:rgba(255,255,255,0.95);
+  border-color:rgba(0,0,0,0.12);
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
 }
 #cv-context-menu .cv-ctx-sub:hover .cv-ctx-submenu{display:block}
 
@@ -1744,11 +1766,11 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <button class="help-btn" onclick="toggleHelp()" title="Keyboard shortcuts">?</button>
     <div class="theme-picker">
       <button class="theme-picker-btn" onclick="toggleThemeDropdown()" title="Change theme">
-        <span class="swatch" id="themeCurrentSwatch" style="background:#d4a853"></span>
-        <span id="themeCurrentName" style="font-size:11px">Parchment</span>
+        <span class="swatch" id="themeCurrentSwatch" style="background:#fff"></span>
+        <span id="themeCurrentName" style="font-size:11px">Daylight</span>
       </button>
       <div class="theme-dropdown" id="themeDropdown">
-        <button onclick="setTheme('parchment')" data-theme-opt="parchment"><span class="swatch" style="background:#d4a853"></span>Parchment</button>
+        <button onclick="setTheme('parchment')" data-theme-opt="parchment"><span class="swatch" style="background:#fff"></span>Daylight</button>
         <button onclick="setTheme('midnight')" data-theme-opt="midnight"><span class="swatch" style="background:#d4a853"></span>Midnight</button>
         <button onclick="setTheme('ocean')" data-theme-opt="ocean"><span class="swatch" style="background:#4a9ec2"></span>Ocean Deep</button>
         <button onclick="setTheme('sunset')" data-theme-opt="sunset"><span class="swatch" style="background:#e8963a"></span>Sunset Warm</button>
@@ -4078,7 +4100,7 @@ function populateMovementFilter() {
 // THEME SYSTEM
 // ═══════════════════════════════════════
 var THEMES = {
-  parchment: { label: 'Parchment', accent: '#d4a853', dark: false },
+  parchment: { label: 'Daylight', accent: '#d4a853', swatch: '#fff', dark: false },
   midnight:  { label: 'Midnight',  accent: '#d4a853', dark: true },
   ocean:     { label: 'Ocean Deep', accent: '#4a9ec2', dark: true },
   sunset:    { label: 'Sunset Warm', accent: '#e8963a', dark: true },
@@ -4116,7 +4138,7 @@ function updateThemePickerUI(name) {
   var t = THEMES[name] || THEMES.parchment;
   var swatch = document.getElementById('themeCurrentSwatch');
   var label = document.getElementById('themeCurrentName');
-  if (swatch) swatch.style.background = t.accent;
+  if (swatch) swatch.style.background = t.swatch || t.accent;
   if (label) label.textContent = t.label;
   // Highlight active in dropdown
   document.querySelectorAll('.theme-dropdown button').forEach(function(btn) {
