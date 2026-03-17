@@ -10,9 +10,9 @@
 /* VARIABLES                              */
 /* ═══════════════════════════════════════ */
 :root {
-  --bg: #1a1a1a;
+  --bg: #f0ebe0;
   --paper: #faf8f0;
-  --ink: #1a1a1a;
+  --ink: #2a2520;
   --toolbar-bg: #2a2520;
   --status-bg: #232020;
   --accent: #d4a853;
@@ -28,7 +28,21 @@
   --highlight: rgba(212,168,83,0.08);
   --focus-card-bg: #e8e4dc;
   --faded:#8a8070;
-  --border:#333;
+  --border:#d8d0c0;
+  --desc-color:#4a4540;
+  --visual-color:#1a7a6a;
+  --truth-color:#5a3a6a;
+  --truth-bg:rgba(154,106,176,0.1);
+  --movement-title:#4a4540;
+  --movement-border:#d0c8b8;
+  --card-shadow:0 2px 12px rgba(0,0,0,0.08);
+  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.12);
+  --actions-border:rgba(0,0,0,0.06);
+  --actions-btn-bg:#e8e4dc;
+  --actions-btn-color:#5a5550;
+  --actions-btn-border:#d0c8b8;
+  --actions-btn-hover-bg:#d8d0c0;
+  --actions-btn-hover-color:#2a2520;
 }
 html.dark{
   --bg:#0d0d0d;
@@ -41,6 +55,20 @@ html.dark{
   --btn-bg:#2a2520;
   --btn-hover:#3a352e;
   --focus-card-bg:#2c2c2c;
+  --desc-color:#999;
+  --visual-color:#2a9d8f;
+  --truth-color:#6a4a7a;
+  --truth-bg:rgba(154,106,176,0.08);
+  --movement-title:#ccc;
+  --movement-border:#333;
+  --card-shadow:0 2px 12px rgba(0,0,0,0.2);
+  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.3);
+  --actions-border:rgba(255,255,255,0.04);
+  --actions-btn-bg:#2a2520;
+  --actions-btn-color:#ccc;
+  --actions-btn-border:#444;
+  --actions-btn-hover-bg:#3a352e;
+  --actions-btn-hover-color:#fff;
 }
 
 /* ═══════════════════════════════════════ */
@@ -710,7 +738,7 @@ html:not(.dark) .music-form{
   display:flex;align-items:center;gap:10px;
   margin-top:32px;margin-bottom:14px;
   padding-bottom:8px;
-  border-bottom:1px solid #333;
+  border-bottom:1px solid var(--movement-border);
 }
 .beat-movement-header:first-child{margin-top:0}
 .beat-movement-num{
@@ -724,7 +752,7 @@ html:not(.dark) .music-form{
 .beat-movement-title{
   font-family:'Courier Prime',monospace;
   font-size:14px;font-weight:700;
-  color:#ccc;letter-spacing:.02em;
+  color:var(--movement-title);letter-spacing:.02em;
 }
 
 /* Beat cards */
@@ -733,7 +761,7 @@ html:not(.dark) .music-form{
   border-radius:6px;
   padding:18px 20px 18px 24px;
   color:var(--ink);
-  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+  box-shadow:var(--card-shadow);
   border-left:4px solid #999;
   position:relative;
   overflow:visible;
@@ -742,7 +770,7 @@ html:not(.dark) .music-form{
   display:flex;flex-direction:column;
 }
 .beat-card .beat-actions{margin-top:auto}
-.beat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.beat-card:hover{box-shadow:var(--card-hover-shadow)}
 .beat-card.status-writing{border-left-color:var(--accent)}
 .beat-card.status-done{border-left-color:#2ecc71}
 
@@ -779,17 +807,17 @@ html:not(.dark) .music-form{
 .beat-tag.tag-tone{background:rgba(230,126,34,0.12);color:#e67e22}
 
 .beat-desc{
-  font-size:12px;color:#999;line-height:1.5;
+  font-size:12px;color:var(--desc-color);line-height:1.5;
   margin:6px 0;
   font-family:system-ui,sans-serif;
   white-space:pre-wrap;
 }
 .beat-card.focused .beat-desc{
-  color:#bbb;
+  color:var(--desc-color);
 }
 
 .beat-visual{
-  font-size:12px;color:#2a9d8f;
+  font-size:12px;color:var(--visual-color);
   font-style:italic;line-height:1.5;
   margin:6px 0;
   font-family:system-ui,sans-serif;
@@ -799,10 +827,10 @@ html:not(.dark) .music-form{
 .beat-truth{
   font-size:12px;line-height:1.5;
   margin:8px 0;padding:8px 12px;
-  background:rgba(154,106,176,0.08);
+  background:var(--truth-bg);
   border-left:3px solid #9a6ab0;
   border-radius:0 4px 4px 0;
-  color:#6a4a7a;
+  color:var(--truth-color);
   font-family:system-ui,sans-serif;
   white-space:pre-wrap;
 }
@@ -810,16 +838,21 @@ html:not(.dark) .music-form{
 .beat-notes-area{
   display:none;
   width:100%;
-  background:#f5f3eb;
-  border:1px solid #e0ddd0;
+  background:var(--paper);
+  border:1px solid var(--border);
   border-radius:4px;
   padding:8px 10px;
   font-size:12px;
   font-family:system-ui,sans-serif;
-  color:#444;
+  color:var(--ink);
   resize:vertical;
   min-height:36px;
   margin-top:8px;
+}
+html.dark .beat-notes-area{
+  background:#2a2520;
+  border-color:#444;
+  color:#ddd;
 }
 .beat-card.focused .beat-notes-area{display:block}
 .beat-notes-area:focus{outline:none;border-color:var(--accent)}
@@ -830,17 +863,17 @@ html:not(.dark) .music-form{
   justify-content:flex-end;
   margin-top:10px;
   padding-top:8px;
-  border-top:1px solid rgba(255,255,255,0.04);
+  border-top:1px solid var(--actions-border);
   opacity:0.5;transition:opacity 0.15s;
 }
 .beat-card:hover .beat-actions{opacity:1}
 .beat-actions button{
-  background:var(--btn-bg);color:#ccc;
-  border:1px solid #444;border-radius:4px;
+  background:var(--actions-btn-bg);color:var(--actions-btn-color);
+  border:1px solid var(--actions-btn-border);border-radius:4px;
   padding:3px 8px;font-size:10px;cursor:pointer;
   font-family:system-ui,sans-serif;
 }
-.beat-actions button:hover{background:var(--btn-hover);color:#fff}
+.beat-actions button:hover{background:var(--actions-btn-hover-bg);color:var(--actions-btn-hover-color)}
 
 .beat-status-pill{
   display:inline-flex;align-items:center;gap:4px;
@@ -3117,7 +3150,7 @@ function renderBeatsList() {
     // Movement header
     var header = document.createElement('div');
     header.className = 'beat-movement-header';
-    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span><span style="color:#888;font-size:11px;font-family:system-ui,sans-serif;margin-left:8px">' + m.entries.length + ' scene' + (m.entries.length !== 1 ? 's' : '') + '</span>';
+    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span><span style="color:var(--faded);font-size:11px;font-family:system-ui,sans-serif;margin-left:8px">' + m.entries.length + ' scene' + (m.entries.length !== 1 ? 's' : '') + '</span>';
     list.appendChild(header);
 
     // Grid container
