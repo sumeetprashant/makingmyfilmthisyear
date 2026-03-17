@@ -169,8 +169,8 @@ body{
   letter-spacing:.04em;
   transition:color 0.15s,border-color 0.15s;
 }
-#toolbar .tab{background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;color:#666}
-#toolbar .tab:hover{color:#bbb;background:transparent!important}
+#toolbar .tab{background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;color:#aaa}
+#toolbar .tab:hover{color:#ddd;background:transparent!important}
 #toolbar .tab.active{color:var(--accent)!important;border-bottom-color:var(--accent)!important;background:transparent!important}
 .toolbar-right{margin-left:auto;display:flex;align-items:center;gap:4px}
 
@@ -1156,6 +1156,16 @@ html:not(.dark) .cv-node .cv-node-body:empty::before{color:#6a6560}
   flex-shrink:0;
 }
 .cv-node-header:active{cursor:grabbing}
+.cv-node-title{
+  cursor:text;
+  outline:none;
+  padding:1px 4px;
+  border-radius:3px;
+  min-width:30px;
+  transition:background 0.15s;
+}
+.cv-node-title:hover{background:rgba(255,255,255,0.06)}
+.cv-node-title:focus{background:rgba(255,255,255,0.1);color:var(--ink)}
 .cv-node-body{
   flex:1;
   padding:12px 14px;
@@ -4529,11 +4539,27 @@ function removeImage(beatId) {
       el.appendChild(dot);
     });
 
-    // Header (drag handle)
+    // Header (drag handle + editable title)
     var header = document.createElement('div');
     header.className = 'cv-node-header';
-    header.textContent = node.type === 'image' ? 'Image' : 'Note';
+    var titleSpan = document.createElement('span');
+    titleSpan.className = 'cv-node-title';
+    titleSpan.contentEditable = 'true';
+    titleSpan.spellcheck = false;
+    titleSpan.textContent = node.title || (node.type === 'image' ? 'Image' : 'Note');
+    titleSpan.addEventListener('blur', function() {
+      var newTitle = titleSpan.textContent.trim();
+      if (newTitle) { node.title = newTitle; } else { titleSpan.textContent = node.title || 'Note'; }
+      cvScheduleSave();
+    });
+    titleSpan.addEventListener('keydown', function(e) {
+      e.stopPropagation();
+      if (e.key === 'Enter') { e.preventDefault(); titleSpan.blur(); }
+    });
+    titleSpan.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+    header.appendChild(titleSpan);
     header.addEventListener('mousedown', function(e) {
+      if (e.target === titleSpan) return;
       if (e.button !== 0) return;
       e.preventDefault();
       cvSelectNode(node.id);
