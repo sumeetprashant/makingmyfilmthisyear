@@ -1460,23 +1460,43 @@ html:not(.dark) #canvas-toolbar .cv-sep{background:rgba(0,0,0,0.12)}
 
 /* Drawing color picker */
 #cv-draw-colors{
-  display:none;align-items:center;gap:4px;
-  margin-left:4px;
+  display:none;align-items:center;gap:5px;
+  margin-left:6px;
 }
 #cv-draw-colors.visible{display:flex}
 .cv-color-swatch{
-  width:16px;height:16px;border-radius:50%;
-  border:2px solid transparent;cursor:pointer;
-  transition:border-color 0.15s;
+  width:22px;height:22px;border-radius:50%;
+  border:2.5px solid transparent;cursor:pointer;
+  transition:border-color 0.15s, transform 0.1s;
+  box-shadow:0 1px 4px rgba(0,0,0,0.25);
 }
-.cv-color-swatch:hover,.cv-color-swatch.active{
+.cv-color-swatch:hover{transform:scale(1.15)}
+.cv-color-swatch.active{
   border-color:#fff;
+  transform:scale(1.15);
+  box-shadow:0 0 0 1px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.3);
 }
+html:not(.dark) .cv-color-swatch.active{border-color:#333}
+#cv-draw-colors .cv-sep-mini{
+  width:1px;height:18px;background:#444;margin:0 3px;
+}
+html:not(.dark) #cv-draw-colors .cv-sep-mini{background:rgba(0,0,0,0.12)}
 #cv-line-width{
+  width:50px;height:22px;
   background:var(--btn-bg);color:#ccc;
   border:1px solid #444;border-radius:4px;
-  padding:2px 4px;font-size:10px;cursor:pointer;
+  padding:0 2px;font-size:10px;cursor:pointer;
   font-family:system-ui,sans-serif;
+  -webkit-appearance:none;
+  accent-color:var(--accent);
+}
+html:not(.dark) #cv-line-width{
+  background:#f0ebe0;border-color:rgba(0,0,0,0.1);
+}
+.cv-width-label{
+  font-size:9px;color:#888;letter-spacing:.03em;
+  font-family:system-ui,sans-serif;
+  margin-left:2px;
 }
 
 /* Minimap */
@@ -1832,16 +1852,19 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
       <button id="cv-btn-draw" onclick="cvSetMode('draw')" title="Draw (Shift+drag)">Draw</button>
       <button id="cv-btn-eraser" onclick="cvSetMode('eraser')" title="Eraser">Eraser</button>
       <div id="cv-draw-colors">
-        <span class="cv-color-swatch active" style="background:#fff" data-color="#ffffff" onclick="cvSetDrawColor(this)"></span>
-        <span class="cv-color-swatch" style="background:#d4a853" data-color="#d4a853" onclick="cvSetDrawColor(this)"></span>
-        <span class="cv-color-swatch" style="background:#e74c3c" data-color="#e74c3c" onclick="cvSetDrawColor(this)"></span>
-        <span class="cv-color-swatch" style="background:#5a9a6a" data-color="#5a9a6a" onclick="cvSetDrawColor(this)"></span>
-        <span class="cv-color-swatch" style="background:#5a8ac0" data-color="#5a8ac0" onclick="cvSetDrawColor(this)"></span>
-        <select id="cv-line-width" onchange="cvSetLineWidth(this.value)" title="Line width">
-          <option value="2">Thin</option>
-          <option value="4" selected>Medium</option>
-          <option value="8">Thick</option>
-        </select>
+        <span class="cv-color-swatch active" style="background:#fff" data-color="#ffffff" onclick="cvSetDrawColor(this)" title="White"></span>
+        <span class="cv-color-swatch" style="background:#222" data-color="#222222" onclick="cvSetDrawColor(this)" title="Black"></span>
+        <span class="cv-color-swatch" style="background:#d4a853" data-color="#d4a853" onclick="cvSetDrawColor(this)" title="Gold"></span>
+        <span class="cv-color-swatch" style="background:#e74c3c" data-color="#e74c3c" onclick="cvSetDrawColor(this)" title="Red"></span>
+        <span class="cv-color-swatch" style="background:#e8963a" data-color="#e8963a" onclick="cvSetDrawColor(this)" title="Orange"></span>
+        <span class="cv-color-swatch" style="background:#f1c40f" data-color="#f1c40f" onclick="cvSetDrawColor(this)" title="Yellow"></span>
+        <span class="cv-color-swatch" style="background:#5a9a6a" data-color="#5a9a6a" onclick="cvSetDrawColor(this)" title="Green"></span>
+        <span class="cv-color-swatch" style="background:#5a8ac0" data-color="#5a8ac0" onclick="cvSetDrawColor(this)" title="Blue"></span>
+        <span class="cv-color-swatch" style="background:#9b59b6" data-color="#9b59b6" onclick="cvSetDrawColor(this)" title="Purple"></span>
+        <span class="cv-color-swatch" style="background:#e87aad" data-color="#e87aad" onclick="cvSetDrawColor(this)" title="Pink"></span>
+        <span class="cv-sep-mini"></span>
+        <input type="range" id="cv-line-width" min="1" max="20" value="4" oninput="cvSetLineWidth(this.value)" title="Line width">
+        <span class="cv-width-label" id="cv-width-val">4px</span>
       </div>
       <div class="cv-sep"></div>
       <button onclick="cvUndo()" title="Undo (Ctrl+Z)">Undo</button>
@@ -5115,6 +5138,8 @@ function removeImage(beatId) {
 
   function cvSetLineWidth(val) {
     cvDrawWidth = parseInt(val) || 4;
+    var label = document.getElementById('cv-width-val');
+    if (label) label.textContent = cvDrawWidth + 'px';
   }
   window.cvSetLineWidth = cvSetLineWidth;
 
