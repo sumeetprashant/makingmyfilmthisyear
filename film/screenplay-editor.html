@@ -4874,9 +4874,22 @@ function removeImage(beatId) {
         node.content = body.innerHTML;
         cvScheduleSave();
       });
+      // Single click selects node but doesn't enter text editing
       body.addEventListener('mousedown', function(e) {
         e.stopPropagation();
         cvSelectNode(node.id);
+        // Prevent focus on single click — need double-click to edit
+        if (!body.dataset.editing) {
+          e.preventDefault();
+        }
+      });
+      body.addEventListener('dblclick', function(e) {
+        e.stopPropagation();
+        body.dataset.editing = 'true';
+        body.focus();
+      });
+      body.addEventListener('blur', function() {
+        delete body.dataset.editing;
       });
       body.addEventListener('focus', function() {
         cvSelectNode(node.id);
@@ -4951,12 +4964,20 @@ function removeImage(beatId) {
       zIndex: cvGetMaxZ() + 1
     };
     cvData.nodes.push(node);
+    // If zoomed out too far, zoom in so the new node is usable
+    if (cvData.viewport.zoom < 0.5) {
+      var rect = cvContainer.getBoundingClientRect();
+      var centerX = node.x + node.width / 2;
+      var centerY = node.y + node.height / 2;
+      cvData.viewport.zoom = 1;
+      cvData.viewport.x = rect.width / 2 - centerX;
+      cvData.viewport.y = rect.height / 2 - centerY;
+      var zl = document.getElementById('cv-zoom-label');
+      if (zl) zl.textContent = '100%';
+    }
     cvRenderNodes();
     cvRender();
     cvScheduleSave();
-    // Focus the new node's body
-    var el = cvNodesEl.querySelector('[data-node-id="' + node.id + '"] .cv-node-body');
-    if (el) { setTimeout(function() { el.focus(); }, 50); }
     cvSelectNode(node.id);
     return node;
   }
