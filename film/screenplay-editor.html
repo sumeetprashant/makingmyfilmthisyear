@@ -939,6 +939,9 @@ html:not(.dark) .music-form{
 .beat-tag.tag-location{background:rgba(90,138,192,0.12);color:#5a8ac0}
 .beat-tag.tag-char{background:rgba(192,138,90,0.12);color:#c08a5a}
 .beat-tag.tag-tone{background:rgba(230,126,34,0.12);color:#e67e22}
+.beat-tag.tag-prod{background:rgba(196,154,74,0.12);color:#c49a4a;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.beat-tag.tag-prod.tag-genai{background:rgba(138,106,154,0.15);color:#9a7aaa}
+.beat-tag.tag-prod.tag-fourth-wall{background:rgba(192,80,80,0.12);color:#c06050}
 
 .beat-desc{
   font-size:12px;color:var(--desc-color);line-height:1.5;
@@ -1817,7 +1820,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
       </select>
       <button onclick="addBeat()">+ Scene</button>
       <select id="movementFilter" onchange="filterByMovement(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
-        <option value="">All Movements</option>
+        <option value="">All Acts</option>
       </select>
     </div>
     <div class="toolbar-sep"></div>
@@ -1944,7 +1947,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
 <div id="cv-beats-overlay" onclick="cvCloseBeatsModal()"></div>
 <div id="cv-beats-modal">
   <h3>Send to Beats</h3>
-  <p style="font-size:11px;color:var(--faded);margin-bottom:10px">Pick a movement:</p>
+  <p style="font-size:11px;color:var(--faded);margin-bottom:10px">Pick an act:</p>
   <div class="cv-beats-list" id="cv-beats-list"></div>
   <div style="text-align:right;margin-top:12px">
     <button onclick="cvCloseBeatsModal()" style="background:var(--btn-bg);color:#ccc;border:1px solid #555;border-radius:4px;padding:6px 16px;font-size:12px;cursor:pointer">Cancel</button>
@@ -2004,9 +2007,9 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <input id="bfSceneId" type="text" placeholder="e.g. 1.1, 2.3">
     <label>Title *</label>
     <input id="bfTitle" type="text" placeholder="Scene title">
-    <label>Movement #</label>
+    <label>Act #</label>
     <input id="bfMovement" type="number" min="1" max="20" value="1" style="width:80px">
-    <label>Movement Title</label>
+    <label>Act Title</label>
     <input id="bfMovementTitle" type="text" placeholder="e.g. The Loop">
     <label>Location</label>
     <input id="bfLocation" type="text" placeholder="e.g. STUDIO, HOME">
@@ -2016,6 +2019,14 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
       <label><input type="checkbox" value="comedian"> Comedian</label>
       <label><input type="checkbox" value="kid"> Kid</label>
       <label><input type="checkbox" value="older-su"> Older Su</label>
+    </div>
+    <label>Production Tags</label>
+    <div class="char-checks" id="bfProdTags">
+      <label><input type="checkbox" value="COMEDIAN"> Comedian</label>
+      <label><input type="checkbox" value="KID"> Kid</label>
+      <label><input type="checkbox" value="GENAI"> GenAI</label>
+      <label><input type="checkbox" value="NO-DIALOGUE"> No Dialogue</label>
+      <label><input type="checkbox" value="FOURTH-WALL"> Fourth Wall</label>
     </div>
     <label>Tone</label>
     <input id="bfTone" type="text" placeholder="e.g. quiet, fun, shift">
@@ -2089,7 +2100,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
   <table>
     <tr><td>+ Scene</td><td>Add a new beat / scene card</td></tr>
     <tr><td>Status pill</td><td>Click to cycle: Pending &rarr; Writing &rarr; Done</td></tr>
-    <tr><td>Movement</td><td>Filter by movement from dropdown</td></tr>
+    <tr><td>Act</td><td>Filter by act from dropdown</td></tr>
   </table>
   <p class="help-hint-sub">
     Track your scenes on a beat board. Click descriptions to expand. Notes auto-save.
@@ -3777,34 +3788,16 @@ function genBeatId() {
 
 function getDefaultBeats() {
   return [
-    { id:'b_1_1', movement:1, movementTitle:'The Loop', sceneId:'1.1', title:'Black \u2014 Sound of Breathing', location:'BLACK', characters:['su'], tone:'quiet', description:'Black screen. Someone breathing. Not distressed \u2014 deep, steady, like after a cold shower. The breathing becomes a hum. The Lyrical Loneliness theme. Then image: water hitting tile. Su\'s back. The cold shower ritual.', visual:'Camera: locked on the shower wall. Water runs. We see his silhouette. No face yet.', truth:'The first thing we hear is Su alone. The first thing we see is a ritual.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_2', movement:1, movementTitle:'The Loop', sceneId:'1.2', title:'The Morning', location:'HOME', characters:['su'], tone:'warm', description:'Su\'s apartment. The lived-in chaos of a man who lives alone. Kettle. Phone check. The notepad on the desk. No dialogue. No voiceover. Just the sounds of a morning.', visual:'Tsai Ming-liang energy. Static shots. The beauty of a mundane morning when no one is watching.', truth:'The beauty of a mundane morning when no one is watching.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_3', movement:1, movementTitle:'The Loop', sceneId:'1.3', title:'The Auto / The Office \u2014 The Comedian Arrives', location:'AUTO / OFFICE / DAY', characters:['su','comedian'], tone:'alive', description:'Su gets into an auto. Headphones on. Delhi moving past. The auto jerks forward \u2014 and on that same motion, the Comedian folds into frame beside him, crowding Su into the corner. Same face. Shades. Looser body. Easier breath. Already mid-riff, like the conversation never started and never stops.\n\nThe Comedian is tuned to Su\'s music without wearing headphones. He drums on the frame, mouths along, comments on the driver, the traffic, the dashboard gods. He is not manic. He is comfortable. More comfortable than Su.\n\nThe auto stops. Su gets out, pays, thanks the driver. The Comedian steps out too \u2014 stretching, silently blessing the driver like he owns the city.\n\nThey enter the office. Su gives small, efficient good mornings. The Comedian performs the larger invisible version of each one \u2014 finger guns, over-nods, mock-bows, leaning into every interaction like he belongs more than Su does. He is everything Su withholds.\n\nAt Su\'s workstation, the change is immediate. Su becomes precise. Functional. Work-self. The Comedian sprawls across the desk area like a cat in a house that belongs to someone else.\n\nThe cofounder arrives with something concrete \u2014 timeline, client, deadline. She needs focus. The Comedian drifts into Su\'s eyeline. Not to sabotage. To play. He keeps sliding between Su and the conversation, silently over-performing what Su cannot say, mocking the corporate choreography with tiny movements.\n\nSu tries to stay locked in. Fails for half a second. Recovers. Fails again. A micro-crack: a breath, a blink, a tiny hand motion without looking. The Comedian mock-surrenders. Slides aside.\n\nSu turns back. The mask clicks on. He responds clearly, calmly, professionally \u2014 too professionally. "Yeah, send it. I\'ll take care of it."\n\nCut to title.', visual:'First half: musical, observational, alive \u2014 the auto should feel like rhythm. Second half: compressed and behavior-driven \u2014 the office should feel like interference. One rearview mirror gag where the Comedian\'s presence is uncertain. The camera breathes in the auto, tightens in the office. Do not overdo mirror tricks yet.', truth:'The Comedian is not a reveal and not a villain. He is the socially fluent surplus of Su \u2014 the version that can enjoy, perform, charm, and deflect without ever having to be fully present. The audience knows immediately. The mystery is the rule of coexistence, not identity. Rule: he can affect Su, not the world.', notes:'KEY RULE: In public, Su almost never speaks directly to him. In private, the boundary weakens. In the studio, the rules get stronger. The Comedian is invisible to the world but has full access to Su\'s frame. He can invade Su\'s space, attention, eyeline, rhythm \u2014 but should not obviously alter external reality.', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_4', movement:1, movementTitle:'The Loop', sceneId:'1.4', title:'The Studio \u2014 Killing Time', location:'STUDIO', characters:['su'], tone:'quiet', description:'Evening. Su in the studio. Not recording anything. Flicking the mic, listening to the thud. Adjusting the chair. Moving the water glass. He talks into the mic \u2014 not a show, just thinking out loud. Then he gets up to leave. The door handle doesn\'t move.', visual:'', truth:'The studio recording becomes the film\'s inner voice. But right now, it\'s just a man talking to himself in a room. And then a door that won\'t open.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_5', movement:1, movementTitle:'The Loop', sceneId:'1.5', title:'The Locked Room \u2014 The Kid Appears', location:'STUDIO', characters:['su','kid'], tone:'wonder', description:'The door won\'t open. The monitor picks up a rhythmic tapping \u2014 same pattern Su was tapping. Someone in the guest chair. A kid. He waves at the camera. The conversation is NOT deep \u2014 it\'s fun. The Kid asks about the equipment, the lights. Then someone opens the door from outside. The Kid is gone. Memory card recorded nothing.', visual:'Amber light throughout. The Kid lit the same way as Su \u2014 the light doesn\'t know who\'s real.', truth:'The first studio encounter is LIGHT. Warm. Fun. The Nusrat melody before the Nusrat lyrics.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_6', movement:1, movementTitle:'The Loop', sceneId:'1.6', title:'After the Kid \u2014 The Walk', location:'DELHI STREETS / NIGHT', characters:['su','comedian'], tone:'shift', description:'Su walks out. Shaken. The Comedian is waiting outside. Tries to riff. Su isn\'t biting. For the first time, the Comedian can\'t make Su laugh. They walk in silence. The first crack.', visual:'Long take. Two figures walking a Delhi street at night. One talking, one silent. Then both silent.', truth:'Something happened in that room that the Comedian can\'t reach.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_1', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.1', title:'Black \u2014 Sound of Laughter', location:'BLACK / COMEDY CLUB', characters:['su'], tone:'energy', description:'Black screen. Laughter builds, peaks, crashes. Then silence. A single voice mid-set. The laughter swells. Image fades in: the comedy club. Spotlight. Black curtain. A figure in shades. Su.', visual:'', truth:'This movement is the Comedian\'s backstory \u2014 told in fragments, not chronological.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_2', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.2', title:'Fragment \u2014 The Set', location:'COMEDY CLUB', characters:['su'], tone:'fun', description:'Shades on. Spotlight. Su doing a set. The material is sharp. No before, no after. Just the set. The energy of a room that\'s with you.', visual:'Handheld. Close. The spotlight burns. The shades reflect it. Audience faces blurred.', truth:'The film needs to SHOW why the Comedian exists \u2014 performing was genuinely the best part of Su\'s life.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_3', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.3', title:'Fragment \u2014 The Phone Guy', location:'COMEDY CLUB', characters:['su'], tone:'shift', description:'Mid-set. Someone\'s phone goes off. Su roasts the guy. Gets personal. Gets mean. The room laughs but the guy doesn\'t. Su feels the line being crossed but the laughter is a drug. The bit ends. Applause. But his smile has changed.', visual:'', truth:'The Comedian\'s reflex anger \u2014 not calculated, just fires. This is what Su hates about the Comedian. This is why he stopped.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_4', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.4', title:'Tapri \u2014 After the Show', location:'TEA STALL / NIGHT', characters:['su'], tone:'warm', description:'Comedian friends. Chai in glass cups. Blurred faces, blurred hands. Focus on Su \u2014 his eyes, his laugh, the way he leans back. The only time Su looks genuinely relaxed around other people.', visual:'Focus rack: Su\'s face sharp, everything else soft. The tapri is sanctuary.', truth:'The only time in the film where Su looks genuinely relaxed around other people.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_5', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.5', title:'Present \u2014 The Good Times', location:'VARIOUS / DAY', characters:['su','comedian'], tone:'fun', description:'The dynamic at its best. Not a montage \u2014 2-3 specific moments where the Comedian makes the unbearable bearable.\n\nMoment 1: Su stuck in a terrible client call. The Comedian silently performs the client\'s words with increasingly absurd hand gestures. Su almost cracks. Holds it together. Barely.\n\nMoment 2: Su eating alone at his desk. The Comedian sits across from him, mirroring every bite with exaggerated pleasure \u2014 turning a sad lunch into a performance of joy.\n\nMoment 3: Su walking home through rush hour. The Comedian walks the same route but differently \u2014 stepping off curbs like they\'re stages, treating every auto horn like applause. Su\'s pace softens. For a few steps, they walk in sync.', visual:'Each moment should feel like a separate photograph with its own color temperature. The client call is fluorescent. The lunch is warm-yellow. The walk is golden hour. The Comedian\'s body language should carry a repeating grammar \u2014 the same drumming, the same lean, the same way he steals warmth from a moment.', truth:'The audience needs to love the Comedian before they understand what he costs. These moments are not setup for a twist \u2014 they are genuinely the best part of Su\'s life. The Comedian makes loneliness survivable. That is not nothing.', notes:'These should feel EARNED, not whimsical. The audience should think: I want a Comedian too. That is what makes the later loss hurt.', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_6', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.6', title:'The Comedian Tries to Stay', location:'HOME / EVENING', characters:['su','comedian'], tone:'shift', description:'Su\'s phone rings. Maa. The Comedian is there. Maa talks \u2014 we hear the tone, not words. Su\'s face changes. The Comedian shifts. He wants to say something funny. The words don\'t come. He gets up. Walks to the door. Stops. His hand on the frame. Fighting the urge to bolt. He leaves. The door closes softly.', visual:'', truth:'The almost-staying. The one time the audience sees the Comedian isn\'t just fun. He\'s terrified. That\'s why he\'s funny.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_7', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.7', title:'Fragment \u2014 1:30 AM in the Rain', location:'DELHI STREET / RAIN / NIGHT', characters:['su'], tone:'ache', description:'Younger Su waited outside a comedy club for five hours. Never got a spot. The rain started. He walked home alone. No Comedian beside him \u2014 because the Comedian doesn\'t exist yet. This is the BEFORE.', visual:'The most beautiful shot in the film. Rain on empty Delhi streets. One figure. No umbrella. The Lyrical Loneliness hum under rain sound.', truth:'The Comedian was born sometime between this rain walk and the phone guy set.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_2_8', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.8', title:'The Studio Door \u2014 The Comedian Won\'t Enter', location:'STUDIO CORRIDOR + STUDIO', characters:['su','comedian'], tone:'quiet', description:'Su walks toward the studio. The Comedian slows. "Chal na, kya karega andar baith ke." Su opens the door. Steps inside. Looks back. The Comedian is standing in the corridor. He won\'t cross. Su sits in silence. From outside: "Tera problem pata hai? Tu har jagah meaning dhundhta hai." Su doesn\'t respond.', visual:'', truth:'The studio demands honesty. The Comedian cannot be honest. A man standing outside a door he can\'t walk through.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_3_1', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.1', title:'The Date \u2014 Modern Love', location:'RESTAURANT / EVENING', characters:['su','comedian'], tone:'bittersweet', description:'Su on a date. App-matched. The Comedian sits at the next table, watching. Quiet for once. The date is pleasant. Forgettable. After, walking to the auto stand. Comedian: "She was nice." Su: "Haan." Comedian: "Tu bhi nice tha." The way he says "nice" \u2014 it\'s a diagnosis.', visual:'The date shot through glass \u2014 reflections, warm light. The Comedian at the other table, out of focus.', truth:'The distance between "I don\'t want to love" and "I can\'t love the way you need me to."', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_3_2', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.2', title:'The Arranged Meeting', location:'CAFE OR FAMILY HOME', characters:['su','comedian'], tone:'uncomfortable', description:'A girl his family set him up with. She\'s nice. Educated. Su is so far away from this kind of life. The Comedian, for once, is respectful. Not roasting. He knows there are lines. A different shade of the Comedian.', visual:'', truth:'Su isn\'t against love or marriage. He\'s against performing it.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_3_3', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.3', title:'Walking Alone \u2014 Love as Breathing', location:'DELHI STREETS / LATE NIGHT', characters:['su'], tone:'lyrical', description:'Su walks. No Comedian tonight. The city half-asleep. Street dogs. Shuttered shops. Studio recording bleeds in: "Love is like breathing. In the moment of true devotion there is no separation between the devoted and the devotee..."', visual:'Long, slow tracking shot from behind. Or static shot \u2014 Su walks through frame and out. Camera stays on empty street.', truth:'Su can feel oneness with a ceiling, a street, rain. Not with a person. That\'s what was amputated.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_3_4', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.4', title:'The Phone Call \u2014 Mother', location:'HOME / EVENING', characters:['su'], tone:'ache', description:'A proper phone call. Not long. He says "haan" a lot. "Theek hai." "Baad mein baat karte hain." Hangs up. Sits. Stares at the phone. The silence is the loudest thing in the film.', visual:'', truth:'The mother doesn\'t need to be in the studio. This phone call IS the mother scene.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_3_5', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.5', title:'Studio Recording \u2014 The Ego', location:'STUDIO', characters:['su'], tone:'honest', description:'Su at the mic. Late. Door open \u2014 not expecting anyone. "I see my ego. I observe it. I see its ebbs and flow. I understand it. And I still let it win." He laughs at his own words. The laugh of a man who found his own profundity funny.', visual:'', truth:'The deepest lines in the film should make Su LAUGH, not cry. The Nusrat Principle.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_4_1', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.1', title:'The Comedian Weakens', location:'VARIOUS', characters:['su','comedian'], tone:'shift', description:'The Comedian\'s energy drops. Jokes land slower. He\'s not in every auto ride anymore. Sometimes the seat is empty. His riffs are recycled. The studio visits are doing something the Comedian can\'t counter.', visual:'', truth:'The Comedian doesn\'t die in a dramatic scene. He fades. Like a radio station going out of range.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_4_2', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.2', title:'The Older Su Appears', location:'STUDIO', characters:['su','older-su'], tone:'weight', description:'Studio. Door locks. Su isn\'t scared anymore. He sees a face in the water\'s reflection. The Older Su came through the door \u2014 the only guest who uses it. He made the film. Festivals. Reviews. Everything. And it didn\'t fix the thing Su thinks it\'ll fix. "Ek aur cheez finish ho gayi. Bas."', visual:'The amber light feels colder somehow. The Older Su touches the mic the way you touch a scar.', truth:'Finishing the film won\'t save Su. Not-finishing won\'t either. The pattern is the problem, not the project.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_4_3', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.3', title:'After the Older Su \u2014 The World Feels Different', location:'VARIOUS / DAY', characters:['su'], tone:'shift', description:'The next day. Su moves slower. Not sadder \u2014 more present. He notices things: light on buildings, pressure cooker sounds, the auto driver\'s hands at a red light. The Comedian is barely there. A shadow.', visual:'The camera breathes for the first time. Longer holds. More air. The film itself is slowing down.', truth:'Su is slowing down. The film slows with him.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_5_1', movement:5, movementTitle:'The Unraveling', sceneId:'5.1', title:'Su Goes to the Studio Voluntarily', location:'STUDIO', characters:['su'], tone:'quiet', description:'For the first time, Su goes because he wants to. Not because the door locked. He turns on the mic. Talks. Really talks \u2014 not rambling, not performing. Just honest.', visual:'', truth:'The studio demanded honesty. For the first time, Su gives it voluntarily.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_5_2', movement:5, movementTitle:'The Unraveling', sceneId:'5.2', title:'The Comedian\'s Last Try', location:'HOME / EVENING', characters:['su','comedian'], tone:'bittersweet', description:'The Comedian shows up. Full energy. New material. He\'s trying. Su watches without anger \u2014 just clarity. He sees through the performance now. The Comedian feels it. The riff dies. For a moment he\'s not performing. Then he gets up and walks out. No "chal, chai peete hain" this time.', visual:'', truth:'The Comedian isn\'t killed or confronted. He\'s loved. And love is the one thing scar tissue can\'t survive.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_5_3', movement:5, movementTitle:'The Unraveling', sceneId:'5.3', title:'Real Moments Break Through', location:'VARIOUS', characters:['su'], tone:'warm', description:'Small real moments. Su calls his mother \u2014 brief but warmer. She notices the shift. Su watches a film alone and his eyes fill. He doesn\'t wipe them. Su at his desk, actually writing \u2014 not planning. Words on paper.', visual:'BRIEF scenes. Ten seconds each. No dialogue. Just images of a man letting things through.', truth:'Su is letting things through for the first time.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_6_1', movement:6, movementTitle:'The Return', sceneId:'6.1', title:'The Kid Comes Back', location:'STUDIO', characters:['su','kid'], tone:'still', description:'Studio. Door locks. Su waits. He knows. The Kid is there. Same grin. But Su can see him now \u2014 really see him. Not as a ghost or mechanism. As the version who never needed armor. The Kid says something devastatingly simple.', visual:'', truth:'The Kid\'s line should make Su walk out and never come back. Not because it\'s painful. Because staying feels absurd.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_6_2', movement:6, movementTitle:'The Return', sceneId:'6.2', title:'Su Walks Out', location:'STUDIO \u2192 DELHI STREETS \u2192 DAWN', characters:['su'], tone:'breathing', description:'Su walks out. The Comedian is not waiting outside. The corridor is empty. Not ominously \u2014 just empty. He walks. Delhi between night and morning. Street dogs. A chai stall opening. The Lyrical Loneliness hum \u2014 but it doesn\'t sound lonely anymore. It sounds like breathing.', visual:'Long. Patient. The camera walks beside him. Like a companion that doesn\'t need to talk.', truth:'The devoted and the devotee are one. A man and his city and the 3 AM air between them.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_6_3', movement:6, movementTitle:'The Return', sceneId:'6.3', title:'The Last Image', location:'TBD', characters:['su'], tone:'end', description:'The final frame. Options: Su in the studio hitting record for the first time, smiling at camera. OR a real kid running past him on an empty road. OR Su lying on his bed, staring at the ceiling, seeing sky. The audience carries this image out of the theatre.', visual:'', truth:'The last image is a promise. What does the audience take home?', notes:'', status:'pending', createdAt:new Date().toISOString() }
+    { id:'b_1_1', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.1', title:'Flash Forward', location:'STUDIO / NIGHT', characters:['su'], tone:'warm', prodTags:[], description:'Su in the host\'s chair. Writing in a notepad. Not podcast questions \u2014 something else. A smile crosses his face. He looks up at something off-camera. We don\'t see what. The smile stays. Warm. Unguarded. Not performing.\n\nCut to black.', visual:'15 seconds. Intimate. The audience won\'t understand this until the final scene.', truth:'Teases the ending. Sets the emotional destination before the journey begins.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_2', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.2', title:'The Auto', location:'AUTO / MORNING', characters:['su','comedian'], tone:'alive', prodTags:['COMEDIAN','NO-DIALOGUE'], description:'The opening scene. Su sits in an auto. Headphones in. Music playing. Eyes forward. Focused. The auto starts to pull away \u2014 and someone hops in beside him, shoving him into the corner.\n\nThe Comedian. We don\'t know his name yet. The audience sees a second person \u2014 same face, different energy. Sunglasses. Looser body. No headphones but vibing to the same music as if he can hear it through Su\'s skull.\n\nSu doesn\'t look at him. Doesn\'t acknowledge. Just shifts his weight and keeps staring forward. The auto moves through Gurugram morning traffic. The yellow canopy. The BHIM UPI QR code. The Mercedes next to them. The dust.\n\nThe Comedian leans out the open side, takes in the street like a tourist. Grins at a chai wallah. Blows a kiss at the auto driver\'s rearview mirror. Looks at Su \u2014 who is reviewing something on his phone, jaw tight, professional even in transit.\n\nThey arrive. Su gets down. Thanks the driver. The Comedian gets down too. Blows a kiss to the driver.', visual:'Three setups: (1) Forward-facing from backseat bar past the driver \u2014 master shot; (2) Side angle from outside showing both seats and street behind; (3) Corner POV from Comedian\'s seat looking at Su. Sound: diegetic music from Su\'s headphones mixed into score. No dialogue except fare exchange.', truth:'Introduces both characters without explanation. Establishes the contrast \u2014 duty vs. appetite, containment vs. overflow. The audience doesn\'t know the rules yet. They just know something is happening between these two people and the world can only see one of them.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_3', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.3', title:'The Office Arrival', location:'STUDIO / OFFICE / MORNING', characters:['su','comedian'], tone:'alive', prodTags:['COMEDIAN','FOURTH-WALL'], description:'Su walks toward the studio entrance. Fast. Purposeful. The Comedian walks beside him, slower, observing everything \u2014 the guard, the staircase, the light. Su nods good morning to employees with a polite half-smile. The Comedian does silent finger-guns, mock-blessings, leans into their smiles, steals the warmth of every passing interaction.\n\nSu reaches his workstation. Switches on the machine. Sits. Professional. The Comedian drapes himself across the desk where the monitor sits, face inches from the screen, pretending to nap.\n\nThe boss/co-founder arrives. Greets Su. Starts discussing something \u2014 a client, a schedule, something that requires attention. The Comedian slides into Su\'s line of sight. Not aggressively \u2014 just drifting, occupying the space between Su and the co-founder. Dancing softly on her words. Making faces.\n\nSu\'s composure holds. Then a micro-crack \u2014 his jaw tightens. He gives the tiniest hand gesture without looking at the Comedian. A flick. Barely visible. The Comedian mock-reacts \u2014 palms up, "oh scary" \u2014 and drifts aside.\n\nSu makes eye contact with the camera for one microsecond. Then back to the co-founder. "Sorry. Say that again."\n\nTITLE CARD: How to Not Make Films.', visual:'The fourth-wall break declares the film\'s contract with the audience. Title card launches the story.', truth:'Establishes the rule \u2014 he can affect Su, not the world. Shows Su\'s professional mask.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_4', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.4', title:'The Work Day', location:'STUDIO / DAY', characters:['su','comedian'], tone:'warm', prodTags:['COMEDIAN'], description:'Su at work as a podcast pre-production writer. We see him in his element \u2014 sitting with a host before a recording, reviewing questions on a laptop, explaining how to frame an opening. He\'s good. Calm. Uses humor naturally to put nervous hosts at ease.\n\nBTS-style footage: Su in the control room during a recording, headphones on, mouthing the questions along with the host. Adjusting a script mid-take. Nodding when a guest lands something real.\n\nThe Comedian is somewhere in every frame. Sitting in the guest chair before anyone else does. Pretending to interview himself. Lying on the studio floor out of everyone\'s way but fully in Su\'s sightline. During the actual recording, the Comedian mimics the guest\'s answers with exaggerated emotion \u2014 making Su\'s lip twitch.\n\nOne moment: the host struggles with a question. Su rewrites it on the spot. Hands the new version over. The host reads it. It\'s perfect. Lands beautifully. What the audience doesn\'t notice \u2014 the Comedian mouthed something to Su right before the rewrite. Was that his idea? Did Su even realize?', visual:'BTS documentary texture. The Comedian is hidden in plain sight in every composition.', truth:'Establishes Su\'s competence and the painful irony \u2014 he engineers other people\'s vulnerable conversations for a living. Seeds the Comedian\'s invisible helpfulness that Su never credits.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_5', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.5', title:'Everyone Leaves', location:'STUDIO / EVENING', characters:['su','comedian'], tone:'shift', prodTags:['COMEDIAN','NO-DIALOGUE'], description:'7pm. 8pm. People say goodbye. Lights turn off in sections. Doors close. Su stays. He always stays. The studio empties around him. The ambient noise drops \u2014 AC hum, building settling, silence.\n\nHe walks into the podcast studio. The lights are already on. They\'re always on.\n\nHe sits in the host\'s chair. Adjusts it slightly. Places his notepad on the side table. Opens to a page of podcast questions for tomorrow\'s client. Starts working.\n\nThe Comedian is already in the guest chair. Legs up. Watching.', visual:'Transition from day-world to night-world. The room changes when the people leave.', truth:'The Comedian, who was a visual disturbance during the day, now becomes a presence in the other chair. The membrane begins to thin.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_6', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.6', title:'The Ritual \u2014 Night One (Resistance)', location:'PODCAST STUDIO / NIGHT', characters:['su','comedian'], tone:'quiet', prodTags:['COMEDIAN'], description:'Su writes. The pen moves. The Comedian tries to interrupt \u2014 makes a noise, shifts in the chair, starts talking. Su doesn\'t engage. Keeps writing. The Comedian pushes harder. Comments on the questions. Mocks a host Su is prepping for. "You\'re writing questions for a guy who sells protein powder. This is your life."\n\nSu\'s pen pauses for a half-beat. Then keeps going. He doesn\'t indulge. Not tonight.\n\nThe Comedian eventually goes quiet. Looks at Su with something that isn\'t mockery \u2014 a kind of tired affection. Su doesn\'t see it. He\'s working.\n\nSu finishes. Caps the pen. Turns off the studio light. Walks out. The Comedian stays in the chair in the dark for a beat. Then gone.', visual:'', truth:'Shows the resistance pattern. Not every night is an indulgence. This makes the indulgence nights feel earned. Also shows the Comedian\'s quieter side \u2014 the affection underneath the roasting.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_7', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.7', title:'The Ritual \u2014 Night Two (Indulgence)', location:'PODCAST STUDIO / NIGHT', characters:['su','comedian'], tone:'lyrical', prodTags:['COMEDIAN','GENAI'], description:'Same ritual. Host chair. Notepad. Questions. But tonight something is different. Su is writing a question for tomorrow\'s guest \u2014 something about pursuing dreams, or creative risk, or what it felt like to fail before succeeding. A question that could be asked to him.\n\nThe Comedian notices. Reads the question over Su\'s shoulder. "You really wrote that with a straight face?"\n\nSu pauses. Doesn\'t write. Doesn\'t leave. The pen is still in his hand but it\'s not moving.\n\nThe Comedian leans in. "Remember when you used to imagine music videos? Whole films in your head just from hearing a song? You\'d close your eyes in class and the song would become a world."\n\nSu puts the pen down.\n\nTRANSITION: The studio dissolves. We enter Su\'s inner world. A monk on a rooftop at dawn. Stillness. Then he stands. Puts on roller skates. Starts moving. The music builds. He grabs the back of a passing car. Speed. The energy passes \u2014 to a delivery boy, to a room, to a street. Sixty seconds of pure visual music, alive and kinetic and beautiful. GenAI-assisted. Different texture from the rest of the film.\n\nBACK IN THE STUDIO. Su is staring at nothing. The Comedian is watching him. A beat of silence. Then the Comedian breaks it with something small and funny. Su almost smiles. Picks up the pen. Goes back to the podcast questions. But something in his posture has softened.', visual:'The inner world sequence is GenAI-assisted \u2014 different visual texture from the rest of the film. The studio scenes are intimate, warm.', truth:'First indulgence. First inner world. Shows the mechanism \u2014 conversation triggers memory/imagination, the studio becomes a portal, then reality reasserts. The Comedian can access the parts of Su that Su himself has locked away.', notes:'The next day, Su\'s work will suffer slightly \u2014 he\'ll be distracted, half in the inner world. That\'s the cost of indulgence.', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_8', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.8', title:'The Comedian Makes Life Survivable', location:'AUTO / OFFICE / HOME / DAY', characters:['su','comedian'], tone:'fun', prodTags:['COMEDIAN','NO-DIALOGUE'], description:'A montage of daily moments where the Comedian\'s presence secretly helps Su.\n\nIn the auto: Su looks stressed, reviewing notes. The Comedian does something stupid \u2014 mimics the auto driver, makes shadow puppets against the yellow canopy. Su\'s face relaxes without him realizing.\n\nAt work: A client meeting goes badly. The host is unhappy with the questions. Su absorbs the criticism stoically. Walking out of the room, the Comedian perfectly mimics the client\'s pompous delivery. Su has to look away to hide the smile.\n\nAt home: Late night. Su microwaves food. Eats alone. The Comedian sits across from him and pretends to have a five-star dinner \u2014 sniffing the microwaved dal like it\'s a Michelin dish. Su rolls his eyes but his shoulders drop. The tension leaves.\n\nSu never thanks him. Never acknowledges what the Comedian does. The audience sees it. Su doesn\'t.', visual:'Each moment has its own color temperature. Client call: fluorescent. Lunch: warm-yellow. Walk: golden hour.', truth:'This is the scene that makes the Comedian\'s departure devastating. Without these small moments of invisible care, the absence is just silence. With them, the absence is the loss of the one thing that made the loneliness bearable.', notes:'Su will not realize this until it\'s too late.', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_9', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.9', title:'Mother Calls', location:'HOME / STUDIO / EVENING', characters:['su','comedian'], tone:'ache', prodTags:['COMEDIAN'], description:'The phone rings. Maa. Su picks up. The usual \u2014 "tu patla ho gaya hai." Su deflects. She asks about work. He answers. Then the turn: she wants him to meet a girl. Family connection. Arranged meeting. "Just meet her once."\n\nSu tightens. Starts with logic, calm resistance. She pushes. Mentions his age. Mentions her own health. "Main kab tak intezaar karoon?" Su\'s voice stays controlled but something is cracking underneath.\n\nThe Comedian, who normally bolts from this kind of conversation \u2014 stays. He\'s in the room. Watching. And for once he\'s not performing. He\'s listening. Then he says something quiet, almost gentle: "Ja na. Mil le. Kya farak padta hai. Maa khush ho jayegi."\n\nThat\'s the trigger. Not the mother\'s pressure. The Comedian agreeing with her. The one voice that was always on Su\'s side \u2014 the rebel, the escape artist, the one who made fun of everything \u2014 now saying "just go."\n\nSu erupts. First at his mother \u2014 cruel, disproportionate, the kind of thing you say when you\'re attacking someone to avoid feeling what they\'re making you feel. Then he hangs up. Turns on the Comedian. Full volume. Everything he\'s suppressed. "You don\'t get to have an opinion. You\'re the reason I\'m like this. You\'re the part that couldn\'t commit to anything \u2014 not comedy, not people, not one single thing \u2014 and now you\'re telling me to go meet a girl?"\n\nThe Comedian looks at him. Doesn\'t joke. Doesn\'t deflect. Just looks. Then he\'s gone.\n\nSu stands in the empty room. Breathing. The phone screen still showing Maa\'s name. The silence that was always filled with the Comedian\'s noise \u2014 suddenly enormous.', visual:'', truth:'The break. The arranged marriage pressure is the trigger but the real wound is Su destroying the one relationship where he could be honest. He attacked the Comedian for trying to stay \u2014 the one time the Comedian didn\'t run.', notes:'Act 1 ends on this silence. The Comedian is gone. Tomorrow morning, the auto will have one passenger.', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_10', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.10', title:'The Empty Auto', location:'AUTO / MORNING', characters:['su'], tone:'ache', prodTags:['NO-DIALOGUE'], description:'Same auto. Same route. Same yellow canopy. Same music in the headphones.\n\nSu sits where he always sits. The seat next to him is empty. No one hops in. The auto pulls away. Gurugram traffic moves around him.\n\nSu looks at the empty seat. Then forward. The music plays but it sounds different \u2014 thinner, less alive. The city is the same city. But something that was there yesterday is not there today.\n\nHis hand rests on the empty seat for a moment. Then he pulls it back. Looks at his phone. Opens the podcast questions. Goes to work.\n\nEnd of Act 1.', visual:'The mirror of Scene 2 (The Auto). Same setting, same framing, everything identical except the absence. The audience feels it physically \u2014 the space where the Comedian was.', truth:'This is the hinge into Act 2. Same auto, same route, same music. But one passenger instead of two.', notes:'', status:'pending', createdAt:new Date().toISOString() }
   ];
 }
 
@@ -3825,7 +3818,7 @@ function renderBeatsList() {
   if (beatSearchQuery) {
     var q = beatSearchQuery.toLowerCase();
     entries = entries.filter(function(e) {
-      return (e.title + ' ' + e.sceneId + ' ' + e.description + ' ' + e.location + ' ' + e.tone + ' ' + (e.characters || []).join(' ') + ' ' + (e.truth || '') + ' ' + (e.visual || '') + ' ' + (e.notes || '')).toLowerCase().indexOf(q) !== -1;
+      return (e.title + ' ' + e.sceneId + ' ' + e.description + ' ' + e.location + ' ' + e.tone + ' ' + (e.characters || []).join(' ') + ' ' + (e.prodTags || []).join(' ') + ' ' + (e.truth || '') + ' ' + (e.visual || '') + ' ' + (e.notes || '')).toLowerCase().indexOf(q) !== -1;
     });
   }
 
@@ -3844,7 +3837,7 @@ function renderBeatsList() {
   var movements = {};
   entries.forEach(function(e) {
     var key = e.movement || 0;
-    if (!movements[key]) movements[key] = { title: e.movementTitle || 'Movement ' + key, entries: [] };
+    if (!movements[key]) movements[key] = { title: e.movementTitle || 'Act ' + key, entries: [] };
     movements[key].entries.push(e);
   });
 
@@ -3947,6 +3940,12 @@ function buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass) {
     });
   }
   if (entry.tone) html += '<span class="beat-tag tag-tone">' + escapeHTML(entry.tone) + '</span>';
+  if (entry.prodTags && entry.prodTags.length > 0) {
+    entry.prodTags.forEach(function(t) {
+      var extraClass = t === 'GENAI' ? ' tag-genai' : (t === 'FOURTH-WALL' ? ' tag-fourth-wall' : '');
+      html += '<span class="beat-tag tag-prod' + extraClass + '">' + escapeHTML(t) + '</span>';
+    });
+  }
   html += '</div>';
 
   // Description (collapsed by default)
@@ -4025,8 +4024,14 @@ function editBeat(id) {
 
   // Set character checkboxes
   var chars = entry.characters || [];
-  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]').forEach(function(cb) {
+  document.querySelectorAll('#beatForm .char-checks:not(#bfProdTags) input[type="checkbox"]').forEach(function(cb) {
     cb.checked = chars.indexOf(cb.value) !== -1;
+  });
+
+  // Set production tag checkboxes
+  var pt = entry.prodTags || [];
+  document.querySelectorAll('#bfProdTags input[type="checkbox"]').forEach(function(cb) {
+    cb.checked = pt.indexOf(cb.value) !== -1;
   });
 
   var form = document.getElementById('beatForm');
@@ -4052,8 +4057,14 @@ function saveBeat() {
 
   // Collect characters
   var characters = [];
-  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]:checked').forEach(function(cb) {
+  document.querySelectorAll('#beatForm .char-checks:not(#bfProdTags) input[type="checkbox"]:checked').forEach(function(cb) {
     characters.push(cb.value);
+  });
+
+  // Collect production tags
+  var prodTags = [];
+  document.querySelectorAll('#bfProdTags input[type="checkbox"]:checked').forEach(function(cb) {
+    prodTags.push(cb.value);
   });
 
   if (editingBeatId) {
@@ -4065,6 +4076,7 @@ function saveBeat() {
       entry.movementTitle = movementTitle;
       entry.location = location;
       entry.characters = characters;
+      entry.prodTags = prodTags;
       entry.tone = tone;
       entry.description = description;
       entry.visual = visual;
@@ -4082,6 +4094,7 @@ function saveBeat() {
       title: title,
       location: location,
       characters: characters,
+      prodTags: prodTags,
       tone: tone,
       description: description,
       visual: visual,
@@ -4156,12 +4169,12 @@ function populateMovementFilter() {
   var sel = document.getElementById('movementFilter');
   var currentVal = sel.value;
   // Keep the first "All Movements" option
-  sel.innerHTML = '<option value="">All Movements</option>';
+  sel.innerHTML = '<option value="">All Acts</option>';
   // Get distinct movements
   var seen = {};
   beatEntries.forEach(function(e) {
     if (!seen[e.movement]) {
-      seen[e.movement] = e.movementTitle || 'Movement ' + e.movement;
+      seen[e.movement] = e.movementTitle || 'Act ' + e.movement;
     }
   });
   var keys = Object.keys(seen).sort(function(a, b) { return parseInt(a) - parseInt(b); });
@@ -6058,7 +6071,7 @@ function removeImage(beatId) {
       var movNum = parseInt(titleMatch[1]);
       var movements = {};
       beatEntries.forEach(function(b) {
-        if (!movements[b.movement]) movements[b.movement] = b.movementTitle || ('Movement ' + b.movement);
+        if (!movements[b.movement]) movements[b.movement] = b.movementTitle || ('Act ' + b.movement);
       });
       if (movements[movNum]) {
         // Direct send — skip the picker
@@ -6074,12 +6087,12 @@ function removeImage(beatId) {
     var movements = {};
     beatEntries.forEach(function(b) {
       if (!movements[b.movement]) {
-        movements[b.movement] = b.movementTitle || ('Movement ' + b.movement);
+        movements[b.movement] = b.movementTitle || ('Act ' + b.movement);
       }
     });
     var keys = Object.keys(movements).sort(function(a, b) { return parseInt(a) - parseInt(b); });
     if (keys.length === 0) {
-      list.innerHTML = '<div style="color:var(--faded);font-size:12px;padding:8px">No movements yet. Add beats first.</div>';
+      list.innerHTML = '<div style="color:var(--faded);font-size:12px;padding:8px">No acts yet. Add beats first.</div>';
     } else {
       keys.forEach(function(k) {
         var item = document.createElement('div');
@@ -6145,7 +6158,7 @@ function removeImage(beatId) {
     populateMovementFilter();
     scheduleSave();
     cvCloseBeatsModal();
-    toast('Sent to Movement ' + movementNum);
+    toast('Sent to Act ' + movementNum);
   }
 
   function cvCloseBeatsModal() {
