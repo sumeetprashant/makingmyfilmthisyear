@@ -1436,8 +1436,7 @@ html:not(.dark) .cv-node-resize::after{border-color:#aaa}
 
 /* Canvas floating toolbar */
 #canvas-toolbar{
-  position:absolute;bottom:48px;left:50%;
-  transform:translateX(-50%);
+  position:absolute;bottom:48px;right:12px;
   display:flex;align-items:center;gap:6px;
   background:rgba(30,28,24,0.92);
   backdrop-filter:blur(16px);
@@ -1448,6 +1447,34 @@ html:not(.dark) .cv-node-resize::after{border-color:#aaa}
   z-index:20;
   font-family:system-ui,-apple-system,sans-serif;
   box-shadow:0 4px 24px rgba(0,0,0,0.4);
+  transition:width 0.2s, padding 0.2s;
+}
+#canvas-toolbar.collapsed{
+  padding:6px;gap:0;
+  border-radius:8px;
+  cursor:pointer;
+}
+#canvas-toolbar.collapsed .cv-tb-content{display:none}
+#canvas-toolbar .cv-tb-toggle{
+  width:26px;height:26px;
+  background:none;border:none;color:#aaa;
+  font-size:16px;cursor:pointer;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:4px;flex-shrink:0;
+}
+#canvas-toolbar .cv-tb-toggle:hover{color:#fff;background:rgba(255,255,255,0.1)}
+#canvas-toolbar .cv-tb-grip{
+  cursor:grab;padding:0 4px;color:#666;font-size:12px;
+  user-select:none;letter-spacing:1px;line-height:1;
+  display:flex;align-items:center;
+}
+#canvas-toolbar .cv-tb-grip:active{cursor:grabbing}
+#canvas-toolbar.collapsed .cv-tb-grip{display:none}
+html:not(.dark) #canvas-toolbar .cv-tb-toggle{color:#888}
+html:not(.dark) #canvas-toolbar .cv-tb-toggle:hover{color:#222;background:rgba(0,0,0,0.08)}
+html:not(.dark) #canvas-toolbar .cv-tb-grip{color:#bbb}
+#canvas-toolbar .cv-tb-content{
+  display:flex;align-items:center;gap:6px;
 }
 html:not(.dark) #canvas-toolbar{
   background:rgba(255,255,255,0.92);
@@ -1868,30 +1895,34 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <div id="canvas-nodes"></div>
     <!-- Canvas floating toolbar -->
     <div id="canvas-toolbar">
-      <button id="cv-btn-select" class="active" onclick="cvSetMode('select')" title="Select (V)">Select</button>
-      <button id="cv-btn-draw" onclick="cvSetMode('draw')" title="Draw (Shift+drag)">Draw</button>
-      <button id="cv-btn-eraser" onclick="cvSetMode('eraser')" title="Eraser">Eraser</button>
-      <div id="cv-draw-colors">
-        <span class="cv-color-swatch active" style="background:#fff" data-color="#ffffff" onclick="cvSetDrawColor(this)" title="White"></span>
-        <span class="cv-color-swatch" style="background:#222" data-color="#222222" onclick="cvSetDrawColor(this)" title="Black"></span>
-        <span class="cv-color-swatch" style="background:#d4a853" data-color="#d4a853" onclick="cvSetDrawColor(this)" title="Gold"></span>
-        <span class="cv-color-swatch" style="background:#e74c3c" data-color="#e74c3c" onclick="cvSetDrawColor(this)" title="Red"></span>
-        <span class="cv-color-swatch" style="background:#e8963a" data-color="#e8963a" onclick="cvSetDrawColor(this)" title="Orange"></span>
-        <span class="cv-color-swatch" style="background:#f1c40f" data-color="#f1c40f" onclick="cvSetDrawColor(this)" title="Yellow"></span>
-        <span class="cv-color-swatch" style="background:#5a9a6a" data-color="#5a9a6a" onclick="cvSetDrawColor(this)" title="Green"></span>
-        <span class="cv-color-swatch" style="background:#5a8ac0" data-color="#5a8ac0" onclick="cvSetDrawColor(this)" title="Blue"></span>
-        <span class="cv-color-swatch" style="background:#9b59b6" data-color="#9b59b6" onclick="cvSetDrawColor(this)" title="Purple"></span>
-        <span class="cv-color-swatch" style="background:#e87aad" data-color="#e87aad" onclick="cvSetDrawColor(this)" title="Pink"></span>
-        <span class="cv-sep-mini"></span>
-        <input type="range" id="cv-line-width" min="1" max="20" value="4" oninput="cvSetLineWidth(this.value)" title="Line width">
-        <span class="cv-width-label" id="cv-width-val">4px</span>
+      <span class="cv-tb-grip" id="cv-tb-grip" title="Drag to move">&#x2630;</span>
+      <button class="cv-tb-toggle" id="cv-tb-toggle" onclick="cvToggleToolbar()" title="Collapse toolbar">&#x25BC;</button>
+      <div class="cv-tb-content">
+        <button id="cv-btn-select" class="active" onclick="cvSetMode('select')" title="Select (V)">Select</button>
+        <button id="cv-btn-draw" onclick="cvSetMode('draw')" title="Draw (Shift+drag)">Draw</button>
+        <button id="cv-btn-eraser" onclick="cvSetMode('eraser')" title="Eraser">Eraser</button>
+        <div id="cv-draw-colors">
+          <span class="cv-color-swatch active" style="background:#fff" data-color="#ffffff" onclick="cvSetDrawColor(this)" title="White"></span>
+          <span class="cv-color-swatch" style="background:#222" data-color="#222222" onclick="cvSetDrawColor(this)" title="Black"></span>
+          <span class="cv-color-swatch" style="background:#d4a853" data-color="#d4a853" onclick="cvSetDrawColor(this)" title="Gold"></span>
+          <span class="cv-color-swatch" style="background:#e74c3c" data-color="#e74c3c" onclick="cvSetDrawColor(this)" title="Red"></span>
+          <span class="cv-color-swatch" style="background:#e8963a" data-color="#e8963a" onclick="cvSetDrawColor(this)" title="Orange"></span>
+          <span class="cv-color-swatch" style="background:#f1c40f" data-color="#f1c40f" onclick="cvSetDrawColor(this)" title="Yellow"></span>
+          <span class="cv-color-swatch" style="background:#5a9a6a" data-color="#5a9a6a" onclick="cvSetDrawColor(this)" title="Green"></span>
+          <span class="cv-color-swatch" style="background:#5a8ac0" data-color="#5a8ac0" onclick="cvSetDrawColor(this)" title="Blue"></span>
+          <span class="cv-color-swatch" style="background:#9b59b6" data-color="#9b59b6" onclick="cvSetDrawColor(this)" title="Purple"></span>
+          <span class="cv-color-swatch" style="background:#e87aad" data-color="#e87aad" onclick="cvSetDrawColor(this)" title="Pink"></span>
+          <span class="cv-sep-mini"></span>
+          <input type="range" id="cv-line-width" min="1" max="20" value="4" oninput="cvSetLineWidth(this.value)" title="Line width">
+          <span class="cv-width-label" id="cv-width-val">4px</span>
+        </div>
+        <div class="cv-sep"></div>
+        <button onclick="cvUndo()" title="Undo (Ctrl+Z)">Undo</button>
+        <button onclick="cvRedo()" title="Redo (Ctrl+Shift+Z)">Redo</button>
+        <div class="cv-sep"></div>
+        <span class="cv-zoom-label" id="cv-zoom-label">100%</span>
+        <button onclick="cvZoomToFit()" title="Zoom to fit all nodes">Fit</button>
       </div>
-      <div class="cv-sep"></div>
-      <button onclick="cvUndo()" title="Undo (Ctrl+Z)">Undo</button>
-      <button onclick="cvRedo()" title="Redo (Ctrl+Shift+Z)">Redo</button>
-      <div class="cv-sep"></div>
-      <span class="cv-zoom-label" id="cv-zoom-label">100%</span>
-      <button onclick="cvZoomToFit()" title="Zoom to fit all nodes">Fit</button>
     </div>
     <!-- Minimap -->
     <div id="canvas-minimap">
@@ -5183,6 +5214,97 @@ function removeImage(beatId) {
     if (label) label.textContent = cvDrawWidth + 'px';
   }
   window.cvSetLineWidth = cvSetLineWidth;
+
+  // ── Toolbar: Collapse / Drag ──
+  function cvToggleToolbar() {
+    var tb = document.getElementById('canvas-toolbar');
+    var toggle = document.getElementById('cv-tb-toggle');
+    var collapsed = tb.classList.toggle('collapsed');
+    toggle.innerHTML = collapsed ? '&#x2630;' : '&#x25BC;';
+    toggle.title = collapsed ? 'Expand toolbar' : 'Collapse toolbar';
+    try { localStorage.setItem('pz-cv-toolbar-collapsed', collapsed ? '1' : '0'); } catch(e){}
+  }
+  window.cvToggleToolbar = cvToggleToolbar;
+
+  // Toolbar click to expand when collapsed
+  (function() {
+    var tb = document.getElementById('canvas-toolbar');
+    tb.addEventListener('click', function(e) {
+      if (tb.classList.contains('collapsed') && e.target !== document.getElementById('cv-tb-toggle')) {
+        cvToggleToolbar();
+      }
+    });
+  })();
+
+  // Restore collapsed state
+  (function() {
+    try {
+      if (localStorage.getItem('pz-cv-toolbar-collapsed') === '1') {
+        var tb = document.getElementById('canvas-toolbar');
+        var toggle = document.getElementById('cv-tb-toggle');
+        tb.classList.add('collapsed');
+        toggle.innerHTML = '&#x2630;';
+        toggle.title = 'Expand toolbar';
+      }
+    } catch(e){}
+  })();
+
+  // Drag toolbar by grip
+  (function() {
+    var tb = document.getElementById('canvas-toolbar');
+    var grip = document.getElementById('cv-tb-grip');
+    var dragging = false, startX, startY, startLeft, startTop;
+
+    // Restore saved position
+    try {
+      var saved = JSON.parse(localStorage.getItem('pz-cv-toolbar-pos'));
+      if (saved && saved.x != null) {
+        tb.style.left = saved.x + 'px';
+        tb.style.top = saved.y + 'px';
+        tb.style.right = 'auto';
+        tb.style.bottom = 'auto';
+      }
+    } catch(e){}
+
+    grip.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      var rect = tb.getBoundingClientRect();
+      var container = cvContainer.getBoundingClientRect();
+      startLeft = rect.left - container.left;
+      startTop = rect.top - container.top;
+      tb.style.right = 'auto';
+      tb.style.bottom = 'auto';
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+
+    function onMove(e) {
+      if (!dragging) return;
+      var container = cvContainer.getBoundingClientRect();
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+      var nx = Math.max(0, Math.min(container.width - 60, startLeft + dx));
+      var ny = Math.max(0, Math.min(container.height - 40, startTop + dy));
+      tb.style.left = nx + 'px';
+      tb.style.top = ny + 'px';
+    }
+
+    function onUp() {
+      dragging = false;
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      try {
+        localStorage.setItem('pz-cv-toolbar-pos', JSON.stringify({
+          x: parseInt(tb.style.left),
+          y: parseInt(tb.style.top)
+        }));
+      } catch(e){}
+    }
+  })();
 
   // ── Pan & Zoom ──
   function cvHandleWheel(e) {
