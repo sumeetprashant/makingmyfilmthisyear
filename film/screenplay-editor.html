@@ -1290,7 +1290,7 @@ html:not(.dark) #canvas-container{
   box-shadow:0 4px 20px rgba(0,0,0,0.3);
   display:flex;flex-direction:column;
   overflow:hidden;
-  min-width:120px;min-height:60px;
+  min-width:160px;min-height:80px;
   user-select:none;
   transition:border-color 0.15s, box-shadow 0.15s;
 }
@@ -1419,7 +1419,7 @@ html:not(.dark) .cv-node-resize::after{border-color:#aaa}
 
 /* Canvas floating toolbar */
 #canvas-toolbar{
-  position:absolute;top:12px;left:50%;
+  position:absolute;bottom:48px;left:50%;
   transform:translateX(-50%);
   display:flex;align-items:center;gap:6px;
   background:rgba(30,28,24,0.92);
@@ -1504,7 +1504,7 @@ html:not(.dark) #cv-line-width{
 
 /* Minimap */
 #canvas-minimap{
-  position:absolute;bottom:32px;right:12px;
+  position:absolute;bottom:100px;right:12px;
   width:160px;height:110px;
   background:rgba(0,0,0,0.35);
   border:1px solid #444;
@@ -4942,10 +4942,10 @@ function removeImage(beatId) {
     var node = {
       id: cvGenId('n'),
       type: 'text',
-      x: wx - 150,
-      y: wy - 100,
-      width: 300,
-      height: 200,
+      x: wx - 200,
+      y: wy - 120,
+      width: 400,
+      height: 240,
       content: '',
       color: '',
       zIndex: cvGetMaxZ() + 1
@@ -5719,9 +5719,8 @@ function removeImage(beatId) {
   // ── Keyboard ──
   document.addEventListener('keydown', function(e) {
     if (activeTab !== 'canvas') return;
-    // Don't interfere with text editing
-    if (e.target.closest('.cv-node-body[contenteditable]')) {
-      // Only handle Escape inside editable
+    // Don't interfere with text editing in nodes or any input/textarea
+    if (e.target.closest('[contenteditable]') || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
       if (e.key === 'Escape') {
         e.target.blur();
         return;
