@@ -1450,17 +1450,23 @@ html:not(.dark) .cv-node-resize::after{border-color:#aaa}
   transition:width 0.2s, padding 0.2s;
 }
 #canvas-toolbar.collapsed{
-  padding:6px;gap:0;
-  border-radius:8px;
-  cursor:pointer;
+  padding:8px;gap:4px;
+  border-radius:10px;
+  cursor:grab;
 }
+#canvas-toolbar.collapsed:active{cursor:grabbing}
 #canvas-toolbar.collapsed .cv-tb-content{display:none}
+#canvas-toolbar.collapsed .cv-tb-grip{display:none}
 #canvas-toolbar .cv-tb-toggle{
-  width:26px;height:26px;
+  width:28px;height:28px;
   background:none;border:none;color:#aaa;
   font-size:16px;cursor:pointer;padding:0;
   display:flex;align-items:center;justify-content:center;
   border-radius:4px;flex-shrink:0;
+}
+#canvas-toolbar.collapsed .cv-tb-toggle{
+  width:32px;height:32px;font-size:20px;
+  cursor:inherit;
 }
 #canvas-toolbar .cv-tb-toggle:hover{color:#fff;background:rgba(255,255,255,0.1)}
 #canvas-toolbar .cv-tb-grip{
@@ -1469,7 +1475,6 @@ html:not(.dark) .cv-node-resize::after{border-color:#aaa}
   display:flex;align-items:center;
 }
 #canvas-toolbar .cv-tb-grip:active{cursor:grabbing}
-#canvas-toolbar.collapsed .cv-tb-grip{display:none}
 html:not(.dark) #canvas-toolbar .cv-tb-toggle{color:#888}
 html:not(.dark) #canvas-toolbar .cv-tb-toggle:hover{color:#222;background:rgba(0,0,0,0.08)}
 html:not(.dark) #canvas-toolbar .cv-tb-grip{color:#bbb}
@@ -1896,7 +1901,7 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
     <!-- Canvas floating toolbar -->
     <div id="canvas-toolbar">
       <span class="cv-tb-grip" id="cv-tb-grip" title="Drag to move">&#x2630;</span>
-      <button class="cv-tb-toggle" id="cv-tb-toggle" onclick="cvToggleToolbar()" title="Collapse toolbar">&#x25BC;</button>
+      <button class="cv-tb-toggle" id="cv-tb-toggle" title="Collapse toolbar">&#x25BC;</button>
       <div class="cv-tb-content">
         <button id="cv-btn-select" class="active" onclick="cvSetMode('select')" title="Select (V)">Select</button>
         <button id="cv-btn-draw" onclick="cvSetMode('draw')" title="Draw (Shift+drag)">Draw</button>
@@ -5216,46 +5221,31 @@ function removeImage(beatId) {
   window.cvSetLineWidth = cvSetLineWidth;
 
   // ── Toolbar: Collapse / Drag ──
-  function cvToggleToolbar() {
-    var tb = document.getElementById('canvas-toolbar');
-    var toggle = document.getElementById('cv-tb-toggle');
-    var collapsed = tb.classList.toggle('collapsed');
-    toggle.innerHTML = collapsed ? '&#x2630;' : '&#x25BC;';
-    toggle.title = collapsed ? 'Expand toolbar' : 'Collapse toolbar';
-    try { localStorage.setItem('pz-cv-toolbar-collapsed', collapsed ? '1' : '0'); } catch(e){}
-  }
-  window.cvToggleToolbar = cvToggleToolbar;
-
-  // Toolbar click to expand when collapsed
-  (function() {
-    var tb = document.getElementById('canvas-toolbar');
-    tb.addEventListener('click', function(e) {
-      if (tb.classList.contains('collapsed') && e.target !== document.getElementById('cv-tb-toggle')) {
-        cvToggleToolbar();
-      }
-    });
-  })();
-
-  // Restore collapsed state
-  (function() {
-    try {
-      if (localStorage.getItem('pz-cv-toolbar-collapsed') === '1') {
-        var tb = document.getElementById('canvas-toolbar');
-        var toggle = document.getElementById('cv-tb-toggle');
-        tb.classList.add('collapsed');
-        toggle.innerHTML = '&#x2630;';
-        toggle.title = 'Expand toolbar';
-      }
-    } catch(e){}
-  })();
-
-  // Drag toolbar by grip
   (function() {
     var tb = document.getElementById('canvas-toolbar');
     var grip = document.getElementById('cv-tb-grip');
-    var dragging = false, startX, startY, startLeft, startTop;
+    var toggle = document.getElementById('cv-tb-toggle');
+    var dragging = false, didDrag = false, startX, startY, startLeft, startTop;
 
-    // Restore saved position
+    // ── Collapse / Expand ──
+    function cvToggleToolbar() {
+      var collapsed = tb.classList.toggle('collapsed');
+      toggle.innerHTML = collapsed ? '&#x2699;' : '&#x25BC;';
+      toggle.title = collapsed ? 'Expand toolbar' : 'Collapse toolbar';
+      try { localStorage.setItem('pz-cv-toolbar-collapsed', collapsed ? '1' : '0'); } catch(e){}
+    }
+    window.cvToggleToolbar = cvToggleToolbar;
+
+    // Restore collapsed state on load
+    try {
+      if (localStorage.getItem('pz-cv-toolbar-collapsed') === '1') {
+        tb.classList.add('collapsed');
+        toggle.innerHTML = '&#x2699;';
+        toggle.title = 'Expand toolbar';
+      }
+    } catch(e){}
+
+    // Restore saved position on load
     try {
       var saved = JSON.parse(localStorage.getItem('pz-cv-toolbar-pos'));
       if (saved && saved.x != null) {
@@ -5266,10 +5256,12 @@ function removeImage(beatId) {
       }
     } catch(e){}
 
-    grip.addEventListener('mousedown', function(e) {
+    // ── Drag: works on grip when expanded, whole toolbar when collapsed ──
+    function startDrag(e) {
       e.preventDefault();
       e.stopPropagation();
       dragging = true;
+      didDrag = false;
       startX = e.clientX;
       startY = e.clientY;
       var rect = tb.getBoundingClientRect();
@@ -5280,15 +5272,17 @@ function removeImage(beatId) {
       tb.style.bottom = 'auto';
       document.addEventListener('mousemove', onMove);
       document.addEventListener('mouseup', onUp);
-    });
+    }
 
     function onMove(e) {
       if (!dragging) return;
-      var container = cvContainer.getBoundingClientRect();
       var dx = e.clientX - startX;
       var dy = e.clientY - startY;
-      var nx = Math.max(0, Math.min(container.width - 60, startLeft + dx));
-      var ny = Math.max(0, Math.min(container.height - 40, startTop + dy));
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
+      var container = cvContainer.getBoundingClientRect();
+      var tbRect = tb.getBoundingClientRect();
+      var nx = Math.max(0, Math.min(container.width - tbRect.width, startLeft + dx));
+      var ny = Math.max(0, Math.min(container.height - tbRect.height, startTop + dy));
       tb.style.left = nx + 'px';
       tb.style.top = ny + 'px';
     }
@@ -5304,6 +5298,29 @@ function removeImage(beatId) {
         }));
       } catch(e){}
     }
+
+    // Grip: always drag
+    grip.addEventListener('mousedown', startDrag);
+
+    // When collapsed: the whole toolbar is draggable, click (without drag) expands
+    tb.addEventListener('mousedown', function(e) {
+      if (!tb.classList.contains('collapsed')) return;
+      if (e.button !== 0) return;
+      startDrag(e);
+    });
+    tb.addEventListener('click', function(e) {
+      if (!tb.classList.contains('collapsed')) return;
+      if (didDrag) return; // was a drag, don't toggle
+      cvToggleToolbar();
+    });
+
+    // Toggle button: collapse when expanded
+    toggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (!tb.classList.contains('collapsed')) {
+        cvToggleToolbar();
+      }
+    });
   })();
 
   // ── Pan & Zoom ──
