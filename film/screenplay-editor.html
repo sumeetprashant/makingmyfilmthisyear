@@ -1103,7 +1103,10 @@ html:not(.dark) .beat-form{
   position:absolute;top:0;left:0;right:0;bottom:0;
   overflow:hidden;
   cursor:default;
-  background:color-mix(in srgb, var(--bg) 85%, black);
+  background:#1e1c18;
+}
+html:not(.dark) #canvas-container{
+  background:#2a2722;
 }
 #canvas-surface{
   position:absolute;top:0;left:0;
@@ -1227,8 +1230,8 @@ html:not(.dark) .cv-node{
 .cv-conn-dot:hover{opacity:1!important;transform:scale(1.4)}
 .cv-conn-dot.top{display:none}
 .cv-conn-dot.bottom{display:none}
-.cv-conn-dot.right{right:-7px;top:50%;margin-top:-7px}
-.cv-conn-dot.left{left:-7px;top:50%;margin-top:-7px}
+.cv-conn-dot.right{right:-7px;top:18px}
+.cv-conn-dot.left{left:-7px;top:18px}
 
 /* Canvas floating toolbar */
 #canvas-toolbar{
@@ -4385,11 +4388,11 @@ function removeImage(beatId) {
     var z = cvData.viewport.zoom;
     var ox = cvData.viewport.x;
     var oy = cvData.viewport.y;
-    // Connect from right edge of source to left edge of target
+    // Connect from right port to left port (near top of node header)
     var fx = fromNode.x + fromNode.width;
-    var fy = fromNode.y + fromNode.height / 2;
+    var fy = fromNode.y + 25;
     var tx = toNode.x;
-    var ty = toNode.y + toNode.height / 2;
+    var ty = toNode.y + 25;
 
     cvCtx.save();
     cvCtx.translate(ox, oy);
@@ -4403,8 +4406,8 @@ function removeImage(beatId) {
     var cx2 = tx - cpOffset;
     var cy2 = ty;
 
-    cvCtx.strokeStyle = 'rgba(212,168,83,0.6)';
-    cvCtx.lineWidth = 3.5;
+    cvCtx.strokeStyle = 'rgba(212,168,83,0.65)';
+    cvCtx.lineWidth = 5;
     cvCtx.lineCap = 'round';
     cvCtx.beginPath();
     cvCtx.moveTo(fx, fy);
