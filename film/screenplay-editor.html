@@ -72,6 +72,123 @@ html.dark{
 }
 
 /* ═══════════════════════════════════════ */
+/* THEMES                                 */
+/* ═══════════════════════════════════════ */
+html[data-theme="ocean"]{
+  --bg:#0a1628;--paper:#12203a;--ink:#c8d8e8;
+  --toolbar-bg:#0c1a30;--status-bg:#081422;
+  --accent:#4a9ec2;--muted:#6088a0;
+  --btn-bg:#1a3050;--btn-hover:#2a4060;
+  --scene:#4a8a9a;--action-c:#6a8aa0;--char:#5a8ac0;
+  --dialog:#8aa0c0;--paren:#7a8ab0;--trans:#80a090;
+  --highlight:rgba(74,158,194,0.08);
+  --focus-card-bg:#1a2a40;
+  --faded:#6a8aa0;--border:#1a3050;
+  --desc-color:#8aa0b8;--visual-color:#4a9a8a;
+  --truth-color:#6a7ab0;--truth-bg:rgba(106,122,176,0.08);
+  --movement-title:#a0b8d0;--movement-border:#1a3050;
+  --card-shadow:0 2px 12px rgba(0,0,0,0.25);
+  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.35);
+  --actions-border:rgba(100,160,200,0.06);
+  --actions-btn-bg:#1a3050;--actions-btn-color:#a0b8d0;
+  --actions-btn-border:#2a4060;
+  --actions-btn-hover-bg:#2a4060;--actions-btn-hover-color:#fff;
+}
+html[data-theme="sunset"]{
+  --bg:#1a120a;--paper:#261a10;--ink:#e8d0b8;
+  --toolbar-bg:#1e1408;--status-bg:#160e06;
+  --accent:#e8963a;--muted:#9a7a5a;
+  --btn-bg:#3a2a1a;--btn-hover:#4a3a2a;
+  --scene:#9a8a5a;--action-c:#a09080;--char:#c09a5a;
+  --dialog:#e0a860;--paren:#b08a5a;--trans:#c0a050;
+  --highlight:rgba(232,150,58,0.08);
+  --focus-card-bg:#2c2010;
+  --faded:#9a7a5a;--border:#3a2a1a;
+  --desc-color:#b09a80;--visual-color:#9a8a4a;
+  --truth-color:#b08a5a;--truth-bg:rgba(176,138,90,0.08);
+  --movement-title:#c0a880;--movement-border:#3a2a1a;
+  --card-shadow:0 2px 12px rgba(0,0,0,0.25);
+  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.35);
+  --actions-border:rgba(200,160,100,0.06);
+  --actions-btn-bg:#3a2a1a;--actions-btn-color:#c0a880;
+  --actions-btn-border:#4a3a2a;
+  --actions-btn-hover-bg:#4a3a2a;--actions-btn-hover-color:#fff;
+}
+html[data-theme="noir"]{
+  --bg:#080808;--paper:#141414;--ink:#e8e8e8;
+  --toolbar-bg:#0c0c0c;--status-bg:#060606;
+  --accent:#c0392b;--muted:#666;
+  --btn-bg:#222;--btn-hover:#333;
+  --scene:#888;--action-c:#777;--char:#999;
+  --dialog:#bbb;--paren:#888;--trans:#999;
+  --highlight:rgba(192,57,43,0.06);
+  --focus-card-bg:#1a1a1a;
+  --faded:#666;--border:#2a2a2a;
+  --desc-color:#999;--visual-color:#888;
+  --truth-color:#777;--truth-bg:rgba(120,120,120,0.06);
+  --movement-title:#bbb;--movement-border:#2a2a2a;
+  --card-shadow:0 2px 12px rgba(0,0,0,0.3);
+  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.4);
+  --actions-border:rgba(255,255,255,0.04);
+  --actions-btn-bg:#222;--actions-btn-color:#bbb;
+  --actions-btn-border:#333;
+  --actions-btn-hover-bg:#333;--actions-btn-hover-color:#fff;
+}
+html[data-theme="forest"]{
+  --bg:#0a1a10;--paper:#122418;--ink:#c8e0cc;
+  --toolbar-bg:#0c1c12;--status-bg:#081408;
+  --accent:#4a9a5a;--muted:#6a8a70;
+  --btn-bg:#1a3a20;--btn-hover:#2a4a30;
+  --scene:#5a9a6a;--action-c:#6a8a70;--char:#5a8a6a;
+  --dialog:#8ab080;--paren:#6a9a7a;--trans:#80a060;
+  --highlight:rgba(74,154,90,0.08);
+  --focus-card-bg:#1a2a18;
+  --faded:#6a8a70;--border:#1a3a20;
+  --desc-color:#8ab090;--visual-color:#5a9a7a;
+  --truth-color:#6a8a80;--truth-bg:rgba(106,138,128,0.08);
+  --movement-title:#a0c8a8;--movement-border:#1a3a20;
+  --card-shadow:0 2px 12px rgba(0,0,0,0.25);
+  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.35);
+  --actions-border:rgba(100,180,120,0.06);
+  --actions-btn-bg:#1a3a20;--actions-btn-color:#a0c8a8;
+  --actions-btn-border:#2a4a30;
+  --actions-btn-hover-bg:#2a4a30;--actions-btn-hover-color:#fff;
+}
+
+/* Per-theme canvas backgrounds */
+html[data-theme="ocean"] #canvas-container{background:#0e1a2a}
+html[data-theme="ocean"] .cv-node{background:rgba(18,32,58,0.82);border-color:rgba(74,158,194,0.2)}
+html[data-theme="ocean"] .cv-node .cv-node-body{color:#c8d8e8}
+html[data-theme="ocean"] .cv-node .cv-node-header{color:#6a8aa0}
+html[data-theme="ocean"] .cv-node-body:empty::before{color:#4a6a80}
+html[data-theme="ocean"] #canvas-toolbar{background:rgba(12,26,48,0.85);border-color:#1a3050}
+html[data-theme="ocean"] .cv-conn-dot{border-color:#12203a}
+
+html[data-theme="sunset"] #canvas-container{background:#1a1208}
+html[data-theme="sunset"] .cv-node{background:rgba(38,26,16,0.82);border-color:rgba(232,150,58,0.2)}
+html[data-theme="sunset"] .cv-node .cv-node-body{color:#e8d0b8}
+html[data-theme="sunset"] .cv-node .cv-node-header{color:#9a7a5a}
+html[data-theme="sunset"] .cv-node-body:empty::before{color:#7a5a3a}
+html[data-theme="sunset"] #canvas-toolbar{background:rgba(30,20,8,0.85);border-color:#3a2a1a}
+html[data-theme="sunset"] .cv-conn-dot{border-color:#261a10}
+
+html[data-theme="noir"] #canvas-container{background:#0a0a0a}
+html[data-theme="noir"] .cv-node{background:rgba(20,20,20,0.85);border-color:rgba(255,255,255,0.1)}
+html[data-theme="noir"] .cv-node .cv-node-body{color:#e8e8e8}
+html[data-theme="noir"] .cv-node .cv-node-header{color:#666}
+html[data-theme="noir"] .cv-node-body:empty::before{color:#555}
+html[data-theme="noir"] #canvas-toolbar{background:rgba(12,12,12,0.85);border-color:#2a2a2a}
+html[data-theme="noir"] .cv-conn-dot{border-color:#141414}
+
+html[data-theme="forest"] #canvas-container{background:#0c1810}
+html[data-theme="forest"] .cv-node{background:rgba(18,36,24,0.82);border-color:rgba(74,154,90,0.2)}
+html[data-theme="forest"] .cv-node .cv-node-body{color:#c8e0cc}
+html[data-theme="forest"] .cv-node .cv-node-header{color:#6a8a70}
+html[data-theme="forest"] .cv-node-body:empty::before{color:#4a6a50}
+html[data-theme="forest"] #canvas-toolbar{background:rgba(12,28,18,0.85);border-color:#1a3a20}
+html[data-theme="forest"] .cv-conn-dot{border-color:#122418}
+
+/* ═══════════════════════════════════════ */
 /* RESET & BASE                           */
 /* ═══════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -973,25 +1090,69 @@ html:not(.dark) .beat-card.focused{
 .beat-card.view-storyboard .beat-id{background:rgba(0,0,0,0.4);color:#fff}
 .beat-card.view-storyboard .beat-desc{color:rgba(255,255,255,0.85)}
 
-/* Dark mode overrides */
-html.dark #toolbar{background:#1a1714;border-bottom-color:#333}
-html.dark #tabbar button{background:#2a2520;color:#ccc;border-color:#444}
+/* Dark mode overrides (applies to all dark themes) */
+html.dark #toolbar{background:var(--toolbar-bg);border-bottom-color:var(--border)}
+html.dark #tabbar button{background:var(--btn-bg);color:var(--desc-color);border-color:var(--border)}
 html.dark #tabbar button.active{background:var(--accent);color:#222}
-html.dark #statusbar{background:#1a1714;color:#888;border-top-color:#333}
-html.dark select{background:#2a2520;color:#ccc;border-color:#444}
-html.dark input[type="text"]{background:#2a2520;color:#ccc;border-color:#444}
+html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-color:var(--border)}
+html.dark select{background:var(--btn-bg);color:var(--desc-color);border-color:var(--border)}
+html.dark input[type="text"]{background:var(--btn-bg);color:var(--desc-color);border-color:var(--border)}
 
-/* Dark mode toggle */
-#toolbar .dark-toggle{
+/* Theme picker */
+.theme-picker{
+  position:relative;display:inline-flex;align-items:center;
+}
+.theme-picker-btn{
   background:none!important;border:none!important;
   color:#888;box-shadow:none;
-  cursor:pointer;font-size:16px;
-  padding:4px;
-  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;
+  padding:4px 6px;
+  display:flex;align-items:center;gap:5px;
   transition:color 0.15s,opacity 0.15s;
-  opacity:0.5;
+  opacity:0.6;
+  font-family:system-ui,-apple-system,sans-serif;
 }
-#toolbar .dark-toggle:hover{color:var(--accent);opacity:1;background:none!important}
+.theme-picker-btn:hover{color:var(--accent);opacity:1;background:none!important}
+.theme-picker-btn .swatch{
+  width:10px;height:10px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.3);
+  flex-shrink:0;
+}
+.theme-dropdown{
+  display:none;
+  position:absolute;top:100%;right:0;
+  margin-top:6px;
+  background:rgba(30,28,24,0.95);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid #444;
+  border-radius:8px;
+  padding:6px;
+  min-width:160px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  z-index:200;
+}
+.theme-dropdown.open{display:block}
+.theme-dropdown button{
+  display:flex;align-items:center;gap:8px;
+  width:100%;
+  background:none;border:none;
+  color:#ccc;
+  padding:7px 10px;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:12px;
+  font-family:system-ui,-apple-system,sans-serif;
+  transition:background 0.12s;
+  text-align:left;
+}
+.theme-dropdown button:hover{background:rgba(255,255,255,0.08)}
+.theme-dropdown button.active{background:rgba(255,255,255,0.12);color:#fff}
+.theme-dropdown button .swatch{
+  width:12px;height:12px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.2);
+  flex-shrink:0;
+}
 #toolbar .toolbar-right button.help-btn{
   background:none!important;border:none!important;
   color:#888;box-shadow:none;
@@ -1581,7 +1742,20 @@ main::-webkit-scrollbar-thumb:hover{background:#555}
 
   <div class="toolbar-right">
     <button class="help-btn" onclick="toggleHelp()" title="Keyboard shortcuts">?</button>
-    <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">&#9790;</button>
+    <div class="theme-picker">
+      <button class="theme-picker-btn" onclick="toggleThemeDropdown()" title="Change theme">
+        <span class="swatch" id="themeCurrentSwatch" style="background:#d4a853"></span>
+        <span id="themeCurrentName" style="font-size:11px">Parchment</span>
+      </button>
+      <div class="theme-dropdown" id="themeDropdown">
+        <button onclick="setTheme('parchment')" data-theme-opt="parchment"><span class="swatch" style="background:#d4a853"></span>Parchment</button>
+        <button onclick="setTheme('midnight')" data-theme-opt="midnight"><span class="swatch" style="background:#d4a853"></span>Midnight</button>
+        <button onclick="setTheme('ocean')" data-theme-opt="ocean"><span class="swatch" style="background:#4a9ec2"></span>Ocean Deep</button>
+        <button onclick="setTheme('sunset')" data-theme-opt="sunset"><span class="swatch" style="background:#e8963a"></span>Sunset Warm</button>
+        <button onclick="setTheme('noir')" data-theme-opt="noir"><span class="swatch" style="background:#c0392b"></span>Noir</button>
+        <button onclick="setTheme('forest')" data-theme-opt="forest"><span class="swatch" style="background:#4a9a5a"></span>Forest</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3901,14 +4075,76 @@ function populateMovementFilter() {
 }
 
 // ═══════════════════════════════════════
-// DARK MODE
+// THEME SYSTEM
 // ═══════════════════════════════════════
-function toggleDarkMode() {
-  document.documentElement.classList.toggle('dark');
-  var isDark = document.documentElement.classList.contains('dark');
-  try { localStorage.setItem('pagezero-theme', isDark ? 'dark' : 'light'); } catch(e){}
-  var btn = document.querySelector('.dark-toggle');
-  if (btn) btn.innerHTML = isDark ? '&#9788;' : '&#9790;';
+var THEMES = {
+  parchment: { label: 'Parchment', accent: '#d4a853', dark: false },
+  midnight:  { label: 'Midnight',  accent: '#d4a853', dark: true },
+  ocean:     { label: 'Ocean Deep', accent: '#4a9ec2', dark: true },
+  sunset:    { label: 'Sunset Warm', accent: '#e8963a', dark: true },
+  noir:      { label: 'Noir',      accent: '#c0392b', dark: true },
+  forest:    { label: 'Forest',    accent: '#4a9a5a', dark: true }
+};
+var currentTheme = 'parchment';
+
+function setTheme(name) {
+  if (!THEMES[name]) name = 'parchment';
+  currentTheme = name;
+  var html = document.documentElement;
+  // Remove all theme attributes and dark class
+  html.removeAttribute('data-theme');
+  html.classList.remove('dark');
+  // Apply new theme
+  if (name !== 'parchment' && name !== 'midnight') {
+    html.setAttribute('data-theme', name);
+  }
+  if (THEMES[name].dark) {
+    html.classList.add('dark');
+  }
+  // Save
+  try { localStorage.setItem('pagezero-theme', name); } catch(e){}
+  // Update picker UI
+  updateThemePickerUI(name);
+  // Close dropdown
+  var dd = document.getElementById('themeDropdown');
+  if (dd) dd.classList.remove('open');
+  // Re-render canvas if on canvas tab (wire colors may change)
+  if (typeof cvRender === 'function') cvRender();
+}
+
+function updateThemePickerUI(name) {
+  var t = THEMES[name] || THEMES.parchment;
+  var swatch = document.getElementById('themeCurrentSwatch');
+  var label = document.getElementById('themeCurrentName');
+  if (swatch) swatch.style.background = t.accent;
+  if (label) label.textContent = t.label;
+  // Highlight active in dropdown
+  document.querySelectorAll('.theme-dropdown button').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-theme-opt') === name);
+  });
+}
+
+function toggleThemeDropdown() {
+  var dd = document.getElementById('themeDropdown');
+  if (dd) dd.classList.toggle('open');
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.theme-picker')) {
+    var dd = document.getElementById('themeDropdown');
+    if (dd) dd.classList.remove('open');
+  }
+});
+
+// Backward compat: legacy 'dark'/'light' values map to midnight/parchment
+function loadThemePreference() {
+  var saved = null;
+  try { saved = localStorage.getItem('pagezero-theme'); } catch(e){}
+  if (saved === 'dark') saved = 'midnight';
+  if (saved === 'light') saved = 'parchment';
+  if (!saved || !THEMES[saved]) saved = 'parchment';
+  return saved;
 }
 
 // ═══════════════════════════════════════
@@ -4140,14 +4376,9 @@ function removeImage(beatId) {
 // INIT
 // ═══════════════════════════════════════
 (function init() {
-  // Load dark mode preference BEFORE first render to avoid flash
-  var savedTheme = null;
-  try { savedTheme = localStorage.getItem('pagezero-theme'); } catch(e){}
-  if (savedTheme === 'dark') {
-    document.documentElement.classList.add('dark');
-    var dkBtn = document.querySelector('.dark-toggle');
-    if (dkBtn) dkBtn.innerHTML = '&#9788;';
-  }
+  // Load theme preference BEFORE first render to avoid flash
+  var initTheme = loadThemePreference();
+  setTheme(initTheme);
 
   // Load beat view and aspect preferences
   try { currentBeatView = localStorage.getItem('pagezero-beat-view') || 'index'; } catch(e){}
@@ -4300,6 +4531,16 @@ function removeImage(beatId) {
     cvZoomLabel.textContent = Math.round(z * 100) + '%';
   }
 
+  // ── Wire color from current theme accent ──
+  function cvWireColor(alpha) {
+    var t = THEMES[currentTheme] || THEMES.parchment;
+    var hex = t.accent;
+    var r = parseInt(hex.slice(1,3), 16);
+    var g = parseInt(hex.slice(3,5), 16);
+    var b = parseInt(hex.slice(5,7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
   // ── Render Loop ──
   function cvRender() {
     var rect = cvContainer.getBoundingClientRect();
@@ -4382,7 +4623,7 @@ function removeImage(beatId) {
         cvCtx.save();
         cvCtx.translate(ox, oy);
         cvCtx.scale(z, z);
-        cvCtx.strokeStyle = 'rgba(212,168,83,0.7)';
+        cvCtx.strokeStyle = cvWireColor(0.7);
         cvCtx.lineWidth = 5;
         cvCtx.lineCap = 'round';
         cvCtx.beginPath();
@@ -4421,7 +4662,7 @@ function removeImage(beatId) {
     var cx2 = tx - cpOffset;
     var cy2 = ty;
 
-    cvCtx.strokeStyle = 'rgba(212,168,83,0.65)';
+    cvCtx.strokeStyle = cvWireColor(0.65);
     cvCtx.lineWidth = 4;
     cvCtx.lineCap = 'round';
     cvCtx.beginPath();
@@ -4430,7 +4671,7 @@ function removeImage(beatId) {
     cvCtx.stroke();
 
     // Small circle at each end (port indicators)
-    cvCtx.fillStyle = 'rgba(212,168,83,0.85)';
+    cvCtx.fillStyle = cvWireColor(0.85);
     cvCtx.beginPath();
     cvCtx.arc(fx, fy, 4, 0, Math.PI * 2);
     cvCtx.fill();
@@ -4443,7 +4684,7 @@ function removeImage(beatId) {
       var mx = (fx + tx) / 2;
       var my = (fy + ty) / 2;
       cvCtx.font = '12px system-ui, sans-serif';
-      cvCtx.fillStyle = 'rgba(212,168,83,0.9)';
+      cvCtx.fillStyle = cvWireColor(0.9);
       cvCtx.textAlign = 'center';
       cvCtx.textBaseline = 'bottom';
       cvCtx.fillText(label, mx, my - 6);
@@ -5209,7 +5450,7 @@ function removeImage(beatId) {
         cvCtx.save();
         cvCtx.translate(ox, oy);
         cvCtx.scale(z, z);
-        cvCtx.strokeStyle = 'rgba(212,168,83,0.7)';
+        cvCtx.strokeStyle = cvWireColor(0.7);
         cvCtx.lineWidth = 5;
         cvCtx.lineCap = 'round';
         cvCtx.beginPath();
