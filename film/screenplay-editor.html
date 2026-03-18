@@ -1011,6 +1011,13 @@ html.dark .beat-notes-area{
   font-family:system-ui,sans-serif;
 }
 .beat-actions button:hover{background:var(--actions-btn-hover-bg);color:var(--actions-btn-hover-color)}
+.beat-actions .btn-canvas{
+  color:var(--accent,#d4a853);border-color:var(--accent,#d4a853);
+  font-weight:600;letter-spacing:0.5px;
+}
+.beat-actions .btn-canvas:hover{
+  background:var(--accent,#d4a853);color:#111;
+}
 
 .beat-status-pill{
   display:inline-flex;align-items:center;gap:4px;
@@ -3956,6 +3963,7 @@ function buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass) {
 
   // Actions
   html += '<div class="beat-actions">';
+  html += '<button class="btn-canvas" onclick="event.stopPropagation();sendBeatToCanvas(\'' + entry.id + '\')">Canvas</button>';
   html += '<button onclick="event.stopPropagation();editBeat(\'' + entry.id + '\')">Edit</button>';
   if (entry.image) {
     html += '<button onclick="event.stopPropagation();removeImage(\'' + entry.id + '\')">-Img</button>';
@@ -4109,6 +4117,62 @@ function deleteBeat(id) {
   updateStatusForTab('beats');
   scheduleSave();
   toast('Beat removed');
+}
+
+// ── Send Beat to Canvas ──
+function sendBeatToCanvas(beatId) {
+  var entry = beatEntries.find(function(e) { return e.id === beatId; });
+  if (!entry) return;
+
+  // Check if this beat already has a canvas node
+  if (window.cvData && window.cvData.nodes) {
+    var existing = window.cvData.nodes.find(function(n) { return n.sourceBeatId === beatId; });
+    if (existing) {
+      // Just switch to canvas and center on it
+      switchTab('canvas');
+      setTimeout(function() {
+        if (window.cvCenterOnNode) window.cvCenterOnNode(existing);
+      }, 150);
+      toast('Already on Canvas — centered on it');
+      return;
+    }
+  }
+
+  // Build rich HTML content from beat fields
+  var html = '';
+  if (entry.description) {
+    var paras = entry.description.split('\n').filter(function(p) { return p.trim(); });
+    paras.forEach(function(p) {
+      html += '<div style="margin-bottom:10px">' + p.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+    });
+  }
+  if (entry.visual) {
+    html += '<div style="margin-top:14px;padding:8px 12px;border-left:3px solid #2a9d8f;color:#2a9d8f;font-style:italic;font-size:14px">' +
+      entry.visual.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+  }
+  if (entry.truth) {
+    html += '<div style="margin-top:10px;padding:8px 12px;border-left:3px solid #9a6ab0;color:#9a6ab0;font-size:14px">' +
+      entry.truth.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+  }
+
+  // Build title
+  var title = (entry.sceneId || '') + ' ' + (entry.title || 'Untitled');
+
+  // Act color mapping
+  var actColors = { 1: '#d4a853', 2: '#2a9d8f', 3: '#c46a6a', 4: '#6a8ac4', 5: '#8ac46a' };
+  var color = actColors[entry.movement] || '#d4a853';
+
+  // Create the canvas node
+  if (window.cvAddBeatNode) {
+    var node = window.cvAddBeatNode(title.trim(), html, color, beatId);
+    switchTab('canvas');
+    setTimeout(function() {
+      if (window.cvCenterOnNode && node) window.cvCenterOnNode(node);
+    }, 150);
+    toast('Sent to Canvas: ' + title.trim());
+  } else {
+    toast('Canvas not ready — switch to Canvas tab first, then try again');
+  }
 }
 
 function cancelBeatForm() {
@@ -5058,6 +5122,53 @@ function removeImage(beatId) {
     cvScheduleSave();
     cvSelectNode(node.id);
   }
+
+  // ── Create node from Beat data ──
+  function cvAddBeatNode(title, htmlContent, color, sourceBeatId) {
+    cvPushUndo();
+    // Place at center of current viewport
+    var rect = cvContainer.getBoundingClientRect();
+    var cx = (rect.width / 2 - cvData.viewport.x) / cvData.viewport.zoom;
+    var cy = (rect.height / 2 - cvData.viewport.y) / cvData.viewport.zoom;
+    var node = {
+      id: cvGenId('n'),
+      type: 'text',
+      x: cx - 350,
+      y: cy - 250,
+      width: 700,
+      height: 500,
+      content: htmlContent,
+      color: color || '#d4a853',
+      title: title,
+      sourceBeatId: sourceBeatId,
+      zIndex: cvGetMaxZ() + 1
+    };
+    cvData.nodes.push(node);
+    cvRenderNodes();
+    cvRender();
+    cvScheduleSave();
+    cvSelectNode(node.id);
+    return node;
+  }
+  window.cvAddBeatNode = cvAddBeatNode;
+
+  // ── Center viewport on a node ──
+  function cvCenterOnNode(node) {
+    var rect = cvContainer.getBoundingClientRect();
+    var z = cvData.viewport.zoom;
+    if (z < 0.5) { z = 1; cvData.viewport.zoom = 1; }
+    var nodeCX = node.x + node.width / 2;
+    var nodeCY = node.y + node.height / 2;
+    cvData.viewport.x = rect.width / 2 - nodeCX * z;
+    cvData.viewport.y = rect.height / 2 - nodeCY * z;
+    var zl = document.getElementById('cv-zoom-label');
+    if (zl) zl.textContent = Math.round(z * 100) + '%';
+    cvRenderNodes();
+    cvRender();
+    cvUpdateTransform();
+    cvSelectNode(node.id);
+  }
+  window.cvCenterOnNode = cvCenterOnNode;
 
   function cvDeleteNode(id) {
     cvPushUndo();
