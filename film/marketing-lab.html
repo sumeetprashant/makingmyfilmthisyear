@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Lab — How to Not Make Films</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warm-black: #1a1714;
+            --warm-dark: #242019;
+            --parchment: #e8dcc8;
+            --parchment-light: #f2e8d5;
+            --amber: #c4935a;
+            --amber-glow: #d4a76a;
+            --amber-deep: #8b6b3d;
+            --rust: #a0674b;
+            --sage: #7a8b6f;
+            --muted-blue: #6b7d8d;
+            --film-red: #8b4049;
+            --whisper: rgba(232, 220, 200, 0.06);
+            --border-line: rgba(196, 147, 90, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--warm-black);
+            color: var(--parchment);
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.04; pointer-events: none; z-index: 1000;
+        }
+        body::after {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 8, 5, 0.4) 100%);
+            pointer-events: none; z-index: 999;
+        }
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(196, 147, 90, 0.3); color: var(--parchment-light); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--warm-black); }
+        ::-webkit-scrollbar-thumb { background: var(--amber-deep); border-radius: 3px; }
+
+        .header {
+            padding: 80px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-line);
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            margin-bottom: 8px;
+        }
+        .header .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.65rem;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--amber-deep); opacity: 0.7;
+        }
+        .header .tagline {
+            font-style: italic; font-size: 1rem;
+            color: var(--amber); opacity: 0.6; margin-top: 12px;
+            max-width: 500px; margin-left: auto; margin-right: auto;
+        }
+
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(26, 23, 20, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-line);
+            padding: 0 20px; overflow-x: auto;
+        }
+        .nav::-webkit-scrollbar { display: none; }
+        .nav-inner {
+            display: flex; justify-content: center; gap: 0;
+            max-width: 800px; margin: 0 auto;
+        }
+        .nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.65rem;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--amber-deep); text-decoration: none;
+            padding: 14px 16px; white-space: nowrap;
+            transition: color 0.3s, background 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .nav a:hover, .nav a.active {
+            color: var(--amber-glow);
+            background: var(--whisper);
+            border-bottom-color: var(--amber);
+        }
+
+        .content { max-width: 760px; margin: 0 auto; padding: 0 28px; }
+
+        .section {
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border-line);
+        }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.6rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--amber-deep); opacity: 0.6; margin-bottom: 8px;
+        }
+        .section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            letter-spacing: 0.08em;
+            color: var(--parchment-light);
+            margin-bottom: 20px;
+        }
+        p { font-size: 1rem; margin-bottom: 14px; color: rgba(232, 220, 200, 0.85); }
+        strong { color: var(--parchment-light); font-weight: 500; }
+        em { color: var(--amber); }
+
+        blockquote {
+            position: relative;
+            margin: 24px 0; padding: 16px 20px 16px 24px;
+            border-left: 2px solid var(--amber-deep);
+            background: linear-gradient(135deg, rgba(196, 147, 90, 0.04), transparent);
+            border-radius: 0 4px 4px 0;
+            font-style: italic; font-size: 1.05rem;
+            color: var(--amber-glow); line-height: 1.8;
+        }
+
+        /* Idea Cards */
+        .idea-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+        }
+        .idea-card {
+            padding: 24px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .idea-card:hover {
+            border-color: var(--amber-deep);
+            transform: translateX(3px);
+        }
+        .idea-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200; font-size: 1.8rem;
+            color: var(--amber-deep); opacity: 0.35;
+            line-height: 1; float: left;
+            margin-right: 16px; margin-top: 2px;
+        }
+        .idea-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400; font-size: 1.05rem;
+            color: var(--amber-glow); margin-bottom: 4px;
+        }
+        .idea-mode {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: inline-block;
+            padding: 2px 8px; border-radius: 2px;
+            margin-bottom: 10px;
+        }
+        .mode-journey { background: rgba(122, 139, 111, 0.2); color: var(--sage); border: 1px solid rgba(122, 139, 111, 0.3); }
+        .mode-masterclass { background: rgba(160, 103, 75, 0.2); color: var(--rust); border: 1px solid rgba(160, 103, 75, 0.3); }
+        .idea-body { font-size: 0.92rem; color: rgba(232, 220, 200, 0.75); clear: both; }
+        .idea-body .field-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--amber-deep);
+            margin-top: 10px; margin-bottom: 3px;
+        }
+        .idea-punchline {
+            font-style: italic; color: var(--amber);
+            margin-top: 8px; font-size: 0.95rem;
+        }
+
+        /* Bad Advice */
+        .advice-list { list-style: none; padding: 0; margin: 20px 0; }
+        .advice-list li {
+            padding: 14px 20px;
+            border-left: 2px solid var(--film-red);
+            margin-bottom: 10px;
+            font-style: italic; font-size: 0.95rem;
+            color: rgba(232, 220, 200, 0.8);
+            background: linear-gradient(90deg, rgba(139, 64, 73, 0.06), transparent);
+        }
+
+        /* Pillar Tags */
+        .pillar-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 10px; border: 1px solid var(--border-line);
+            border-radius: 2px; color: var(--amber-deep);
+            margin: 3px 4px 3px 0;
+        }
+
+        .footer {
+            text-align: center; padding: 50px 20px; opacity: 0.4;
+        }
+        .footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--amber-deep);
+        }
+
+        @media (max-width: 600px) {
+            .content { padding: 0 18px; }
+            .section { padding: 36px 0; }
+            .header { padding: 50px 18px 30px; }
+            .nav a { padding: 12px 10px; font-size: 0.58rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>Marketing Lab</h1>
+    <div class="subtitle">TheCKStyle — Anti-Marketing Marketing</div>
+    <div class="tagline">"The failure to market IS the marketing."</div>
+</header>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="#philosophy">Philosophy</a>
+        <a href="#modes">Two Modes</a>
+        <a href="#ideas">All Ideas</a>
+        <a href="#bad-advice">Bad Advice</a>
+        <a href="#social">Social Strategy</a>
+        <a href="#first-three">Start Here</a>
+        <a href="index.html">← Film Home</a>
+    </div>
+</nav>
+
+<main class="content">
+
+    <!-- PHILOSOPHY -->
+    <section class="section" id="philosophy">
+        <div class="section-label">00</div>
+        <h2>The Thesis</h2>
+        <blockquote>The film is about a man who can't finish things. The marketing should be a man failing to market the thing he hasn't finished. Every piece of content IS the film's thesis, performed live.</blockquote>
+        <p>Inspired by a <strong>Louis C.K. book promo</strong> — 2 min, vertical, handheld by a bored cameraperson who texts and sighs. Louis never finishes the pitch. You buy the book because you liked <em>him</em>.</p>
+        <p>Louis manufactured friction. <strong>Su's friction is real.</strong> The marketing doesn't promote the film. The marketing IS the film, happening in real time.</p>
+
+        <h3 style="font-family: 'Outfit', sans-serif; font-weight: 400; font-size: 1rem; color: var(--amber-glow); margin: 28px 0 12px;">The Five Laws</h3>
+        <ol style="padding-left: 20px;">
+            <li><strong>The obstacle is inside the frame.</strong> The saboteur is Su himself</li>
+            <li><strong>The product barely gets mentioned.</strong> The attempt to pitch IS the content</li>
+            <li><strong>Failure is the format.</strong> Su tries → derails → derailment IS the entertainment</li>
+            <li><strong>Anti-polish.</strong> Phone. Handheld. Auto backseats. If it looks produced, it's wrong</li>
+            <li><strong>The Nusrat Principle applies.</strong> About failure, but FEELS fun</li>
+        </ol>
+    </section>
+
+    <!-- TWO MODES -->
+    <section class="section" id="modes">
+        <div class="section-label">01</div>
+        <h2>Two Modes, One Handle</h2>
+        <p>Every piece of content falls into one of two voices. The audience doesn't know they're watching two different people. When the film drops, they realize the account had split personality.</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;">
+            <div class="idea-card">
+                <div class="idea-title">The Journey</div>
+                <span class="idea-mode mode-journey">Su's Voice</span>
+                <p style="font-size: 0.88rem;">Raw. Unplanned. Vulnerable. Real. Interrupted. This is Su — the auto confessionals, the "Day 1" posted for the 6th time, the writing struggles.</p>
+            </div>
+            <div class="idea-card">
+                <div class="idea-title">The Masterclass</div>
+                <span class="idea-mode mode-masterclass">The Comedian's Voice</span>
+                <p style="font-size: 0.88rem;">Deadpan. Authoritative. Wrong. Confident delivery of terrible advice. "Step 4: Watch every BTS documentary ever made." Professionally wrong.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALL IDEAS -->
+    <section class="section" id="ideas">
+        <div class="section-label">02</div>
+        <h2>All 20 Concepts</h2>
+        <p>The complete arsenal. Some are series (repeatable). Some are one-shot gut punches.</p>
+
+        <div class="idea-grid">
+
+            <!-- 1 -->
+            <div class="idea-card">
+                <div class="idea-num">01</div>
+                <div class="idea-title">The Trailer Attempt</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Su sits to record a trailer announcement
+                    <div class="field-label">Sabotage</div>Can't get past the first sentence. "I'm making a film—" no. "I'm going to—" no. Five restarts, each worse
+                    <div class="idea-punchline">Text card: "Coming... eventually."</div>
+                    <div class="field-label">Series?</div>Yes — different attempts, same failure
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="idea-card">
+                <div class="idea-num">02</div>
+                <div class="idea-title">The Logline</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Explain the film in one sentence. Timer counting up
+                    <div class="field-label">Sabotage</div>Starts, stops, overcomplicates, simplifies too much. 3 minutes in, still going. Someone offscreen: "bhai time ho gaya"
+                    <div class="idea-punchline">Text card: the logline — 6 lines long, crossed out</div>
+                    <div class="field-label">Series?</div>Yes — each attempt a different angle
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="idea-card">
+                <div class="idea-num">03</div>
+                <div class="idea-title">The Poster Reveal</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Dramatic unveiling of "the official poster"
+                    <div class="field-label">Sabotage</div>It's blank. Or 7 versions he can't pick between. Talks into each, talks out of each
+                    <div class="idea-punchline">"I'll decide tomorrow."</div>
+                    <div class="field-label">Series?</div>Yes — monthly, different "final" version each time
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="idea-card">
+                <div class="idea-num">04</div>
+                <div class="idea-title">Day 1 of Pre-Production</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Title card: "BTS: Day 1 of Pre-Production"
+                    <div class="field-label">Sabotage</div>Same title, posted monthly. Different location, different mood, always "starting fresh." The loop made visible
+                    <div class="idea-punchline">The serial repetition IS the joke</div>
+                    <div class="field-label">Series?</div>Yes — the algorithm loves pattern recognition
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="idea-card">
+                <div class="idea-num">05</div>
+                <div class="idea-title">The Casting Call</div>
+                <span class="idea-mode mode-masterclass">Masterclass</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Casting announcement — for himself. "Male, 37, unable to finish projects, good at starting things"
+                    <div class="field-label">Sabotage</div>Treats it straight. Self-tape audition for his own film
+                    <div class="idea-punchline">Requirements: "Must play 3 versions of himself. Life experience preferred."</div>
+                    <div class="field-label">Series?</div>No — one hit
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="idea-card">
+                <div class="idea-num">06</div>
+                <div class="idea-title">Reading the Script (ASMR)</div>
+                <span class="idea-mode mode-masterclass">Masterclass</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Close-up hands opening notebook. Dramatic music. Script reading
+                    <div class="field-label">Sabotage</div>Keeps rewriting mid-sentence. Reading → writing → panicking → closing laptop
+                    <div class="idea-punchline">Whispered: "We'll do this tomorrow."</div>
+                    <div class="field-label">Series?</div>Yes — each time a different "scene"
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="idea-card">
+                <div class="idea-num">07</div>
+                <div class="idea-title">Auto Draft</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Back seat of a Delhi auto. Su talks about the film
+                    <div class="field-label">Sabotage</div>Interrupted by traffic, driver's music, phone calls. Never completes a thought. Real Delhi sounds
+                    <div class="idea-punchline">30-60 sec of raw incompleteness</div>
+                    <div class="field-label">Series?</div>Yes — weekly, costs nothing, uses the auto motif
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="idea-card">
+                <div class="idea-num">08</div>
+                <div class="idea-title">The Equipment Tour</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Studio tour — cameras, lights, mics, podcast set, amber light. Very impressive
+                    <div class="field-label">Sabotage</div>Text/someone asks: "So how much of the film have you shot?"
+                    <div class="idea-punchline">Beat. Stare. "None." Cut.</div>
+                    <div class="field-label">Series?</div>No — one devastating hit
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="idea-card">
+                <div class="idea-num">09</div>
+                <div class="idea-title">Film Title Generator</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Post-its on a wall. 20 potential titles
+                    <div class="field-label">Sabotage</div>Time-lapse: adding, removing, staring, adding more. Days/weeks. Wall ends empty
+                    <div class="idea-punchline">Fresh Post-it in hand, marker uncapped. Freeze. "Title TBD."</div>
+                    <div class="field-label">Series?</div>Yes — audience can suggest titles
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="idea-card">
+                <div class="idea-num">10</div>
+                <div class="idea-title">The Accountability Reel</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Weekly 15sec: "This week I'm going to..."
+                    <div class="field-label">Sabotage</div>Hard cut to next week: "I didn't do that, but this week..." Stack of broken promises grows absurd
+                    <div class="idea-punchline">Every 4th-5th week, he actually DID the thing — surprisingly moving</div>
+                    <div class="field-label">Series?</div>Yes — the accountability mechanism IS the content
+                </div>
+            </div>
+
+            <!-- ====== NEW OUTLANDISH IDEAS ====== -->
+
+            <!-- 11 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">11</div>
+                <div class="idea-title">The Festival Submission</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Screen recording: Su fills out a festival submission form. The film doesn't exist
+                    <div class="field-label">Sabotage</div>Stuck on every field. "Genre?" stares. "Runtime?" longer stare. "Synopsis?" types, deletes, types, deletes. Reaches "Upload Film File" — frozen
+                    <div class="idea-punchline">Text card: "Application saved as draft. Since 2022."</div>
+                    <div class="field-label">Series?</div>Yes — different festivals, same outcome
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">12</div>
+                <div class="idea-title">The Table Read (Solo)</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Proper table read setup — 6 chairs, printed scripts, water glasses, name placards. All for one person
+                    <div class="field-label">Sabotage</div>Reads all parts. Changes voices. Argues with himself. Gets up, moves to another chair to respond as different character. Empty chairs hit hard
+                    <div class="idea-punchline">Security knocks: "bhai lock-up kar raha hoon." Su alone with 6 empty chairs</div>
+                    <div class="field-label">Series?</div>No — one-time gut punch
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">13</div>
+                <div class="idea-title">The IMDb Page</div>
+                <span class="idea-mode mode-masterclass">Masterclass</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Su creates an IMDb page for a film that doesn't exist. Full credits. Cast: himself × 3. Crew: himself. Catering: himself
+                    <div class="field-label">Sabotage</div>Treats it dead serious. Trivia: "Director considered quitting 47 times during pre-production." Goofs: "In the opening scene, the film does not exist"
+                    <div class="idea-punchline">Rating: N/A. Reviews: 0. Status: "In Development (since 2020)"</div>
+                    <div class="field-label">Series?</div>Yes — monthly updates with increasingly absurd trivia
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">14</div>
+                <div class="idea-title">Location Scouting</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Su "location scouts" — but he's in his everyday places. Auto. Tea stall. Studio. Bedroom
+                    <div class="field-label">Sabotage</div>Frames each location with hands making a rectangle. Head tilts. "This could work." His entire life is already the set
+                    <div class="idea-punchline">Freeze: Su framing his own face in the bathroom mirror. Text: "Location secured."</div>
+                    <div class="field-label">Series?</div>Yes — new mundane "locations" weekly
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">15</div>
+                <div class="idea-title">The Premiere Invite</div>
+                <span class="idea-mode mode-masterclass">Masterclass</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Beautifully designed premiere invitation. Gold lettering. Formal. Black tie
+                    <div class="field-label">Sabotage</div>Date: TBD. Venue: TBD. Film: TBD. RSVP to email that doesn't exist. The invitation is gorgeous and completely empty
+                    <div class="idea-punchline">"Save the date. We don't know which one yet."</div>
+                    <div class="field-label">Series?</div>Yes — "updated invitations" with one new detail each time (still mostly TBD)
+                </div>
+            </div>
+
+            <!-- 16 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">16</div>
+                <div class="idea-title">Director's Commentary (No Film)</div>
+                <span class="idea-mode mode-masterclass">Masterclass</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Dark room. Hushed DVD commentary voice. Describing shots, angles, performances — for scenes that don't exist
+                    <div class="field-label">Sabotage</div>Commentary over a black screen. Gets emotional about a scene no one has seen. "This was take 47. Wait — we haven't shot this yet"
+                    <div class="idea-punchline">"This concludes the director's commentary for reel one. The film will follow. Eventually."</div>
+                    <div class="field-label">Series?</div>Yes — an entire commentary track for a nonexistent film
+                </div>
+            </div>
+
+            <!-- 17 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">17</div>
+                <div class="idea-title">The Budget Meeting</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Spreadsheet. Serious face. "Let's talk budget." Camera: own. Lights: own. Actor 1-3: myself. Post: AI. Total: ₹0
+                    <div class="field-label">Sabotage</div>Stares at ₹0. The budget meeting just proved the only thing missing is the doing. Longest pause in any reel
+                    <div class="idea-punchline">Closes laptop. Whispers: "So what's stopping me?" Cut to black</div>
+                    <div class="field-label">Series?</div>No — one devastating hit
+                </div>
+            </div>
+
+            <!-- 18 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">18</div>
+                <div class="idea-title">Fake Letterboxd Reviews</div>
+                <span class="idea-mode mode-masterclass">Masterclass</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Fake reviews for the unmade film. "★★★★★ Couldn't stop watching. Mainly because it hasn't started"
+                    <div class="field-label">Sabotage</div>Reviews get accidentally profound. "Sometimes the films you never make are the ones that matter most. 4 stars"
+                    <div class="idea-punchline">"Watched this with my therapist. She says I need to stop projecting. ½ star."</div>
+                    <div class="field-label">Series?</div>Yes — audience can submit their own reviews
+                </div>
+            </div>
+
+            <!-- 19 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">19</div>
+                <div class="idea-title">The Shot List</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Writing a shot list. Shot 1: Wide. Shot 2: Close-up. Shot 3: Tracking. Keeps going
+                    <div class="field-label">Sabotage</div>Can't stop. 20 shots. 80 shots. Kubrick-level planning for a film with zero pages of script. Planning IS the procrastination
+                    <div class="idea-punchline">Camera pulls back. Shot list covers desk, floor, walls. Text: "Script: 0 pages. Shot list: 247 shots."</div>
+                    <div class="field-label">Series?</div>No — one visual gag
+                </div>
+            </div>
+
+            <!-- 20 -->
+            <div class="idea-card" style="border-left: 3px solid var(--film-red);">
+                <div class="idea-num">20</div>
+                <div class="idea-title">Asking People to Describe Your Film</div>
+                <span class="idea-mode mode-journey">Journey</span>
+                <div class="idea-body">
+                    <div class="field-label">Setup</div>Su asks real people — colleagues, auto drivers, family: "I'm making a film. What do you think it's about?"
+                    <div class="field-label">Sabotage</div>Answers are funnier and more accurate than anything Su's come up with. Someone: "About a guy who talks about things instead of doing them?" Su's face says everything
+                    <div class="idea-punchline">Last person (maybe Maa on phone): answer so devastatingly accurate Su has no response. Cut</div>
+                    <div class="field-label">Series?</div>Yes — new people every time. Faces blurred (matches film's rule)
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BAD ADVICE -->
+    <section class="section" id="bad-advice">
+        <div class="section-label">03</div>
+        <h2>The Masterclass — Bad Advice Library</h2>
+        <p>Demotivating reels in a motivating wrapper. Each one delivered deadpan. Every piece is something Su has actually done.</p>
+        <ul class="advice-list">
+            <li>"Keep watching YouTube videos of how directors get things done. You'll absorb their process through osmosis. That's how process works."</li>
+            <li>"Have sleepless nights thinking about your ideas. The less you sleep, the more genius you become. Most geniuses were exhausted."</li>
+            <li>"Tomorrow is not a concept. Tomorrow is a real day with real hours. You can use all of them. You just have to wait for it."</li>
+            <li>"If you have 10 ideas, work on all 10. The ones that don't work out will naturally fall away. I have 10 unfinished projects."</li>
+            <li>"Go to a museum. Stand in front of a painting for 3 hours. Think about what the painter was trying to say. You've done enough creative work for the week."</li>
+            <li>"Buy better equipment. Your current gear is the reason you haven't started. Once you have the right camera, the film will practically make itself."</li>
+            <li>"Find your voice first. Don't make anything until you've found it. It's somewhere between your 400th YouTube video about creativity and your 12th journal."</li>
+            <li>"Step 1: Research. The more you research, the closer you are to starting. I've been researching for 6 years. I'm very close."</li>
+            <li>"Watch 4 documentaries about how Kubrick made films. You'll absorb his process through osmosis."</li>
+            <li>"How to scout locations: Google Image search 'cinematic Delhi.' Screenshot it. Put it in your mood board. Done."</li>
+            <li>"How to find your crew: Post on LinkedIn. Wait. Post again. Wait longer. Assume silence means they're busy."</li>
+        </ul>
+    </section>
+
+    <!-- SOCIAL STRATEGY -->
+    <section class="section" id="social">
+        <div class="section-label">04</div>
+        <h2>Social Strategy</h2>
+        <p>Handle = process identity, not product identity. Documents the journey; film is the destination.</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem;">
+            <tr>
+                <th style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border-line);">Platform</th>
+                <th style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border-line);">Handle</th>
+                <th style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border-line);">Content</th>
+            </tr>
+            <tr><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: rgba(232,220,200,0.8);">Instagram</td><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: var(--amber);">@howtonotmakefilms</td><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: rgba(232,220,200,0.8);">Reels (primary), Stories</td></tr>
+            <tr><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: rgba(232,220,200,0.8);">YouTube</td><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: var(--amber);">Existing or new</td><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: rgba(232,220,200,0.8);">Diary entries, Shorts</td></tr>
+            <tr><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: rgba(232,220,200,0.8);">X / Twitter</td><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: var(--amber);">@howtonotmakefilms</td><td style="padding:10px 14px; border-bottom: 1px solid rgba(196,147,90,0.06); color: rgba(232,220,200,0.8);">One-liners, stills</td></tr>
+        </table>
+
+        <h3 style="font-family: 'Outfit', sans-serif; font-weight: 400; font-size: 1rem; color: var(--amber-glow); margin: 28px 0 12px;">Content Pillars</h3>
+        <div style="margin: 12px 0;">
+            <span class="pillar-tag">The Attempts</span>
+            <span class="pillar-tag">Auto Drafts</span>
+            <span class="pillar-tag">The Process</span>
+            <span class="pillar-tag">The Accountability</span>
+            <span class="pillar-tag">The Masterclass</span>
+            <span class="pillar-tag">The Diary</span>
+        </div>
+    </section>
+
+    <!-- START HERE -->
+    <section class="section" id="first-three">
+        <div class="section-label">05</div>
+        <h2>Start Here — First Three to Make</h2>
+        <p>If Su starts tomorrow, these three establish the brand:</p>
+
+        <div class="idea-grid">
+            <div class="idea-card" style="border-color: var(--amber-deep);">
+                <div class="idea-title" style="color: var(--parchment-light);">① The Trailer Attempt</div>
+                <p style="font-size: 0.9rem;">The flagship. Sets the tone. Defines what the account IS. Direct Louis C.K. DNA.</p>
+            </div>
+            <div class="idea-card" style="border-color: var(--amber-deep);">
+                <div class="idea-title" style="color: var(--parchment-light);">② The Equipment Tour</div>
+                <p style="font-size: 0.9rem;">Easy to shoot — studio already exists. Punchline writes itself. Relatable to every creative person alive.</p>
+            </div>
+            <div class="idea-card" style="border-color: var(--amber-deep);">
+                <div class="idea-title" style="color: var(--parchment-light);">③ Auto Draft #1</div>
+                <p style="font-size: 0.9rem;">Shoot on the way to work. Raw. No prep. Establishes the series. Uses the film's auto motif.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>TheCKStyle — Anti-Marketing for How to Not Make Films</p>
+    <p style="margin-top: 8px; opacity: 0.6;">March 24, 2026</p>
+</footer>
+
+</body>
+</html>
