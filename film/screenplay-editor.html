@@ -10,9 +10,9 @@
 /* VARIABLES                              */
 /* ═══════════════════════════════════════ */
 :root {
-  --bg: #f0ebe0;
+  --bg: #1a1a1a;
   --paper: #faf8f0;
-  --ink: #2a2520;
+  --ink: #1a1a1a;
   --toolbar-bg: #2a2520;
   --status-bg: #232020;
   --accent: #d4a853;
@@ -28,21 +28,7 @@
   --highlight: rgba(212,168,83,0.08);
   --focus-card-bg: #e8e4dc;
   --faded:#8a8070;
-  --border:#d8d0c0;
-  --desc-color:#4a4540;
-  --visual-color:#1a7a6a;
-  --truth-color:#5a3a6a;
-  --truth-bg:rgba(154,106,176,0.1);
-  --movement-title:#4a4540;
-  --movement-border:#d0c8b8;
-  --card-shadow:0 2px 12px rgba(0,0,0,0.08);
-  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.12);
-  --actions-border:rgba(0,0,0,0.06);
-  --actions-btn-bg:#e8e4dc;
-  --actions-btn-color:#5a5550;
-  --actions-btn-border:#d0c8b8;
-  --actions-btn-hover-bg:#d8d0c0;
-  --actions-btn-hover-color:#2a2520;
+  --border:#333;
 }
 html.dark{
   --bg:#0d0d0d;
@@ -55,138 +41,7 @@ html.dark{
   --btn-bg:#2a2520;
   --btn-hover:#3a352e;
   --focus-card-bg:#2c2c2c;
-  --desc-color:#999;
-  --visual-color:#2a9d8f;
-  --truth-color:#6a4a7a;
-  --truth-bg:rgba(154,106,176,0.08);
-  --movement-title:#ccc;
-  --movement-border:#333;
-  --card-shadow:0 2px 12px rgba(0,0,0,0.2);
-  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.3);
-  --actions-border:rgba(255,255,255,0.04);
-  --actions-btn-bg:#2a2520;
-  --actions-btn-color:#ccc;
-  --actions-btn-border:#444;
-  --actions-btn-hover-bg:#3a352e;
-  --actions-btn-hover-color:#fff;
 }
-
-/* ═══════════════════════════════════════ */
-/* THEMES                                 */
-/* ═══════════════════════════════════════ */
-html[data-theme="ocean"]{
-  --bg:#0a1628;--paper:#12203a;--ink:#c8d8e8;
-  --toolbar-bg:#0c1a30;--status-bg:#081422;
-  --accent:#4a9ec2;--muted:#6088a0;
-  --btn-bg:#1a3050;--btn-hover:#2a4060;
-  --scene:#4a8a9a;--action-c:#6a8aa0;--char:#5a8ac0;
-  --dialog:#8aa0c0;--paren:#7a8ab0;--trans:#80a090;
-  --highlight:rgba(74,158,194,0.08);
-  --focus-card-bg:#1a2a40;
-  --faded:#6a8aa0;--border:#1a3050;
-  --desc-color:#8aa0b8;--visual-color:#4a9a8a;
-  --truth-color:#6a7ab0;--truth-bg:rgba(106,122,176,0.08);
-  --movement-title:#a0b8d0;--movement-border:#1a3050;
-  --card-shadow:0 2px 12px rgba(0,0,0,0.25);
-  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.35);
-  --actions-border:rgba(100,160,200,0.06);
-  --actions-btn-bg:#1a3050;--actions-btn-color:#a0b8d0;
-  --actions-btn-border:#2a4060;
-  --actions-btn-hover-bg:#2a4060;--actions-btn-hover-color:#fff;
-}
-html[data-theme="sunset"]{
-  --bg:#1a120a;--paper:#261a10;--ink:#e8d0b8;
-  --toolbar-bg:#1e1408;--status-bg:#160e06;
-  --accent:#e8963a;--muted:#9a7a5a;
-  --btn-bg:#3a2a1a;--btn-hover:#4a3a2a;
-  --scene:#9a8a5a;--action-c:#a09080;--char:#c09a5a;
-  --dialog:#e0a860;--paren:#b08a5a;--trans:#c0a050;
-  --highlight:rgba(232,150,58,0.08);
-  --focus-card-bg:#2c2010;
-  --faded:#9a7a5a;--border:#3a2a1a;
-  --desc-color:#b09a80;--visual-color:#9a8a4a;
-  --truth-color:#b08a5a;--truth-bg:rgba(176,138,90,0.08);
-  --movement-title:#c0a880;--movement-border:#3a2a1a;
-  --card-shadow:0 2px 12px rgba(0,0,0,0.25);
-  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.35);
-  --actions-border:rgba(200,160,100,0.06);
-  --actions-btn-bg:#3a2a1a;--actions-btn-color:#c0a880;
-  --actions-btn-border:#4a3a2a;
-  --actions-btn-hover-bg:#4a3a2a;--actions-btn-hover-color:#fff;
-}
-html[data-theme="noir"]{
-  --bg:#080808;--paper:#141414;--ink:#e8e8e8;
-  --toolbar-bg:#0c0c0c;--status-bg:#060606;
-  --accent:#c0392b;--muted:#666;
-  --btn-bg:#222;--btn-hover:#333;
-  --scene:#888;--action-c:#777;--char:#999;
-  --dialog:#bbb;--paren:#888;--trans:#999;
-  --highlight:rgba(192,57,43,0.06);
-  --focus-card-bg:#1a1a1a;
-  --faded:#666;--border:#2a2a2a;
-  --desc-color:#999;--visual-color:#888;
-  --truth-color:#777;--truth-bg:rgba(120,120,120,0.06);
-  --movement-title:#bbb;--movement-border:#2a2a2a;
-  --card-shadow:0 2px 12px rgba(0,0,0,0.3);
-  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.4);
-  --actions-border:rgba(255,255,255,0.04);
-  --actions-btn-bg:#222;--actions-btn-color:#bbb;
-  --actions-btn-border:#333;
-  --actions-btn-hover-bg:#333;--actions-btn-hover-color:#fff;
-}
-html[data-theme="forest"]{
-  --bg:#0a1a10;--paper:#122418;--ink:#c8e0cc;
-  --toolbar-bg:#0c1c12;--status-bg:#081408;
-  --accent:#4a9a5a;--muted:#6a8a70;
-  --btn-bg:#1a3a20;--btn-hover:#2a4a30;
-  --scene:#5a9a6a;--action-c:#6a8a70;--char:#5a8a6a;
-  --dialog:#8ab080;--paren:#6a9a7a;--trans:#80a060;
-  --highlight:rgba(74,154,90,0.08);
-  --focus-card-bg:#1a2a18;
-  --faded:#6a8a70;--border:#1a3a20;
-  --desc-color:#8ab090;--visual-color:#5a9a7a;
-  --truth-color:#6a8a80;--truth-bg:rgba(106,138,128,0.08);
-  --movement-title:#a0c8a8;--movement-border:#1a3a20;
-  --card-shadow:0 2px 12px rgba(0,0,0,0.25);
-  --card-hover-shadow:0 4px 20px rgba(0,0,0,0.35);
-  --actions-border:rgba(100,180,120,0.06);
-  --actions-btn-bg:#1a3a20;--actions-btn-color:#a0c8a8;
-  --actions-btn-border:#2a4a30;
-  --actions-btn-hover-bg:#2a4a30;--actions-btn-hover-color:#fff;
-}
-
-/* Per-theme canvas backgrounds */
-html[data-theme="ocean"] #canvas-container{background:#0e1a2a}
-html[data-theme="ocean"] .cv-node{background:rgba(18,32,58,0.82);border-color:rgba(74,158,194,0.2)}
-html[data-theme="ocean"] .cv-node .cv-node-body{color:#c8d8e8}
-html[data-theme="ocean"] .cv-node .cv-node-header{color:#6a8aa0}
-html[data-theme="ocean"] .cv-node-body:empty::before{color:#4a6a80}
-html[data-theme="ocean"] #canvas-toolbar{background:rgba(12,26,48,0.92);border-color:rgba(74,158,194,0.2);box-shadow:0 4px 24px rgba(0,0,0,0.4)}
-html[data-theme="ocean"] .cv-conn-dot{border-color:#12203a}
-
-html[data-theme="sunset"] #canvas-container{background:#1a1208}
-html[data-theme="sunset"] .cv-node{background:rgba(38,26,16,0.82);border-color:rgba(232,150,58,0.2)}
-html[data-theme="sunset"] .cv-node .cv-node-body{color:#e8d0b8}
-html[data-theme="sunset"] .cv-node .cv-node-header{color:#9a7a5a}
-html[data-theme="sunset"] .cv-node-body:empty::before{color:#7a5a3a}
-html[data-theme="sunset"] #canvas-toolbar{background:rgba(30,20,8,0.92);border-color:rgba(232,150,58,0.2);box-shadow:0 4px 24px rgba(0,0,0,0.4)}
-html[data-theme="sunset"] .cv-conn-dot{border-color:#261a10}
-
-html[data-theme="noir"] #canvas-container{background:#0a0a0a}
-html[data-theme="noir"] .cv-node{background:rgba(20,20,20,0.85);border-color:rgba(255,255,255,0.1)}
-html[data-theme="noir"] .cv-node .cv-node-body{color:#e8e8e8}
-html[data-theme="noir"] .cv-node .cv-node-header{color:#666}
-html[data-theme="noir"] .cv-node-body:empty::before{color:#555}
-html[data-theme="noir"] #canvas-toolbar{background:rgba(12,12,12,0.92);border-color:rgba(255,255,255,0.1);box-shadow:0 4px 24px rgba(0,0,0,0.5)}
-html[data-theme="noir"] .cv-conn-dot{border-color:#141414}
-
-html[data-theme="forest"] #canvas-container{background:#0c1810}
-html[data-theme="forest"] .cv-node{background:rgba(18,36,24,0.82);border-color:rgba(74,154,90,0.2)}
-html[data-theme="forest"] .cv-node .cv-node-body{color:#c8e0cc}
-html[data-theme="forest"] .cv-node .cv-node-header{color:#6a8a70}
-html[data-theme="forest"] .cv-node-body:empty::before{color:#4a6a50}
-html[data-theme="forest"] #canvas-toolbar{background:rgba(12,28,18,0.92);border-color:rgba(74,154,90,0.2);box-shadow:0 4px 24px rgba(0,0,0,0.4)}
-html[data-theme="forest"] .cv-conn-dot{border-color:#122418}
 
 /* ═══════════════════════════════════════ */
 /* RESET & BASE                           */
@@ -210,7 +65,7 @@ body{
   padding:6px 12px;
   flex-wrap:wrap;
   z-index:100;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #333;
 }
 .toolbar-group{
   display:flex;
@@ -219,7 +74,7 @@ body{
 }
 .toolbar-sep{
   width:1px;height:22px;
-  background:var(--border);margin:0 6px;
+  background:#444;margin:0 6px;
 }
 .logo{
   font-size:12px;
@@ -231,7 +86,7 @@ body{
 }
 #toolbar button{
   background:var(--btn-bg);
-  color:#ccc;border:1px solid rgba(255,255,255,0.12);
+  color:#ccc;border:1px solid #444;
   border-radius:4px;padding:4px 10px;
   font-size:11px;cursor:pointer;
   font-family:inherit;white-space:nowrap;
@@ -244,11 +99,11 @@ body{
   font-family:'Courier Prime',monospace;
   border-radius:3px;width:240px;
 }
-#titleInput:focus{border-color:rgba(255,255,255,0.2);outline:none;background:rgba(255,255,255,0.05)}
-#titleInput::placeholder{color:#888}
+#titleInput:focus{border-color:#555;outline:none;background:#2a2a2a}
+#titleInput::placeholder{color:#666}
 #typeSelect{
-  background:var(--btn-bg);color:#ccc;
-  border:1px solid rgba(255,255,255,0.12);border-radius:4px;
+  background:var(--btn-bg);color:#ddd;
+  border:1px solid #555;border-radius:4px;
   padding:4px 6px;font-size:11px;
   font-family:inherit;cursor:pointer;
 }
@@ -262,8 +117,8 @@ body{
   font-family:system-ui,-apple-system,sans-serif;
   border-radius:3px;width:180px;
 }
-#musicSearch:focus{border-color:rgba(255,255,255,0.2);outline:none;background:rgba(255,255,255,0.05)}
-#musicSearch::placeholder{color:var(--faded)}
+#musicSearch:focus{border-color:#555;outline:none;background:#2a2a2a}
+#musicSearch::placeholder{color:#666}
 
 /* ═══════════════════════════════════════ */
 /* TAB BAR                                */
@@ -276,7 +131,7 @@ body{
 }
 .tab{
   background:transparent;
-  color:var(--faded);
+  color:#666;
   border:none;
   border-bottom:2px solid transparent;
   padding:6px 16px;
@@ -286,8 +141,8 @@ body{
   letter-spacing:.04em;
   transition:color 0.15s,border-color 0.15s;
 }
-#toolbar .tab{background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;color:#aaa}
-#toolbar .tab:hover{color:#eee;background:transparent!important}
+#toolbar .tab{background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;color:#666}
+#toolbar .tab:hover{color:#bbb;background:transparent!important}
 #toolbar .tab.active{color:var(--accent)!important;border-bottom-color:var(--accent)!important;background:transparent!important}
 .toolbar-right{margin-left:auto;display:flex;align-items:center;gap:4px}
 
@@ -315,7 +170,7 @@ body{
   color:var(--ink);
   outline:none;
   box-shadow:0 0 40px rgba(0,0,0,0.3);
-  caret-color:var(--ink);
+  caret-color:#333;
 }
 
 /* ═══════════════════════════════════════ */
@@ -382,7 +237,7 @@ body{
   text-align:center;
   font-style:italic;
   font-size:12px;
-  color:var(--desc-color);
+  color:#555;
   margin:2px auto;
   max-width:280px;
 }
@@ -396,7 +251,7 @@ body{
   text-transform:uppercase;
   font-size:11px;
   letter-spacing:.05em;
-  color:var(--desc-color);
+  color:#555;
   margin-top:18px;
   margin-bottom:4px;
 }
@@ -410,7 +265,7 @@ body{
 /* Empty paragraph placeholder */
 .para:only-child:empty::after{
   content:'Start writing your screenplay...  (Tab to change type)';
-  color:var(--faded);font-style:italic;pointer-events:none;
+  color:#aaa;font-style:italic;pointer-events:none;
 }
 .para:empty:not(:only-child)::after{
   content:'\200B'; /* zero-width space to maintain height */
@@ -427,8 +282,8 @@ body{
   align-items:center;
   padding:4px 16px;
   font-size:10px;
-  color:var(--faded);
-  border-top:1px solid var(--border);
+  color:#777;
+  border-top:1px solid #333;
   font-family:system-ui,-apple-system,sans-serif;
   z-index:100;
 }
@@ -440,12 +295,11 @@ body{
 #helpPanel{
   position:fixed;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  background:var(--paper);color:var(--ink);
-  border:1px solid var(--movement-border);border-radius:8px;
+  background:#2a2520;color:#ddd;
+  border:1px solid #555;border-radius:8px;
   padding:20px 28px;z-index:200;
   font-size:12px;min-width:320px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.4);
-  font-family:inherit;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
 }
 #helpPanel.hidden{display:none}
 #helpPanel h3{
@@ -453,17 +307,14 @@ body{
   font-size:14px;font-family:inherit;
 }
 #helpPanel table{width:100%;border-collapse:collapse;margin-bottom:16px}
-#helpPanel td{padding:4px 8px;border-bottom:1px solid var(--movement-border)}
+#helpPanel td{padding:4px 8px;border-bottom:1px solid #333}
 #helpPanel td:first-child{
   color:var(--accent);font-weight:700;
   white-space:nowrap;width:100px;
 }
-#helpPanel td:last-child{
-  color:var(--desc-color);
-}
 #helpPanel button{
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--movement-border);border-radius:4px;
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
   padding:6px 16px;cursor:pointer;font-family:inherit;
   display:block;margin:0 auto;
 }
@@ -473,19 +324,6 @@ body{
   background:rgba(0,0,0,0.5);z-index:199;
 }
 #helpOverlay.hidden{display:none}
-.help-section-label{
-  color:var(--accent);font-size:10px;text-transform:uppercase;
-  letter-spacing:.06em;margin:12px 0 8px;
-}
-.help-section-label:first-of-type{margin-top:0;margin-bottom:8px}
-.help-hint{
-  color:var(--muted,var(--desc-color));font-size:11px;
-  margin:8px 0 6px;line-height:1.5;
-}
-.help-hint-sub{
-  color:var(--muted,var(--desc-color));font-size:10px;
-  margin-top:8px;line-height:1.5;opacity:0.7;
-}
 
 /* ═══════════════════════════════════════ */
 /* COMMENTS & EDIT TRACKING               */
@@ -496,25 +334,25 @@ body{
   right:-28px;top:6px;
   width:10px;height:10px;
   border-radius:50%;
-  background:var(--accent);
+  background:#e8a020;
   cursor:pointer;
   display:block;
   user-select:none;
   -webkit-user-select:none;
   z-index:10;
   transition:transform 0.15s,background 0.15s;
-  box-shadow:0 0 0 2px rgba(212,168,83,0.25);
+  box-shadow:0 0 0 2px rgba(232,160,32,0.25);
 }
 .cdot:hover{
   transform:scale(1.4);
-  background:var(--accent);
+  background:#f0c040;
   box-shadow:0 0 0 3px rgba(232,160,32,0.4);
 }
 /* Comment tooltip */
 #commentTooltip{
   position:fixed;
-  background:var(--paper);color:var(--ink);
-  border:1px solid var(--border);border-radius:6px;
+  background:#2a2520;color:#ddd;
+  border:1px solid #555;border-radius:6px;
   padding:10px 14px;
   font-size:11px;line-height:1.5;
   font-family:system-ui,-apple-system,sans-serif;
@@ -526,12 +364,12 @@ body{
 #commentTooltip.hidden{display:none}
 .cmt-item{
   padding:6px 0;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #3a3a3a;
   display:flex;align-items:flex-start;gap:8px;
 }
 .cmt-item:last-child{border-bottom:none}
 .cmt-text{flex:1;white-space:pre-wrap;word-break:break-word}
-.cmt-time{font-size:9px;color:var(--faded);white-space:nowrap}
+.cmt-time{font-size:9px;color:#777;white-space:nowrap}
 .cmt-del{
   background:none;border:none;color:#a55;
   cursor:pointer;font-size:14px;line-height:1;
@@ -540,12 +378,12 @@ body{
 .cmt-del:hover{color:#f66}
 .cmt-add-hint{
   display:block;margin-top:6px;
-  font-size:10px;color:var(--faded);text-align:center;
+  font-size:10px;color:#888;text-align:center;
 }
 /* Comment input popup */
 #commentInput{
   position:fixed;
-  background:var(--paper);color:var(--ink);
+  background:#2a2520;color:#ddd;
   border:1px solid var(--accent);border-radius:6px;
   padding:12px 14px;
   font-size:12px;
@@ -556,16 +394,16 @@ body{
 #commentInput.hidden{display:none}
 #commentText{
   width:100%;
-  background:var(--bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:4px;
   padding:8px;font-size:12px;
   font-family:system-ui,-apple-system,sans-serif;
   resize:vertical;
 }
 #commentText:focus{outline:1px solid var(--accent);border-color:var(--accent)}
 #commentInput button{
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
   padding:5px 14px;cursor:pointer;font-size:11px;
   font-family:inherit;
 }
@@ -604,7 +442,7 @@ ins.edit-mark{
 }
 .music-empty{
   text-align:center;
-  color:var(--faded);
+  color:#666;
   padding:80px 20px;
   font-family:system-ui,-apple-system,sans-serif;
   font-size:14px;
@@ -616,7 +454,7 @@ ins.edit-mark{
 .mood-strip{
   display:flex;flex-wrap:wrap;gap:8px;
   padding:12px 0 20px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #333;
   margin-bottom:20px;
   min-height:20px;
 }
@@ -629,16 +467,16 @@ ins.edit-mark{
   border:1px solid transparent;
   transition:all 0.15s;
   user-select:none;
-  color:var(--ink);
+  color:#ddd;
 }
 .mood-pill:hover{opacity:0.85}
 .mood-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .mood-pill.active{border-color:currentColor;box-shadow:0 0 0 1px currentColor}
 .mood-pill.add-mood{
-  color:var(--faded);border:1px dashed var(--border);
+  color:#777;border:1px dashed #555;
   font-size:13px;padding:3px 10px;
 }
-.mood-pill.add-mood:hover{color:var(--ink);border-color:var(--faded)}
+.mood-pill.add-mood:hover{color:#aaa;border-color:#777}
 
 /* Music cards */
 .music-list{display:flex;flex-direction:column;gap:12px}
@@ -660,7 +498,7 @@ ins.edit-mark{
   font-size:14px;font-weight:700;color:var(--ink);
 }
 .music-card-artist{
-  font-size:12px;color:var(--faded);
+  font-size:12px;color:#888;
   font-family:system-ui,sans-serif;
 }
 .music-card-moods{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
@@ -668,7 +506,7 @@ ins.edit-mark{
   font-size:10px;padding:2px 8px;cursor:default;
 }
 .music-card-notes{
-  font-size:12px;color:var(--desc-color);line-height:1.5;
+  font-size:12px;color:#555;line-height:1.5;
   margin:8px 0 4px;
   font-family:system-ui,sans-serif;
   white-space:pre-wrap;
@@ -683,7 +521,7 @@ ins.edit-mark{
   text-transform:uppercase;letter-spacing:.03em;
 }
 .scene-tag.missing{
-  color:var(--faded);border:1px dashed var(--border);background:none;
+  color:#888;border:1px dashed #666;background:none;
 }
 .music-card-link{
   display:inline-block;margin-top:6px;
@@ -699,8 +537,8 @@ ins.edit-mark{
 }
 .music-card:hover .music-card-actions{opacity:1}
 .music-card-actions button{
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
   padding:3px 8px;font-size:10px;cursor:pointer;
   font-family:system-ui,sans-serif;
 }
@@ -710,10 +548,10 @@ ins.edit-mark{
 .music-form{
   position:fixed;top:var(--form-top,0);right:0;bottom:0;
   width:380px;
-  background:var(--paper);
+  background:rgba(30,28,24,0.78);
   backdrop-filter:blur(24px) saturate(1.4);
   -webkit-backdrop-filter:blur(24px) saturate(1.4);
-  border-left:1px solid var(--border);
+  border-left:1px solid rgba(255,255,255,0.06);
   z-index:150;
   overflow-y:auto;
   box-shadow:-4px 0 24px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04);
@@ -733,7 +571,7 @@ html:not(.dark) .music-form{
   margin-bottom:20px;font-size:14px;
 }
 .music-form label{
-  display:block;color:var(--faded);
+  display:block;color:#999;
   font-size:10px;text-transform:uppercase;
   letter-spacing:.05em;margin:14px 0 4px;
   font-family:system-ui,sans-serif;
@@ -742,8 +580,8 @@ html:not(.dark) .music-form{
 .music-form textarea,
 .music-form select{
   width:100%;
-  background:var(--bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:4px;
   padding:8px 10px;font-size:12px;
   font-family:system-ui,sans-serif;
 }
@@ -765,8 +603,8 @@ html:not(.dark) .music-form{
   margin-top:24px;
 }
 .music-form-actions button{
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
   padding:8px 20px;font-size:12px;
   cursor:pointer;font-family:inherit;
 }
@@ -780,7 +618,7 @@ html:not(.dark) .music-form{
 .form-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .form-header h3{margin-bottom:0}
 .form-close-btn{
-  background:none;border:none;color:var(--faded);
+  background:none;border:none;color:#999;
   font-size:22px;cursor:pointer;padding:0 4px;
   line-height:1;transition:color 0.15s;
 }
@@ -796,8 +634,8 @@ html:not(.dark) .music-form{
 #moodEditor{
   position:fixed;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  background:var(--paper);color:var(--ink);
-  border:1px solid var(--border);border-radius:8px;
+  background:#2a2520;color:#ddd;
+  border:1px solid #555;border-radius:8px;
   padding:24px;z-index:200;
   min-width:340px;max-width:420px;
   box-shadow:0 8px 32px rgba(0,0,0,0.5);
@@ -811,11 +649,11 @@ html:not(.dark) .music-form{
 #moodEditorOverlay.hidden{display:none}
 .mood-editor-row{
   display:flex;align-items:center;gap:8px;
-  padding:6px 0;border-bottom:1px solid var(--border);
+  padding:6px 0;border-bottom:1px solid #333;
 }
 .mood-editor-row input[type="text"]{
-  flex:1;background:var(--bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:3px;
+  flex:1;background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:3px;
   padding:4px 8px;font-size:12px;
   font-family:system-ui,sans-serif;
 }
@@ -851,7 +689,7 @@ html:not(.dark) .music-form{
 }
 .beats-empty{
   text-align:center;
-  color:var(--faded);
+  color:#666;
   padding:80px 20px;
   font-family:system-ui,-apple-system,sans-serif;
   font-size:14px;
@@ -864,15 +702,15 @@ html:not(.dark) .music-form{
   font-family:system-ui,-apple-system,sans-serif;
   border-radius:3px;width:180px;
 }
-#beatSearch:focus{border-color:rgba(255,255,255,0.2);outline:none;background:rgba(255,255,255,0.05)}
-#beatSearch::placeholder{color:#888}
+#beatSearch:focus{border-color:#555;outline:none;background:#2a2a2a}
+#beatSearch::placeholder{color:#666}
 
 /* Beat movement headers */
 .beat-movement-header{
   display:flex;align-items:center;gap:10px;
   margin-top:32px;margin-bottom:14px;
   padding-bottom:8px;
-  border-bottom:1px solid var(--movement-border);
+  border-bottom:1px solid #333;
 }
 .beat-movement-header:first-child{margin-top:0}
 .beat-movement-num{
@@ -886,7 +724,7 @@ html:not(.dark) .music-form{
 .beat-movement-title{
   font-family:'Courier Prime',monospace;
   font-size:14px;font-weight:700;
-  color:var(--movement-title);letter-spacing:.02em;
+  color:#ccc;letter-spacing:.02em;
 }
 
 /* Beat cards */
@@ -895,8 +733,8 @@ html:not(.dark) .music-form{
   border-radius:6px;
   padding:18px 20px 18px 24px;
   color:var(--ink);
-  box-shadow:var(--card-shadow);
-  border-left:4px solid var(--faded);
+  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+  border-left:4px solid #999;
   position:relative;
   overflow:visible;
   cursor:pointer;
@@ -904,7 +742,7 @@ html:not(.dark) .music-form{
   display:flex;flex-direction:column;
 }
 .beat-card .beat-actions{margin-top:auto}
-.beat-card:hover{box-shadow:var(--card-hover-shadow)}
+.beat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
 .beat-card.status-writing{border-left-color:var(--accent)}
 .beat-card.status-done{border-left-color:#2ecc71}
 
@@ -939,22 +777,19 @@ html:not(.dark) .music-form{
 .beat-tag.tag-location{background:rgba(90,138,192,0.12);color:#5a8ac0}
 .beat-tag.tag-char{background:rgba(192,138,90,0.12);color:#c08a5a}
 .beat-tag.tag-tone{background:rgba(230,126,34,0.12);color:#e67e22}
-.beat-tag.tag-prod{background:rgba(196,154,74,0.12);color:#c49a4a;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
-.beat-tag.tag-prod.tag-genai{background:rgba(138,106,154,0.15);color:#9a7aaa}
-.beat-tag.tag-prod.tag-fourth-wall{background:rgba(192,80,80,0.12);color:#c06050}
 
 .beat-desc{
-  font-size:12px;color:var(--desc-color);line-height:1.5;
+  font-size:12px;color:#999;line-height:1.5;
   margin:6px 0;
   font-family:system-ui,sans-serif;
   white-space:pre-wrap;
 }
 .beat-card.focused .beat-desc{
-  color:var(--desc-color);
+  color:#bbb;
 }
 
 .beat-visual{
-  font-size:12px;color:var(--visual-color);
+  font-size:12px;color:#2a9d8f;
   font-style:italic;line-height:1.5;
   margin:6px 0;
   font-family:system-ui,sans-serif;
@@ -964,10 +799,10 @@ html:not(.dark) .music-form{
 .beat-truth{
   font-size:12px;line-height:1.5;
   margin:8px 0;padding:8px 12px;
-  background:var(--truth-bg);
+  background:rgba(154,106,176,0.08);
   border-left:3px solid #9a6ab0;
   border-radius:0 4px 4px 0;
-  color:var(--truth-color);
+  color:#6a4a7a;
   font-family:system-ui,sans-serif;
   white-space:pre-wrap;
 }
@@ -975,49 +810,37 @@ html:not(.dark) .music-form{
 .beat-notes-area{
   display:none;
   width:100%;
-  background:var(--paper);
-  border:1px solid var(--border);
+  background:#f5f3eb;
+  border:1px solid #e0ddd0;
   border-radius:4px;
   padding:8px 10px;
   font-size:12px;
   font-family:system-ui,sans-serif;
-  color:var(--ink);
+  color:#444;
   resize:vertical;
   min-height:36px;
   margin-top:8px;
 }
-html.dark .beat-notes-area{
-  background:var(--bg);
-  border-color:var(--border);
-  color:var(--ink);
-}
 .beat-card.focused .beat-notes-area{display:block}
 .beat-notes-area:focus{outline:none;border-color:var(--accent)}
-.beat-notes-area::placeholder{color:var(--faded)}
+.beat-notes-area::placeholder{color:#aaa}
 
 .beat-actions{
   display:flex;gap:4px;
   justify-content:flex-end;
   margin-top:10px;
   padding-top:8px;
-  border-top:1px solid var(--actions-border);
+  border-top:1px solid rgba(255,255,255,0.04);
   opacity:0.5;transition:opacity 0.15s;
 }
 .beat-card:hover .beat-actions{opacity:1}
 .beat-actions button{
-  background:var(--actions-btn-bg);color:var(--actions-btn-color);
-  border:1px solid var(--actions-btn-border);border-radius:4px;
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #444;border-radius:4px;
   padding:3px 8px;font-size:10px;cursor:pointer;
   font-family:system-ui,sans-serif;
 }
-.beat-actions button:hover{background:var(--actions-btn-hover-bg);color:var(--actions-btn-hover-color)}
-.beat-actions .btn-canvas{
-  color:var(--accent,#d4a853);border-color:var(--accent,#d4a853);
-  font-weight:600;letter-spacing:0.5px;
-}
-.beat-actions .btn-canvas:hover{
-  background:var(--accent,#d4a853);color:#111;
-}
+.beat-actions button:hover{background:var(--btn-hover);color:#fff}
 
 .beat-status-pill{
   display:inline-flex;align-items:center;gap:4px;
@@ -1028,7 +851,7 @@ html.dark .beat-notes-area{
   transition:all 0.15s;
   flex-shrink:0;
 }
-.beat-status-pill.st-pending{background:var(--actions-btn-bg);color:var(--faded)}
+.beat-status-pill.st-pending{background:#eee;color:#999}
 .beat-status-pill.st-writing{background:rgba(212,168,83,0.15);color:var(--accent);border-color:var(--accent)}
 .beat-status-pill.st-done{background:rgba(46,204,113,0.12);color:#2ecc71;border-color:#2ecc71}
 .beat-status-pill:hover{opacity:0.8}
@@ -1065,11 +888,15 @@ body.beats-dragging, body.beats-dragging *{cursor:grabbing!important}
   width:56vw;max-height:72vh;
   overflow-y:auto;z-index:100;
   padding:32px 36px 28px 36px;
-  background:var(--paper);
-  border:1px solid var(--border);
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  background:rgba(30,28,24,0.72);
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.06);
   border-left-width:5px;border-radius:12px;
-  cursor:text;user-select:text;
+}
+html:not(.dark) .beat-card.focused{
+  background:rgba(250,248,240,0.72);
+  box-shadow:0 8px 32px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.4);
 }
 .beats-focus-overlay{
   position:fixed;inset:0;
@@ -1113,71 +940,28 @@ body.beats-dragging, body.beats-dragging *{cursor:grabbing!important}
 .beat-card.view-storyboard .beat-id{background:rgba(0,0,0,0.4);color:#fff}
 .beat-card.view-storyboard .beat-desc{color:rgba(255,255,255,0.85)}
 
-/* Dark mode overrides (applies to all dark themes) */
-/* Toolbar is always dark — ensure text is always light */
-#toolbar select{background:var(--btn-bg);color:#ccc;border:1px solid rgba(255,255,255,0.12)}
-#toolbar input[type="text"]{color:#ddd}
-html.dark #toolbar{background:var(--toolbar-bg);border-bottom-color:var(--border)}
-html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-color:var(--border)}
+/* Dark mode overrides */
+html.dark #toolbar{background:#1a1714;border-bottom-color:#333}
+html.dark #tabbar button{background:#2a2520;color:#ccc;border-color:#444}
+html.dark #tabbar button.active{background:var(--accent);color:#222}
+html.dark #statusbar{background:#1a1714;color:#888;border-top-color:#333}
+html.dark select{background:#2a2520;color:#ccc;border-color:#444}
+html.dark input[type="text"]{background:#2a2520;color:#ccc;border-color:#444}
 
-/* Theme picker */
-.theme-picker{
-  position:relative;display:inline-flex;align-items:center;
-}
-.theme-picker-btn{
+/* Dark mode toggle */
+#toolbar .dark-toggle{
   background:none!important;border:none!important;
-  color:var(--faded);box-shadow:none;
-  cursor:pointer;font-size:14px;
-  padding:4px 6px;
-  display:flex;align-items:center;gap:5px;
+  color:#888;box-shadow:none;
+  cursor:pointer;font-size:16px;
+  padding:4px;
+  display:flex;align-items:center;justify-content:center;
   transition:color 0.15s,opacity 0.15s;
-  opacity:0.6;
-  font-family:system-ui,-apple-system,sans-serif;
+  opacity:0.5;
 }
-.theme-picker-btn:hover{color:var(--accent);opacity:1;background:none!important}
-.theme-picker-btn .swatch{
-  width:10px;height:10px;border-radius:50%;
-  border:1.5px solid rgba(255,255,255,0.3);
-  flex-shrink:0;
-}
-.theme-dropdown{
-  display:none;
-  position:absolute;top:100%;right:0;
-  margin-top:6px;
-  background:var(--paper);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:6px;
-  min-width:160px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.4);
-  z-index:200;
-}
-.theme-dropdown.open{display:block}
-.theme-dropdown button{
-  display:flex;align-items:center;gap:8px;
-  width:100%;
-  background:none;border:none;
-  color:var(--ink);
-  padding:7px 10px;
-  border-radius:5px;
-  cursor:pointer;
-  font-size:12px;
-  font-family:system-ui,-apple-system,sans-serif;
-  transition:background 0.12s;
-  text-align:left;
-}
-.theme-dropdown button:hover{background:rgba(255,255,255,0.08)}
-.theme-dropdown button.active{background:rgba(255,255,255,0.12);color:#fff}
-.theme-dropdown button .swatch{
-  width:12px;height:12px;border-radius:50%;
-  border:1.5px solid rgba(255,255,255,0.2);
-  flex-shrink:0;
-}
+#toolbar .dark-toggle:hover{color:var(--accent);opacity:1;background:none!important}
 #toolbar .toolbar-right button.help-btn{
   background:none!important;border:none!important;
-  color:var(--faded);box-shadow:none;
+  color:#888;box-shadow:none;
   font-size:14px;padding:4px;opacity:0.5;
   cursor:pointer;transition:color 0.15s,opacity 0.15s;
 }
@@ -1187,13 +971,20 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
 .beat-form{
   position:fixed;top:var(--form-top,0);right:0;bottom:0;
   width:400px;
-  background:var(--paper);
-  border-left:1px solid var(--border);
+  background:rgba(30,28,24,0.78);
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  border-left:1px solid rgba(255,255,255,0.06);
   z-index:150;
   overflow-y:auto;
-  box-shadow:-4px 0 24px rgba(0,0,0,0.4);
+  box-shadow:-4px 0 24px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04);
   transition:transform 0.2s ease;
   border-radius:12px 0 0 0;
+}
+html:not(.dark) .beat-form{
+  background:rgba(250,248,240,0.82);
+  box-shadow:-4px 0 24px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.4);
+  border-left:1px solid rgba(0,0,0,0.08);
 }
 .beat-form.hidden{transform:translateX(100%);pointer-events:none}
 .beat-form-inner{padding:24px}
@@ -1203,7 +994,7 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
   margin-bottom:20px;font-size:14px;
 }
 .beat-form label{
-  display:block;color:var(--faded);
+  display:block;color:#999;
   font-size:10px;text-transform:uppercase;
   letter-spacing:.05em;margin:14px 0 4px;
   font-family:system-ui,sans-serif;
@@ -1213,8 +1004,8 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
 .beat-form textarea,
 .beat-form select{
   width:100%;
-  background:var(--bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:#1e1e1e;color:#ddd;
+  border:1px solid #444;border-radius:4px;
   padding:8px 10px;font-size:12px;
   font-family:system-ui,sans-serif;
 }
@@ -1230,7 +1021,7 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
 .beat-form .char-checks label{
   display:inline-flex;align-items:center;gap:4px;
   margin:0;font-size:12px;text-transform:none;
-  letter-spacing:0;color:var(--ink);cursor:pointer;
+  letter-spacing:0;color:#ccc;cursor:pointer;
 }
 .beat-form .char-checks input[type="checkbox"]{
   width:auto;accent-color:var(--accent);
@@ -1241,8 +1032,8 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
   margin-top:24px;
 }
 .beat-form-actions button{
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
+  background:var(--btn-bg);color:#ccc;
+  border:1px solid #555;border-radius:4px;
   padding:8px 20px;font-size:12px;
   cursor:pointer;font-family:inherit;
 }
@@ -1258,7 +1049,7 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
 #toast{
   position:fixed;bottom:50px;left:50%;
   transform:translateX(-50%);
-  background:var(--paper);color:var(--ink);
+  background:#333;color:#eee;
   padding:8px 20px;border-radius:6px;
   font-size:12px;font-family:inherit;
   opacity:0;transition:opacity 0.3s;
@@ -1267,423 +1058,18 @@ html.dark #statusbar{background:var(--status-bg);color:var(--faded);border-top-c
 #toast.show{opacity:1}
 
 /* ═══════════════════════════════════════ */
-/* CANVAS TAB                             */
-/* ═══════════════════════════════════════ */
-#panel-canvas{
-  position:relative;
-  background:var(--bg);
-  min-height:100vh;
-  overflow:hidden;
-}
-#canvas-container{
-  position:absolute;top:0;left:0;right:0;bottom:0;
-  overflow:hidden;
-  cursor:default;
-  background:#1e1c18;
-}
-html:not(.dark) #canvas-container{
-  background:#e8e4dc;
-}
-#canvas-surface{
-  position:absolute;top:0;left:0;
-  pointer-events:auto;
-}
-#canvas-nodes{
-  position:absolute;top:0;left:0;
-  width:0;height:0;
-  transform-origin:0 0;
-}
-
-/* Canvas node (text box or image) */
-.cv-node{
-  position:absolute;
-  background:rgba(30,28,24,0.82);
-  backdrop-filter:blur(16px) saturate(1.3);
-  -webkit-backdrop-filter:blur(16px) saturate(1.3);
-  border:1.5px solid rgba(255,255,255,0.15);
-  border-radius:8px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.3);
-  display:flex;flex-direction:column;
-  overflow:hidden;
-  min-width:160px;min-height:80px;
-  user-select:none;
-  transition:border-color 0.15s, box-shadow 0.15s;
-}
-html:not(.dark) .cv-node{
-  background:rgba(255,255,255,0.88);
-  border-color:rgba(0,0,0,0.12);
-  box-shadow:0 4px 20px rgba(0,0,0,0.1);
-}
-html:not(.dark) .cv-node .cv-node-body{color:#2a2520}
-html:not(.dark) .cv-node .cv-node-header{color:#8a8070}
-html:not(.dark) .cv-node .cv-node-body:empty::before{color:#aaa}
-html:not(.dark) .cv-node-title:hover{background:rgba(0,0,0,0.04)}
-html:not(.dark) .cv-node-title:focus{background:rgba(0,0,0,0.06);color:#2a2520}
-html:not(.dark) .cv-node-toolbar button{
-  background:rgba(255,255,255,0.9);color:#555;
-  border-color:rgba(0,0,0,0.12);
-}
-html:not(.dark) .cv-node-toolbar button:hover{background:#fff;color:#222}
-html:not(.dark) .cv-conn-dot{border-color:#faf8f0}
-html:not(.dark) .cv-node-resize::after{border-color:#aaa}
-.cv-node.selected{
-  border-color:var(--accent);
-  box-shadow:0 0 0 2px var(--accent), 0 4px 20px rgba(0,0,0,0.3);
-}
-.cv-node-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:6px 10px;
-  cursor:grab;
-  font-size:11px;
-  color:var(--faded);
-  font-family:system-ui,-apple-system,sans-serif;
-  border-bottom:1px solid var(--actions-border);
-  flex-shrink:0;
-}
-.cv-node-header:active{cursor:grabbing}
-.cv-node-title{
-  cursor:text;
-  outline:none;
-  padding:1px 4px;
-  border-radius:3px;
-  min-width:30px;
-  transition:background 0.15s;
-}
-.cv-node-title:hover{background:rgba(255,255,255,0.06)}
-.cv-node-title:focus{background:rgba(255,255,255,0.1);color:var(--ink)}
-.cv-node-body{
-  flex:1;
-  padding:12px 14px;
-  overflow:auto;
-  color:var(--ink);
-  font-size:16px;
-  line-height:1.65;
-  font-family:system-ui,-apple-system,sans-serif;
-  outline:none;
-  cursor:text;
-  user-select:text;
-  white-space:pre-wrap;
-  word-break:break-word;
-}
-.cv-node-body:empty::before{
-  content:'Double-click to type...';
-  color:var(--faded);
-  font-style:italic;
-  pointer-events:none;
-  font-size:14px;
-}
-.cv-node-body img{
-  max-width:100%;
-  height:auto;
-  border-radius:4px;
-  display:block;
-  pointer-events:none;
-}
-.cv-node-resize{
-  position:absolute;right:0;bottom:0;
-  width:16px;height:16px;
-  cursor:nwse-resize;
-  opacity:0;
-  transition:opacity 0.15s;
-}
-.cv-node:hover .cv-node-resize{opacity:0.5}
-.cv-node-resize::after{
-  content:'';display:block;
-  position:absolute;right:3px;bottom:3px;
-  width:8px;height:8px;
-  border-right:2px solid var(--faded);
-  border-bottom:2px solid var(--faded);
-}
-
-/* Node hover toolbar */
-.cv-node-toolbar{
-  position:absolute;top:-32px;left:0;
-  display:flex;gap:4px;
-  opacity:0;pointer-events:none;
-  transition:opacity 0.15s;
-  z-index:10;
-}
-.cv-node:hover .cv-node-toolbar{opacity:1;pointer-events:auto}
-.cv-node-toolbar button{
-  background:var(--btn-bg);color:#ccc;
-  border:1px solid #444;border-radius:4px;
-  padding:2px 8px;font-size:10px;cursor:pointer;
-  font-family:system-ui,sans-serif;
-  white-space:nowrap;
-}
-.cv-node-toolbar button:hover{background:var(--btn-hover);color:#fff}
-
-/* Connection dots on nodes — left and right ports like ComfyUI */
-.cv-conn-dot{
-  position:absolute;
-  width:14px;height:14px;
-  border-radius:50%;
-  background:var(--accent);
-  border:2px solid var(--paper);
-  cursor:crosshair;
-  opacity:0;
-  transition:opacity 0.15s, transform 0.1s;
-  z-index:5;
-}
-.cv-node:hover .cv-conn-dot{opacity:0.8}
-.cv-conn-dot:hover{opacity:1!important;transform:scale(1.4)}
-.cv-conn-dot.top{display:none}
-.cv-conn-dot.bottom{display:none}
-.cv-conn-dot.right{right:-7px;top:18px}
-.cv-conn-dot.left{left:-7px;top:18px}
-
-/* Canvas floating toolbar */
-#canvas-toolbar{
-  position:absolute;bottom:48px;right:12px;
-  display:flex;align-items:center;gap:6px;
-  background:var(--paper);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border:1.5px solid var(--border);
-  border-radius:10px;
-  padding:8px 14px;
-  z-index:20;
-  font-family:system-ui,-apple-system,sans-serif;
-  box-shadow:0 4px 24px rgba(0,0,0,0.4);
-  transition:width 0.2s, padding 0.2s;
-}
-#canvas-toolbar.collapsed{
-  padding:8px;gap:4px;
-  border-radius:10px;
-  cursor:grab;
-}
-#canvas-toolbar.collapsed:active{cursor:grabbing}
-#canvas-toolbar.collapsed .cv-tb-content{display:none}
-#canvas-toolbar.collapsed .cv-tb-grip{display:none}
-#canvas-toolbar .cv-tb-toggle{
-  width:28px;height:28px;
-  background:none;border:none;color:var(--faded);
-  font-size:16px;cursor:pointer;padding:0;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:4px;flex-shrink:0;
-}
-#canvas-toolbar.collapsed .cv-tb-toggle{
-  width:32px;height:32px;font-size:20px;
-  cursor:inherit;
-}
-#canvas-toolbar .cv-tb-toggle:hover{color:#fff;background:rgba(255,255,255,0.1)}
-#canvas-toolbar .cv-tb-grip{
-  cursor:grab;padding:0 4px;color:var(--faded);font-size:12px;
-  user-select:none;letter-spacing:1px;line-height:1;
-  display:flex;align-items:center;
-}
-#canvas-toolbar .cv-tb-grip:active{cursor:grabbing}
-html:not(.dark) #canvas-toolbar .cv-tb-toggle{color:#888}
-html:not(.dark) #canvas-toolbar .cv-tb-toggle:hover{color:#222;background:rgba(0,0,0,0.08)}
-html:not(.dark) #canvas-toolbar .cv-tb-grip{color:#bbb}
-#canvas-toolbar .cv-tb-content{
-  display:flex;align-items:center;gap:6px;
-}
-html:not(.dark) #canvas-toolbar{
-  background:rgba(255,255,255,0.92);
-  border-color:rgba(0,0,0,0.12);
-  box-shadow:0 4px 24px rgba(0,0,0,0.12);
-}
-html:not(.dark) #canvas-toolbar button{
-  background:#f0ebe0;color:#555;border-color:rgba(0,0,0,0.1);
-}
-html:not(.dark) #canvas-toolbar button:hover{background:#e0dbd0;color:#222}
-html:not(.dark) #canvas-toolbar button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-html:not(.dark) #canvas-toolbar .cv-sep{background:rgba(0,0,0,0.12)}
-#canvas-toolbar button{
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:5px;
-  padding:5px 12px;font-size:12px;cursor:pointer;
-  font-family:system-ui,sans-serif;
-  white-space:nowrap;
-  transition:background 0.12s, color 0.12s;
-}
-#canvas-toolbar button:hover{background:var(--btn-hover);color:#fff}
-#canvas-toolbar button.active{background:var(--accent);color:#222;border-color:var(--accent)}
-#canvas-toolbar .cv-sep{
-  width:1px;height:22px;background:var(--border);margin:0 4px;
-}
-#canvas-toolbar .cv-zoom-label{
-  color:var(--faded);font-size:12px;min-width:44px;text-align:center;
-  user-select:none;
-}
-
-/* Drawing color picker */
-#cv-draw-colors{
-  display:none;align-items:center;gap:5px;
-  margin-left:6px;
-}
-#cv-draw-colors.visible{display:flex}
-.cv-color-swatch{
-  width:22px;height:22px;border-radius:50%;
-  border:2.5px solid transparent;cursor:pointer;
-  transition:border-color 0.15s, transform 0.1s;
-  box-shadow:0 1px 4px rgba(0,0,0,0.25);
-}
-.cv-color-swatch:hover{transform:scale(1.15)}
-.cv-color-swatch.active{
-  border-color:#fff;
-  transform:scale(1.15);
-  box-shadow:0 0 0 1px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.3);
-}
-html:not(.dark) .cv-color-swatch.active{border-color:#333}
-#cv-draw-colors .cv-sep-mini{
-  width:1px;height:18px;background:var(--border);margin:0 3px;
-}
-html:not(.dark) #cv-draw-colors .cv-sep-mini{background:rgba(0,0,0,0.12)}
-#cv-line-width{
-  width:50px;height:22px;
-  background:var(--btn-bg);color:var(--ink);
-  border:1px solid var(--border);border-radius:4px;
-  padding:0 2px;font-size:10px;cursor:pointer;
-  font-family:system-ui,sans-serif;
-  -webkit-appearance:none;
-  accent-color:var(--accent);
-}
-html:not(.dark) #cv-line-width{
-  background:#f0ebe0;border-color:rgba(0,0,0,0.1);
-}
-.cv-width-label{
-  font-size:9px;color:var(--faded);letter-spacing:.03em;
-  font-family:system-ui,sans-serif;
-  margin-left:2px;
-}
-
-/* Minimap */
-#canvas-minimap{
-  position:absolute;bottom:100px;right:12px;
-  width:160px;height:110px;
-  background:rgba(0,0,0,0.35);
-  border:1px solid var(--border);
-  border-radius:6px;
-  overflow:hidden;
-  z-index:15;
-  cursor:pointer;
-}
-#canvas-minimap canvas{
-  width:100%;height:100%;
-}
-html:not(.dark) #canvas-minimap{
-  background:rgba(255,255,255,0.5);
-  border-color:rgba(0,0,0,0.12);
-}
-#canvas-minimap .minimap-viewport{
-  position:absolute;
-  border:1px solid var(--accent);
-  background:rgba(212,168,83,0.1);
-  pointer-events:none;
-}
-
-/* Canvas context menu */
-#cv-context-menu{
-  position:fixed;
-  background:var(--paper);
-  backdrop-filter:blur(12px);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:4px 0;
-  z-index:300;
-  min-width:180px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.4);
-  font-family:system-ui,-apple-system,sans-serif;
-  font-size:12px;
-  display:none;
-}
-html:not(.dark) #cv-context-menu{
-  background:rgba(255,255,255,0.95);
-  border-color:rgba(0,0,0,0.12);
-  box-shadow:0 4px 20px rgba(0,0,0,0.15);
-}
-html:not(.dark) #cv-context-menu .cv-ctx-sep{background:rgba(0,0,0,0.08)}
-#cv-context-menu .cv-ctx-item{
-  padding:6px 16px;
-  color:var(--ink);
-  cursor:pointer;
-  display:flex;align-items:center;gap:8px;
-  transition:background 0.1s;
-}
-#cv-context-menu .cv-ctx-item:hover{
-  background:rgba(212,168,83,0.15);
-}
-#cv-context-menu .cv-ctx-sep{
-  height:1px;background:var(--border);margin:4px 0;
-}
-#cv-context-menu .cv-ctx-sub{position:relative}
-#cv-context-menu .cv-ctx-sub .cv-ctx-submenu{
-  display:none;
-  position:absolute;left:100%;top:-4px;
-  background:var(--paper);
-  backdrop-filter:blur(12px);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:4px 0;
-  min-width:160px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.4);
-}
-html:not(.dark) #cv-context-menu .cv-ctx-sub .cv-ctx-submenu{
-  background:rgba(255,255,255,0.95);
-  border-color:rgba(0,0,0,0.12);
-  box-shadow:0 4px 20px rgba(0,0,0,0.15);
-}
-#cv-context-menu .cv-ctx-sub:hover .cv-ctx-submenu{display:block}
-
-/* Send to Beats modal */
-#cv-beats-modal{
-  position:fixed;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  background:var(--paper);
-  backdrop-filter:blur(20px);
-  border:1px solid var(--border);border-radius:8px;
-  padding:20px 24px;z-index:300;
-  min-width:300px;max-width:420px;max-height:60vh;
-  overflow-y:auto;
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
-  font-family:system-ui,-apple-system,sans-serif;
-  display:none;
-}
-html:not(.dark) #cv-beats-modal{
-  background:rgba(250,248,240,0.92);
-}
-#cv-beats-modal h3{
-  color:var(--accent);font-size:14px;
-  font-family:'Courier Prime',monospace;
-  margin-bottom:12px;
-}
-#cv-beats-modal .cv-beats-list{
-  display:flex;flex-direction:column;gap:4px;
-}
-#cv-beats-modal .cv-beats-item{
-  padding:8px 12px;
-  border-radius:4px;
-  cursor:pointer;
-  color:var(--ink);font-size:12px;
-  transition:background 0.1s;
-}
-#cv-beats-modal .cv-beats-item:hover{
-  background:rgba(212,168,83,0.15);
-}
-#cv-beats-modal .cv-beats-item .cv-bm-num{
-  color:var(--accent);font-weight:700;margin-right:6px;
-}
-#cv-beats-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.4);z-index:299;
-  display:none;
-}
-
-/* ═══════════════════════════════════════ */
 /* SCROLLBAR                              */
 /* ═══════════════════════════════════════ */
 main::-webkit-scrollbar{width:8px}
 main::-webkit-scrollbar-track{background:var(--bg)}
-main::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
+main::-webkit-scrollbar-thumb{background:#444;border-radius:4px}
+main::-webkit-scrollbar-thumb:hover{background:#555}
 
 /* ═══════════════════════════════════════ */
 /* PRINT                                  */
 /* ═══════════════════════════════════════ */
 @media print{
-  #toolbar,#tabbar,#statusbar,#helpPanel,#helpOverlay,#toast,#commentTooltip,#commentInput,.cdot,#panel-music,#musicForm,#moodEditor,#moodEditorOverlay,#panel-beats,#beatForm,#panel-canvas,#cv-context-menu,#cv-beats-modal,#cv-beats-overlay{display:none!important}
+  #toolbar,#tabbar,#statusbar,#helpPanel,#helpOverlay,#toast,#commentTooltip,#commentInput,.cdot,#panel-music,#musicForm,#moodEditor,#moodEditorOverlay,#panel-beats,#beatForm{display:none!important}
   #panel-script{display:block!important;padding-top:0!important}
   del.edit-mark{display:none!important}
   ins.edit-mark{color:inherit!important;background:none!important}
@@ -1709,9 +1095,6 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
   .music-container{padding:16px 12px 120px}
   .beats-container{padding:16px 12px 120px}
   .beat-movement-grid{grid-template-columns:1fr}
-  #canvas-minimap{width:120px;height:80px;bottom:28px;right:8px}
-  #canvas-toolbar{padding:3px 6px}
-  #canvas-toolbar button{padding:2px 6px;font-size:10px}
 }
 @media(max-width:500px){
   #editor{padding:24px 16px 120px 16px}
@@ -1751,7 +1134,6 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
     <button class="tab" data-tab="beats" onclick="switchTab('beats')">Beats</button>
     <button class="tab" data-tab="music" onclick="switchTab('music')">Music &amp; Mood</button>
     <button class="tab active" data-tab="script" onclick="switchTab('script')">Script</button>
-    <button class="tab" data-tab="canvas" onclick="switchTab('canvas')">Canvas</button>
   </div>
 
   <!-- Script-specific toolbar -->
@@ -1815,7 +1197,7 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
       </select>
       <button onclick="addBeat()">+ Scene</button>
       <select id="movementFilter" onchange="filterByMovement(this.value)" style="background:var(--btn-bg);color:#ddd;border:1px solid #555;border-radius:4px;padding:4px 6px;font-size:11px;font-family:inherit;cursor:pointer">
-        <option value="">All Acts</option>
+        <option value="">All Movements</option>
       </select>
     </div>
     <div class="toolbar-sep"></div>
@@ -1824,30 +1206,9 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
     </div>
   </div>
 
-  <!-- Canvas-specific toolbar (hidden by default) -->
-  <div id="toolbar-canvas" class="toolbar-context hidden">
-    <div class="toolbar-sep"></div>
-    <div class="toolbar-group">
-      <span style="color:#999;font-size:10px;letter-spacing:.05em">CANVAS</span>
-    </div>
-  </div>
-
   <div class="toolbar-right">
     <button class="help-btn" onclick="toggleHelp()" title="Keyboard shortcuts">?</button>
-    <div class="theme-picker">
-      <button class="theme-picker-btn" onclick="toggleThemeDropdown()" title="Change theme">
-        <span class="swatch" id="themeCurrentSwatch" style="background:#fff"></span>
-        <span id="themeCurrentName" style="font-size:11px">Daylight</span>
-      </button>
-      <div class="theme-dropdown" id="themeDropdown">
-        <button onclick="setTheme('parchment')" data-theme-opt="parchment"><span class="swatch" style="background:#fff"></span>Daylight</button>
-        <button onclick="setTheme('midnight')" data-theme-opt="midnight"><span class="swatch" style="background:#d4a853"></span>Midnight</button>
-        <button onclick="setTheme('ocean')" data-theme-opt="ocean"><span class="swatch" style="background:#4a9ec2"></span>Ocean Deep</button>
-        <button onclick="setTheme('sunset')" data-theme-opt="sunset"><span class="swatch" style="background:#e8963a"></span>Sunset Warm</button>
-        <button onclick="setTheme('noir')" data-theme-opt="noir"><span class="swatch" style="background:#c0392b"></span>Noir</button>
-        <button onclick="setTheme('forest')" data-theme-opt="forest"><span class="swatch" style="background:#4a9a5a"></span>Forest</button>
-      </div>
-    </div>
+    <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">&#9790;</button>
   </div>
 </div>
 
@@ -1888,69 +1249,6 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
     </div>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════ -->
-<!-- PANEL: CANVAS                          -->
-<!-- ═══════════════════════════════════════ -->
-<div id="panel-canvas" class="tab-panel">
-  <div id="canvas-container">
-    <canvas id="canvas-surface"></canvas>
-    <div id="canvas-nodes"></div>
-    <!-- Canvas floating toolbar -->
-    <div id="canvas-toolbar">
-      <span class="cv-tb-grip" id="cv-tb-grip" title="Drag to move">&#x2630;</span>
-      <button class="cv-tb-toggle" id="cv-tb-toggle" title="Collapse toolbar">&#x25BC;</button>
-      <div class="cv-tb-content">
-        <button id="cv-btn-select" class="active" onclick="cvSetMode('select')" title="Select (V)">Select</button>
-        <button id="cv-btn-draw" onclick="cvSetMode('draw')" title="Draw (Shift+drag)">Draw</button>
-        <button id="cv-btn-eraser" onclick="cvSetMode('eraser')" title="Eraser">Eraser</button>
-        <div id="cv-draw-colors">
-          <span class="cv-color-swatch active" style="background:#fff" data-color="#ffffff" onclick="cvSetDrawColor(this)" title="White"></span>
-          <span class="cv-color-swatch" style="background:#222" data-color="#222222" onclick="cvSetDrawColor(this)" title="Black"></span>
-          <span class="cv-color-swatch" style="background:#d4a853" data-color="#d4a853" onclick="cvSetDrawColor(this)" title="Gold"></span>
-          <span class="cv-color-swatch" style="background:#e74c3c" data-color="#e74c3c" onclick="cvSetDrawColor(this)" title="Red"></span>
-          <span class="cv-color-swatch" style="background:#e8963a" data-color="#e8963a" onclick="cvSetDrawColor(this)" title="Orange"></span>
-          <span class="cv-color-swatch" style="background:#f1c40f" data-color="#f1c40f" onclick="cvSetDrawColor(this)" title="Yellow"></span>
-          <span class="cv-color-swatch" style="background:#5a9a6a" data-color="#5a9a6a" onclick="cvSetDrawColor(this)" title="Green"></span>
-          <span class="cv-color-swatch" style="background:#5a8ac0" data-color="#5a8ac0" onclick="cvSetDrawColor(this)" title="Blue"></span>
-          <span class="cv-color-swatch" style="background:#9b59b6" data-color="#9b59b6" onclick="cvSetDrawColor(this)" title="Purple"></span>
-          <span class="cv-color-swatch" style="background:#e87aad" data-color="#e87aad" onclick="cvSetDrawColor(this)" title="Pink"></span>
-          <span class="cv-sep-mini"></span>
-          <input type="range" id="cv-line-width" min="1" max="20" value="4" oninput="cvSetLineWidth(this.value)" title="Line width">
-          <span class="cv-width-label" id="cv-width-val">4px</span>
-        </div>
-        <div class="cv-sep"></div>
-        <button onclick="cvUndo()" title="Undo (Ctrl+Z)">Undo</button>
-        <button onclick="cvRedo()" title="Redo (Ctrl+Shift+Z)">Redo</button>
-        <div class="cv-sep"></div>
-        <span class="cv-zoom-label" id="cv-zoom-label">100%</span>
-        <button onclick="cvZoomToFit()" title="Zoom to fit all nodes">Fit</button>
-      </div>
-    </div>
-    <!-- Minimap -->
-    <div id="canvas-minimap">
-      <canvas id="minimap-canvas"></canvas>
-      <div class="minimap-viewport"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Canvas context menu -->
-<div id="cv-context-menu"></div>
-
-<!-- Send to Beats modal -->
-<div id="cv-beats-overlay" onclick="cvCloseBeatsModal()"></div>
-<div id="cv-beats-modal">
-  <h3>Send to Beats</h3>
-  <p style="font-size:11px;color:var(--faded);margin-bottom:10px">Pick an act:</p>
-  <div class="cv-beats-list" id="cv-beats-list"></div>
-  <div style="text-align:right;margin-top:12px">
-    <button onclick="cvCloseBeatsModal()" style="background:var(--btn-bg);color:#ccc;border:1px solid #555;border-radius:4px;padding:6px 16px;font-size:12px;cursor:pointer">Cancel</button>
-  </div>
-</div>
-
-<!-- Hidden file input for canvas image upload -->
-<input type="file" id="canvasImageInput" accept="image/*" style="display:none">
 
 <!-- ═══════════════════════════════════════ -->
 <!-- MUSIC FORM (slide-in)                  -->
@@ -2002,9 +1300,9 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
     <input id="bfSceneId" type="text" placeholder="e.g. 1.1, 2.3">
     <label>Title *</label>
     <input id="bfTitle" type="text" placeholder="Scene title">
-    <label>Act #</label>
+    <label>Movement #</label>
     <input id="bfMovement" type="number" min="1" max="20" value="1" style="width:80px">
-    <label>Act Title</label>
+    <label>Movement Title</label>
     <input id="bfMovementTitle" type="text" placeholder="e.g. The Loop">
     <label>Location</label>
     <input id="bfLocation" type="text" placeholder="e.g. STUDIO, HOME">
@@ -2014,14 +1312,6 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
       <label><input type="checkbox" value="comedian"> Comedian</label>
       <label><input type="checkbox" value="kid"> Kid</label>
       <label><input type="checkbox" value="older-su"> Older Su</label>
-    </div>
-    <label>Production Tags</label>
-    <div class="char-checks" id="bfProdTags">
-      <label><input type="checkbox" value="COMEDIAN"> Comedian</label>
-      <label><input type="checkbox" value="KID"> Kid</label>
-      <label><input type="checkbox" value="GENAI"> GenAI</label>
-      <label><input type="checkbox" value="NO-DIALOGUE"> No Dialogue</label>
-      <label><input type="checkbox" value="FOURTH-WALL"> Fourth Wall</label>
     </div>
     <label>Tone</label>
     <input id="bfTone" type="text" placeholder="e.g. quiet, fun, shift">
@@ -2063,14 +1353,14 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
 <div id="helpOverlay" class="hidden" onclick="toggleHelp()"></div>
 <div id="helpPanel" class="hidden">
   <h3>PageZero &mdash; Shortcuts</h3>
-  <p class="help-section-label">Global</p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Global</p>
   <table>
     <tr><td>Ctrl+S</td><td>Save as FDX file (clean export)</td></tr>
     <tr><td>Ctrl+Shift+S</td><td>Save Project (with all data)</td></tr>
     <tr><td>Ctrl+O</td><td>Open file (FDX, HTML, or Project)</td></tr>
     <tr><td>Escape</td><td>Close panels / forms</td></tr>
   </table>
-  <p class="help-section-label">Script Tab</p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Script Tab</p>
   <table>
     <tr><td>Tab</td><td>Cycle paragraph type forward</td></tr>
     <tr><td>Shift+Tab</td><td>Cycle paragraph type backward</td></tr>
@@ -2080,38 +1370,25 @@ main::-webkit-scrollbar-thumb:hover{background:var(--faded)}
     <tr><td>Ctrl+D</td><td>Strikethrough selected text</td></tr>
     <tr><td>Ctrl+M</td><td>Add note to paragraph</td></tr>
   </table>
-  <p class="help-hint">
+  <p style="color:#999;font-size:11px;margin:8px 0 6px;line-height:1.5">
     Smart Enter: Character &rarr; Dialogue &rarr; Character. Transition &rarr; Scene Heading.
   </p>
-  <p class="help-section-label">Music &amp; Mood Tab</p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Music &amp; Mood Tab</p>
   <table>
     <tr><td>+ Song</td><td>Add music entry (toolbar button)</td></tr>
     <tr><td>Moods</td><td>Edit mood palette (toolbar button)</td></tr>
   </table>
-  <p class="help-hint-sub">
+  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
     Click mood pills to filter. Cards show scene links from your script.
   </p>
-  <p class="help-section-label">Beats Tab</p>
+  <p style="color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Beats Tab</p>
   <table>
     <tr><td>+ Scene</td><td>Add a new beat / scene card</td></tr>
     <tr><td>Status pill</td><td>Click to cycle: Pending &rarr; Writing &rarr; Done</td></tr>
-    <tr><td>Act</td><td>Filter by act from dropdown</td></tr>
+    <tr><td>Movement</td><td>Filter by movement from dropdown</td></tr>
   </table>
-  <p class="help-hint-sub">
+  <p style="color:#666;font-size:10px;margin-top:8px;line-height:1.5">
     Track your scenes on a beat board. Click descriptions to expand. Notes auto-save.
-  </p>
-  <p class="help-section-label">Canvas Tab</p>
-  <table>
-    <tr><td>Double-click</td><td>Create new text box</td></tr>
-    <tr><td>Space + drag</td><td>Pan the canvas</td></tr>
-    <tr><td>Scroll</td><td>Zoom in/out</td></tr>
-    <tr><td>Shift + drag</td><td>Freehand draw</td></tr>
-    <tr><td>Del / Backspace</td><td>Delete selected node</td></tr>
-    <tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr>
-    <tr><td>Right-click</td><td>Context menu</td></tr>
-  </table>
-  <p class="help-hint-sub">
-    Freeform workspace. Drag images from desktop. Connect nodes by dragging edge dots.
   </p>
   <button onclick="toggleHelp()">Close</button>
 </div>
@@ -2261,10 +1538,6 @@ function updateStatusForTab(tabId) {
     const done = beatEntries.filter(function(e) { return e.status === 'done'; }).length;
     const writing = beatEntries.filter(function(e) { return e.status === 'writing'; }).length;
     statsEl.textContent = total + ' beats \u00B7 ' + done + ' done \u00B7 ' + writing + ' writing';
-  } else if (tabId === 'canvas') {
-    var nodeCount = typeof cvData !== 'undefined' ? cvData.nodes.length : 0;
-    var drawCount = typeof cvData !== 'undefined' ? cvData.drawings.length : 0;
-    statsEl.textContent = nodeCount + ' nodes \u00B7 ' + drawCount + ' drawings';
   }
 }
 
@@ -2827,7 +2100,6 @@ function saveProject() {
     music: musicEntries,
     moodPalette: moodPalette,
     beats: beatEntries,
-    canvas: (typeof cvData !== 'undefined') ? cvData : null,
     activeTab: activeTab,
     timestamp: new Date().toISOString()
   };
@@ -2862,10 +2134,6 @@ function importProject(jsonStr, filename) {
       beatEntries = getDefaultBeats();
     }
     if (project.moodPalette && project.moodPalette.length > 0) moodPalette = project.moodPalette;
-    // Load canvas data
-    if (project.canvas && typeof cvLoadData === 'function') {
-      cvLoadData(project.canvas);
-    }
     normalizeEditor();
     renderCommentDots();
     renderMoodStrip();
@@ -3009,7 +2277,6 @@ function autosave() {
       music: musicEntries,
       moodPalette: moodPalette,
       beats: beatEntries,
-      canvas: (typeof cvData !== 'undefined') ? cvData : null,
       activeTab: activeTab,
       timestamp: new Date().toISOString()
     };
@@ -3061,8 +2328,6 @@ function loadAutosave() {
       musicEntries = data.music || [];
       beatEntries = data.beats || getDefaultBeats();
       if (data.moodPalette && data.moodPalette.length > 0) moodPalette = data.moodPalette;
-      // Canvas data loaded after init via cvLoadData
-      if (data.canvas) window._pendingCanvasData = data.canvas;
       normalizeEditor();
       renderCommentDots();
       updateStats();
@@ -3147,14 +2412,6 @@ document.addEventListener('keydown', function(e) {
     }
   }
   if (e.key === 'Escape') {
-    // Close canvas context menu
-    if (typeof cvHideContextMenu === 'function') cvHideContextMenu();
-    if (typeof cvCloseBeatsModal === 'function') cvCloseBeatsModal();
-    // Canvas: deselect or exit draw mode
-    if (activeTab === 'canvas' && typeof cvHandleEscape === 'function') {
-      cvHandleEscape();
-      return;
-    }
     // Unfocus beat card first
     var focusedCard = document.querySelector('.beat-card.focused');
     if (focusedCard) { unfocusBeatCard(); return; }
@@ -3783,16 +3040,34 @@ function genBeatId() {
 
 function getDefaultBeats() {
   return [
-    { id:'b_1_1', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.1', title:'Flash Forward', location:'STUDIO / NIGHT', characters:['su'], tone:'warm', prodTags:[], description:'Su in the host\'s chair. Writing in a notepad. Not podcast questions \u2014 something else. A smile crosses his face. He looks up at something off-camera. We don\'t see what. The smile stays. Warm. Unguarded. Not performing.\n\nCut to black.', visual:'15 seconds. Intimate. The audience won\'t understand this until the final scene.', truth:'Teases the ending. Sets the emotional destination before the journey begins.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_2', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.2', title:'The Auto', location:'AUTO / MORNING', characters:['su','comedian'], tone:'alive', prodTags:['COMEDIAN','NO-DIALOGUE'], description:'The opening scene. Su sits in an auto. Headphones in. Music playing. Eyes forward. Focused. The auto starts to pull away \u2014 and someone hops in beside him, shoving him into the corner.\n\nThe Comedian. We don\'t know his name yet. The audience sees a second person \u2014 same face, different energy. Sunglasses. Looser body. No headphones but vibing to the same music as if he can hear it through Su\'s skull.\n\nSu doesn\'t look at him. Doesn\'t acknowledge. Just shifts his weight and keeps staring forward. The auto moves through Gurugram morning traffic. The yellow canopy. The BHIM UPI QR code. The Mercedes next to them. The dust.\n\nThe Comedian leans out the open side, takes in the street like a tourist. Grins at a chai wallah. Blows a kiss at the auto driver\'s rearview mirror. Looks at Su \u2014 who is reviewing something on his phone, jaw tight, professional even in transit.\n\nThey arrive. Su gets down. Thanks the driver. The Comedian gets down too. Blows a kiss to the driver.', visual:'Three setups: (1) Forward-facing from backseat bar past the driver \u2014 master shot; (2) Side angle from outside showing both seats and street behind; (3) Corner POV from Comedian\'s seat looking at Su. Sound: diegetic music from Su\'s headphones mixed into score. No dialogue except fare exchange.', truth:'Introduces both characters without explanation. Establishes the contrast \u2014 duty vs. appetite, containment vs. overflow. The audience doesn\'t know the rules yet. They just know something is happening between these two people and the world can only see one of them.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_3', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.3', title:'The Office Arrival', location:'STUDIO / OFFICE / MORNING', characters:['su','comedian'], tone:'alive', prodTags:['COMEDIAN','FOURTH-WALL'], description:'Su walks toward the studio entrance. Fast. Purposeful. The Comedian walks beside him, slower, observing everything \u2014 the guard, the staircase, the light. Su nods good morning to employees with a polite half-smile. The Comedian does silent finger-guns, mock-blessings, leans into their smiles, steals the warmth of every passing interaction.\n\nSu reaches his workstation. Switches on the machine. Sits. Professional. The Comedian drapes himself across the desk where the monitor sits, face inches from the screen, pretending to nap.\n\nThe boss/co-founder arrives. Greets Su. Starts discussing something \u2014 a client, a schedule, something that requires attention. The Comedian slides into Su\'s line of sight. Not aggressively \u2014 just drifting, occupying the space between Su and the co-founder. Dancing softly on her words. Making faces.\n\nSu\'s composure holds. Then a micro-crack \u2014 his jaw tightens. He gives the tiniest hand gesture without looking at the Comedian. A flick. Barely visible. The Comedian mock-reacts \u2014 palms up, "oh scary" \u2014 and drifts aside.\n\nSu makes eye contact with the camera for one microsecond. Then back to the co-founder. "Sorry. Say that again."\n\nTITLE CARD: How to Not Make Films.', visual:'The fourth-wall break declares the film\'s contract with the audience. Title card launches the story.', truth:'Establishes the rule \u2014 he can affect Su, not the world. Shows Su\'s professional mask.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_4', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.4', title:'The Work Day', location:'STUDIO / DAY', characters:['su','comedian'], tone:'warm', prodTags:['COMEDIAN'], description:'Su at work as a podcast pre-production writer. We see him in his element \u2014 sitting with a host before a recording, reviewing questions on a laptop, explaining how to frame an opening. He\'s good. Calm. Uses humor naturally to put nervous hosts at ease.\n\nBTS-style footage: Su in the control room during a recording, headphones on, mouthing the questions along with the host. Adjusting a script mid-take. Nodding when a guest lands something real.\n\nThe Comedian is somewhere in every frame. Sitting in the guest chair before anyone else does. Pretending to interview himself. Lying on the studio floor out of everyone\'s way but fully in Su\'s sightline. During the actual recording, the Comedian mimics the guest\'s answers with exaggerated emotion \u2014 making Su\'s lip twitch.\n\nOne moment: the host struggles with a question. Su rewrites it on the spot. Hands the new version over. The host reads it. It\'s perfect. Lands beautifully. What the audience doesn\'t notice \u2014 the Comedian mouthed something to Su right before the rewrite. Was that his idea? Did Su even realize?', visual:'BTS documentary texture. The Comedian is hidden in plain sight in every composition.', truth:'Establishes Su\'s competence and the painful irony \u2014 he engineers other people\'s vulnerable conversations for a living. Seeds the Comedian\'s invisible helpfulness that Su never credits.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_5', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.5', title:'Everyone Leaves', location:'STUDIO / EVENING', characters:['su','comedian'], tone:'shift', prodTags:['COMEDIAN','NO-DIALOGUE'], description:'7pm. 8pm. People say goodbye. Lights turn off in sections. Doors close. Su stays. He always stays. The studio empties around him. The ambient noise drops \u2014 AC hum, building settling, silence.\n\nHe walks into the podcast studio. The lights are already on. They\'re always on.\n\nHe sits in the host\'s chair. Adjusts it slightly. Places his notepad on the side table. Opens to a page of podcast questions for tomorrow\'s client. Starts working.\n\nThe Comedian is already in the guest chair. Legs up. Watching.', visual:'Transition from day-world to night-world. The room changes when the people leave.', truth:'The Comedian, who was a visual disturbance during the day, now becomes a presence in the other chair. The membrane begins to thin.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_6', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.6', title:'The Ritual \u2014 Night One (Resistance)', location:'PODCAST STUDIO / NIGHT', characters:['su','comedian'], tone:'quiet', prodTags:['COMEDIAN'], description:'Su writes. The pen moves. The Comedian tries to interrupt \u2014 makes a noise, shifts in the chair, starts talking. Su doesn\'t engage. Keeps writing. The Comedian pushes harder. Comments on the questions. Mocks a host Su is prepping for. "You\'re writing questions for a guy who sells protein powder. This is your life."\n\nSu\'s pen pauses for a half-beat. Then keeps going. He doesn\'t indulge. Not tonight.\n\nThe Comedian eventually goes quiet. Looks at Su with something that isn\'t mockery \u2014 a kind of tired affection. Su doesn\'t see it. He\'s working.\n\nSu finishes. Caps the pen. Turns off the studio light. Walks out. The Comedian stays in the chair in the dark for a beat. Then gone.', visual:'', truth:'Shows the resistance pattern. Not every night is an indulgence. This makes the indulgence nights feel earned. Also shows the Comedian\'s quieter side \u2014 the affection underneath the roasting.', notes:'', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_7', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.7', title:'The Ritual \u2014 Night Two (Indulgence)', location:'PODCAST STUDIO / NIGHT', characters:['su','comedian'], tone:'lyrical', prodTags:['COMEDIAN','GENAI'], description:'Same ritual. Host chair. Notepad. Questions. But tonight something is different. Su is writing a question for tomorrow\'s guest \u2014 something about pursuing dreams, or creative risk, or what it felt like to fail before succeeding. A question that could be asked to him.\n\nThe Comedian notices. Reads the question over Su\'s shoulder. "You really wrote that with a straight face?"\n\nSu pauses. Doesn\'t write. Doesn\'t leave. The pen is still in his hand but it\'s not moving.\n\nThe Comedian leans in. "Remember when you used to imagine music videos? Whole films in your head just from hearing a song? You\'d close your eyes in class and the song would become a world."\n\nSu puts the pen down.\n\nTRANSITION: The studio dissolves. We enter Su\'s inner world. A monk on a rooftop at dawn. Stillness. Then he stands. Puts on roller skates. Starts moving. The music builds. He grabs the back of a passing car. Speed. The energy passes \u2014 to a delivery boy, to a room, to a street. Sixty seconds of pure visual music, alive and kinetic and beautiful. GenAI-assisted. Different texture from the rest of the film.\n\nBACK IN THE STUDIO. Su is staring at nothing. The Comedian is watching him. A beat of silence. Then the Comedian breaks it with something small and funny. Su almost smiles. Picks up the pen. Goes back to the podcast questions. But something in his posture has softened.', visual:'The inner world sequence is GenAI-assisted \u2014 different visual texture from the rest of the film. The studio scenes are intimate, warm.', truth:'First indulgence. First inner world. Shows the mechanism \u2014 conversation triggers memory/imagination, the studio becomes a portal, then reality reasserts. The Comedian can access the parts of Su that Su himself has locked away.', notes:'The next day, Su\'s work will suffer slightly \u2014 he\'ll be distracted, half in the inner world. That\'s the cost of indulgence.', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_8', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.8', title:'The Comedian Makes Life Survivable', location:'AUTO / OFFICE / HOME / DAY', characters:['su','comedian'], tone:'fun', prodTags:['COMEDIAN','NO-DIALOGUE'], description:'A montage of daily moments where the Comedian\'s presence secretly helps Su.\n\nIn the auto: Su looks stressed, reviewing notes. The Comedian does something stupid \u2014 mimics the auto driver, makes shadow puppets against the yellow canopy. Su\'s face relaxes without him realizing.\n\nAt work: A client meeting goes badly. The host is unhappy with the questions. Su absorbs the criticism stoically. Walking out of the room, the Comedian perfectly mimics the client\'s pompous delivery. Su has to look away to hide the smile.\n\nAt home: Late night. Su microwaves food. Eats alone. The Comedian sits across from him and pretends to have a five-star dinner \u2014 sniffing the microwaved dal like it\'s a Michelin dish. Su rolls his eyes but his shoulders drop. The tension leaves.\n\nSu never thanks him. Never acknowledges what the Comedian does. The audience sees it. Su doesn\'t.', visual:'Each moment has its own color temperature. Client call: fluorescent. Lunch: warm-yellow. Walk: golden hour.', truth:'This is the scene that makes the Comedian\'s departure devastating. Without these small moments of invisible care, the absence is just silence. With them, the absence is the loss of the one thing that made the loneliness bearable.', notes:'Su will not realize this until it\'s too late.', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_9', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.9', title:'Mother Calls', location:'HOME / STUDIO / EVENING', characters:['su','comedian'], tone:'ache', prodTags:['COMEDIAN'], description:'The phone rings. Maa. Su picks up. The usual \u2014 "tu patla ho gaya hai." Su deflects. She asks about work. He answers. Then the turn: she wants him to meet a girl. Family connection. Arranged meeting. "Just meet her once."\n\nSu tightens. Starts with logic, calm resistance. She pushes. Mentions his age. Mentions her own health. "Main kab tak intezaar karoon?" Su\'s voice stays controlled but something is cracking underneath.\n\nThe Comedian, who normally bolts from this kind of conversation \u2014 stays. He\'s in the room. Watching. And for once he\'s not performing. He\'s listening. Then he says something quiet, almost gentle: "Ja na. Mil le. Kya farak padta hai. Maa khush ho jayegi."\n\nThat\'s the trigger. Not the mother\'s pressure. The Comedian agreeing with her. The one voice that was always on Su\'s side \u2014 the rebel, the escape artist, the one who made fun of everything \u2014 now saying "just go."\n\nSu erupts. First at his mother \u2014 cruel, disproportionate, the kind of thing you say when you\'re attacking someone to avoid feeling what they\'re making you feel. Then he hangs up. Turns on the Comedian. Full volume. Everything he\'s suppressed. "You don\'t get to have an opinion. You\'re the reason I\'m like this. You\'re the part that couldn\'t commit to anything \u2014 not comedy, not people, not one single thing \u2014 and now you\'re telling me to go meet a girl?"\n\nThe Comedian looks at him. Doesn\'t joke. Doesn\'t deflect. Just looks. Then he\'s gone.\n\nSu stands in the empty room. Breathing. The phone screen still showing Maa\'s name. The silence that was always filled with the Comedian\'s noise \u2014 suddenly enormous.', visual:'', truth:'The break. The arranged marriage pressure is the trigger but the real wound is Su destroying the one relationship where he could be honest. He attacked the Comedian for trying to stay \u2014 the one time the Comedian didn\'t run.', notes:'Act 1 ends on this silence. The Comedian is gone. Tomorrow morning, the auto will have one passenger.', status:'pending', createdAt:new Date().toISOString() },
-    { id:'b_1_10', movement:1, movementTitle:'The Comedian Is Here', sceneId:'1.10', title:'The Empty Auto', location:'AUTO / MORNING', characters:['su'], tone:'ache', prodTags:['NO-DIALOGUE'], description:'Same auto. Same route. Same yellow canopy. Same music in the headphones.\n\nSu sits where he always sits. The seat next to him is empty. No one hops in. The auto pulls away. Gurugram traffic moves around him.\n\nSu looks at the empty seat. Then forward. The music plays but it sounds different \u2014 thinner, less alive. The city is the same city. But something that was there yesterday is not there today.\n\nHis hand rests on the empty seat for a moment. Then he pulls it back. Looks at his phone. Opens the podcast questions. Goes to work.\n\nEnd of Act 1.', visual:'The mirror of Scene 2 (The Auto). Same setting, same framing, everything identical except the absence. The audience feels it physically \u2014 the space where the Comedian was.', truth:'This is the hinge into Act 2. Same auto, same route, same music. But one passenger instead of two.', notes:'', status:'pending', createdAt:new Date().toISOString() }
+    { id:'b_1_1', movement:1, movementTitle:'The Loop', sceneId:'1.1', title:'Black \u2014 Sound of Breathing', location:'BLACK', characters:['su'], tone:'quiet', description:'Black screen. Someone breathing. Not distressed \u2014 deep, steady, like after a cold shower. The breathing becomes a hum. The Lyrical Loneliness theme. Then image: water hitting tile. Su\'s back. The cold shower ritual.', visual:'Camera: locked on the shower wall. Water runs. We see his silhouette. No face yet.', truth:'The first thing we hear is Su alone. The first thing we see is a ritual.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_2', movement:1, movementTitle:'The Loop', sceneId:'1.2', title:'The Morning', location:'HOME', characters:['su'], tone:'warm', description:'Su\'s apartment. The lived-in chaos of a man who lives alone. Kettle. Phone check. The notepad on the desk. No dialogue. No voiceover. Just the sounds of a morning.', visual:'Tsai Ming-liang energy. Static shots. The beauty of a mundane morning when no one is watching.', truth:'The beauty of a mundane morning when no one is watching.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_3', movement:1, movementTitle:'The Loop', sceneId:'1.3', title:'The Auto / The Office \u2014 The Comedian Arrives', location:'AUTO / OFFICE / DAY', characters:['su','comedian'], tone:'alive', description:'Su gets into an auto. Headphones on. Delhi moving past. The auto jerks forward \u2014 and on that same motion, the Comedian folds into frame beside him, crowding Su into the corner. Same face. Shades. Looser body. Easier breath. Already mid-riff, like the conversation never started and never stops.\n\nThe Comedian is tuned to Su\'s music without wearing headphones. He drums on the frame, mouths along, comments on the driver, the traffic, the dashboard gods. He is not manic. He is comfortable. More comfortable than Su.\n\nThe auto stops. Su gets out, pays, thanks the driver. The Comedian steps out too \u2014 stretching, silently blessing the driver like he owns the city.\n\nThey enter the office. Su gives small, efficient good mornings. The Comedian performs the larger invisible version of each one \u2014 finger guns, over-nods, mock-bows, leaning into every interaction like he belongs more than Su does. He is everything Su withholds.\n\nAt Su\'s workstation, the change is immediate. Su becomes precise. Functional. Work-self. The Comedian sprawls across the desk area like a cat in a house that belongs to someone else.\n\nThe cofounder arrives with something concrete \u2014 timeline, client, deadline. She needs focus. The Comedian drifts into Su\'s eyeline. Not to sabotage. To play. He keeps sliding between Su and the conversation, silently over-performing what Su cannot say, mocking the corporate choreography with tiny movements.\n\nSu tries to stay locked in. Fails for half a second. Recovers. Fails again. A micro-crack: a breath, a blink, a tiny hand motion without looking. The Comedian mock-surrenders. Slides aside.\n\nSu turns back. The mask clicks on. He responds clearly, calmly, professionally \u2014 too professionally. "Yeah, send it. I\'ll take care of it."\n\nCut to title.', visual:'First half: musical, observational, alive \u2014 the auto should feel like rhythm. Second half: compressed and behavior-driven \u2014 the office should feel like interference. One rearview mirror gag where the Comedian\'s presence is uncertain. The camera breathes in the auto, tightens in the office. Do not overdo mirror tricks yet.', truth:'The Comedian is not a reveal and not a villain. He is the socially fluent surplus of Su \u2014 the version that can enjoy, perform, charm, and deflect without ever having to be fully present. The audience knows immediately. The mystery is the rule of coexistence, not identity. Rule: he can affect Su, not the world.', notes:'KEY RULE: In public, Su almost never speaks directly to him. In private, the boundary weakens. In the studio, the rules get stronger. The Comedian is invisible to the world but has full access to Su\'s frame. He can invade Su\'s space, attention, eyeline, rhythm \u2014 but should not obviously alter external reality.', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_4', movement:1, movementTitle:'The Loop', sceneId:'1.4', title:'The Studio \u2014 Killing Time', location:'STUDIO', characters:['su'], tone:'quiet', description:'Evening. Su in the studio. Not recording anything. Flicking the mic, listening to the thud. Adjusting the chair. Moving the water glass. He talks into the mic \u2014 not a show, just thinking out loud. Then he gets up to leave. The door handle doesn\'t move.', visual:'', truth:'The studio recording becomes the film\'s inner voice. But right now, it\'s just a man talking to himself in a room. And then a door that won\'t open.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_5', movement:1, movementTitle:'The Loop', sceneId:'1.5', title:'The Locked Room \u2014 The Kid Appears', location:'STUDIO', characters:['su','kid'], tone:'wonder', description:'The door won\'t open. The monitor picks up a rhythmic tapping \u2014 same pattern Su was tapping. Someone in the guest chair. A kid. He waves at the camera. The conversation is NOT deep \u2014 it\'s fun. The Kid asks about the equipment, the lights. Then someone opens the door from outside. The Kid is gone. Memory card recorded nothing.', visual:'Amber light throughout. The Kid lit the same way as Su \u2014 the light doesn\'t know who\'s real.', truth:'The first studio encounter is LIGHT. Warm. Fun. The Nusrat melody before the Nusrat lyrics.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_1_6', movement:1, movementTitle:'The Loop', sceneId:'1.6', title:'After the Kid \u2014 The Walk', location:'DELHI STREETS / NIGHT', characters:['su','comedian'], tone:'shift', description:'Su walks out. Shaken. The Comedian is waiting outside. Tries to riff. Su isn\'t biting. For the first time, the Comedian can\'t make Su laugh. They walk in silence. The first crack.', visual:'Long take. Two figures walking a Delhi street at night. One talking, one silent. Then both silent.', truth:'Something happened in that room that the Comedian can\'t reach.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_1', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.1', title:'Black \u2014 Sound of Laughter', location:'BLACK / COMEDY CLUB', characters:['su'], tone:'energy', description:'Black screen. Laughter builds, peaks, crashes. Then silence. A single voice mid-set. The laughter swells. Image fades in: the comedy club. Spotlight. Black curtain. A figure in shades. Su.', visual:'', truth:'This movement is the Comedian\'s backstory \u2014 told in fragments, not chronological.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_2', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.2', title:'Fragment \u2014 The Set', location:'COMEDY CLUB', characters:['su'], tone:'fun', description:'Shades on. Spotlight. Su doing a set. The material is sharp. No before, no after. Just the set. The energy of a room that\'s with you.', visual:'Handheld. Close. The spotlight burns. The shades reflect it. Audience faces blurred.', truth:'The film needs to SHOW why the Comedian exists \u2014 performing was genuinely the best part of Su\'s life.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_3', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.3', title:'Fragment \u2014 The Phone Guy', location:'COMEDY CLUB', characters:['su'], tone:'shift', description:'Mid-set. Someone\'s phone goes off. Su roasts the guy. Gets personal. Gets mean. The room laughs but the guy doesn\'t. Su feels the line being crossed but the laughter is a drug. The bit ends. Applause. But his smile has changed.', visual:'', truth:'The Comedian\'s reflex anger \u2014 not calculated, just fires. This is what Su hates about the Comedian. This is why he stopped.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_4', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.4', title:'Tapri \u2014 After the Show', location:'TEA STALL / NIGHT', characters:['su'], tone:'warm', description:'Comedian friends. Chai in glass cups. Blurred faces, blurred hands. Focus on Su \u2014 his eyes, his laugh, the way he leans back. The only time Su looks genuinely relaxed around other people.', visual:'Focus rack: Su\'s face sharp, everything else soft. The tapri is sanctuary.', truth:'The only time in the film where Su looks genuinely relaxed around other people.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_5', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.5', title:'Present \u2014 The Good Times', location:'VARIOUS / DAY', characters:['su','comedian'], tone:'fun', description:'The dynamic at its best. Not a montage \u2014 2-3 specific moments where the Comedian makes the unbearable bearable.\n\nMoment 1: Su stuck in a terrible client call. The Comedian silently performs the client\'s words with increasingly absurd hand gestures. Su almost cracks. Holds it together. Barely.\n\nMoment 2: Su eating alone at his desk. The Comedian sits across from him, mirroring every bite with exaggerated pleasure \u2014 turning a sad lunch into a performance of joy.\n\nMoment 3: Su walking home through rush hour. The Comedian walks the same route but differently \u2014 stepping off curbs like they\'re stages, treating every auto horn like applause. Su\'s pace softens. For a few steps, they walk in sync.', visual:'Each moment should feel like a separate photograph with its own color temperature. The client call is fluorescent. The lunch is warm-yellow. The walk is golden hour. The Comedian\'s body language should carry a repeating grammar \u2014 the same drumming, the same lean, the same way he steals warmth from a moment.', truth:'The audience needs to love the Comedian before they understand what he costs. These moments are not setup for a twist \u2014 they are genuinely the best part of Su\'s life. The Comedian makes loneliness survivable. That is not nothing.', notes:'These should feel EARNED, not whimsical. The audience should think: I want a Comedian too. That is what makes the later loss hurt.', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_6', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.6', title:'The Comedian Tries to Stay', location:'HOME / EVENING', characters:['su','comedian'], tone:'shift', description:'Su\'s phone rings. Maa. The Comedian is there. Maa talks \u2014 we hear the tone, not words. Su\'s face changes. The Comedian shifts. He wants to say something funny. The words don\'t come. He gets up. Walks to the door. Stops. His hand on the frame. Fighting the urge to bolt. He leaves. The door closes softly.', visual:'', truth:'The almost-staying. The one time the audience sees the Comedian isn\'t just fun. He\'s terrified. That\'s why he\'s funny.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_7', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.7', title:'Fragment \u2014 1:30 AM in the Rain', location:'DELHI STREET / RAIN / NIGHT', characters:['su'], tone:'ache', description:'Younger Su waited outside a comedy club for five hours. Never got a spot. The rain started. He walked home alone. No Comedian beside him \u2014 because the Comedian doesn\'t exist yet. This is the BEFORE.', visual:'The most beautiful shot in the film. Rain on empty Delhi streets. One figure. No umbrella. The Lyrical Loneliness hum under rain sound.', truth:'The Comedian was born sometime between this rain walk and the phone guy set.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_2_8', movement:2, movementTitle:'The Comedian\'s World', sceneId:'2.8', title:'The Studio Door \u2014 The Comedian Won\'t Enter', location:'STUDIO CORRIDOR + STUDIO', characters:['su','comedian'], tone:'quiet', description:'Su walks toward the studio. The Comedian slows. "Chal na, kya karega andar baith ke." Su opens the door. Steps inside. Looks back. The Comedian is standing in the corridor. He won\'t cross. Su sits in silence. From outside: "Tera problem pata hai? Tu har jagah meaning dhundhta hai." Su doesn\'t respond.', visual:'', truth:'The studio demands honesty. The Comedian cannot be honest. A man standing outside a door he can\'t walk through.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_1', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.1', title:'The Date \u2014 Modern Love', location:'RESTAURANT / EVENING', characters:['su','comedian'], tone:'bittersweet', description:'Su on a date. App-matched. The Comedian sits at the next table, watching. Quiet for once. The date is pleasant. Forgettable. After, walking to the auto stand. Comedian: "She was nice." Su: "Haan." Comedian: "Tu bhi nice tha." The way he says "nice" \u2014 it\'s a diagnosis.', visual:'The date shot through glass \u2014 reflections, warm light. The Comedian at the other table, out of focus.', truth:'The distance between "I don\'t want to love" and "I can\'t love the way you need me to."', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_2', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.2', title:'The Arranged Meeting', location:'CAFE OR FAMILY HOME', characters:['su','comedian'], tone:'uncomfortable', description:'A girl his family set him up with. She\'s nice. Educated. Su is so far away from this kind of life. The Comedian, for once, is respectful. Not roasting. He knows there are lines. A different shade of the Comedian.', visual:'', truth:'Su isn\'t against love or marriage. He\'s against performing it.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_3', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.3', title:'Walking Alone \u2014 Love as Breathing', location:'DELHI STREETS / LATE NIGHT', characters:['su'], tone:'lyrical', description:'Su walks. No Comedian tonight. The city half-asleep. Street dogs. Shuttered shops. Studio recording bleeds in: "Love is like breathing. In the moment of true devotion there is no separation between the devoted and the devotee..."', visual:'Long, slow tracking shot from behind. Or static shot \u2014 Su walks through frame and out. Camera stays on empty street.', truth:'Su can feel oneness with a ceiling, a street, rain. Not with a person. That\'s what was amputated.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_4', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.4', title:'The Phone Call \u2014 Mother', location:'HOME / EVENING', characters:['su'], tone:'ache', description:'A proper phone call. Not long. He says "haan" a lot. "Theek hai." "Baad mein baat karte hain." Hangs up. Sits. Stares at the phone. The silence is the loudest thing in the film.', visual:'', truth:'The mother doesn\'t need to be in the studio. This phone call IS the mother scene.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_3_5', movement:3, movementTitle:'The Loneliness of Being Loved', sceneId:'3.5', title:'Studio Recording \u2014 The Ego', location:'STUDIO', characters:['su'], tone:'honest', description:'Su at the mic. Late. Door open \u2014 not expecting anyone. "I see my ego. I observe it. I see its ebbs and flow. I understand it. And I still let it win." He laughs at his own words. The laugh of a man who found his own profundity funny.', visual:'', truth:'The deepest lines in the film should make Su LAUGH, not cry. The Nusrat Principle.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_4_1', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.1', title:'The Comedian Weakens', location:'VARIOUS', characters:['su','comedian'], tone:'shift', description:'The Comedian\'s energy drops. Jokes land slower. He\'s not in every auto ride anymore. Sometimes the seat is empty. His riffs are recycled. The studio visits are doing something the Comedian can\'t counter.', visual:'', truth:'The Comedian doesn\'t die in a dramatic scene. He fades. Like a radio station going out of range.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_4_2', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.2', title:'The Older Su Appears', location:'STUDIO', characters:['su','older-su'], tone:'weight', description:'Studio. Door locks. Su isn\'t scared anymore. He sees a face in the water\'s reflection. The Older Su came through the door \u2014 the only guest who uses it. He made the film. Festivals. Reviews. Everything. And it didn\'t fix the thing Su thinks it\'ll fix. "Ek aur cheez finish ho gayi. Bas."', visual:'The amber light feels colder somehow. The Older Su touches the mic the way you touch a scar.', truth:'Finishing the film won\'t save Su. Not-finishing won\'t either. The pattern is the problem, not the project.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_4_3', movement:4, movementTitle:'The Mirror That Finished', sceneId:'4.3', title:'After the Older Su \u2014 The World Feels Different', location:'VARIOUS / DAY', characters:['su'], tone:'shift', description:'The next day. Su moves slower. Not sadder \u2014 more present. He notices things: light on buildings, pressure cooker sounds, the auto driver\'s hands at a red light. The Comedian is barely there. A shadow.', visual:'The camera breathes for the first time. Longer holds. More air. The film itself is slowing down.', truth:'Su is slowing down. The film slows with him.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_5_1', movement:5, movementTitle:'The Unraveling', sceneId:'5.1', title:'Su Goes to the Studio Voluntarily', location:'STUDIO', characters:['su'], tone:'quiet', description:'For the first time, Su goes because he wants to. Not because the door locked. He turns on the mic. Talks. Really talks \u2014 not rambling, not performing. Just honest.', visual:'', truth:'The studio demanded honesty. For the first time, Su gives it voluntarily.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_5_2', movement:5, movementTitle:'The Unraveling', sceneId:'5.2', title:'The Comedian\'s Last Try', location:'HOME / EVENING', characters:['su','comedian'], tone:'bittersweet', description:'The Comedian shows up. Full energy. New material. He\'s trying. Su watches without anger \u2014 just clarity. He sees through the performance now. The Comedian feels it. The riff dies. For a moment he\'s not performing. Then he gets up and walks out. No "chal, chai peete hain" this time.', visual:'', truth:'The Comedian isn\'t killed or confronted. He\'s loved. And love is the one thing scar tissue can\'t survive.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_5_3', movement:5, movementTitle:'The Unraveling', sceneId:'5.3', title:'Real Moments Break Through', location:'VARIOUS', characters:['su'], tone:'warm', description:'Small real moments. Su calls his mother \u2014 brief but warmer. She notices the shift. Su watches a film alone and his eyes fill. He doesn\'t wipe them. Su at his desk, actually writing \u2014 not planning. Words on paper.', visual:'BRIEF scenes. Ten seconds each. No dialogue. Just images of a man letting things through.', truth:'Su is letting things through for the first time.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_6_1', movement:6, movementTitle:'The Return', sceneId:'6.1', title:'The Kid Comes Back', location:'STUDIO', characters:['su','kid'], tone:'still', description:'Studio. Door locks. Su waits. He knows. The Kid is there. Same grin. But Su can see him now \u2014 really see him. Not as a ghost or mechanism. As the version who never needed armor. The Kid says something devastatingly simple.', visual:'', truth:'The Kid\'s line should make Su walk out and never come back. Not because it\'s painful. Because staying feels absurd.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_6_2', movement:6, movementTitle:'The Return', sceneId:'6.2', title:'Su Walks Out', location:'STUDIO \u2192 DELHI STREETS \u2192 DAWN', characters:['su'], tone:'breathing', description:'Su walks out. The Comedian is not waiting outside. The corridor is empty. Not ominously \u2014 just empty. He walks. Delhi between night and morning. Street dogs. A chai stall opening. The Lyrical Loneliness hum \u2014 but it doesn\'t sound lonely anymore. It sounds like breathing.', visual:'Long. Patient. The camera walks beside him. Like a companion that doesn\'t need to talk.', truth:'The devoted and the devotee are one. A man and his city and the 3 AM air between them.', notes:'', status:'pending', createdAt:new Date().toISOString() },
+    { id:'b_6_3', movement:6, movementTitle:'The Return', sceneId:'6.3', title:'The Last Image', location:'TBD', characters:['su'], tone:'end', description:'The final frame. Options: Su in the studio hitting record for the first time, smiling at camera. OR a real kid running past him on an empty road. OR Su lying on his bed, staring at the ceiling, seeing sky. The audience carries this image out of the theatre.', visual:'', truth:'The last image is a promise. What does the audience take home?', notes:'', status:'pending', createdAt:new Date().toISOString() }
   ];
 }
 
@@ -3813,7 +3088,7 @@ function renderBeatsList() {
   if (beatSearchQuery) {
     var q = beatSearchQuery.toLowerCase();
     entries = entries.filter(function(e) {
-      return (e.title + ' ' + e.sceneId + ' ' + e.description + ' ' + e.location + ' ' + e.tone + ' ' + (e.characters || []).join(' ') + ' ' + (e.prodTags || []).join(' ') + ' ' + (e.truth || '') + ' ' + (e.visual || '') + ' ' + (e.notes || '')).toLowerCase().indexOf(q) !== -1;
+      return (e.title + ' ' + e.sceneId + ' ' + e.description + ' ' + e.location + ' ' + e.tone + ' ' + (e.characters || []).join(' ') + ' ' + (e.truth || '') + ' ' + (e.visual || '') + ' ' + (e.notes || '')).toLowerCase().indexOf(q) !== -1;
     });
   }
 
@@ -3832,7 +3107,7 @@ function renderBeatsList() {
   var movements = {};
   entries.forEach(function(e) {
     var key = e.movement || 0;
-    if (!movements[key]) movements[key] = { title: e.movementTitle || 'Act ' + key, entries: [] };
+    if (!movements[key]) movements[key] = { title: e.movementTitle || 'Movement ' + key, entries: [] };
     movements[key].entries.push(e);
   });
 
@@ -3842,7 +3117,7 @@ function renderBeatsList() {
     // Movement header
     var header = document.createElement('div');
     header.className = 'beat-movement-header';
-    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span><span style="color:var(--faded);font-size:11px;font-family:system-ui,sans-serif;margin-left:8px">' + m.entries.length + ' scene' + (m.entries.length !== 1 ? 's' : '') + '</span>';
+    header.innerHTML = '<span class="beat-movement-num">' + key + '</span><span class="beat-movement-title">' + escapeHTML(m.title) + '</span><span style="color:#888;font-size:11px;font-family:system-ui,sans-serif;margin-left:8px">' + m.entries.length + ' scene' + (m.entries.length !== 1 ? 's' : '') + '</span>';
     list.appendChild(header);
 
     // Grid container
@@ -3935,12 +3210,6 @@ function buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass) {
     });
   }
   if (entry.tone) html += '<span class="beat-tag tag-tone">' + escapeHTML(entry.tone) + '</span>';
-  if (entry.prodTags && entry.prodTags.length > 0) {
-    entry.prodTags.forEach(function(t) {
-      var extraClass = t === 'GENAI' ? ' tag-genai' : (t === 'FOURTH-WALL' ? ' tag-fourth-wall' : '');
-      html += '<span class="beat-tag tag-prod' + extraClass + '">' + escapeHTML(t) + '</span>';
-    });
-  }
   html += '</div>';
 
   // Description (collapsed by default)
@@ -3963,7 +3232,6 @@ function buildBeatCardInner(entry, st, hasThumb, statusLabel, statusClass) {
 
   // Actions
   html += '<div class="beat-actions">';
-  html += '<button class="btn-canvas" onclick="event.stopPropagation();sendBeatToCanvas(\'' + entry.id + '\')">Canvas</button>';
   html += '<button onclick="event.stopPropagation();editBeat(\'' + entry.id + '\')">Edit</button>';
   if (entry.image) {
     html += '<button onclick="event.stopPropagation();removeImage(\'' + entry.id + '\')">-Img</button>';
@@ -4020,14 +3288,8 @@ function editBeat(id) {
 
   // Set character checkboxes
   var chars = entry.characters || [];
-  document.querySelectorAll('#beatForm .char-checks:not(#bfProdTags) input[type="checkbox"]').forEach(function(cb) {
+  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]').forEach(function(cb) {
     cb.checked = chars.indexOf(cb.value) !== -1;
-  });
-
-  // Set production tag checkboxes
-  var pt = entry.prodTags || [];
-  document.querySelectorAll('#bfProdTags input[type="checkbox"]').forEach(function(cb) {
-    cb.checked = pt.indexOf(cb.value) !== -1;
   });
 
   var form = document.getElementById('beatForm');
@@ -4053,14 +3315,8 @@ function saveBeat() {
 
   // Collect characters
   var characters = [];
-  document.querySelectorAll('#beatForm .char-checks:not(#bfProdTags) input[type="checkbox"]:checked').forEach(function(cb) {
+  document.querySelectorAll('#beatForm .char-checks input[type="checkbox"]:checked').forEach(function(cb) {
     characters.push(cb.value);
-  });
-
-  // Collect production tags
-  var prodTags = [];
-  document.querySelectorAll('#bfProdTags input[type="checkbox"]:checked').forEach(function(cb) {
-    prodTags.push(cb.value);
   });
 
   if (editingBeatId) {
@@ -4072,7 +3328,6 @@ function saveBeat() {
       entry.movementTitle = movementTitle;
       entry.location = location;
       entry.characters = characters;
-      entry.prodTags = prodTags;
       entry.tone = tone;
       entry.description = description;
       entry.visual = visual;
@@ -4090,7 +3345,6 @@ function saveBeat() {
       title: title,
       location: location,
       characters: characters,
-      prodTags: prodTags,
       tone: tone,
       description: description,
       visual: visual,
@@ -4117,62 +3371,6 @@ function deleteBeat(id) {
   updateStatusForTab('beats');
   scheduleSave();
   toast('Beat removed');
-}
-
-// ── Send Beat to Canvas ──
-function sendBeatToCanvas(beatId) {
-  var entry = beatEntries.find(function(e) { return e.id === beatId; });
-  if (!entry) return;
-
-  // Check if this beat already has a canvas node
-  if (window.cvData && window.cvData.nodes) {
-    var existing = window.cvData.nodes.find(function(n) { return n.sourceBeatId === beatId; });
-    if (existing) {
-      // Just switch to canvas and center on it
-      switchTab('canvas');
-      setTimeout(function() {
-        if (window.cvCenterOnNode) window.cvCenterOnNode(existing);
-      }, 150);
-      toast('Already on Canvas — centered on it');
-      return;
-    }
-  }
-
-  // Build rich HTML content from beat fields
-  var html = '';
-  if (entry.description) {
-    var paras = entry.description.split('\n').filter(function(p) { return p.trim(); });
-    paras.forEach(function(p) {
-      html += '<div style="margin-bottom:10px">' + p.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
-    });
-  }
-  if (entry.visual) {
-    html += '<div style="margin-top:14px;padding:8px 12px;border-left:3px solid #2a9d8f;color:#2a9d8f;font-style:italic;font-size:14px">' +
-      entry.visual.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
-  }
-  if (entry.truth) {
-    html += '<div style="margin-top:10px;padding:8px 12px;border-left:3px solid #9a6ab0;color:#9a6ab0;font-size:14px">' +
-      entry.truth.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
-  }
-
-  // Build title
-  var title = (entry.sceneId || '') + ' ' + (entry.title || 'Untitled');
-
-  // Act color mapping
-  var actColors = { 1: '#d4a853', 2: '#2a9d8f', 3: '#c46a6a', 4: '#6a8ac4', 5: '#8ac46a' };
-  var color = actColors[entry.movement] || '#d4a853';
-
-  // Create the canvas node
-  if (window.cvAddBeatNode) {
-    var node = window.cvAddBeatNode(title.trim(), html, color, beatId);
-    switchTab('canvas');
-    setTimeout(function() {
-      if (window.cvCenterOnNode && node) window.cvCenterOnNode(node);
-    }, 150);
-    toast('Sent to Canvas: ' + title.trim());
-  } else {
-    toast('Canvas not ready — switch to Canvas tab first, then try again');
-  }
 }
 
 function cancelBeatForm() {
@@ -4221,12 +3419,12 @@ function populateMovementFilter() {
   var sel = document.getElementById('movementFilter');
   var currentVal = sel.value;
   // Keep the first "All Movements" option
-  sel.innerHTML = '<option value="">All Acts</option>';
+  sel.innerHTML = '<option value="">All Movements</option>';
   // Get distinct movements
   var seen = {};
   beatEntries.forEach(function(e) {
     if (!seen[e.movement]) {
-      seen[e.movement] = e.movementTitle || 'Act ' + e.movement;
+      seen[e.movement] = e.movementTitle || 'Movement ' + e.movement;
     }
   });
   var keys = Object.keys(seen).sort(function(a, b) { return parseInt(a) - parseInt(b); });
@@ -4241,76 +3439,14 @@ function populateMovementFilter() {
 }
 
 // ═══════════════════════════════════════
-// THEME SYSTEM
+// DARK MODE
 // ═══════════════════════════════════════
-var THEMES = {
-  parchment: { label: 'Daylight', accent: '#d4a853', swatch: '#fff', dark: false },
-  midnight:  { label: 'Midnight',  accent: '#d4a853', dark: true },
-  ocean:     { label: 'Ocean Deep', accent: '#4a9ec2', dark: true },
-  sunset:    { label: 'Sunset Warm', accent: '#e8963a', dark: true },
-  noir:      { label: 'Noir',      accent: '#c0392b', dark: true },
-  forest:    { label: 'Forest',    accent: '#4a9a5a', dark: true }
-};
-var currentTheme = 'parchment';
-
-function setTheme(name) {
-  if (!THEMES[name]) name = 'parchment';
-  currentTheme = name;
-  var html = document.documentElement;
-  // Remove all theme attributes and dark class
-  html.removeAttribute('data-theme');
-  html.classList.remove('dark');
-  // Apply new theme
-  if (name !== 'parchment' && name !== 'midnight') {
-    html.setAttribute('data-theme', name);
-  }
-  if (THEMES[name].dark) {
-    html.classList.add('dark');
-  }
-  // Save
-  try { localStorage.setItem('pagezero-theme', name); } catch(e){}
-  // Update picker UI
-  updateThemePickerUI(name);
-  // Close dropdown
-  var dd = document.getElementById('themeDropdown');
-  if (dd) dd.classList.remove('open');
-  // Re-render canvas if on canvas tab (wire colors may change)
-  if (typeof cvRender === 'function') cvRender();
-}
-
-function updateThemePickerUI(name) {
-  var t = THEMES[name] || THEMES.parchment;
-  var swatch = document.getElementById('themeCurrentSwatch');
-  var label = document.getElementById('themeCurrentName');
-  if (swatch) swatch.style.background = t.swatch || t.accent;
-  if (label) label.textContent = t.label;
-  // Highlight active in dropdown
-  document.querySelectorAll('.theme-dropdown button').forEach(function(btn) {
-    btn.classList.toggle('active', btn.getAttribute('data-theme-opt') === name);
-  });
-}
-
-function toggleThemeDropdown() {
-  var dd = document.getElementById('themeDropdown');
-  if (dd) dd.classList.toggle('open');
-}
-
-// Close dropdown on outside click
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.theme-picker')) {
-    var dd = document.getElementById('themeDropdown');
-    if (dd) dd.classList.remove('open');
-  }
-});
-
-// Backward compat: legacy 'dark'/'light' values map to midnight/parchment
-function loadThemePreference() {
-  var saved = null;
-  try { saved = localStorage.getItem('pagezero-theme'); } catch(e){}
-  if (saved === 'dark') saved = 'midnight';
-  if (saved === 'light') saved = 'parchment';
-  if (!saved || !THEMES[saved]) saved = 'parchment';
-  return saved;
+function toggleDarkMode() {
+  document.documentElement.classList.toggle('dark');
+  var isDark = document.documentElement.classList.contains('dark');
+  try { localStorage.setItem('pagezero-theme', isDark ? 'dark' : 'light'); } catch(e){}
+  var btn = document.querySelector('.dark-toggle');
+  if (btn) btn.innerHTML = isDark ? '&#9788;' : '&#9790;';
 }
 
 // ═══════════════════════════════════════
@@ -4389,9 +3525,6 @@ function getHandDragIcon() {
 }
 
 function handleDragStart(e, id) {
-  // Don't allow dragging in focus mode — user needs to select text
-  var card = e.target.closest('.beat-card');
-  if (card && card.classList.contains('focused')) { e.preventDefault(); return; }
   draggedBeatId = id;
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/plain', id);
@@ -4545,9 +3678,14 @@ function removeImage(beatId) {
 // INIT
 // ═══════════════════════════════════════
 (function init() {
-  // Load theme preference BEFORE first render to avoid flash
-  var initTheme = loadThemePreference();
-  setTheme(initTheme);
+  // Load dark mode preference BEFORE first render to avoid flash
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem('pagezero-theme'); } catch(e){}
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+    var dkBtn = document.querySelector('.dark-toggle');
+    if (dkBtn) dkBtn.innerHTML = '&#9788;';
+  }
 
   // Load beat view and aspect preferences
   try { currentBeatView = localStorage.getItem('pagezero-beat-view') || 'index'; } catch(e){}
@@ -4580,17 +3718,7 @@ function removeImage(beatId) {
     document.getElementById('panel-script').style.paddingTop = h + 'px';
     document.getElementById('panel-music').style.paddingTop = h + 'px';
     document.getElementById('panel-beats').style.paddingTop = h + 'px';
-    var canvasPanel = document.getElementById('panel-canvas');
-    if (canvasPanel) {
-      canvasPanel.style.paddingTop = h + 'px';
-      var cc = document.getElementById('canvas-container');
-      if (cc) cc.style.top = '0';
-    }
     document.documentElement.style.setProperty('--form-top', h + 'px');
-    // Resize canvas if active
-    if (typeof cvResizeCanvas === 'function' && activeTab === 'canvas') {
-      cvResizeCanvas();
-    }
   }
   syncPanelPadding();
   new ResizeObserver(syncPanelPadding).observe(toolbar);
@@ -4598,1781 +3726,6 @@ function removeImage(beatId) {
   // Check for file in URL hash (e.g., #open)
   if (location.hash === '#new') {
     newScript();
-  }
-})();
-
-// ═══════════════════════════════════════
-// CANVAS MODULE
-// ═══════════════════════════════════════
-(function initCanvas() {
-  // ── Data ──
-  var cvData = window.cvData = {
-    nodes: [],
-    connections: [],
-    drawings: [],
-    viewport: { x: 0, y: 0, zoom: 1 }
-  };
-
-  var CANVAS_SAVE_KEY = 'pagezero-canvas-v1';
-
-  // ── Canvas State ──
-  var cvMode = 'select'; // 'select', 'draw', 'eraser'
-  var cvSelectedNodeId = null;
-  var cvDraggingNode = false;
-  var cvDragOffsetX = 0, cvDragOffsetY = 0;
-  var cvResizingNode = false;
-  var cvResizeStartW = 0, cvResizeStartH = 0, cvResizeStartX = 0, cvResizeStartY = 0;
-  var cvPanning = false;
-  var cvPanStartX = 0, cvPanStartY = 0;
-  var cvPanStartOffX = 0, cvPanStartOffY = 0;
-  var cvSpaceDown = false;
-  var cvDrawing = false;
-  var cvCurrentStroke = null;
-  var cvDrawColor = '#ffffff';
-  var cvDrawWidth = 4;
-  var cvConnecting = false;
-  var cvConnFromNode = null;
-  var cvConnFromSide = '';
-  var cvConnTempX = 0, cvConnTempY = 0;
-  var cvUndoStack = [];
-  var cvRedoStack = [];
-  var cvSaveTimer = null;
-  var cvNextNodeId = 1;
-  var cvNextConnId = 1;
-  var cvNextDrawId = 1;
-  var cvAnimFrame = null;
-  var cvContextTarget = null; // node id or null for context menu
-
-  // ── DOM Refs ──
-  var cvContainer = document.getElementById('canvas-container');
-  var cvCanvas = document.getElementById('canvas-surface');
-  var cvCtx = cvCanvas.getContext('2d');
-  var cvNodesEl = document.getElementById('canvas-nodes');
-  var cvToolbar = document.getElementById('canvas-toolbar');
-  var cvZoomLabel = document.getElementById('cv-zoom-label');
-  var cvMinimapCanvas = document.getElementById('minimap-canvas');
-  var cvMinimapCtx = cvMinimapCanvas.getContext('2d');
-  var cvMinimapViewport = cvContainer.querySelector('.minimap-viewport');
-  var cvContextMenu = document.getElementById('cv-context-menu');
-
-  // ── Helpers ──
-  function cvGenId(prefix) {
-    return prefix + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-  }
-
-  function cvScreenToWorld(sx, sy) {
-    var rect = cvContainer.getBoundingClientRect();
-    var lx = sx - rect.left;
-    var ly = sy - rect.top;
-    return {
-      x: (lx - cvData.viewport.x) / cvData.viewport.zoom,
-      y: (ly - cvData.viewport.y) / cvData.viewport.zoom
-    };
-  }
-
-  function cvWorldToScreen(wx, wy) {
-    var rect = cvContainer.getBoundingClientRect();
-    return {
-      x: wx * cvData.viewport.zoom + cvData.viewport.x + rect.left,
-      y: wy * cvData.viewport.zoom + cvData.viewport.y + rect.top
-    };
-  }
-
-  // ── Resize Canvas ──
-  function cvResizeCanvas() {
-    var rect = cvContainer.getBoundingClientRect();
-    var dpr = window.devicePixelRatio || 1;
-    cvCanvas.width = rect.width * dpr;
-    cvCanvas.height = rect.height * dpr;
-    cvCanvas.style.width = rect.width + 'px';
-    cvCanvas.style.height = rect.height + 'px';
-    cvCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cvRender();
-  }
-  window.cvResizeCanvas = cvResizeCanvas;
-
-  // ── Transform Nodes ──
-  function cvUpdateTransform() {
-    var z = cvData.viewport.zoom;
-    var ox = cvData.viewport.x;
-    var oy = cvData.viewport.y;
-    cvNodesEl.style.transform = 'translate(' + ox + 'px,' + oy + 'px) scale(' + z + ')';
-    cvZoomLabel.textContent = Math.round(z * 100) + '%';
-  }
-
-  // ── Wire color from current theme accent ──
-  function cvWireColor(alpha) {
-    var t = THEMES[currentTheme] || THEMES.parchment;
-    var hex = t.accent;
-    var r = parseInt(hex.slice(1,3), 16);
-    var g = parseInt(hex.slice(3,5), 16);
-    var b = parseInt(hex.slice(5,7), 16);
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-  }
-
-  // ── Render Loop ──
-  function cvRender() {
-    var rect = cvContainer.getBoundingClientRect();
-    var w = rect.width;
-    var h = rect.height;
-    var z = cvData.viewport.zoom;
-    var ox = cvData.viewport.x;
-    var oy = cvData.viewport.y;
-
-    cvCtx.clearRect(0, 0, w, h);
-
-    // Draw dot grid
-    var gridSize = 40;
-    var gridOpacity = Math.min(0.3, 0.15 * z);
-    if (gridOpacity > 0.02) {
-      var isDark = document.documentElement.classList.contains('dark');
-      cvCtx.fillStyle = isDark ? 'rgba(255,255,255,' + gridOpacity + ')' : 'rgba(0,0,0,' + gridOpacity + ')';
-      var startX = (ox % (gridSize * z));
-      var startY = (oy % (gridSize * z));
-      var dotR = Math.max(0.8, 1.2 * z);
-      for (var gx = startX; gx < w; gx += gridSize * z) {
-        for (var gy = startY; gy < h; gy += gridSize * z) {
-          cvCtx.beginPath();
-          cvCtx.arc(gx, gy, dotR, 0, Math.PI * 2);
-          cvCtx.fill();
-        }
-      }
-    }
-
-    // Draw freehand strokes
-    cvData.drawings.forEach(function(d) {
-      if (!d.points || d.points.length < 2) return;
-      cvCtx.save();
-      cvCtx.translate(ox, oy);
-      cvCtx.scale(z, z);
-      cvCtx.strokeStyle = d.color || '#fff';
-      cvCtx.lineWidth = (d.width || 2) / z * z;
-      cvCtx.lineCap = 'round';
-      cvCtx.lineJoin = 'round';
-      cvCtx.beginPath();
-      cvCtx.moveTo(d.points[0][0], d.points[0][1]);
-      for (var i = 1; i < d.points.length; i++) {
-        cvCtx.lineTo(d.points[i][0], d.points[i][1]);
-      }
-      cvCtx.stroke();
-      cvCtx.restore();
-    });
-
-    // Draw current in-progress stroke
-    if (cvDrawing && cvCurrentStroke && cvCurrentStroke.points.length > 1) {
-      cvCtx.save();
-      cvCtx.translate(ox, oy);
-      cvCtx.scale(z, z);
-      cvCtx.strokeStyle = cvCurrentStroke.color;
-      cvCtx.lineWidth = cvCurrentStroke.width;
-      cvCtx.lineCap = 'round';
-      cvCtx.lineJoin = 'round';
-      cvCtx.beginPath();
-      cvCtx.moveTo(cvCurrentStroke.points[0][0], cvCurrentStroke.points[0][1]);
-      for (var j = 1; j < cvCurrentStroke.points.length; j++) {
-        cvCtx.lineTo(cvCurrentStroke.points[j][0], cvCurrentStroke.points[j][1]);
-      }
-      cvCtx.stroke();
-      cvCtx.restore();
-    }
-
-    // Draw connections
-    cvData.connections.forEach(function(conn) {
-      var fromNode = cvData.nodes.find(function(n) { return n.id === conn.from; });
-      var toNode = cvData.nodes.find(function(n) { return n.id === conn.to; });
-      if (!fromNode || !toNode) return;
-      cvDrawConnection(fromNode, toNode, conn.label);
-    });
-
-    // Draw temp connection line while connecting
-    if (cvConnecting && cvConnFromNode) {
-      var fn = cvData.nodes.find(function(n) { return n.id === cvConnFromNode; });
-      if (fn) {
-        var fromPt = cvGetEdgePoint(fn, cvConnFromSide);
-        cvCtx.save();
-        cvCtx.translate(ox, oy);
-        cvCtx.scale(z, z);
-        cvCtx.strokeStyle = cvWireColor(0.7);
-        cvCtx.lineWidth = 5;
-        cvCtx.lineCap = 'round';
-        cvCtx.beginPath();
-        cvCtx.moveTo(fromPt.x, fromPt.y);
-        var tempWorld = cvScreenToWorld(cvConnTempX, cvConnTempY);
-        var tdx = Math.abs(tempWorld.x - fromPt.x);
-        var cpOff = Math.max(tdx * 0.5, 60);
-        cvCtx.bezierCurveTo(fromPt.x + cpOff, fromPt.y, tempWorld.x - cpOff, tempWorld.y, tempWorld.x, tempWorld.y);
-        cvCtx.stroke();
-        cvCtx.restore();
-      }
-    }
-
-    cvUpdateMinimap();
-  }
-
-  function cvDrawConnection(fromNode, toNode, label) {
-    var z = cvData.viewport.zoom;
-    var ox = cvData.viewport.x;
-    var oy = cvData.viewport.y;
-    // Connect from right port dot to left port dot
-    var fx = fromNode.x + fromNode.width + 2;
-    var fy = fromNode.y + 25;
-    var tx = toNode.x - 2;
-    var ty = toNode.y + 25;
-
-    cvCtx.save();
-    cvCtx.translate(ox, oy);
-    cvCtx.scale(z, z);
-
-    // Horizontal bezier curve (ComfyUI-style)
-    var dist = Math.abs(tx - fx);
-    var cpOffset = Math.max(dist * 0.5, 60);
-    var cx1 = fx + cpOffset;
-    var cy1 = fy;
-    var cx2 = tx - cpOffset;
-    var cy2 = ty;
-
-    cvCtx.strokeStyle = cvWireColor(0.65);
-    cvCtx.lineWidth = 4;
-    cvCtx.lineCap = 'round';
-    cvCtx.beginPath();
-    cvCtx.moveTo(fx, fy);
-    cvCtx.bezierCurveTo(cx1, cy1, cx2, cy2, tx, ty);
-    cvCtx.stroke();
-
-    // Small circle at each end (port indicators)
-    cvCtx.fillStyle = cvWireColor(0.85);
-    cvCtx.beginPath();
-    cvCtx.arc(fx, fy, 4, 0, Math.PI * 2);
-    cvCtx.fill();
-    cvCtx.beginPath();
-    cvCtx.arc(tx, ty, 4, 0, Math.PI * 2);
-    cvCtx.fill();
-
-    // Label
-    if (label) {
-      var mx = (fx + tx) / 2;
-      var my = (fy + ty) / 2;
-      cvCtx.font = '12px system-ui, sans-serif';
-      cvCtx.fillStyle = cvWireColor(0.9);
-      cvCtx.textAlign = 'center';
-      cvCtx.textBaseline = 'bottom';
-      cvCtx.fillText(label, mx, my - 6);
-    }
-
-    cvCtx.restore();
-  }
-
-  function cvGetEdgePoint(node, side) {
-    var cx = node.x + node.width / 2;
-    var portY = node.y + 25; // port near top header area
-    switch (side) {
-      case 'top': return { x: cx, y: node.y };
-      case 'right': return { x: node.x + node.width, y: portY };
-      case 'bottom': return { x: cx, y: node.y + node.height };
-      case 'left': return { x: node.x, y: portY };
-      default: return { x: cx, y: portY };
-    }
-  }
-
-  // ── Node DOM Creation ──
-  function cvCreateNodeEl(node) {
-    var el = document.createElement('div');
-    el.className = 'cv-node';
-    if (node.id === cvSelectedNodeId) el.classList.add('selected');
-    el.dataset.nodeId = node.id;
-    el.style.left = node.x + 'px';
-    el.style.top = node.y + 'px';
-    el.style.width = node.width + 'px';
-    el.style.height = node.height + 'px';
-    el.style.zIndex = node.zIndex || 1;
-    if (node.color) {
-      el.style.borderLeftColor = node.color;
-      el.style.borderLeftWidth = '4px';
-    }
-
-    // Hover toolbar
-    var tb = document.createElement('div');
-    tb.className = 'cv-node-toolbar';
-    var delBtn = document.createElement('button');
-    delBtn.textContent = 'x';
-    delBtn.title = 'Delete';
-    delBtn.onclick = function(e) { e.stopPropagation(); cvDeleteNode(node.id); };
-    tb.appendChild(delBtn);
-
-    if (node.type === 'text') {
-      var beatsBtn = document.createElement('button');
-      beatsBtn.textContent = 'Beats';
-      beatsBtn.title = 'Send to Beats';
-      beatsBtn.onclick = function(e) {
-        e.stopPropagation();
-        var rect = beatsBtn.getBoundingClientRect();
-        cvShowBeatsModal(node.id, rect.right + 10, rect.top);
-      };
-      tb.appendChild(beatsBtn);
-    }
-
-    var colorBtn = document.createElement('button');
-    colorBtn.textContent = 'Color';
-    colorBtn.title = 'Change color';
-    colorBtn.onclick = function(e) {
-      e.stopPropagation();
-      var input = document.createElement('input');
-      input.type = 'color';
-      input.value = node.color || '#d4a853';
-      input.style.position = 'fixed';
-      input.style.top = '-9999px';
-      document.body.appendChild(input);
-      input.addEventListener('input', function() {
-        node.color = input.value;
-        cvRenderNodes();
-        cvScheduleSave();
-      });
-      input.addEventListener('change', function() {
-        document.body.removeChild(input);
-      });
-      input.click();
-    };
-    tb.appendChild(colorBtn);
-    el.appendChild(tb);
-
-    // Connection dots
-    ['top', 'right', 'bottom', 'left'].forEach(function(side) {
-      var dot = document.createElement('div');
-      dot.className = 'cv-conn-dot ' + side;
-      dot.dataset.side = side;
-      dot.dataset.nodeId = node.id;
-      dot.addEventListener('mousedown', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        cvConnecting = true;
-        cvConnFromNode = node.id;
-        cvConnFromSide = side;
-        cvConnTempX = e.clientX;
-        cvConnTempY = e.clientY;
-      });
-      el.appendChild(dot);
-    });
-
-    // Header (drag handle + editable title)
-    var header = document.createElement('div');
-    header.className = 'cv-node-header';
-    var titleSpan = document.createElement('span');
-    titleSpan.className = 'cv-node-title';
-    titleSpan.contentEditable = 'true';
-    titleSpan.spellcheck = false;
-    titleSpan.textContent = node.title || (node.type === 'image' ? 'Image' : 'Note');
-    titleSpan.addEventListener('blur', function() {
-      var newTitle = titleSpan.textContent.trim();
-      if (newTitle) { node.title = newTitle; } else { titleSpan.textContent = node.title || 'Note'; }
-      cvScheduleSave();
-    });
-    titleSpan.addEventListener('keydown', function(e) {
-      e.stopPropagation();
-      if (e.key === 'Enter') { e.preventDefault(); titleSpan.blur(); }
-    });
-    titleSpan.addEventListener('mousedown', function(e) { e.stopPropagation(); });
-    header.appendChild(titleSpan);
-    header.addEventListener('mousedown', function(e) {
-      if (e.target === titleSpan) return;
-      if (e.button !== 0) return;
-      e.preventDefault();
-      cvSelectNode(node.id);
-      cvDraggingNode = true;
-      var worldPt = cvScreenToWorld(e.clientX, e.clientY);
-      cvDragOffsetX = worldPt.x - node.x;
-      cvDragOffsetY = worldPt.y - node.y;
-    });
-    el.appendChild(header);
-
-    // Body
-    var body = document.createElement('div');
-    body.className = 'cv-node-body';
-    if (node.type === 'text') {
-      body.contentEditable = 'true';
-      body.spellcheck = false;
-      body.innerHTML = node.content || '';
-      body.addEventListener('input', function() {
-        node.content = body.innerHTML;
-        cvScheduleSave();
-      });
-      // Single click selects node but doesn't enter text editing
-      body.addEventListener('mousedown', function(e) {
-        e.stopPropagation();
-        cvSelectNode(node.id);
-        // Prevent focus on single click — need double-click to edit
-        if (!body.dataset.editing) {
-          e.preventDefault();
-        }
-      });
-      body.addEventListener('dblclick', function(e) {
-        e.stopPropagation();
-        body.dataset.editing = 'true';
-        body.focus();
-      });
-      body.addEventListener('blur', function() {
-        delete body.dataset.editing;
-      });
-      body.addEventListener('focus', function() {
-        cvSelectNode(node.id);
-      });
-    } else if (node.type === 'image') {
-      var img = document.createElement('img');
-      img.src = node.content || '';
-      img.draggable = false;
-      body.appendChild(img);
-      body.addEventListener('mousedown', function(e) {
-        if (e.button !== 0) return;
-        e.preventDefault();
-        cvSelectNode(node.id);
-        cvDraggingNode = true;
-        var worldPt = cvScreenToWorld(e.clientX, e.clientY);
-        cvDragOffsetX = worldPt.x - node.x;
-        cvDragOffsetY = worldPt.y - node.y;
-      });
-    }
-    el.appendChild(body);
-
-    // Resize handle
-    var resize = document.createElement('div');
-    resize.className = 'cv-node-resize';
-    resize.addEventListener('mousedown', function(e) {
-      if (e.button !== 0) return;
-      e.stopPropagation();
-      e.preventDefault();
-      cvSelectNode(node.id);
-      cvResizingNode = true;
-      cvResizeStartW = node.width;
-      cvResizeStartH = node.height;
-      cvResizeStartX = e.clientX;
-      cvResizeStartY = e.clientY;
-    });
-    el.appendChild(resize);
-
-    // Context menu on right-click
-    el.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      cvSelectNode(node.id);
-      cvShowNodeContextMenu(e.clientX, e.clientY, node.id);
-    });
-
-    return el;
-  }
-
-  // ── Render Nodes DOM ──
-  function cvRenderNodes() {
-    cvNodesEl.innerHTML = '';
-    // Sort by zIndex
-    var sorted = cvData.nodes.slice().sort(function(a, b) { return (a.zIndex || 1) - (b.zIndex || 1); });
-    sorted.forEach(function(node) {
-      cvNodesEl.appendChild(cvCreateNodeEl(node));
-    });
-    cvUpdateTransform();
-  }
-
-  // ── Node Operations ──
-  function cvAddTextNode(wx, wy) {
-    cvPushUndo();
-    var node = {
-      id: cvGenId('n'),
-      type: 'text',
-      x: wx - 200,
-      y: wy - 120,
-      width: 400,
-      height: 240,
-      content: '',
-      color: '',
-      zIndex: cvGetMaxZ() + 1
-    };
-    cvData.nodes.push(node);
-    // If zoomed out too far, zoom in so the new node is usable
-    if (cvData.viewport.zoom < 0.5) {
-      var rect = cvContainer.getBoundingClientRect();
-      var centerX = node.x + node.width / 2;
-      var centerY = node.y + node.height / 2;
-      cvData.viewport.zoom = 1;
-      cvData.viewport.x = rect.width / 2 - centerX;
-      cvData.viewport.y = rect.height / 2 - centerY;
-      var zl = document.getElementById('cv-zoom-label');
-      if (zl) zl.textContent = '100%';
-    }
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    cvSelectNode(node.id);
-    return node;
-  }
-
-  function cvAddImageNode(dataUrl, wx, wy) {
-    cvPushUndo();
-    var node = {
-      id: cvGenId('n'),
-      type: 'image',
-      x: wx - 200,
-      y: wy - 150,
-      width: 400,
-      height: 300,
-      content: dataUrl,
-      color: '',
-      zIndex: cvGetMaxZ() + 1
-    };
-    cvData.nodes.push(node);
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    cvSelectNode(node.id);
-  }
-
-  // ── Create node from Beat data ──
-  function cvAddBeatNode(title, htmlContent, color, sourceBeatId) {
-    cvPushUndo();
-    // Place at center of current viewport
-    var rect = cvContainer.getBoundingClientRect();
-    var cx = (rect.width / 2 - cvData.viewport.x) / cvData.viewport.zoom;
-    var cy = (rect.height / 2 - cvData.viewport.y) / cvData.viewport.zoom;
-    var node = {
-      id: cvGenId('n'),
-      type: 'text',
-      x: cx - 350,
-      y: cy - 250,
-      width: 700,
-      height: 500,
-      content: htmlContent,
-      color: color || '#d4a853',
-      title: title,
-      sourceBeatId: sourceBeatId,
-      zIndex: cvGetMaxZ() + 1
-    };
-    cvData.nodes.push(node);
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    cvSelectNode(node.id);
-    return node;
-  }
-  window.cvAddBeatNode = cvAddBeatNode;
-
-  // ── Center viewport on a node ──
-  function cvCenterOnNode(node) {
-    var rect = cvContainer.getBoundingClientRect();
-    var z = cvData.viewport.zoom;
-    if (z < 0.5) { z = 1; cvData.viewport.zoom = 1; }
-    var nodeCX = node.x + node.width / 2;
-    var nodeCY = node.y + node.height / 2;
-    cvData.viewport.x = rect.width / 2 - nodeCX * z;
-    cvData.viewport.y = rect.height / 2 - nodeCY * z;
-    var zl = document.getElementById('cv-zoom-label');
-    if (zl) zl.textContent = Math.round(z * 100) + '%';
-    cvRenderNodes();
-    cvRender();
-    cvUpdateTransform();
-    cvSelectNode(node.id);
-  }
-  window.cvCenterOnNode = cvCenterOnNode;
-
-  function cvDeleteNode(id) {
-    cvPushUndo();
-    cvData.nodes = cvData.nodes.filter(function(n) { return n.id !== id; });
-    cvData.connections = cvData.connections.filter(function(c) { return c.from !== id && c.to !== id; });
-    if (cvSelectedNodeId === id) cvSelectedNodeId = null;
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    updateStatusForTab('canvas');
-  }
-
-  function cvDuplicateNode(id) {
-    var orig = cvData.nodes.find(function(n) { return n.id === id; });
-    if (!orig) return;
-    cvPushUndo();
-    var dup = JSON.parse(JSON.stringify(orig));
-    dup.id = cvGenId('n');
-    dup.x += 30;
-    dup.y += 30;
-    dup.zIndex = cvGetMaxZ() + 1;
-    cvData.nodes.push(dup);
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    cvSelectNode(dup.id);
-  }
-
-  function cvBringToFront(id) {
-    var node = cvData.nodes.find(function(n) { return n.id === id; });
-    if (!node) return;
-    node.zIndex = cvGetMaxZ() + 1;
-    cvRenderNodes();
-    cvScheduleSave();
-  }
-
-  function cvSendToBack(id) {
-    var node = cvData.nodes.find(function(n) { return n.id === id; });
-    if (!node) return;
-    var minZ = cvGetMinZ();
-    node.zIndex = minZ - 1;
-    cvRenderNodes();
-    cvScheduleSave();
-  }
-
-  function cvGetMaxZ() {
-    if (cvData.nodes.length === 0) return 0;
-    return Math.max.apply(null, cvData.nodes.map(function(n) { return n.zIndex || 1; }));
-  }
-
-  function cvGetMinZ() {
-    if (cvData.nodes.length === 0) return 1;
-    return Math.min.apply(null, cvData.nodes.map(function(n) { return n.zIndex || 1; }));
-  }
-
-  function cvSelectNode(id) {
-    if (cvSelectedNodeId === id) return;
-    cvSelectedNodeId = id;
-    cvNodesEl.querySelectorAll('.cv-node').forEach(function(el) {
-      el.classList.toggle('selected', el.dataset.nodeId === id);
-    });
-  }
-
-  function cvDeselectAll() {
-    cvSelectedNodeId = null;
-    cvNodesEl.querySelectorAll('.cv-node.selected').forEach(function(el) {
-      el.classList.remove('selected');
-    });
-  }
-
-  // ── Connection Operations ──
-  function cvAddConnection(fromId, toId) {
-    if (fromId === toId) return;
-    // Check if connection already exists
-    var exists = cvData.connections.some(function(c) {
-      return (c.from === fromId && c.to === toId) || (c.from === toId && c.to === fromId);
-    });
-    if (exists) return;
-    cvPushUndo();
-    cvData.connections.push({
-      id: cvGenId('c'),
-      from: fromId,
-      to: toId,
-      label: ''
-    });
-    cvRender();
-    cvScheduleSave();
-  }
-
-  function cvDeleteConnection(id) {
-    cvPushUndo();
-    cvData.connections = cvData.connections.filter(function(c) { return c.id !== id; });
-    cvRender();
-    cvScheduleSave();
-  }
-
-  // ── Undo/Redo ──
-  function cvPushUndo() {
-    cvUndoStack.push(JSON.stringify(cvData));
-    if (cvUndoStack.length > 50) cvUndoStack.shift();
-    cvRedoStack = [];
-  }
-
-  function cvUndo() {
-    if (cvUndoStack.length === 0) { toast('Nothing to undo'); return; }
-    cvRedoStack.push(JSON.stringify(cvData));
-    var state = JSON.parse(cvUndoStack.pop());
-    cvData.nodes = state.nodes || [];
-    cvData.connections = state.connections || [];
-    cvData.drawings = state.drawings || [];
-    // Keep viewport
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    toast('Undone');
-  }
-  window.cvUndo = cvUndo;
-
-  function cvRedo() {
-    if (cvRedoStack.length === 0) { toast('Nothing to redo'); return; }
-    cvUndoStack.push(JSON.stringify(cvData));
-    var state = JSON.parse(cvRedoStack.pop());
-    cvData.nodes = state.nodes || [];
-    cvData.connections = state.connections || [];
-    cvData.drawings = state.drawings || [];
-    cvRenderNodes();
-    cvRender();
-    cvScheduleSave();
-    toast('Redone');
-  }
-  window.cvRedo = cvRedo;
-
-  // ── Mode Setting ──
-  function cvSetMode(mode) {
-    cvMode = mode;
-    document.getElementById('cv-btn-select').classList.toggle('active', mode === 'select');
-    document.getElementById('cv-btn-draw').classList.toggle('active', mode === 'draw');
-    document.getElementById('cv-btn-eraser').classList.toggle('active', mode === 'eraser');
-    var drawColors = document.getElementById('cv-draw-colors');
-    if (mode === 'draw') {
-      drawColors.classList.add('visible');
-      cvContainer.style.cursor = 'crosshair';
-    } else if (mode === 'eraser') {
-      drawColors.classList.remove('visible');
-      cvContainer.style.cursor = 'pointer';
-    } else {
-      drawColors.classList.remove('visible');
-      cvContainer.style.cursor = 'default';
-    }
-  }
-  window.cvSetMode = cvSetMode;
-
-  function cvSetDrawColor(el) {
-    document.querySelectorAll('.cv-color-swatch').forEach(function(s) { s.classList.remove('active'); });
-    el.classList.add('active');
-    cvDrawColor = el.dataset.color;
-  }
-  window.cvSetDrawColor = cvSetDrawColor;
-
-  function cvSetLineWidth(val) {
-    cvDrawWidth = parseInt(val) || 4;
-    var label = document.getElementById('cv-width-val');
-    if (label) label.textContent = cvDrawWidth + 'px';
-  }
-  window.cvSetLineWidth = cvSetLineWidth;
-
-  // ── Toolbar: Collapse / Drag ──
-  (function() {
-    var tb = document.getElementById('canvas-toolbar');
-    var grip = document.getElementById('cv-tb-grip');
-    var toggle = document.getElementById('cv-tb-toggle');
-    var dragging = false, didDrag = false, startX, startY, startLeft, startTop;
-
-    // ── Collapse / Expand ──
-    function cvToggleToolbar() {
-      var collapsed = tb.classList.toggle('collapsed');
-      toggle.innerHTML = collapsed ? '&#x270E;' : '&#x25BC;';
-      toggle.title = collapsed ? 'Expand toolbar' : 'Collapse toolbar';
-      // When collapsing, switch back to Select mode so user can still pan/interact
-      if (collapsed && window.cvSetMode) {
-        window.cvSetMode('select');
-      }
-      try { localStorage.setItem('pz-cv-toolbar-collapsed', collapsed ? '1' : '0'); } catch(e){}
-    }
-    window.cvToggleToolbar = cvToggleToolbar;
-
-    // Restore collapsed state on load
-    try {
-      if (localStorage.getItem('pz-cv-toolbar-collapsed') === '1') {
-        tb.classList.add('collapsed');
-        toggle.innerHTML = '&#x270E;';
-        toggle.title = 'Expand toolbar';
-      }
-    } catch(e){}
-
-    // Restore saved position on load
-    try {
-      var saved = JSON.parse(localStorage.getItem('pz-cv-toolbar-pos'));
-      if (saved && saved.x != null) {
-        tb.style.left = saved.x + 'px';
-        tb.style.top = saved.y + 'px';
-        tb.style.right = 'auto';
-        tb.style.bottom = 'auto';
-      }
-    } catch(e){}
-
-    // ── Unified drag system ──
-    var dragging = false, didDrag = false, justExpanded = false, startX, startY, startLeft, startTop;
-
-    function beginDrag(e) {
-      dragging = true;
-      didDrag = false;
-      startX = e.clientX;
-      startY = e.clientY;
-      var rect = tb.getBoundingClientRect();
-      var container = cvContainer.getBoundingClientRect();
-      startLeft = rect.left - container.left;
-      startTop = rect.top - container.top;
-      // Switch to absolute left/top positioning
-      tb.style.left = startLeft + 'px';
-      tb.style.top = startTop + 'px';
-      tb.style.right = 'auto';
-      tb.style.bottom = 'auto';
-      document.addEventListener('mousemove', onDragMove);
-      document.addEventListener('mouseup', onDragEnd);
-    }
-
-    function onDragMove(e) {
-      if (!dragging) return;
-      var dx = e.clientX - startX;
-      var dy = e.clientY - startY;
-      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
-      if (!didDrag) return; // don't move until threshold
-      var container = cvContainer.getBoundingClientRect();
-      var tbW = tb.offsetWidth, tbH = tb.offsetHeight;
-      var nx = Math.max(0, Math.min(container.width - tbW, startLeft + dx));
-      var ny = Math.max(0, Math.min(container.height - tbH, startTop + dy));
-      tb.style.left = nx + 'px';
-      tb.style.top = ny + 'px';
-    }
-
-    function onDragEnd(e) {
-      dragging = false;
-      document.removeEventListener('mousemove', onDragMove);
-      document.removeEventListener('mouseup', onDragEnd);
-      // Save position
-      try {
-        localStorage.setItem('pz-cv-toolbar-pos', JSON.stringify({
-          x: parseInt(tb.style.left),
-          y: parseInt(tb.style.top)
-        }));
-      } catch(ex){}
-      // If no drag happened and collapsed, expand
-      if (!didDrag && tb.classList.contains('collapsed')) {
-        // Expand, then reposition so it doesn't go off-screen
-        justExpanded = true;
-        setTimeout(function() { justExpanded = false; }, 300);
-        cvToggleToolbar();
-        setTimeout(function() {
-          var container = cvContainer.getBoundingClientRect();
-          var tbRect = tb.getBoundingClientRect();
-          var cLeft = tbRect.left - container.left;
-          var cTop = tbRect.top - container.top;
-          if (cLeft + tbRect.width > container.width) {
-            tb.style.left = Math.max(0, container.width - tbRect.width - 8) + 'px';
-          }
-          if (cTop + tbRect.height > container.height) {
-            tb.style.top = Math.max(0, container.height - tbRect.height - 8) + 'px';
-          }
-          try {
-            localStorage.setItem('pz-cv-toolbar-pos', JSON.stringify({
-              x: parseInt(tb.style.left),
-              y: parseInt(tb.style.top)
-            }));
-          } catch(ex){}
-        }, 10);
-      }
-    }
-
-    // Grip handle: drag when expanded
-    grip.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      beginDrag(e);
-    });
-
-    // Collapsed toolbar: drag or click-to-expand
-    tb.addEventListener('mousedown', function(e) {
-      if (!tb.classList.contains('collapsed')) return;
-      if (e.button !== 0) return;
-      e.preventDefault();
-      beginDrag(e);
-    });
-
-    // Toggle button: collapse when expanded (ignore if just expanded from mouseup)
-    toggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (justExpanded) return;
-      if (!tb.classList.contains('collapsed')) {
-        cvToggleToolbar();
-      }
-    });
-  })();
-
-  // ── Pan & Zoom ──
-  function cvHandleWheel(e) {
-    e.preventDefault();
-    var rect = cvContainer.getBoundingClientRect();
-    var mx = e.clientX - rect.left;
-    var my = e.clientY - rect.top;
-    var oldZoom = cvData.viewport.zoom;
-    var delta = -e.deltaY * 0.001;
-    var newZoom = Math.max(0.1, Math.min(5, oldZoom * (1 + delta)));
-    var zoomFactor = newZoom / oldZoom;
-    cvData.viewport.x = mx - (mx - cvData.viewport.x) * zoomFactor;
-    cvData.viewport.y = my - (my - cvData.viewport.y) * zoomFactor;
-    cvData.viewport.zoom = newZoom;
-    cvUpdateTransform();
-    cvRender();
-  }
-
-  function cvZoomToFit() {
-    if (cvData.nodes.length === 0) {
-      cvData.viewport = { x: 0, y: 0, zoom: 1 };
-      cvUpdateTransform();
-      cvRender();
-      return;
-    }
-    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    cvData.nodes.forEach(function(n) {
-      if (n.x < minX) minX = n.x;
-      if (n.y < minY) minY = n.y;
-      if (n.x + n.width > maxX) maxX = n.x + n.width;
-      if (n.y + n.height > maxY) maxY = n.y + n.height;
-    });
-    var rect = cvContainer.getBoundingClientRect();
-    var pad = 60;
-    var cw = rect.width - pad * 2;
-    var ch = rect.height - pad * 2;
-    var nw = maxX - minX;
-    var nh = maxY - minY;
-    if (nw === 0 || nh === 0) return;
-    var zoom = Math.min(cw / nw, ch / nh, 2);
-    zoom = Math.max(0.1, Math.min(5, zoom));
-    cvData.viewport.zoom = zoom;
-    cvData.viewport.x = (rect.width - nw * zoom) / 2 - minX * zoom;
-    cvData.viewport.y = (rect.height - nh * zoom) / 2 - minY * zoom;
-    cvUpdateTransform();
-    cvRender();
-  }
-  window.cvZoomToFit = cvZoomToFit;
-
-  // ── Minimap ──
-  function cvUpdateMinimap() {
-    var mw = 160;
-    var mh = 110;
-    cvMinimapCanvas.width = mw;
-    cvMinimapCanvas.height = mh;
-    cvMinimapCtx.clearRect(0, 0, mw, mh);
-
-    if (cvData.nodes.length === 0) {
-      cvMinimapViewport.style.display = 'none';
-      return;
-    }
-
-    // Find bounds of all nodes
-    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    cvData.nodes.forEach(function(n) {
-      if (n.x < minX) minX = n.x;
-      if (n.y < minY) minY = n.y;
-      if (n.x + n.width > maxX) maxX = n.x + n.width;
-      if (n.y + n.height > maxY) maxY = n.y + n.height;
-    });
-
-    var pad = 100;
-    minX -= pad; minY -= pad; maxX += pad; maxY += pad;
-    var worldW = maxX - minX;
-    var worldH = maxY - minY;
-    if (worldW <= 0 || worldH <= 0) return;
-    var scale = Math.min(mw / worldW, mh / worldH);
-
-    // Draw node rectangles
-    cvData.nodes.forEach(function(n) {
-      var x = (n.x - minX) * scale;
-      var y = (n.y - minY) * scale;
-      var w = n.width * scale;
-      var h = n.height * scale;
-      cvMinimapCtx.fillStyle = n.color || (n.type === 'image' ? '#5a8ac0' : '#d4a853');
-      cvMinimapCtx.globalAlpha = 0.7;
-      cvMinimapCtx.fillRect(x, y, Math.max(2, w), Math.max(2, h));
-    });
-    cvMinimapCtx.globalAlpha = 1;
-
-    // Draw viewport rectangle
-    var rect = cvContainer.getBoundingClientRect();
-    var vx = (-cvData.viewport.x / cvData.viewport.zoom - minX) * scale;
-    var vy = (-cvData.viewport.y / cvData.viewport.zoom - minY) * scale;
-    var vw = (rect.width / cvData.viewport.zoom) * scale;
-    var vh = (rect.height / cvData.viewport.zoom) * scale;
-    cvMinimapViewport.style.display = 'block';
-    cvMinimapViewport.style.left = Math.max(0, vx) + 'px';
-    cvMinimapViewport.style.top = Math.max(0, vy) + 'px';
-    cvMinimapViewport.style.width = Math.min(mw, vw) + 'px';
-    cvMinimapViewport.style.height = Math.min(mh, vh) + 'px';
-
-    // Store for click-to-jump
-    cvMinimapCanvas._worldBounds = { minX: minX, minY: minY, worldW: worldW, worldH: worldH, scale: scale };
-  }
-
-  // Click on minimap to jump
-  document.getElementById('canvas-minimap').addEventListener('mousedown', function(e) {
-    var bounds = cvMinimapCanvas._worldBounds;
-    if (!bounds) return;
-    var rect = e.currentTarget.getBoundingClientRect();
-    var mx = e.clientX - rect.left;
-    var my = e.clientY - rect.top;
-    var worldX = mx / bounds.scale + bounds.minX;
-    var worldY = my / bounds.scale + bounds.minY;
-    var cRect = cvContainer.getBoundingClientRect();
-    cvData.viewport.x = -worldX * cvData.viewport.zoom + cRect.width / 2;
-    cvData.viewport.y = -worldY * cvData.viewport.zoom + cRect.height / 2;
-    cvUpdateTransform();
-    cvRender();
-  });
-
-  // ── Context Menu ──
-  function cvShowNodeContextMenu(cx, cy, nodeId) {
-    cvContextTarget = nodeId;
-    var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
-    if (!node) return;
-    var html = '';
-    if (node.type === 'text') {
-      html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'edit\')">Edit</div>';
-    }
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'delete\')">Delete</div>';
-    if (node.type === 'text') {
-      html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'sendbeats\')">Send to Beats</div>';
-    }
-    html += '<div class="cv-ctx-sep"></div>';
-    // Color submenu
-    html += '<div class="cv-ctx-sub"><div class="cv-ctx-item">Change Color &#9656;</div>';
-    html += '<div class="cv-ctx-submenu">';
-    ['#d4a853','#e74c3c','#5a9a6a','#5a8ac0','#9b59b6','#e67e22','#2ecc71',''].forEach(function(c) {
-      var label = c || 'None';
-      var swatch = c ? '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + c + ';margin-right:6px;vertical-align:middle"></span>' : '';
-      html += '<div class="cv-ctx-item" onclick="cvCtxColor(\'' + c + '\')">' + swatch + label + '</div>';
-    });
-    html += '</div></div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'duplicate\')">Duplicate</div>';
-    html += '<div class="cv-ctx-sep"></div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'front\')">Bring to Front</div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'back\')">Send to Back</div>';
-
-    cvContextMenu.innerHTML = html;
-    cvContextMenu.style.left = cx + 'px';
-    cvContextMenu.style.top = cy + 'px';
-    cvContextMenu.style.display = 'block';
-
-    // Keep on screen
-    var cmRect = cvContextMenu.getBoundingClientRect();
-    if (cmRect.right > window.innerWidth) cvContextMenu.style.left = (cx - cmRect.width) + 'px';
-    if (cmRect.bottom > window.innerHeight) cvContextMenu.style.top = (cy - cmRect.height) + 'px';
-  }
-
-  function cvShowCanvasContextMenu(cx, cy) {
-    cvContextTarget = null;
-    var html = '';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'newtext\')">New Text Box</div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'addimage\')">Add Image</div>';
-    html += '<div class="cv-ctx-sep"></div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'toggledraw\')">Toggle Drawing Mode</div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'togglegrid\')">Toggle Grid</div>';
-    html += '<div class="cv-ctx-sep"></div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'zoomfit\')">Zoom to Fit</div>';
-    html += '<div class="cv-ctx-item" onclick="cvCtxAction(\'clearall\')">Clear All</div>';
-
-    cvContextMenu.innerHTML = html;
-    cvContextMenu.style.left = cx + 'px';
-    cvContextMenu.style.top = cy + 'px';
-    cvContextMenu.style.display = 'block';
-  }
-
-  // Store the last right-click position for "New Text Box" etc.
-  var cvLastCtxScreenX = 0, cvLastCtxScreenY = 0;
-
-  function cvHideContextMenu() {
-    cvContextMenu.style.display = 'none';
-  }
-  window.cvHideContextMenu = cvHideContextMenu;
-
-  // Global click hides context menu
-  document.addEventListener('mousedown', function(e) {
-    if (!cvContextMenu.contains(e.target)) {
-      cvHideContextMenu();
-    }
-  });
-
-  // Context menu actions
-  window.cvCtxAction = function(action) {
-    cvHideContextMenu();
-    var pt = cvScreenToWorld(cvLastCtxScreenX, cvLastCtxScreenY);
-    switch (action) {
-      case 'edit':
-        if (cvContextTarget) {
-          var el = cvNodesEl.querySelector('[data-node-id="' + cvContextTarget + '"] .cv-node-body');
-          if (el) el.focus();
-        }
-        break;
-      case 'delete':
-        if (cvContextTarget) cvDeleteNode(cvContextTarget);
-        break;
-      case 'sendbeats':
-        if (cvContextTarget) cvShowBeatsModal(cvContextTarget, cvLastCtxScreenX + 10, cvLastCtxScreenY);
-        break;
-      case 'duplicate':
-        if (cvContextTarget) cvDuplicateNode(cvContextTarget);
-        break;
-      case 'front':
-        if (cvContextTarget) cvBringToFront(cvContextTarget);
-        break;
-      case 'back':
-        if (cvContextTarget) cvSendToBack(cvContextTarget);
-        break;
-      case 'newtext':
-        cvAddTextNode(pt.x, pt.y);
-        break;
-      case 'addimage':
-        cvTriggerImageUpload(pt.x, pt.y);
-        break;
-      case 'toggledraw':
-        cvSetMode(cvMode === 'draw' ? 'select' : 'draw');
-        break;
-      case 'togglegrid':
-        cvToggleGrid();
-        break;
-      case 'zoomfit':
-        cvZoomToFit();
-        break;
-      case 'clearall':
-        if (confirm('Clear all canvas content? This cannot be undone.')) {
-          cvPushUndo();
-          cvData.nodes = [];
-          cvData.connections = [];
-          cvData.drawings = [];
-          cvRenderNodes();
-          cvRender();
-          cvScheduleSave();
-          toast('Canvas cleared');
-        }
-        break;
-    }
-  };
-
-  window.cvCtxColor = function(color) {
-    cvHideContextMenu();
-    if (cvContextTarget) {
-      var node = cvData.nodes.find(function(n) { return n.id === cvContextTarget; });
-      if (node) {
-        node.color = color;
-        cvRenderNodes();
-        cvScheduleSave();
-      }
-    }
-  };
-
-  // ── Grid toggle ──
-  var cvShowGrid = true;
-  function cvToggleGrid() {
-    cvShowGrid = !cvShowGrid;
-    cvRender();
-    toast(cvShowGrid ? 'Grid on' : 'Grid off');
-  }
-
-  // Override dot grid drawing to respect toggle
-  var _origRender = cvRender;
-  cvRender = function() {
-    var rect = cvContainer.getBoundingClientRect();
-    var w = rect.width;
-    var h = rect.height;
-    var z = cvData.viewport.zoom;
-    var ox = cvData.viewport.x;
-    var oy = cvData.viewport.y;
-
-    cvCtx.clearRect(0, 0, w, h);
-
-    // Draw dot grid
-    if (cvShowGrid) {
-      var gridSize = 40;
-      var gridOpacity = Math.min(0.3, 0.15 * z);
-      if (gridOpacity > 0.02) {
-        var isDark = document.documentElement.classList.contains('dark');
-        cvCtx.fillStyle = isDark ? 'rgba(255,255,255,' + gridOpacity + ')' : 'rgba(0,0,0,' + gridOpacity + ')';
-        var startX = (ox % (gridSize * z));
-        var startY = (oy % (gridSize * z));
-        var dotR = Math.max(0.8, 1.2 * z);
-        for (var gx = startX; gx < w; gx += gridSize * z) {
-          for (var gy = startY; gy < h; gy += gridSize * z) {
-            cvCtx.beginPath();
-            cvCtx.arc(gx, gy, dotR, 0, Math.PI * 2);
-            cvCtx.fill();
-          }
-        }
-      }
-    }
-
-    // Draw freehand strokes
-    cvData.drawings.forEach(function(d) {
-      if (!d.points || d.points.length < 2) return;
-      cvCtx.save();
-      cvCtx.translate(ox, oy);
-      cvCtx.scale(z, z);
-      cvCtx.strokeStyle = d.color || '#fff';
-      cvCtx.lineWidth = d.width || 2;
-      cvCtx.lineCap = 'round';
-      cvCtx.lineJoin = 'round';
-      cvCtx.beginPath();
-      cvCtx.moveTo(d.points[0][0], d.points[0][1]);
-      for (var i = 1; i < d.points.length; i++) {
-        cvCtx.lineTo(d.points[i][0], d.points[i][1]);
-      }
-      cvCtx.stroke();
-      cvCtx.restore();
-    });
-
-    // Draw current in-progress stroke
-    if (cvDrawing && cvCurrentStroke && cvCurrentStroke.points.length > 1) {
-      cvCtx.save();
-      cvCtx.translate(ox, oy);
-      cvCtx.scale(z, z);
-      cvCtx.strokeStyle = cvCurrentStroke.color;
-      cvCtx.lineWidth = cvCurrentStroke.width;
-      cvCtx.lineCap = 'round';
-      cvCtx.lineJoin = 'round';
-      cvCtx.beginPath();
-      cvCtx.moveTo(cvCurrentStroke.points[0][0], cvCurrentStroke.points[0][1]);
-      for (var j = 1; j < cvCurrentStroke.points.length; j++) {
-        cvCtx.lineTo(cvCurrentStroke.points[j][0], cvCurrentStroke.points[j][1]);
-      }
-      cvCtx.stroke();
-      cvCtx.restore();
-    }
-
-    // Draw connections
-    cvData.connections.forEach(function(conn) {
-      var fromNode = cvData.nodes.find(function(n) { return n.id === conn.from; });
-      var toNode = cvData.nodes.find(function(n) { return n.id === conn.to; });
-      if (!fromNode || !toNode) return;
-      cvDrawConnection(fromNode, toNode, conn.label);
-    });
-
-    // Draw temp connection line
-    if (cvConnecting && cvConnFromNode) {
-      var fn = cvData.nodes.find(function(n) { return n.id === cvConnFromNode; });
-      if (fn) {
-        var fromPt = cvGetEdgePoint(fn, cvConnFromSide);
-        cvCtx.save();
-        cvCtx.translate(ox, oy);
-        cvCtx.scale(z, z);
-        cvCtx.strokeStyle = cvWireColor(0.7);
-        cvCtx.lineWidth = 5;
-        cvCtx.lineCap = 'round';
-        cvCtx.beginPath();
-        cvCtx.moveTo(fromPt.x, fromPt.y);
-        var tempWorld = cvScreenToWorld(cvConnTempX, cvConnTempY);
-        var tdx = Math.abs(tempWorld.x - fromPt.x);
-        var cpOff = Math.max(tdx * 0.5, 60);
-        cvCtx.bezierCurveTo(fromPt.x + cpOff, fromPt.y, tempWorld.x - cpOff, tempWorld.y, tempWorld.x, tempWorld.y);
-        cvCtx.stroke();
-        cvCtx.restore();
-      }
-    }
-
-    cvUpdateMinimap();
-  };
-
-  // ── Mouse Events on Container ──
-  cvContainer.addEventListener('mousedown', function(e) {
-    if (activeTab !== 'canvas') return;
-    // Ignore clicks on toolbar, minimap, nodes
-    if (e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
-    if (e.target.closest('.cv-node')) return;
-
-    var isMidButton = e.button === 1;
-    var isLeftButton = e.button === 0;
-
-    // Right-click: show canvas context menu
-    if (e.button === 2) return; // handled by contextmenu event
-
-    // Drawing mode
-    if (isLeftButton && (cvMode === 'draw' || (e.shiftKey && cvMode === 'select'))) {
-      e.preventDefault();
-      cvDeselectAll();
-      cvDrawing = true;
-      var wp = cvScreenToWorld(e.clientX, e.clientY);
-      cvCurrentStroke = {
-        id: cvGenId('d'),
-        points: [[wp.x, wp.y]],
-        color: cvDrawColor,
-        width: cvDrawWidth
-      };
-      return;
-    }
-
-    // Eraser mode
-    if (isLeftButton && cvMode === 'eraser') {
-      e.preventDefault();
-      cvEraseAt(e.clientX, e.clientY);
-      return;
-    }
-
-    // Pan: Space+drag or middle button
-    if (isLeftButton && (cvSpaceDown || isMidButton)) {
-      e.preventDefault();
-      cvPanning = true;
-      cvPanStartX = e.clientX;
-      cvPanStartY = e.clientY;
-      cvPanStartOffX = cvData.viewport.x;
-      cvPanStartOffY = cvData.viewport.y;
-      cvContainer.style.cursor = 'grabbing';
-      return;
-    }
-
-    // Panning with left click on empty space
-    if (isLeftButton && cvMode === 'select') {
-      e.preventDefault();
-      cvDeselectAll();
-      cvPanning = true;
-      cvPanStartX = e.clientX;
-      cvPanStartY = e.clientY;
-      cvPanStartOffX = cvData.viewport.x;
-      cvPanStartOffY = cvData.viewport.y;
-      cvContainer.style.cursor = 'grabbing';
-    }
-  });
-
-  // Context menu on canvas background
-  cvContainer.addEventListener('contextmenu', function(e) {
-    if (activeTab !== 'canvas') return;
-    if (e.target.closest('.cv-node') || e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
-    e.preventDefault();
-    cvLastCtxScreenX = e.clientX;
-    cvLastCtxScreenY = e.clientY;
-    cvShowCanvasContextMenu(e.clientX, e.clientY);
-  });
-
-  document.addEventListener('mousemove', function(e) {
-    if (activeTab !== 'canvas') return;
-
-    // Panning
-    if (cvPanning) {
-      cvData.viewport.x = cvPanStartOffX + (e.clientX - cvPanStartX);
-      cvData.viewport.y = cvPanStartOffY + (e.clientY - cvPanStartY);
-      cvUpdateTransform();
-      cvRender();
-      return;
-    }
-
-    // Node dragging
-    if (cvDraggingNode && cvSelectedNodeId) {
-      var node = cvData.nodes.find(function(n) { return n.id === cvSelectedNodeId; });
-      if (node) {
-        var wp = cvScreenToWorld(e.clientX, e.clientY);
-        node.x = wp.x - cvDragOffsetX;
-        node.y = wp.y - cvDragOffsetY;
-        var el = cvNodesEl.querySelector('[data-node-id="' + node.id + '"]');
-        if (el) {
-          el.style.left = node.x + 'px';
-          el.style.top = node.y + 'px';
-        }
-        cvRender(); // update connections
-      }
-      return;
-    }
-
-    // Node resizing
-    if (cvResizingNode && cvSelectedNodeId) {
-      var rNode = cvData.nodes.find(function(n) { return n.id === cvSelectedNodeId; });
-      if (rNode) {
-        var dx = (e.clientX - cvResizeStartX) / cvData.viewport.zoom;
-        var dy = (e.clientY - cvResizeStartY) / cvData.viewport.zoom;
-        rNode.width = Math.max(120, cvResizeStartW + dx);
-        rNode.height = Math.max(60, cvResizeStartH + dy);
-        var rEl = cvNodesEl.querySelector('[data-node-id="' + rNode.id + '"]');
-        if (rEl) {
-          rEl.style.width = rNode.width + 'px';
-          rEl.style.height = rNode.height + 'px';
-        }
-        cvRender();
-      }
-      return;
-    }
-
-    // Drawing
-    if (cvDrawing && cvCurrentStroke) {
-      var dwp = cvScreenToWorld(e.clientX, e.clientY);
-      cvCurrentStroke.points.push([dwp.x, dwp.y]);
-      cvRender();
-      return;
-    }
-
-    // Connection drawing
-    if (cvConnecting) {
-      cvConnTempX = e.clientX;
-      cvConnTempY = e.clientY;
-      cvRender();
-      return;
-    }
-  });
-
-  document.addEventListener('mouseup', function(e) {
-    if (activeTab !== 'canvas') return;
-
-    // End panning
-    if (cvPanning) {
-      cvPanning = false;
-      cvContainer.style.cursor = cvMode === 'draw' ? 'crosshair' : (cvMode === 'eraser' ? 'pointer' : 'default');
-    }
-
-    // End node drag
-    if (cvDraggingNode) {
-      cvDraggingNode = false;
-      cvScheduleSave();
-    }
-
-    // End resize
-    if (cvResizingNode) {
-      cvResizingNode = false;
-      cvScheduleSave();
-    }
-
-    // End drawing
-    if (cvDrawing && cvCurrentStroke) {
-      cvDrawing = false;
-      if (cvCurrentStroke.points.length > 1) {
-        cvPushUndo();
-        cvData.drawings.push(cvCurrentStroke);
-        cvScheduleSave();
-        updateStatusForTab('canvas');
-      }
-      cvCurrentStroke = null;
-      cvRender();
-    }
-
-    // End connection
-    if (cvConnecting) {
-      // Find target node under cursor
-      var targetEl = document.elementFromPoint(e.clientX, e.clientY);
-      if (targetEl) {
-        var nodeEl = targetEl.closest('.cv-node');
-        if (nodeEl && nodeEl.dataset.nodeId !== cvConnFromNode) {
-          cvAddConnection(cvConnFromNode, nodeEl.dataset.nodeId);
-        }
-      }
-      cvConnecting = false;
-      cvConnFromNode = null;
-      cvRender();
-    }
-  });
-
-  // Wheel for zoom
-  cvContainer.addEventListener('wheel', function(e) {
-    if (activeTab !== 'canvas') return;
-    if (e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
-    cvHandleWheel(e);
-  }, { passive: false });
-
-  // Double-click to create text box (only in select mode, not during pan/draw)
-  cvContainer.addEventListener('dblclick', function(e) {
-    if (activeTab !== 'canvas') return;
-    if (cvMode !== 'select') return;
-    if (cvPanning) return;
-    if (e.target.closest('.cv-node') || e.target.closest('#canvas-toolbar') || e.target.closest('#canvas-minimap')) return;
-    var wp = cvScreenToWorld(e.clientX, e.clientY);
-    cvAddTextNode(wp.x, wp.y);
-  });
-
-  // ── Keyboard ──
-  document.addEventListener('keydown', function(e) {
-    if (activeTab !== 'canvas') return;
-    // Don't interfere with text editing in nodes or any input/textarea
-    if (e.target.closest('[contenteditable]') || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-      if (e.key === 'Escape') {
-        e.target.blur();
-        return;
-      }
-      return;
-    }
-
-    if (e.key === ' ' || e.code === 'Space') {
-      e.preventDefault();
-      cvSpaceDown = true;
-      cvContainer.style.cursor = 'grab';
-    }
-    if (e.key === 'Delete' || e.key === 'Backspace') {
-      if (cvSelectedNodeId) {
-        e.preventDefault();
-        cvDeleteNode(cvSelectedNodeId);
-      }
-    }
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
-      e.preventDefault();
-      cvUndo();
-    }
-    if ((e.ctrlKey || e.metaKey) && ((e.key === 'z' && e.shiftKey) || e.key === 'Z')) {
-      e.preventDefault();
-      cvRedo();
-    }
-  });
-
-  document.addEventListener('keyup', function(e) {
-    if (e.key === ' ' || e.code === 'Space') {
-      cvSpaceDown = false;
-      if (!cvPanning) {
-        cvContainer.style.cursor = cvMode === 'draw' ? 'crosshair' : (cvMode === 'eraser' ? 'pointer' : 'default');
-      }
-    }
-  });
-
-  // ── Eraser ──
-  function cvEraseAt(sx, sy) {
-    var wp = cvScreenToWorld(sx, sy);
-    var eraseRadius = 20 / cvData.viewport.zoom;
-    var erased = false;
-    cvData.drawings = cvData.drawings.filter(function(d) {
-      if (!d.points) return true;
-      for (var i = 0; i < d.points.length; i++) {
-        var dx = d.points[i][0] - wp.x;
-        var dy = d.points[i][1] - wp.y;
-        if (dx * dx + dy * dy < eraseRadius * eraseRadius) {
-          erased = true;
-          return false;
-        }
-      }
-      return true;
-    });
-    if (erased) {
-      cvPushUndo();
-      cvRender();
-      cvScheduleSave();
-    }
-  }
-
-  // ── Image Upload for Canvas ──
-  function cvTriggerImageUpload(wx, wy) {
-    var input = document.getElementById('canvasImageInput');
-    input.onchange = function() {
-      if (input.files.length > 0) {
-        cvProcessImageFile(input.files[0], wx, wy);
-      }
-      input.value = '';
-    };
-    input.click();
-  }
-
-  function cvProcessImageFile(file, wx, wy) {
-    if (!file || !file.type.startsWith('image/')) return;
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      var img = new Image();
-      img.onload = function() {
-        var canvas = document.createElement('canvas');
-        var maxW = 800;
-        var w = img.width, h = img.height;
-        if (w > maxW) { h = h * maxW / w; w = maxW; }
-        canvas.width = w; canvas.height = h;
-        var ctx2 = canvas.getContext('2d');
-        ctx2.drawImage(img, 0, 0, w, h);
-        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-        cvAddImageNode(dataUrl, wx, wy);
-        toast('Image added to canvas');
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // Drag & drop images onto canvas
-  cvContainer.addEventListener('dragover', function(e) {
-    if (activeTab !== 'canvas') return;
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-  });
-
-  cvContainer.addEventListener('drop', function(e) {
-    if (activeTab !== 'canvas') return;
-    e.preventDefault();
-    var file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      var wp = cvScreenToWorld(e.clientX, e.clientY);
-      cvProcessImageFile(file, wp.x, wp.y);
-    }
-  });
-
-  // ── Send to Beats ──
-  function cvShowBeatsModal(nodeId, anchorX, anchorY) {
-    var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
-    if (!node) return;
-
-    // Auto-detect movement from title (e.g. "Scene 1.7", "2.8", "1.3 The Auto")
-    var titleMatch = (node.title || '').match(/(\d+)\.\d+/);
-    if (titleMatch) {
-      var movNum = parseInt(titleMatch[1]);
-      var movements = {};
-      beatEntries.forEach(function(b) {
-        if (!movements[b.movement]) movements[b.movement] = b.movementTitle || ('Act ' + b.movement);
-      });
-      if (movements[movNum]) {
-        // Direct send — skip the picker
-        cvSendToBeat(nodeId, movNum, movements[movNum]);
-        return;
-      }
-    }
-
-    var list = document.getElementById('cv-beats-list');
-    list.innerHTML = '';
-
-    // Get distinct movements from beatEntries
-    var movements = {};
-    beatEntries.forEach(function(b) {
-      if (!movements[b.movement]) {
-        movements[b.movement] = b.movementTitle || ('Act ' + b.movement);
-      }
-    });
-    var keys = Object.keys(movements).sort(function(a, b) { return parseInt(a) - parseInt(b); });
-    if (keys.length === 0) {
-      list.innerHTML = '<div style="color:var(--faded);font-size:12px;padding:8px">No acts yet. Add beats first.</div>';
-    } else {
-      keys.forEach(function(k) {
-        var item = document.createElement('div');
-        item.className = 'cv-beats-item';
-        item.innerHTML = '<span class="cv-bm-num">' + k + '.</span> ' + escapeHTML(movements[k]);
-        item.onclick = function() {
-          cvSendToBeat(nodeId, parseInt(k), movements[k]);
-        };
-        list.appendChild(item);
-      });
-    }
-
-    document.getElementById('cv-beats-overlay').style.display = 'block';
-    var modal = document.getElementById('cv-beats-modal');
-    modal.style.display = 'block';
-
-    // Position next to the node instead of center
-    if (anchorX === undefined) {
-      // Calculate from node position
-      var z = cvData.viewport.zoom;
-      var ox = cvData.viewport.x;
-      var oy = cvData.viewport.y;
-      anchorX = (node.x + node.width) * z + ox + 20;
-      anchorY = node.y * z + oy;
-    }
-    modal.style.top = Math.max(60, anchorY) + 'px';
-    modal.style.left = Math.min(anchorX, window.innerWidth - 340) + 'px';
-    modal.style.transform = 'none';
-  }
-  window.cvShowBeatsModal = cvShowBeatsModal;
-
-  function cvSendToBeat(nodeId, movementNum, movementTitle) {
-    var node = cvData.nodes.find(function(n) { return n.id === nodeId; });
-    if (!node) return;
-
-    // Get text content from node
-    var content = '';
-    if (node.type === 'text') {
-      var el = cvNodesEl.querySelector('[data-node-id="' + nodeId + '"] .cv-node-body');
-      content = el ? el.textContent : (node.content || '');
-    }
-
-    // Create a new beat
-    var nextSceneId = movementNum + '.' + (beatEntries.filter(function(b) { return b.movement === movementNum; }).length + 1);
-    beatEntries.push({
-      id: genBeatId(),
-      movement: movementNum,
-      movementTitle: movementTitle,
-      sceneId: nextSceneId,
-      title: content.substring(0, 60).split('\n')[0] || 'From Canvas',
-      location: '',
-      characters: [],
-      tone: '',
-      description: content,
-      visual: '',
-      truth: '',
-      notes: 'Imported from Canvas',
-      status: 'pending',
-      createdAt: new Date().toISOString()
-    });
-
-    renderBeatsList();
-    populateMovementFilter();
-    scheduleSave();
-    cvCloseBeatsModal();
-    toast('Sent to Act ' + movementNum);
-  }
-
-  function cvCloseBeatsModal() {
-    document.getElementById('cv-beats-overlay').style.display = 'none';
-    document.getElementById('cv-beats-modal').style.display = 'none';
-  }
-  window.cvCloseBeatsModal = cvCloseBeatsModal;
-
-  // ── Escape handler ──
-  function cvHandleEscape() {
-    if (cvMode !== 'select') {
-      cvSetMode('select');
-      return;
-    }
-    if (cvSelectedNodeId) {
-      cvDeselectAll();
-      return;
-    }
-  }
-  window.cvHandleEscape = cvHandleEscape;
-
-  // ── Persistence ──
-  function cvScheduleSave() {
-    clearTimeout(cvSaveTimer);
-    cvSaveTimer = setTimeout(function() {
-      try {
-        localStorage.setItem(CANVAS_SAVE_KEY, JSON.stringify(cvData));
-      } catch (e) {
-        // If quota exceeded, strip image content
-        var stripped = JSON.parse(JSON.stringify(cvData));
-        stripped.nodes = stripped.nodes.map(function(n) {
-          if (n.type === 'image') n.content = '';
-          return n;
-        });
-        try {
-          localStorage.setItem(CANVAS_SAVE_KEY, JSON.stringify(stripped));
-        } catch (e2) { /* give up */ }
-      }
-      // Also trigger main autosave
-      scheduleSave();
-    }, 1000);
-  }
-
-  function cvLoadFromStorage() {
-    try {
-      var raw = localStorage.getItem(CANVAS_SAVE_KEY);
-      if (raw) {
-        var data = JSON.parse(raw);
-        if (data.nodes) cvData.nodes = data.nodes;
-        if (data.connections) cvData.connections = data.connections;
-        if (data.drawings) cvData.drawings = data.drawings;
-        if (data.viewport) {
-          cvData.viewport.x = data.viewport.x || 0;
-          cvData.viewport.y = data.viewport.y || 0;
-          cvData.viewport.zoom = data.viewport.zoom || 1;
-        }
-      }
-    } catch (e) {}
-  }
-
-  function cvLoadData(data) {
-    if (!data) return;
-    if (data.nodes) cvData.nodes = data.nodes;
-    if (data.connections) cvData.connections = data.connections;
-    if (data.drawings) cvData.drawings = data.drawings;
-    if (data.viewport) {
-      cvData.viewport.x = data.viewport.x || 0;
-      cvData.viewport.y = data.viewport.y || 0;
-      cvData.viewport.zoom = data.viewport.zoom || 1;
-    }
-    cvRenderNodes();
-    cvRender();
-  }
-  window.cvLoadData = cvLoadData;
-
-  // ── Window Resize ──
-  window.addEventListener('resize', function() {
-    if (activeTab === 'canvas') cvResizeCanvas();
-  });
-
-  // ── Tab Switch Hook ──
-  var _origSwitchTab = window.switchTab;
-  // We patch switchTab to resize canvas when entering the tab
-  var _patchedSwitchTab = false;
-  function patchSwitchTab() {
-    if (_patchedSwitchTab) return;
-    _patchedSwitchTab = true;
-    var origFn = switchTab;
-    switchTab = function(tabId) {
-      origFn(tabId);
-      if (tabId === 'canvas') {
-        setTimeout(function() {
-          cvResizeCanvas();
-          cvUpdateTransform();
-          cvRender();
-        }, 50);
-      }
-    };
-  }
-  patchSwitchTab();
-
-  // ── Initialize ──
-  cvLoadFromStorage();
-  // Also check for pending data from autosave
-  if (window._pendingCanvasData) {
-    cvLoadData(window._pendingCanvasData);
-    delete window._pendingCanvasData;
-  }
-  cvRenderNodes();
-  // Initial resize if canvas is visible
-  if (activeTab === 'canvas') {
-    setTimeout(function() { cvResizeCanvas(); cvRender(); }, 100);
   }
 })();
 </script>
