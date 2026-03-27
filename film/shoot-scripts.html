@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoot Scripts — How to Not Make Films</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warm-black: #1a1714;
+            --warm-dark: #242019;
+            --parchment: #e8dcc8;
+            --parchment-light: #f2e8d5;
+            --amber: #c4935a;
+            --amber-glow: #d4a76a;
+            --amber-deep: #8b6b3d;
+            --rust: #a0674b;
+            --sage: #7a8b6f;
+            --muted-blue: #6b7d8d;
+            --film-red: #8b4049;
+            --whisper: rgba(232, 220, 200, 0.06);
+            --border-line: rgba(196, 147, 90, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--warm-black);
+            color: var(--parchment);
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.04; pointer-events: none; z-index: 1000;
+        }
+        body::after {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 8, 5, 0.4) 100%);
+            pointer-events: none; z-index: 999;
+        }
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(196, 147, 90, 0.3); color: var(--parchment-light); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--warm-black); }
+        ::-webkit-scrollbar-thumb { background: var(--amber-deep); border-radius: 3px; }
+
+        .header {
+            padding: 80px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-line);
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            margin-bottom: 8px;
+        }
+        .header .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.65rem;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--amber-deep); opacity: 0.7;
+        }
+        .header .tagline {
+            font-style: italic; font-size: 1rem;
+            color: var(--amber); opacity: 0.6; margin-top: 12px;
+            max-width: 560px; margin-left: auto; margin-right: auto;
+        }
+
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(26, 23, 20, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-line);
+            padding: 0 20px; overflow-x: auto;
+        }
+        .nav::-webkit-scrollbar { display: none; }
+        .nav-inner {
+            display: flex; justify-content: center; gap: 0;
+            max-width: 900px; margin: 0 auto;
+        }
+        .nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.65rem;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--amber-deep); text-decoration: none;
+            padding: 14px 14px; white-space: nowrap;
+            transition: color 0.3s, background 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .nav a:hover, .nav a.active {
+            color: var(--amber-glow);
+            background: var(--whisper);
+            border-bottom-color: var(--amber);
+        }
+
+        .content { max-width: 760px; margin: 0 auto; padding: 0 28px; }
+
+        .section {
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border-line);
+        }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.6rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--amber-deep); opacity: 0.6; margin-bottom: 8px;
+        }
+        .section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            letter-spacing: 0.08em;
+            color: var(--parchment-light);
+            margin-bottom: 20px;
+        }
+        p { font-size: 1rem; margin-bottom: 14px; color: rgba(232, 220, 200, 0.85); }
+        strong { color: var(--parchment-light); font-weight: 500; }
+        em { color: var(--amber); }
+
+        blockquote {
+            position: relative;
+            margin: 24px 0; padding: 16px 20px 16px 24px;
+            border-left: 2px solid var(--amber-deep);
+            background: linear-gradient(135deg, rgba(196, 147, 90, 0.04), transparent);
+            border-radius: 0 4px 4px 0;
+            font-style: italic; font-size: 1.05rem;
+            color: var(--amber-glow); line-height: 1.8;
+        }
+
+        /* Script Cards */
+        .script-card {
+            padding: 32px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+            margin-bottom: 32px;
+        }
+        .script-card:hover {
+            border-color: var(--amber-deep);
+        }
+        .script-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .reel-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200; font-size: 2.2rem;
+            color: var(--amber-deep); opacity: 0.35;
+            line-height: 1;
+        }
+        .reel-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400; font-size: 1.2rem;
+            color: var(--amber-glow);
+        }
+        .reel-mode {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: inline-block;
+            padding: 2px 8px; border-radius: 2px;
+            margin-left: auto;
+        }
+        .mode-masterclass { background: rgba(160, 103, 75, 0.2); color: var(--rust); border: 1px solid rgba(160, 103, 75, 0.3); }
+        .mode-journey { background: rgba(122, 139, 111, 0.2); color: var(--sage); border: 1px solid rgba(122, 139, 111, 0.3); }
+
+        .setup-box {
+            background: rgba(196, 147, 90, 0.05);
+            border: 1px solid rgba(196, 147, 90, 0.1);
+            border-radius: 3px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+        }
+        .setup-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--amber);
+            margin-bottom: 6px;
+        }
+        .setup-box p { font-size: 0.9rem; margin-bottom: 0; color: rgba(232, 220, 200, 0.7); }
+
+        .script-body {
+            font-size: 1rem;
+            color: rgba(232, 220, 200, 0.85);
+            line-height: 1.85;
+        }
+        .script-body .dialogue {
+            color: var(--parchment-light);
+            font-style: italic;
+            margin: 12px 0;
+            padding-left: 16px;
+            border-left: 2px solid rgba(196, 147, 90, 0.15);
+        }
+        .script-body .direction {
+            color: rgba(232, 220, 200, 0.55);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        .script-body .key-note {
+            background: rgba(139, 64, 73, 0.08);
+            border-left: 2px solid var(--film-red);
+            padding: 10px 16px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+            color: rgba(232, 220, 200, 0.7);
+        }
+
+        .prep-box {
+            background: rgba(122, 139, 111, 0.06);
+            border: 1px solid rgba(122, 139, 111, 0.15);
+            border-radius: 3px;
+            padding: 14px 18px;
+            margin-top: 20px;
+        }
+        .prep-box .setup-label { color: var(--sage); }
+        .prep-box ul {
+            padding-left: 18px;
+            font-size: 0.88rem;
+            color: rgba(232, 220, 200, 0.65);
+        }
+        .prep-box li { margin-bottom: 4px; }
+
+        .sticky-list {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .sticky {
+            display: inline-block;
+            background: rgba(232, 220, 200, 0.08);
+            border: 1px solid rgba(232, 220, 200, 0.12);
+            padding: 6px 12px;
+            border-radius: 2px;
+            font-size: 0.82rem;
+            color: rgba(232, 220, 200, 0.7);
+        }
+        .sticky.crossed {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        .sticky.checked {
+            border-color: var(--sage);
+            color: var(--sage);
+        }
+        .sticky .note {
+            font-size: 0.65rem;
+            color: var(--amber-deep);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Shoot Order */
+        .block-card {
+            padding: 24px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+            margin-bottom: 16px;
+        }
+        .block-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400; font-size: 1.05rem;
+            color: var(--amber-glow);
+            margin-bottom: 12px;
+        }
+        .block-card ol {
+            padding-left: 20px;
+            font-size: 0.95rem;
+            color: rgba(232, 220, 200, 0.8);
+        }
+        .block-card li { margin-bottom: 6px; }
+        .block-card .block-note {
+            font-size: 0.82rem;
+            color: rgba(232, 220, 200, 0.5);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .tbd-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            background: rgba(139, 64, 73, 0.2);
+            color: var(--film-red);
+            border: 1px solid rgba(139, 64, 73, 0.3);
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+
+        .footer {
+            text-align: center; padding: 50px 20px; opacity: 0.4;
+        }
+        .footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--amber-deep);
+        }
+
+        @media (max-width: 600px) {
+            .content { padding: 0 18px; }
+            .section { padding: 36px 0; }
+            .header { padding: 50px 18px 30px; }
+            .nav a { padding: 12px 10px; font-size: 0.58rem; }
+            .script-card { padding: 20px; }
+            .reel-mode { margin-left: 0; margin-top: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>Shoot Scripts</h1>
+    <div class="subtitle">7 Reels — March 27–28, 2026</div>
+    <div class="tagline">"12 hours. 7 reels. The Masterclass begins."</div>
+</header>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="#shoot-order">Shoot Order</a>
+        <a href="#reel-1">R1</a>
+        <a href="#reel-2">R2</a>
+        <a href="#reel-3">R3</a>
+        <a href="#reel-4">R4</a>
+        <a href="#reel-5">R5</a>
+        <a href="#reel-6">R6</a>
+        <a href="#reel-7">R7</a>
+        <a href="marketing-lab.html">← Marketing Lab</a>
+        <a href="index.html">← Film Home</a>
+    </div>
+</nav>
+
+<main class="content">
+
+    <!-- SHOOT ORDER -->
+    <section class="section" id="shoot-order">
+        <div class="section-label">00</div>
+        <h2>Shoot Order</h2>
+        <p>Two blocks. Don't move anything between takes in Block 1. Block 2 needs setup changes.</p>
+
+        <div class="block-card">
+            <div class="block-title">Block 1 — Masterclass Desk Setup</div>
+            <ol>
+                <li><strong>Research + Instagram Film School</strong> (Reel 3)</li>
+                <li><strong>The Kurosawa Pen</strong> (Reel 4)</li>
+                <li><strong>Festival Dates</strong> (Reel 6)</li>
+                <li><strong>Acceptance Speech</strong> (Reel 7) — shoot right after Festival Dates, same energy</li>
+            </ol>
+            <div class="block-note">Same desk, same light, same framing. Don't break setup between takes.</div>
+        </div>
+
+        <div class="block-card">
+            <div class="block-title">Block 2 — Different Setups</div>
+            <ol start="5">
+                <li><strong>Inspiration / Museum / Raju</strong> (Reel 5) — different background, warmer</li>
+                <li><strong>Naming the Film</strong> (Reel 2) — needs whiteboard prepped with stickies</li>
+                <li><strong>Channel Introduction</strong> (Reel 1) — handheld, needs off-camera voice</li>
+            </ol>
+            <div class="block-note">Each needs a different setup. Prep whiteboard for Reel 2 during Reel 5.</div>
+        </div>
+    </section>
+
+    <!-- REEL 1 -->
+    <section class="section" id="reel-1">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">01</span>
+                <span class="reel-title">The Channel Introduction</span>
+                <span class="reel-mode mode-journey">Journey</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>Handheld. Someone holds the phone. Wherever — studio, desk, doesn't matter. You look ready to do this properly.</p>
+            </div>
+
+            <div class="script-body">
+                <p>You look at camera. Composed.</p>
+
+                <div class="dialogue">"So I'm starting a page. A filmmaking page. Where I'm going to be documenting... my journey... of making my first film."</div>
+
+                <div class="direction">Normal. Fine. Nothing weird yet.</div>
+
+                <div class="dialogue">"And the film is called... How to Not Make Films."</div>
+
+                <div class="direction">You say this completely straight. No pause for comedy. No eyebrow raise. You just move on.</div>
+
+                <div class="dialogue">"So — welcome to How to Not Make Films, where I'll be showing you how to not make films... while I'm... making... How to Not Make—"</div>
+
+                <div class="direction">You slow down. Something has gone wrong in your mouth. The sentence has eaten itself. You blink.</div>
+
+                <div class="dialogue">"Hold on."</div>
+
+                <div class="direction">Try again. Confident restart.</div>
+
+                <div class="dialogue">"I'm making a film called How to Not Make Films, and this page is called How to Not Make Films, and on this page I will be not making — wait, I WILL be making — the film — which is about NOT making—"</div>
+
+                <div class="direction">You stop. Stare past the camera. The gears are visibly grinding. Your team member behind the camera stays silent. Ten seconds of you working through something internally.</div>
+
+                <div class="direction">Then — just move on. Don't resolve it. Don't laugh. Don't acknowledge what just happened. Just:</div>
+
+                <div class="dialogue">"So yeah. Follow along."</div>
+
+                <div class="direction">Tiny nod. Cut to title card: <strong>@howtonotmakefilms</strong></div>
+
+                <div class="key-note"><strong>The key:</strong> You never realize it's funny. You experienced a genuine malfunction and moved past it the way people do in real life — by pretending it didn't happen. The audience catches the loop. You don't.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Prep</div>
+                <ul>
+                    <li>Phone holder / team member behind camera</li>
+                    <li>Title card: @howtonotmakefilms</li>
+                    <li>Handheld only — no tripod</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEL 2 -->
+    <section class="section" id="reel-2">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">02</span>
+                <span class="reel-title">Naming the Film</span>
+                <span class="reel-mode mode-masterclass">Masterclass</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>The whiteboard with stickies — good visual texture. But the reel isn't ABOUT the board. The board is set dressing. YOU are the content. Standing in front of it or sitting near it. Turned to camera.</p>
+            </div>
+
+            <div class="script-body">
+                <div class="dialogue">"People say don't judge a book by its cover. None of those people are graphic designers."</div>
+
+                <div class="direction">Beat. Let it land.</div>
+
+                <div class="dialogue">"Point is — people say a lot of things. Ignore them. Do what you know is right. And what I know is right is this: the most important part of making a film is the title. Before the script. Before casting. Before anything. The title tells the audience what they're about to feel."</div>
+
+                <div class="direction">Now you demonstrate. This is where you bring in real films with wrong titles. The comedy is in how CONFIDENTLY you present the mismatch, like you're making a genuine academic point:</div>
+
+                <div class="dialogue">"Think about it. Imagine if Sholay was called <em>Friendship Goals</em>. Same film. Same Gabbar. Same Basanti. But now it sounds like a buddy comedy that plays on a flight. You've already killed the film."</div>
+
+                <div class="dialogue">"Imagine Drishyam was called <em>Family Picnic</em>. The whole tension is gone. Nobody's worried about what Vijay Salgaonkar buried because the title already told you everything's fine."</div>
+
+                <div class="dialogue">"Imagine if Gangs of Wasseypur was called <em>Papa Ki Pari</em>. Exactly. The title IS the film."</div>
+
+                <div class="direction">Now — turn to YOUR film. Your energy shifts slightly. Still confident but there's something underneath.</div>
+
+                <div class="dialogue">"My film is called How to Not Make Films. It's about a guy who can't make films. The title tells you exactly what you're getting."</div>
+
+                <div class="direction">Pause. Something passes across your face — the tiniest flicker of "wait, is that a problem?" — but you push past it before it registers.</div>
+
+                <div class="dialogue">"Anyway. Title first. Everything else comes after."</div>
+
+                <div class="direction">Glance at the whiteboard behind you. It's covered in crossed-out alternatives. Don't comment on it. Don't even gesture at it. Just let the camera catch it as you turn away. Cut.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Whiteboard Stickies</div>
+                <p style="font-size: 0.82rem; color: rgba(232, 220, 200, 0.6); margin-bottom: 10px;">Prep these BEFORE shoot. They're texture, not the joke — some might be visible, some won't, and that's fine.</p>
+                <ul class="sticky-list">
+                    <li class="sticky crossed">"Untitled Feature"</li>
+                    <li class="sticky crossed">"The Search"</li>
+                    <li class="sticky checked">"How to Not Make Films" ✓</li>
+                    <li class="sticky crossed">"Breathless 2" <span class="note">lawsuit</span></li>
+                    <li class="sticky crossed">"A Film"</li>
+                    <li class="sticky">"Title TBD" ?</li>
+                    <li class="sticky crossed">"Sapne Mein Dikha Tha"</li>
+                    <li class="sticky">"HELP"</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEL 3 -->
+    <section class="section" id="reel-3">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">03</span>
+                <span class="reel-title">Research + Instagram Film School</span>
+                <span class="reel-mode mode-masterclass">Masterclass</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>Masterclass frame. Desk. Clean. Tutorial energy.</p>
+            </div>
+
+            <div class="script-body">
+                <div class="dialogue">"The first and most important step in filmmaking is research. You need to understand the craft before you practice the craft. That makes sense, right? Right."</div>
+
+                <div class="direction">Settle in. You're about to lay out wisdom.</div>
+
+                <div class="dialogue">"Start with YouTube. Find interviews of directors you admire. Watch how they talk about their process. One video leads to another. The algorithm is your professor now — it knows exactly what you need. Four interviews become seven. Seven become a playlist. The playlist is called 'Directors on Directing' — forty-seven videos. Watch all forty-seven. Take notes if you want. You won't look at the notes, but the act of taking them feels very academic."</div>
+
+                <div class="direction">Build momentum. You're getting excited about this system.</div>
+
+                <div class="dialogue">"Then there's documentaries. Watch how Kubrick made The Shining. Now watch The Shining again because you realize you haven't actually seen it in two years. Now it's 3AM and you've absorbed a lot of someone else's genius."</div>
+
+                <div class="direction">Shift forward. This is the exciting part.</div>
+
+                <div class="dialogue">"But here's what changed the game for me. Instagram. There are teachers on Instagram — BRILLIANT teachers — who will give you a hundred filmmaking tips in a hundred reels. That's a hundred days. That's three months of education. For free. On your phone. While you're lying in bed. Your phone is your film school now. You don't need to go anywhere. You don't need to enroll. You don't need to make anything. Just keep watching people who already made things talk about how they made things."</div>
+
+                <div class="direction">Lean back. Satisfied.</div>
+
+                <div class="dialogue">"I've been in the research phase for about six years. My knowledge is... honestly, it's exceptional. I can tell you about lenses, color theory, blocking, coverage, the 180-degree rule, aspect ratios, sound design. I know everything."</div>
+
+                <div class="direction">Smallest pause.</div>
+
+                <div class="dialogue">"My footage folder is empty. But I know everything."</div>
+
+                <div class="direction">Hold. Don't blink. Cut.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Prep</div>
+                <ul>
+                    <li>Clean desk — Masterclass energy</li>
+                    <li>No props needed</li>
+                    <li>Same setup carries into Reel 4, 6, 7</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEL 4 -->
+    <section class="section" id="reel-4">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">04</span>
+                <span class="reel-title">The Kurosawa Pen</span>
+                <span class="reel-mode mode-masterclass">Masterclass</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>Same Masterclass desk. A nice pen in your hand or on the desk.</p>
+            </div>
+
+            <div class="script-body">
+                <div class="dialogue">"Akira Kurosawa once said that to make a film, all you need is a pen and a piece of paper."</div>
+
+                <div class="direction">Respectful nod. You honor the master.</div>
+
+                <div class="dialogue">"So. Step one. Find out what pen Kurosawa used."</div>
+
+                <div class="direction">Hold up the pen or gesture.</div>
+
+                <div class="dialogue">"It was a Montblanc. Specific model. Look it up. Read three articles about it. Compare prices. Order it online. Wait four to six business days."</div>
+
+                <div class="direction">Mime opening a package.</div>
+
+                <div class="dialogue">"It arrives. Uncap it. Write one word. The ink skips. The nib feels wrong. Maybe it's a fake — check the serial number. Compare it to photos on Reddit. Inconclusive."</div>
+
+                <div class="direction">You weigh your options with genuine concern.</div>
+
+                <div class="dialogue">"You could send it back. Wait another four to six days. Or — go to a stationery store. A real one. Not a chain. The kind with wooden drawers and a man who knows things about nibs."</div>
+
+                <div class="direction">You lean forward like you're sharing classified information.</div>
+
+                <div class="dialogue">"He shows you seven pens. You try each one. The fourth one feels close. Almost right. The barrel is slightly thicker than what Kurosawa would have used in 1952. You know this because you read his biography. The whole biography. It took two weeks. Very inspiring."</div>
+
+                <div class="direction">Sit back. Look at the pen in your hand.</div>
+
+                <div class="dialogue">"You haven't written a single word of your film. But you have an excellent pen."</div>
+
+                <div class="direction">Hold the pen up. Hold the frame. Silence. Cut.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Prep</div>
+                <ul>
+                    <li>A nice pen — ideally something that looks like it cost too much</li>
+                    <li>Same desk as Reel 3</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEL 5 -->
+    <section class="section" id="reel-5">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">05</span>
+                <span class="reel-title">Inspiration</span>
+                <span class="reel-mode mode-masterclass">Masterclass</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>Different from the desk. Standing somewhere, or a slightly warmer frame. You're the gentle mentor here.</p>
+            </div>
+
+            <div class="script-body">
+                <div class="dialogue">"Before you create, you need to be inspired. You can't force inspiration. It has to find you. Your job is to put yourself in its path."</div>
+
+                <div class="direction">Noble, thoughtful.</div>
+
+                <div class="dialogue">"Go to a museum. Any museum. Stand in front of a painting. Not a famous one — find one that nobody's standing near. Stay with it. Ten minutes. Twenty. Think about what the artist was trying to say. Why that brushstroke. Why that shade."</div>
+
+                <div class="direction">You pause. Reflective.</div>
+
+                <div class="dialogue">"I've been going to the same museum almost every Saturday for a few months now. I still don't know what the painter was trying to say."</div>
+
+                <div class="direction">Beat. Your tone doesn't shift — still warm, still sincere.</div>
+
+                <div class="dialogue">"But I've become very close with Raju. Raju runs the kachori stall outside the museum. Excellent kachoris. Crispy. Perfect amount of moong dal. He knows my order. I don't even have to say it anymore. I just walk up and he starts frying."</div>
+
+                <div class="direction">You smile. Genuinely. You like Raju.</div>
+
+                <div class="dialogue">"There's also Pappu — he does the chai. His chai is better than his name suggests. We talk. About life. About the weather. About his son who is preparing for JEE. Never about art. Never about filmmaking."</div>
+
+                <div class="direction">Your face is still completely sincere. You are sharing real wisdom.</div>
+
+                <div class="dialogue">"I have spent more time with Raju and Pappu than with any painting in the museum. But I do feel very culturally enriched. And I think that counts."</div>
+
+                <div class="direction">Gentle nod. This was helpful. You helped someone today. Cut.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Prep</div>
+                <ul>
+                    <li>Different background from desk — warmer, more personal</li>
+                    <li>No props needed</li>
+                    <li>Warmer lighting if possible</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEL 6 -->
+    <section class="section" id="reel-6">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">06</span>
+                <span class="reel-title">Festival Dates</span>
+                <span class="reel-mode mode-masterclass">Masterclass</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>Masterclass desk. Maybe a laptop open, or a printed spreadsheet.</p>
+            </div>
+
+            <div class="script-body">
+                <div class="dialogue">"Something nobody tells first-time filmmakers: look up festival submission deadlines before you do anything else. Before you write. Before you shoot. Before you have an idea."</div>
+
+                <div class="direction">Tap the laptop or spreadsheet.</div>
+
+                <div class="dialogue">"Cannes closes in April. Toronto is around June. Sundance is August for a January premiere. Berlin is September. Busan is around June. Venice is—"</div>
+
+                <div class="direction">You're rattling these off fluently. You know these dates cold.</div>
+
+                <div class="dialogue">"I have a spreadsheet. Color-coded. Cannes is gold, obviously. Sundance is blue. Toronto is red. I track deadlines, submission fees, premiere requirements, jury composition trends going back five years."</div>
+
+                <div class="direction">Proud of this system. This is real work.</div>
+
+                <div class="dialogue">"I update it every month. I've been updating it for two years. It is the most comprehensive festival tracking document of any filmmaker who has never submitted anything to any festival."</div>
+
+                <div class="direction">Hold. Let that sentence finish landing in the audience's brain.</div>
+
+                <div class="dialogue">"But when the time comes — I'll be ready. I'll know exactly where to send it."</div>
+
+                <div class="direction">Tiny crack: "I just need the 'it.'"</div>
+
+                <div class="direction">Don't linger on the crack. Move on immediately: Cut.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Prep</div>
+                <ul>
+                    <li>Laptop open with a color-coded spreadsheet (or a printed one)</li>
+                    <li>Same desk as Reel 3 & 4</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEL 7 -->
+    <section class="section" id="reel-7">
+        <div class="script-card">
+            <div class="script-header">
+                <span class="reel-num">07</span>
+                <span class="reel-title">Acceptance Speech</span>
+                <span class="reel-mode mode-masterclass">Masterclass</span>
+            </div>
+
+            <div class="setup-box">
+                <div class="setup-label">Setup</div>
+                <p>Start at the desk, then shift posture — stand up, or adjust like you're at a podium. Maybe hold a water bottle like a trophy. Your body language shifts into award-show mode.</p>
+            </div>
+
+            <div class="script-body">
+                <div class="dialogue">"One more tip. Start writing your acceptance speech now. Today. Don't wait until you've won. That's how you fumble the biggest moment of your career."</div>
+
+                <div class="direction">You straighten. Clear your throat. The energy changes. You're at Cannes. The lights are on you.</div>
+
+                <div class="dialogue">"I want to thank... first of all... God... and my mother... who always believed in me even when—"</div>
+
+                <div class="direction">Stop. Check something.</div>
+
+                <div class="dialogue">"Wait — is this for Cannes or Sundance? Because the speech is slightly different. At Cannes you thank the jury. At Sundance you thank the audience. At TIFF you thank— hold on, I have notes—"</div>
+
+                <div class="direction">Look down. Flip through something.</div>
+
+                <div class="dialogue">"Okay, Cannes version."</div>
+
+                <div class="direction">Back to podium mode. Emotional now.</div>
+
+                <div class="dialogue">"This film... this film was born out of years of — of — of not making films. And I want to dedicate this to every filmmaker who almost gave up but kept going—"</div>
+
+                <div class="direction">You're getting genuinely emotional. Your voice thickens slightly. This speech is GOOD. It's practiced. It's polished.</div>
+
+                <p style="margin-top: 16px;"><span class="tbd-tag">TBD</span> <em style="color: rgba(232, 220, 200, 0.5);">Off-camera voice — Su deciding on the line</em></p>
+
+                <div class="direction">You break. Stare at them. Back to camera. The emotion drains. Reality is back.</div>
+
+                <div class="dialogue">"The speech is ready. The film will follow."</div>
+
+                <div class="direction">Cut.</div>
+            </div>
+
+            <div class="prep-box">
+                <div class="setup-label">Prep</div>
+                <ul>
+                    <li>Water bottle (trophy stand-in)</li>
+                    <li>Notes to flip through (speech versions)</li>
+                    <li>Off-camera voice — <strong>TBD</strong></li>
+                    <li>Same desk, transition to standing/podium posture</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>Shoot Scripts — How to Not Make Films</p>
+    <p style="margin-top: 8px; opacity: 0.6;">March 27, 2026</p>
+</footer>
+
+</body>
+</html>
