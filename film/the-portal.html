@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Portal — NAP × HTNMF Integration</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warm-black: #1a1714;
+            --warm-dark: #242019;
+            --void: #0a0807;
+            --parchment: #e8dcc8;
+            --parchment-light: #f2e8d5;
+            --amber: #c4935a;
+            --amber-glow: #d4a76a;
+            --amber-deep: #8b6b3d;
+            --rust: #a0674b;
+            --sage: #7a8b6f;
+            --muted-blue: #6b7d8d;
+            --film-red: #8b4049;
+            --neon-red: #ff2222;
+            --neon-red-soft: rgba(255, 34, 34, 0.5);
+            --whisper: rgba(232, 220, 200, 0.06);
+            --border-line: rgba(196, 147, 90, 0.15);
+            --border-red: rgba(255, 34, 34, 0.2);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--warm-black);
+            color: var(--parchment);
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.04; pointer-events: none; z-index: 1000;
+        }
+        body::after {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 8, 5, 0.4) 100%);
+            pointer-events: none; z-index: 999;
+        }
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(255, 34, 34, 0.3); color: var(--parchment-light); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--warm-black); }
+        ::-webkit-scrollbar-thumb { background: var(--amber-deep); border-radius: 3px; }
+
+        .header {
+            padding: 80px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-line);
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 50%;
+            width: 80px; height: 1px;
+            background: var(--neon-red);
+            transform: translateX(-50%);
+            opacity: 0.7;
+        }
+        .header .lockup {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: var(--neon-red);
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+        .header .lockup .x {
+            color: var(--amber);
+            margin: 0 8px;
+            font-style: italic;
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: clamp(2rem, 6vw, 4rem);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            margin-bottom: 12px;
+        }
+        .header .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.65rem;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--amber-deep); opacity: 0.8;
+        }
+        .header .tagline {
+            font-style: italic; font-size: 1.05rem;
+            color: var(--amber); opacity: 0.75;
+            margin-top: 18px;
+            max-width: 580px;
+            margin-left: auto; margin-right: auto;
+            line-height: 1.6;
+        }
+        .header .version {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: var(--neon-red);
+            border: 1px solid var(--border-red);
+            padding: 3px 10px;
+            margin-top: 16px;
+            border-radius: 2px;
+            background: rgba(255, 34, 34, 0.05);
+        }
+
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(26, 23, 20, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-line);
+            padding: 0 20px; overflow-x: auto;
+        }
+        .nav::-webkit-scrollbar { display: none; }
+        .nav-inner {
+            display: flex; justify-content: center; gap: 0;
+            max-width: 1100px; margin: 0 auto;
+        }
+        .nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300; font-size: 0.62rem;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--amber-deep); text-decoration: none;
+            padding: 14px 12px; white-space: nowrap;
+            transition: color 0.3s, background 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .nav a:hover, .nav a.active {
+            color: var(--amber-glow);
+            background: var(--whisper);
+            border-bottom-color: var(--amber);
+        }
+        .nav a.external {
+            color: var(--neon-red);
+            opacity: 0.7;
+        }
+        .nav a.external:hover {
+            color: var(--neon-red);
+            opacity: 1;
+            border-bottom-color: var(--neon-red);
+        }
+
+        .content { max-width: 800px; margin: 0 auto; padding: 0 28px; }
+
+        .section {
+            padding: 56px 0;
+            border-bottom: 1px solid var(--border-line);
+        }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400; font-size: 0.6rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--amber-deep); opacity: 0.7; margin-bottom: 8px;
+        }
+        .section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+            letter-spacing: 0.06em;
+            color: var(--parchment-light);
+            margin-bottom: 24px;
+            line-height: 1.3;
+        }
+        .section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+            color: var(--amber-glow);
+            margin-top: 28px;
+            margin-bottom: 14px;
+        }
+        p { font-size: 1rem; margin-bottom: 16px; color: rgba(232, 220, 200, 0.85); }
+        strong { color: var(--parchment-light); font-weight: 500; }
+        em { color: var(--amber); font-style: italic; }
+        ul, ol {
+            color: rgba(232, 220, 200, 0.82);
+            margin-bottom: 16px;
+            padding-left: 22px;
+        }
+        ul li, ol li { margin-bottom: 8px; font-size: 0.98rem; }
+
+        blockquote {
+            position: relative;
+            margin: 28px 0; padding: 18px 22px 18px 26px;
+            border-left: 2px solid var(--amber-deep);
+            background: linear-gradient(135deg, rgba(196, 147, 90, 0.04), transparent);
+            border-radius: 0 4px 4px 0;
+            font-style: italic; font-size: 1.08rem;
+            color: var(--amber-glow); line-height: 1.8;
+        }
+        blockquote.red {
+            border-left-color: var(--neon-red);
+            background: linear-gradient(135deg, rgba(255, 34, 34, 0.05), transparent);
+            color: rgba(232, 220, 200, 0.95);
+        }
+        blockquote .attribution {
+            display: block;
+            font-size: 0.75rem;
+            font-style: normal;
+            margin-top: 10px;
+            color: var(--amber-deep);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .beat-table {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 24px 0;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+        }
+        .beat-table .beat-num {
+            background: rgba(196, 147, 90, 0.08);
+            border-right: 1px solid var(--border-line);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 18px 0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: 1.6rem;
+            color: var(--amber-deep);
+        }
+        .beat-table .beat-body {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border-line);
+        }
+        .beat-table .beat-body:last-child { border-bottom: none; }
+        .beat-table .beat-body .beat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 6px;
+            display: block;
+        }
+        .beat-table .beat-body p {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: rgba(232, 220, 200, 0.82);
+        }
+        .beat-table .beat-body p:last-child { margin-bottom: 0; }
+        .beat-row {
+            display: contents;
+        }
+
+        .card {
+            padding: 28px 32px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.03), transparent);
+            margin-bottom: 24px;
+        }
+        .card.red {
+            border-color: var(--border-red);
+            background: linear-gradient(145deg, rgba(255, 34, 34, 0.04), transparent);
+        }
+        .card-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 10px;
+        }
+        .card.red .card-label { color: var(--neon-red); opacity: 0.85; }
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: var(--parchment-light);
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 24px 0;
+        }
+        @media (max-width: 700px) {
+            .columns { grid-template-columns: 1fr; }
+        }
+        .col-card {
+            padding: 20px 22px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background: rgba(196, 147, 90, 0.03);
+        }
+        .col-card.is { border-color: rgba(122, 139, 111, 0.25); background: rgba(122, 139, 111, 0.05); }
+        .col-card.isnot { border-color: var(--border-red); background: rgba(255, 34, 34, 0.04); }
+        .col-card .col-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .col-card.is .col-label { color: var(--sage); }
+        .col-card.isnot .col-label { color: var(--neon-red); opacity: 0.85; }
+        .col-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .col-card li {
+            font-size: 0.92rem;
+            color: rgba(232, 220, 200, 0.78);
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(232, 220, 200, 0.06);
+        }
+        .col-card li:last-child { border-bottom: none; }
+
+        .mechanism {
+            margin: 28px 0;
+            padding: 32px 24px;
+            border: 1px solid var(--border-line);
+            border-radius: 4px;
+            background:
+                linear-gradient(145deg, rgba(255, 34, 34, 0.03), transparent),
+                linear-gradient(145deg, rgba(196, 147, 90, 0.04), transparent);
+        }
+        .mechanism .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px dashed rgba(196, 147, 90, 0.12);
+        }
+        .mechanism .step:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .mechanism .step .arrow {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            color: var(--neon-red);
+            opacity: 0.6;
+            min-width: 24px;
+            line-height: 1.4;
+        }
+        .mechanism .step .step-content {
+            flex: 1;
+        }
+        .mechanism .step .step-cue {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 4px;
+        }
+        .mechanism .step p {
+            font-size: 0.96rem;
+            margin: 0 0 6px 0;
+        }
+        .mechanism .step p:last-child { margin-bottom: 0; }
+
+        .question-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+        .question-list li {
+            position: relative;
+            padding: 14px 18px 14px 36px;
+            border-left: 2px solid var(--amber-deep);
+            background: rgba(196, 147, 90, 0.04);
+            margin-bottom: 10px;
+            border-radius: 0 3px 3px 0;
+            font-size: 0.96rem;
+            color: rgba(232, 220, 200, 0.85);
+        }
+        .question-list li::before {
+            content: '?';
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            color: var(--amber);
+            font-size: 1rem;
+        }
+
+        .personal {
+            padding: 36px 32px;
+            margin: 24px 0;
+            background:
+                linear-gradient(180deg, rgba(255, 34, 34, 0.03), transparent),
+                linear-gradient(180deg, rgba(196, 147, 90, 0.04), transparent);
+            border-top: 1px solid var(--border-red);
+            border-bottom: 1px solid var(--border-red);
+        }
+        .personal .personal-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--neon-red);
+            opacity: 0.8;
+            margin-bottom: 14px;
+        }
+        .personal blockquote {
+            border-left-color: var(--neon-red-soft);
+            color: var(--parchment-light);
+            font-size: 1.1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 2px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .tag-red {
+            background: rgba(255, 34, 34, 0.12);
+            color: var(--neon-red);
+            border: 1px solid var(--border-red);
+        }
+        .tag-amber {
+            background: rgba(196, 147, 90, 0.12);
+            color: var(--amber);
+            border: 1px solid var(--border-line);
+        }
+        .tag-sage {
+            background: rgba(122, 139, 111, 0.12);
+            color: var(--sage);
+            border: 1px solid rgba(122, 139, 111, 0.25);
+        }
+
+        .footer {
+            text-align: center; padding: 60px 20px; opacity: 0.45;
+        }
+        .footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; letter-spacing: 0.18em;
+            text-transform: uppercase; color: var(--amber-deep);
+        }
+        .footer .red {
+            color: var(--neon-red);
+            opacity: 0.6;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 600px) {
+            .content { padding: 0 18px; }
+            .section { padding: 40px 0; }
+            .header { padding: 50px 18px 32px; }
+            .nav a { padding: 12px 9px; font-size: 0.56rem; }
+            .card { padding: 22px 20px; }
+            .mechanism { padding: 22px 18px; }
+            .personal { padding: 24px 22px; }
+            .beat-table { grid-template-columns: 50px 1fr; }
+            .beat-table .beat-num { font-size: 1.3rem; padding: 16px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="lockup">NodAnotherPodcast <span class="x">×</span> How To Not Make Films</div>
+    <h1>The Portal</h1>
+    <div class="subtitle">Integration Bible — The Indulgence Mechanism</div>
+    <div class="tagline">"Put them on. Be the version of you that lives in the world where this all makes sense."</div>
+    <div class="version">v0.1 — DRAFT — APRIL 14, 2026</div>
+</header>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="#premise">Premise</a>
+        <a href="#origin">Origin</a>
+        <a href="#core">Core Insight</a>
+        <a href="#staircase">Staircase</a>
+        <a href="#mechanism">Mechanism</a>
+        <a href="#episode">Episode</a>
+        <a href="#sequence">Sequence</a>
+        <a href="#guardrails">Guardrails</a>
+        <a href="#changes">Changes</a>
+        <a href="#production">Production</a>
+        <a href="#open">Open</a>
+        <a href="#personal">Personal</a>
+        <a href="index.html">← Film Home</a>
+        <a href="https://sumeetprashant.github.io/nodanotherpodcast/" class="external" target="_blank">NAP ↗</a>
+    </div>
+</nav>
+
+<main class="content">
+
+    <!-- PREMISE -->
+    <section class="section" id="premise">
+        <div class="section-label">01 — Premise</div>
+        <h2>What this is</h2>
+
+        <p><strong>The Portal</strong> is the integration of <em>NodAnotherPodcast</em> into <em>How To Not Make Films</em>. Not as marketing. Not as a tie-in. As the actual mechanism by which Su's surplus creative energy — the Comedian — generates the absurd, looped, time-jumping, fake-ad-bearing inner worlds that have been hiding in Sumeet's work since 2008.</p>
+
+        <p>The feature stays the feature. Su, Comedian, Kid. The auto rides, the office, Himachal, the break, the Kid's arrival, the return. The emotional spine is unchanged. What changes: <strong>the studio at night becomes a portal.</strong> When Su sits in the host's chair to write podcast questions, and the Comedian sits across from him, something more than nagging can happen now. The Comedian wants to make a podcast. Su keeps refusing. Until one night he doesn't. And when he says yes — the Comedian's sunglasses become the doorway.</p>
+
+        <p>What's on the other side of the doorway is one full <em>NodAnotherPodcast</em> episode. Not a fragment. Not a sprinkling. <strong>One.</strong> Built into the heart of Act 1. Earned by two refusals. Released into the audience's bloodstream once, with weight, and then never repeated.</p>
+
+        <blockquote class="red">
+            "It's like meeting halfway. I'm not making the whole film into this weird fever dream of random AI generations. I am just picking a small section of it and trying to do something that might be fun for me."
+            <span class="attribution">— Sumeet, April 14</span>
+        </blockquote>
+    </section>
+
+    <!-- ORIGIN -->
+    <section class="section" id="origin">
+        <div class="section-label">02 — How we got here</div>
+        <h2>The Doubt and the Repo</h2>
+
+        <p>The night before this document existed, Sumeet hit the wall every filmmaker hits when the ratio of idea-to-resource gets honest. 14 short films in 108 days. Double role. No budget. No actors. A production company to run during the day. A character-driven feature that demands emotional access on a guerrilla schedule.</p>
+
+        <p>The instinct was a pivot — abandon the feature, make something experimental, sketches, fake ads, weird reels playing on characters' phones, music videos, an SNL-style chaos that "suits the title." The fear under the instinct was real: <em>this might be too complicated to actually finish.</em></p>
+
+        <p>The pivot wasn't a pivot. It was creative memory trying to remind itself of a form it had already built and forgotten:</p>
+
+        <div class="card red">
+            <div class="card-label">The Repo</div>
+            <h3>nodanotherpodcast — December 2025</h3>
+            <p>A self-hosted production bible for a hybrid podcast-meets-short-film format. Two episodes already designed in full. Crew bibles. Color palettes. Visual mechanics. Runtime tables. Fake in-world ads. Studio-to-surreal-world transitions. A host who fails to recognize that his guest is trapped.</p>
+            <ul>
+                <li><strong>GALAT TIME</strong> (Episode 01) — A man travels between worlds. Sunglasses on = world-jump. Fake ad: <em>Chron-NO</em>. The pillar/payphone "Wall" as anchor.</li>
+                <li><strong>LOVER-BOY</strong> (Episode 02) — A man supernaturally committed sits for a podcast interview. Then we follow him into a misty forest, a decaying cabin, an eternal loop. Fake ads: <em>Rémanence</em>, <em>Ajeevansaathi</em>.</li>
+            </ul>
+            <p style="margin-bottom: 0;">Both already half-developed. One (Lover Boy) has roughly 3–3.5 minutes of footage and 3–4 minutes of voice recording in the can. Both feel like the form Sumeet was reaching for in his moment of doubt — because they ARE.</p>
+        </div>
+
+        <p>The pivot folds into the feature. The form already exists. The Comedian is the host. The studio is the set. The portal is the way in.</p>
+    </section>
+
+    <!-- CORE INSIGHT -->
+    <section class="section" id="core">
+        <div class="section-label">03 — The thing hiding in plain sight</div>
+        <h2>The Sunglasses Have Always Been The Mechanism</h2>
+
+        <p>This is the insight that locks the whole integration together, and it's been sitting in Sumeet's life and work for almost two decades:</p>
+
+        <blockquote>
+            The Comedian's sunglasses (origin: the beating, the black eye, the next show, the transformation, the metro smile to <em>Manmaaniyan</em>).<br>
+            The Galat Time sunglasses (mechanism: on = world-jump, off = back).<br>
+            Sumeet's actual standup glasses, 2008–2018 (worn on stage to access a version of himself the bare-face Sumeet couldn't reach).
+        </blockquote>
+
+        <p><strong>These are all the same object.</strong> Not metaphorically. Functionally. Sumeet's entire creative life has been him putting on different pairs of glasses to access different parts of himself. Comedian glasses to perform. Builder glasses to make tools (PageZero, Short0, the channel). Watching glasses to feel things through other people's films. Writing glasses to talk through entries. Filmmaker glasses now.</p>
+
+        <p>He has never sat down and just been Sumeet. He has always been wearing some pair of glasses to access a version of himself the bare-face Sumeet can't reach.</p>
+
+        <p>The Comedian offering Su the sunglasses across the table in the studio is therefore the deepest beat in the entire feature. It's not a mystical gimmick. It's the offer Sumeet has been making to himself since 2008. <strong>Put them on. Become someone briefly so you can see what you really are.</strong></p>
+
+        <p>And the truth that comes back when the glasses come off is the reason Su resists the indulgence in the first place. The Comedian doesn't just bring joy. He brings the truth Su has been refusing to look at, dressed in absurdity and time-jumps and forest loops. The episodes are <em>true</em> in a way the daily life isn't. That's why "remember what happened last time" lands. The fear isn't of the weirdness. It's of the truth.</p>
+    </section>
+
+    <!-- STAIRCASE -->
+    <section class="section" id="staircase">
+        <div class="section-label">04 — The path to the portal</div>
+        <h2>The Three-Night Staircase</h2>
+
+        <p>The audience doesn't get the portal until it has been earned three times. Three studio nights. Each one tightens the screw. By the time Su says yes, the audience is leaning forward.</p>
+
+        <div class="beat-table">
+            <div class="beat-row">
+                <div class="beat-num">01</div>
+                <div class="beat-body">
+                    <span class="beat-label">Night One — The Silent Refusal</span>
+                    <p>Su writing podcast questions in the host's chair. The Comedian arrives. Sits in the guest chair across from him. Watches Su work. Then leans forward and slowly slides his sunglasses down his nose. Looks at Su. A long beat.</p>
+                    <p>Su looks up. Their eyes meet. Su shakes his head, once. Returns to his pen and paper. The Comedian holds the look for a second longer, then pushes the sunglasses back up. Drifts out of the studio frame.</p>
+                    <p><em>No dialogue. No sound effect. The audience FEELS that something almost happened and didn't. The mystery is the absence.</em></p>
+                </div>
+            </div>
+            <div class="beat-row">
+                <div class="beat-num">02</div>
+                <div class="beat-body">
+                    <span class="beat-label">Night Two — The Verbal Refusal</span>
+                    <p>Different night. Su working again. The Comedian back. The same lean forward. The same hand at the sunglasses.</p>
+                    <p>Su, without looking up: <em>"Bhai. Aaj nahi. Pichli baar yaad hai? Mat kar."</em></p>
+                    <p>The Comedian doesn't push. He sits back. The audience now knows there <strong>was</strong> a previous time, and it was bad enough to be remembered. They still don't know what it was. The mystery is now a shape.</p>
+                </div>
+            </div>
+            <div class="beat-row">
+                <div class="beat-num">03</div>
+                <div class="beat-body">
+                    <span class="beat-label">Night Three — The Consent</span>
+                    <p>The night the Comedian asks Su about love. Su tries to answer (the original Act 1 "Love Conversation"). He fumbles. He gives up. The Comedian leans forward one last time — but this time he doesn't slide the sunglasses down his nose. He <strong>removes them entirely.</strong> Holds them in his hand. Extends them across the table to Su.</p>
+                    <p>A long beat. Su's hand moves. Takes them. Puts them on.</p>
+                    <p><em>This is the consent. The portal opens.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <p style="margin-top: 16px;">The staircase does three things at once: (1) it earns the indulgence so it doesn't feel arbitrary, (2) it gives Su agency over the moment of yes, (3) it transforms the sunglasses from a costume element into the film's most loaded object.</p>
+    </section>
+
+    <!-- MECHANISM -->
+    <section class="section" id="mechanism">
+        <div class="section-label">05 — In and out</div>
+        <h2>The Portal Mechanism</h2>
+
+        <p>This is the part Sumeet flagged: <em>"there is no seamless going in and out of this, and we need to figure that part out."</em> Here is the proposed mechanism. Six beats. Shot for real, not faked in post.</p>
+
+        <div class="mechanism">
+            <div class="step">
+                <div class="arrow">→</div>
+                <div class="step-content">
+                    <div class="step-cue">Beat 01 — The Reach</div>
+                    <p>Comedian removes his sunglasses. Holds them out across the table. Su's hand moves. Takes them. The studio sound — distant traffic, the room tone of the soundproofed booth — drops a half-step. Air gets thicker.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="arrow">→</div>
+                <div class="step-content">
+                    <div class="step-cue">Beat 02 — The Wear</div>
+                    <p>Su slides the sunglasses on. The room temperature shifts (color grade subtly cools or warms — choose in shoot). For a beat we hold on Su wearing them, looking at the Comedian. The Comedian, without his glasses, looks <em>different</em> — younger, naked, almost embarrassed. The first time we see him truly without armor.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="arrow">→</div>
+                <div class="step-content">
+                    <div class="step-cue">Beat 03 — The Push-In</div>
+                    <p>Slow push-in on Su's face wearing the sunglasses. We see our own reflection — the camera, the studio — in the lenses. Push past the reflection. Push <strong>into</strong> the lens. The reflection deepens, distorts, becomes a different room.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="arrow">→</div>
+                <div class="step-content">
+                    <div class="step-cue">Beat 04 — Inside</div>
+                    <p>We are in the episode. Galat Time. Su is no longer in the studio — he's in one of the wrong worlds. The Comedian's voice continues from outside as podcast-host audio over the journey. The episode plays out in full (see <a href="#episode" style="color: var(--amber-glow);">section 06</a>).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="arrow">→</div>
+                <div class="step-content">
+                    <div class="step-cue">Beat 05 — The Return</div>
+                    <p>The episode ends on its own beat (Su exhausted, the loop completed, a recognition). Pull out of the lens. Reverse the push-in. Su's face. The studio behind him reassembles. He is sitting. The sunglasses are still on his face. The Comedian is across from him, eyes naked, watching.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="arrow">→</div>
+                <div class="step-content">
+                    <div class="step-cue">Beat 06 — The Removal</div>
+                    <p>Su reaches up. Slides the sunglasses off. Sets them on the table between them. The room tone returns to normal. Long beat.</p>
+                    <p><strong>Su:</strong> <em>"What was that?"</em></p>
+                    <p><strong>Comedian:</strong> <em>"That was you. Wherever you would have made sense."</em></p>
+                    <p>Su pushes the sunglasses back across the table. The Comedian takes them. Puts them back on. He's the Comedian again. The naked moment is gone.</p>
+                </div>
+            </div>
+        </div>
+
+        <p>The mechanism is shootable on location with one camera. No green screen necessary for the studio side — only for the episode's interior worlds (which need their own treatment). The push-in/pull-out is an in-camera move that can be done with a slider, a slow zoom, or a tracking dolly. The reflection-in-the-lens can be a separate insert shot, composited or shot for real with careful framing.</p>
+    </section>
+
+    <!-- EPISODE -->
+    <section class="section" id="episode">
+        <div class="section-label">06 — What's on the other side</div>
+        <h2>The Episode — Galat Time (with Lover Boy folded in)</h2>
+
+        <p>One full <em>NodAnotherPodcast</em> episode lives inside the film. <strong>Galat Time.</strong> Not Lover Boy as its own episode. Not both. <strong>Galat Time</strong>, with Lover Boy folded in as one of the wrong worlds Su jumps into during the journey.</p>
+
+        <h3>Why Galat Time and not Lover Boy</h3>
+
+        <p>Lover Boy is about Sumeet's romantic past — real, painful, but mostly already processed in the entries. Galat Time is about his ongoing daily condition — the thing he wakes up with every morning, the thing the entire film exists to express. The indulgence sequence should reveal the truest thing, and the truest thing isn't a 12-year-old relationship. It's this:</p>
+
+        <blockquote class="red">
+            "I always feel I don't belong to this age. Like I was born in the wrong time. Like someone 500 years back who'd write poems and do things like Leonardo did and perish away in a stupid shitty way."
+            <span class="attribution">— Sumeet, April 14</span>
+        </blockquote>
+
+        <p>That's not a cool concept for a sketch. That's the actual condition of the man making this film. Galat Time is therefore the more honest indulgence — the one that's worth Su putting the sunglasses on for.</p>
+
+        <h3>The structure inside the episode</h3>
+
+        <ol>
+            <li><strong>The Wall</strong> — Su appears in the Galat Time world. The pillar/payphone Wall is the anchor point (carried over from the original NAP bible). He touches it. It's the only thing that's solid. Everything else is wrong.</li>
+            <li><strong>Wrong World #1 — A 1700s poet's room.</strong> Candlelight. Quill. A woman in another room laughing. He almost belongs here, but the language is wrong, the air is wrong. Sunglasses adjust. Jump.</li>
+            <li><strong>Wrong World #2 — A comedy stage in 2008.</strong> Empty seats. He's about to perform. He knows the joke isn't ready. The mic feedbacks. Sunglasses adjust. Jump. <span class="tag tag-amber">callback to Su's standup years</span></li>
+            <li><strong>Wrong World #3 — The Lover Boy forest.</strong> 30–45 seconds. He is walking hand-in-hand with Blondie in the misty loop. He knows it's wrong. He looks at her face — it's a girl version of himself. The cabin in the distance. He sees an older version of himself in the cabin window. The older version raises a finger gun. Sunglasses adjust. Jump. <span class="tag tag-red">existing footage / regenerated</span></li>
+            <li><strong>Wrong World #4 — His childhood bedroom.</strong> The shared sound he and his sister still make. He almost laughs. But he is 37 in the bed and he doesn't fit. Sunglasses adjust. Jump.</li>
+            <li><strong>Back to the Wall.</strong> He returns to the pillar/payphone. Exhausted. The phone is ringing. He picks it up. It's the Comedian's voice. <em>"Wahaan koi sahi waqt nahi hai. There's no right time anywhere. Tu yahin se theek hai." (You're fine right here.)</em></li>
+            <li><strong>Su removes the sunglasses inside the world.</strong> The Wall dissolves. He is back in the studio.</li>
+        </ol>
+
+        <p>Total runtime: <strong>6–8 minutes</strong>. The Lover Boy fragment is 30–45 seconds inside it, used as one wrong world among several, which means we get to use the existing footage (or a small regeneration of it) without committing to a full 13-minute Lover Boy episode that would compete with the feature.</p>
+
+        <h3>How the Comedian functions inside the episode</h3>
+
+        <p>The Comedian is the off-screen podcast host. His voice is heard throughout the episode, asking cryptic questions over the wrong-world journeys. He's the interviewer of a guest who can't answer because the guest is too busy looking for somewhere to land. The 3–4 minutes of voice recording Sumeet already made for Lover Boy can be repurposed here — they're cryptic, they're in the right register, they're already in the can, and they don't age the way generated visuals do.</p>
+
+        <h3>The fake ad interstitial</h3>
+
+        <p>One in-world commercial break appears mid-episode. <strong>Chron-NO</strong> ("Tired of the pressure? Stop knowing the time. Now with a 'Yesterday' setting") — already designed in the original NAP bible. 15–20 seconds. It plays as a real ad inside the episode, then we return to Su at the Wall. The fake ad is the only piece of the experimental/sketch energy that lives outside the studio frame, and it earns its place because the episode justifies it.</p>
+    </section>
+
+    <!-- STUDIO SEQUENCE -->
+    <section class="section" id="sequence">
+        <div class="section-label">07 — Where this lives in the film</div>
+        <h2>The Act 1 Studio Sequence — Beat by Beat</h2>
+
+        <p>The original Act 1 scene list had three studio nights (Scenes 6, 8, plus the resistance/indulgence rhythm). In the new structure these collapse and reshape into a coherent staircase running roughly 18–22 minutes of total runtime, of which 6–8 minutes is the Galat Time episode itself.</p>
+
+        <div class="beat-table">
+            <div class="beat-row">
+                <div class="beat-num">A</div>
+                <div class="beat-body">
+                    <span class="beat-label">Studio Night 1 — Resistance / The Silent Refusal</span>
+                    <p>Su finishes a workday. Office empties. He goes into the host's chair. Pen, paper, notes for tomorrow's podcast guest. He works. The Comedian arrives. Sits in the guest chair. Watches. The lean-forward. The sunglasses-down-the-nose. Su shakes his head. Comedian backs off. Su finishes his prep. Goes home.</p>
+                    <p><em>~3–4 minutes. Establishes the ritual, the chair, the relationship, and seeds the mystery.</em></p>
+                </div>
+            </div>
+            <div class="beat-row">
+                <div class="beat-num">B</div>
+                <div class="beat-body">
+                    <span class="beat-label">Studio Night 2 — The Verbal Refusal</span>
+                    <p>Different night. Su deeper into a different episode's prep. The Comedian back. Same offer. Su: <em>"Bhai. Aaj nahi. Pichli baar yaad hai? Mat kar."</em> Comedian doesn't push. Sits there. They work in silence — Su writing, the Comedian flipping through Su's notes upside down because he can't read but wants to be near.</p>
+                    <p><em>~3–4 minutes. Names the mystery, deepens the relationship, makes the audience want what Su keeps refusing.</em></p>
+                </div>
+            </div>
+            <div class="beat-row">
+                <div class="beat-num">C</div>
+                <div class="beat-body">
+                    <span class="beat-label">Studio Night 3 — The Love Conversation / The Consent</span>
+                    <p>The night the Comedian asks Su about love. Su can't answer. The Comedian asks again, more gently. Su tries philosophy. The Comedian cuts him off. <em>"Jab tune usko pehli baar dekha tha, tu kuch soch raha tha kya? Nahi na. Tu bas dekh raha tha. Wahi love hai. Baaki sab post-production hai."</em></p>
+                    <p>Su pushes back analytically. Loses. Sits in silence. The Comedian leans forward. Removes his sunglasses entirely this time. Extends them across the table. The reach. The take. The wear.</p>
+                    <p><strong>The portal opens.</strong></p>
+                    <p><em>~5–6 minutes of studio + 6–8 minutes of episode = ~12–14 minutes total.</em></p>
+                </div>
+            </div>
+            <div class="beat-row">
+                <div class="beat-num">D</div>
+                <div class="beat-body">
+                    <span class="beat-label">Studio Night 3 (continued) — The Return</span>
+                    <p>The pull-out. Su back in the studio, sunglasses still on, Comedian across from him eyes-naked. The removal. The "What was that?" The "That was you. Wherever you would have made sense." The push of the sunglasses back across the table. The Comedian putting them back on. The armor returning.</p>
+                    <p>Su gets up. Walks out of the studio. Doesn't say anything else. The Comedian stays in the chair, alone, in the empty studio, sunglasses on, watching the door.</p>
+                    <p><em>~2–3 minutes. The closer of the sequence and (arguably) the closer of Act 1.</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GUARDRAILS -->
+    <section class="section" id="guardrails">
+        <div class="section-label">08 — Guardrails</div>
+        <h2>What This Is And Is Not</h2>
+
+        <p>Sumeet was clear: <em>"This should not be a genai experiment. This is the film that is going to define my life and my future."</em> The integration only works if the boundaries are clear. Both columns matter equally.</p>
+
+        <div class="columns">
+            <div class="col-card is">
+                <div class="col-label">This IS</div>
+                <ul>
+                    <li>The deepest emotional beat in Act 1</li>
+                    <li>One full episode, shot and treated as cinema</li>
+                    <li>An earned indulgence after two refusals</li>
+                    <li>The Comedian's character motivation made literal</li>
+                    <li>A test of the sunglasses as the film's most loaded object</li>
+                    <li>A use of the studio as the film's most-used set</li>
+                    <li>An honest cinematic translation of the "born in the wrong time" condition</li>
+                    <li>A justification for the title — literally, "how to not make films"</li>
+                </ul>
+            </div>
+            <div class="col-card isnot">
+                <div class="col-label">This is NOT</div>
+                <ul>
+                    <li>A genai experiment</li>
+                    <li>A fever dream of random AI generations</li>
+                    <li>A gimmick used more than once</li>
+                    <li>A replacement for the Su / Comedian / Kid feature</li>
+                    <li>A shortcut to avoid the emotional work</li>
+                    <li>A reason to abandon the staircase / the auto / the Kid / Himachal / the break / the return</li>
+                    <li>A way to compete with Christopher Nolan or Black Mirror</li>
+                    <li>An excuse to lean on aging AI footage</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT THIS CHANGES -->
+    <section class="section" id="changes">
+        <div class="section-label">09 — Structural implications</div>
+        <h2>What This Changes (and Doesn't) in the Film</h2>
+
+        <h3>What stays exactly the same</h3>
+        <ul>
+            <li><strong>The auto scene</strong> — opening, title card, the Comedian's arrival, the fourth-wall break</li>
+            <li><strong>The full workday</strong> — office, client, co-founder, the daily texture</li>
+            <li><strong>Himachal</strong> — both visits, the grass scene, the father material, the school memory</li>
+            <li><strong>The Break</strong> — mother's call, the love conversation echo, the eruption</li>
+            <li><strong>Act 2 Absence</strong> — the empty auto, work deteriorating, the therapist satire</li>
+            <li><strong>The Kid arc</strong> — three-day escalation, "Andar aa sakta hoon?", Maa calls, the Kid in the studio</li>
+            <li><strong>The Comedian's Origin flashback</strong> — the beating, the girl, the sunglasses, the metro smile</li>
+            <li><strong>The Return</strong> — Comedian back, the drunken floor conversation, the Kid-Comedian meeting</li>
+            <li><strong>The Ending</strong> — lanyard in focus, Kid and Comedian behind, "A child knows no fear"</li>
+        </ul>
+
+        <h3>What changes</h3>
+        <ul>
+            <li>The Act 1 studio nights collapse into a three-night staircase ending in the Galat Time episode</li>
+            <li>The original "Love Conversation" scene becomes the trigger for the episode rather than a standalone debate</li>
+            <li>The Comedian gains a real <em>want</em>: he wants to make the podcast. This gives him agency throughout Act 1 instead of just being Su's nag.</li>
+            <li>The studio screen-time grows from passing-through to a primary location — ~18–22 minutes total across Act 1, leveraging Content Studio's Podcast Lounge as the anchor set</li>
+            <li>The original GenAI inner-world fragment idea (the monk on roller skates, ~60–90 seconds total) is replaced by the single Galat Time episode (~6–8 minutes)</li>
+            <li>The Comedian's Origin flashback gains a new resonance: when we see his sunglasses appear for the first time in his own backstory, we now know what those sunglasses will eventually become</li>
+        </ul>
+
+        <h3>What gets cut or de-emphasized</h3>
+        <ul>
+            <li>Multiple GenAI fragments scattered across the film — replaced by the single episode</li>
+            <li>The "Delhi research trip with two lenses" idea — keep one, not three, to free shoot days for the studio sequence</li>
+            <li>Any plan to make Lover Boy as its own standalone short — it lives inside the Galat Time episode now</li>
+        </ul>
+    </section>
+
+    <!-- PRODUCTION -->
+    <section class="section" id="production">
+        <div class="section-label">10 — Production reality</div>
+        <h2>Shooting This</h2>
+
+        <h3>Locations</h3>
+        <p>The studio sequence shoots entirely at <strong>Content Studio</strong>. The Podcast Lounge (warm couches, lamp light, intimate set) is the host-chair-and-guest-chair setup. The Black Cyclorama becomes the empty void around the wrong-world journeys (lit minimally, props brought in for each wrong world). The Green Chroma Room is available if needed for compositing, but the goal is to shoot as much as possible in-camera.</p>
+
+        <h3>Wrong World shooting</h3>
+        <ul>
+            <li><strong>The Wall</strong> — built as a single physical pillar/payphone prop on the cyclorama floor. Lit with one hard side light. Shoots in a single setup, a few hours.</li>
+            <li><strong>1700s poet's room</strong> — small set dressing on an existing podcast set (replace mics with a quill, a candle, a stack of papers). Re-light. Half a day.</li>
+            <li><strong>2008 comedy stage</strong> — use the comedy club Sumeet has free access to. Empty. One mic, one stool. Half a day.</li>
+            <li><strong>Lover Boy forest</strong> — use existing footage where it holds up. Regenerate with current AI tools where it doesn't. The 30–45 second fragment is the only AI-heavy piece in the entire film.</li>
+            <li><strong>Childhood bedroom</strong> — Sumeet's home or a friend's home redressed. Half a day.</li>
+        </ul>
+
+        <h3>Double role logistics for the studio</h3>
+        <p>Su and the Comedian are facing each other across the table in the host-chair-and-guest-chair setup. They are <strong>not</strong> in the same shot at the same time except in the wide masters. Coverage is OTS (over-the-shoulder) and singles. This is the cleanest possible double-role setup — the camera shoots Su from the Comedian's chair angle, then the Comedian from Su's chair angle, with matching eyelines. Wardrobe/character changes happen between setups in the changing room. <span class="tag tag-sage">low risk</span></p>
+
+        <p>The reach-and-take of the sunglasses across the table is the only shot that requires both characters' hands in frame at once. Solution: shoot the Comedian's hand extending the sunglasses as one insert, Su's hand taking them as another insert, cut them together. The audience reads them as continuous. <span class="tag tag-sage">solvable in edit</span></p>
+
+        <h3>The AI aging problem</h3>
+        <p>Sumeet was right to flag this. Generated content from late 2025 will look dated against 2026 standards by the time of release. The fix is twofold:</p>
+        <ol>
+            <li><strong>Lean into the wrong-time aesthetic.</strong> The Galat Time worlds SHOULD look weird and slightly broken. They're literally wrong times. Photoreal would be a mistake. The slight uncanniness of older AI is on-brand for the episode.</li>
+            <li><strong>Regenerate only what must be regenerated.</strong> Voice recordings don't age. Live-action wrong worlds don't age. Only the Lover Boy forest fragment needs an AI pass, and it can be regenerated closer to picture lock with whatever the best tool available at that time is.</li>
+        </ol>
+
+        <h3>Shoot blocks</h3>
+        <p>The full studio sequence (three nights of staircase + the episode interior worlds) breaks into roughly:</p>
+        <ul>
+            <li><strong>Block 1 (1 day)</strong> — Studio Night 1 + Studio Night 2 (silent + verbal refusals). Same set, same lighting, same wardrobe baseline. Shoot Su's coverage first, Comedian's coverage second.</li>
+            <li><strong>Block 2 (1 day)</strong> — Studio Night 3 (love conversation + reach + take + wear + return). Same set, plus the insert shots for the sunglasses exchange.</li>
+            <li><strong>Block 3 (2 days)</strong> — Wrong worlds. The Wall, the poet's room, the comedy stage, the childhood bedroom. The Lover Boy forest fragment is generated separately.</li>
+            <li><strong>Block 4 (post)</strong> — The push-in and pull-out lens transitions, fake ad interstitial, episode assembly.</li>
+        </ul>
+
+        <p>Total: <strong>~4 shoot days</strong> spread across two weeks for the entire studio sequence + episode. This is one short film's worth of production effort delivering the heart of Act 1 plus a complete embedded episode. High leverage.</p>
+    </section>
+
+    <!-- OPEN -->
+    <section class="section" id="open">
+        <div class="section-label">11 — What still needs deciding</div>
+        <h2>Open Questions</h2>
+
+        <ul class="question-list">
+            <li>Does Su return from the episode <strong>changed</strong> in a visible way, or does the change show up later (in the Break, or with the Kid)?</li>
+            <li>The Comedian's voice as podcast host inside the episode — is it the same voice as the Comedian's regular speaking voice, or treated/processed to sound podcast-host-like?</li>
+            <li>How many wrong worlds in the episode? The proposed structure has 4 (poet's room, comedy stage, Lover Boy forest, childhood bedroom). 4 might be too many for 6–8 minutes. 3 might be tighter. Decide after a paper edit.</li>
+            <li>Is the Wall a payphone, a pillar, or something else specific to Sumeet's life? Worth picking the version with the strongest personal resonance.</li>
+            <li>The "What was that?" / "That was you" exchange — does this play in Hindi, English, or Hinglish? The choice changes the temperature of the moment significantly.</li>
+            <li>Does the audience see the empty sunglasses on the table after Su walks out, or do we cut on the Comedian putting them back on?</li>
+            <li>The Chron-NO fake ad — does it play inside the episode, or is it a beat the audience sees on a screen somewhere else in the film (a phone, a TV in the studio)?</li>
+            <li>Lover Boy footage — what exactly survives the regeneration pass, what gets reshot live-action in the cabin/cave, what's redrawn?</li>
+            <li>Does the Comedian ever wear the sunglasses inside an episode himself? Or is the sunglasses-as-portal one-way (Su only)?</li>
+            <li>The episode's title card — does <em>"GALAT TIME — NodAnotherPodcast Ep 01"</em> appear inside the episode as a real podcast intro, or do we keep it un-titled and let the audience figure it out?</li>
+        </ul>
+    </section>
+
+    <!-- PERSONAL -->
+    <section class="section" id="personal">
+        <div class="section-label">12 — The layer underneath everything</div>
+        <h2>Why This Is Personal</h2>
+
+        <div class="personal">
+            <div class="personal-label">SUMEET — APRIL 14, 2026</div>
+
+            <blockquote>
+                "I always feel I don't belong to this age. Like I was born in the wrong time. Like someone 500 years back who would write poems and do things like Leonardo did and perish away in a stupid shitty way."
+            </blockquote>
+
+            <blockquote>
+                "Even the glasses thing — when I used to do stand-up wearing glasses it gave me — it made me a different person on stage at least."
+            </blockquote>
+
+            <blockquote>
+                "Whenever I think about making these weird time loops and some crazy adverts in between, it brings sort of joy to my heart. That is what creating is, or that is what art is. If it is not bringing joy to me, what I see without any of this stuff is just a heavy film about 'fuck this seems to make.'"
+            </blockquote>
+
+            <blockquote>
+                "I have sacrificed NodAnotherPodcast for the film, and maybe things can be included in the film. I think the way I'll be making films will be unique because I don't know how to make a proper film, so it is true in some sense."
+            </blockquote>
+        </div>
+
+        <p>The film is not a film about a man with imaginary friends. It is a film about a man who has been wearing different pairs of glasses since 2008 to access the parts of himself that the bare-face version cannot reach. The Comedian, the Kid, the wrong times, the loops, the cabin, the metro smile to <em>Manmaaniyan</em>, the standup years, the entries, the channel, the song called <em>Manzillon Ki Raahon Mein</em>, the <em>nodanotherpodcast</em> repo from December — all of these are the same thing in different costumes.</p>
+
+        <p>The Portal is the moment the film names what it has always been about: the impossibility of being one self in one age, and the love between the parts of you that cannot quite meet but cannot quite leave each other alone either.</p>
+
+        <p style="opacity: 0.7; font-size: 0.9rem; margin-top: 28px;">— Working draft. To be evolved. April 14, 2026.</p>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>The Portal — NAP × HTNMF Integration Bible</p>
+    <p class="red">v0.1 — Draft — April 14, 2026</p>
+    <p style="margin-top: 14px;">"Put them on. Be the version of you that lives in the world where this all makes sense."</p>
+</footer>
+
+</body>
+</html>
