@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1a1714">
+    <title>Story Map — How to Not Make Films</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warm-black: #1a1714;
+            --warm-dark: #242019;
+            --warm-darker: #12100e;
+            --parchment: #e8dcc8;
+            --parchment-light: #f2e8d5;
+            --parchment-dim: rgba(232, 220, 200, 0.72);
+            --amber: #c4935a;
+            --amber-glow: #d4a76a;
+            --amber-deep: #8b6b3d;
+            --rust: #a0674b;
+            --sage: #7a8b6f;
+            --sage-deep: #596852;
+            --muted-blue: #6b7d8d;
+            --film-red: #8b4049;
+            --neon-red: #ff2a2a;
+            --neon-red-soft: rgba(255, 42, 42, 0.55);
+            --whisper: rgba(232, 220, 200, 0.06);
+            --border-line: rgba(196, 147, 90, 0.18);
+            --border-red: rgba(255, 42, 42, 0.25);
+
+            /* Character accent colors */
+            --su-color: #e8dcc8;
+            --comedian-color: #c4935a;
+            --kid-color: #7a8b6f;
+            --mau-color: #a0674b;
+
+            /* Spacing scale (8pt) */
+            --s-1: 4px;
+            --s-2: 8px;
+            --s-3: 12px;
+            --s-4: 16px;
+            --s-5: 24px;
+            --s-6: 32px;
+            --s-7: 48px;
+            --s-8: 64px;
+
+            /* Motion */
+            --dur-fast: 150ms;
+            --dur-med: 240ms;
+            --dur-slow: 300ms;
+            --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+            --ease-in: cubic-bezier(0.4, 0, 1, 1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --dur-fast: 1ms;
+                --dur-med: 1ms;
+                --dur-slow: 1ms;
+            }
+            *, *::before, *::after {
+                animation-duration: 1ms !important;
+                transition-duration: 1ms !important;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 120px;
+        }
+
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--warm-black);
+            color: var(--parchment);
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.04; pointer-events: none; z-index: 1000;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background: radial-gradient(ellipse at center, transparent 55%, rgba(10, 8, 5, 0.5) 100%);
+            pointer-events: none; z-index: 999;
+        }
+
+        ::selection { background: rgba(255, 42, 42, 0.3); color: var(--parchment-light); }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--warm-black); }
+        ::-webkit-scrollbar-thumb { background: var(--amber-deep); border-radius: 3px; }
+
+        :focus-visible {
+            outline: 2px solid var(--amber-glow);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            padding: var(--s-8) var(--s-5) var(--s-6);
+            text-align: center;
+            border-bottom: 1px solid var(--border-line);
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 50%;
+            width: 80px; height: 1px;
+            background: var(--neon-red);
+            transform: translateX(-50%);
+            opacity: 0.7;
+        }
+        .header .lockup {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: var(--amber-deep);
+            margin-bottom: var(--s-4);
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: clamp(1.8rem, 6vw, 3.2rem);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            margin-bottom: var(--s-3);
+            line-height: 1.2;
+        }
+        .header .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            opacity: 0.85;
+        }
+        .header .tagline {
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--amber);
+            opacity: 0.75;
+            margin-top: var(--s-4);
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .header .version {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: var(--neon-red);
+            border: 1px solid var(--border-red);
+            padding: 4px 10px;
+            margin-top: var(--s-4);
+            border-radius: 2px;
+            background: rgba(255, 42, 42, 0.05);
+        }
+        .version .dot {
+            width: 6px; height: 6px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(26, 23, 20, 0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-line);
+            padding: 0 var(--s-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .nav::-webkit-scrollbar { display: none; }
+        .nav-inner {
+            display: flex;
+            justify-content: flex-start;
+            gap: 0;
+            max-width: 1000px;
+            margin: 0 auto;
+            min-height: 48px;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .nav-inner { justify-content: center; }
+        }
+        .nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400;
+            font-size: 0.68rem;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            text-decoration: none;
+            padding: 14px 14px;
+            white-space: nowrap;
+            transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+            border-bottom: 2px solid transparent;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .nav a:hover {
+            color: var(--amber-glow);
+            background: var(--whisper);
+        }
+        .nav a.active {
+            color: var(--amber-glow);
+            border-bottom-color: var(--amber);
+        }
+        .nav a.ext { color: var(--film-red); opacity: 0.8; }
+        .nav a.ext:hover { color: var(--neon-red); opacity: 1; }
+
+        /* ===== CONTROL BAR ===== */
+        .controls {
+            position: sticky;
+            top: 48px;
+            z-index: 99;
+            background: rgba(18, 16, 14, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-line);
+            padding: var(--s-3) var(--s-4);
+        }
+        .controls-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s-3);
+            flex-wrap: wrap;
+        }
+        .runtime {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            color: var(--parchment-dim);
+            display: flex;
+            gap: var(--s-4);
+            flex-wrap: wrap;
+        }
+        .runtime strong {
+            color: var(--amber-glow);
+            font-weight: 500;
+        }
+        .control-buttons {
+            display: flex;
+            gap: var(--s-2);
+        }
+        button.ctrl {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            background: transparent;
+            border: 1px solid var(--border-line);
+            padding: 8px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            min-height: 36px;
+            min-width: 44px;
+            transition: all var(--dur-fast) var(--ease-out);
+        }
+        button.ctrl:hover, button.ctrl:focus-visible {
+            color: var(--amber-glow);
+            border-color: var(--amber);
+            background: var(--whisper);
+        }
+        button.ctrl:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 var(--s-4);
+        }
+
+        .act {
+            padding: var(--s-7) 0 var(--s-6);
+            border-bottom: 1px solid var(--border-line);
+            position: relative;
+        }
+        .act-header {
+            text-align: center;
+            margin-bottom: var(--s-6);
+            padding-bottom: var(--s-4);
+            position: relative;
+        }
+        .act-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+            opacity: 0.7;
+            margin-bottom: var(--s-2);
+        }
+        .act-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--parchment-light);
+            line-height: 1.3;
+        }
+        .act-subtitle {
+            font-style: italic;
+            font-size: 0.92rem;
+            color: var(--amber);
+            opacity: 0.72;
+            margin-top: var(--s-2);
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== SCENE CARD ===== */
+        .scene {
+            border: 1px solid var(--border-line);
+            border-radius: 6px;
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.035), rgba(26, 23, 20, 0.4));
+            margin-bottom: var(--s-3);
+            overflow: hidden;
+            transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+        }
+        .scene:hover {
+            border-color: rgba(196, 147, 90, 0.3);
+        }
+        .scene.is-portal {
+            border-color: var(--border-red);
+            background: linear-gradient(145deg, rgba(255, 42, 42, 0.04), rgba(26, 23, 20, 0.4));
+        }
+        .scene.is-portal:hover {
+            border-color: rgba(255, 42, 42, 0.4);
+        }
+        .scene.is-open {
+            background: linear-gradient(145deg, rgba(196, 147, 90, 0.06), rgba(26, 23, 20, 0.5));
+        }
+        .scene.is-portal.is-open {
+            background: linear-gradient(145deg, rgba(255, 42, 42, 0.06), rgba(26, 23, 20, 0.5));
+        }
+
+        .scene-head {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: var(--s-4) var(--s-5);
+            color: inherit;
+            font-family: inherit;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--s-3);
+            align-items: start;
+            min-height: 60px;
+            transition: background var(--dur-fast) var(--ease-out);
+        }
+        .scene-head:hover {
+            background: rgba(196, 147, 90, 0.04);
+        }
+        .scene-head:active {
+            transform: scale(0.998);
+        }
+        .scene.is-portal .scene-head:hover {
+            background: rgba(255, 42, 42, 0.04);
+        }
+
+        .scene-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            font-size: 1.6rem;
+            color: var(--amber-deep);
+            opacity: 0.5;
+            line-height: 1;
+            min-width: 38px;
+        }
+        .scene.is-portal .scene-num {
+            color: var(--film-red);
+            opacity: 0.6;
+        }
+
+        .scene-head-main {
+            min-width: 0;
+        }
+        .scene-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 1.08rem;
+            letter-spacing: 0.02em;
+            color: var(--parchment-light);
+            margin-bottom: 4px;
+            line-height: 1.35;
+        }
+        .scene-summary {
+            font-size: 0.94rem;
+            color: var(--parchment-dim);
+            margin-bottom: var(--s-2);
+            line-height: 1.5;
+        }
+
+        .scene-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s-2);
+            align-items: center;
+            margin-top: var(--s-2);
+        }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 20px;
+            border: 1px solid;
+            white-space: nowrap;
+            min-height: 22px;
+        }
+        .chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .chip.chr-su {
+            color: var(--parchment-light);
+            border-color: rgba(232, 220, 200, 0.25);
+            background: rgba(232, 220, 200, 0.05);
+        }
+        .chip.chr-su .chip-dot { background: var(--su-color); }
+        .chip.chr-com {
+            color: var(--amber-glow);
+            border-color: rgba(196, 147, 90, 0.3);
+            background: rgba(196, 147, 90, 0.06);
+        }
+        .chip.chr-com .chip-dot { background: var(--comedian-color); }
+        .chip.chr-kid {
+            color: var(--sage);
+            border-color: rgba(122, 139, 111, 0.3);
+            background: rgba(122, 139, 111, 0.06);
+        }
+        .chip.chr-kid .chip-dot { background: var(--kid-color); }
+        .chip.chr-mau {
+            color: var(--rust);
+            border-color: rgba(160, 103, 75, 0.3);
+            background: rgba(160, 103, 75, 0.06);
+        }
+        .chip.chr-mau .chip-dot { background: var(--mau-color); }
+
+        .chip.loc {
+            color: var(--muted-blue);
+            border-color: rgba(107, 125, 141, 0.3);
+            background: rgba(107, 125, 141, 0.05);
+        }
+        .chip.time {
+            color: var(--parchment-dim);
+            border-color: rgba(232, 220, 200, 0.15);
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .portal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            color: var(--neon-red);
+            padding: 3px 9px;
+            border-radius: 20px;
+            border: 1px solid var(--border-red);
+            background: rgba(255, 42, 42, 0.06);
+            text-transform: uppercase;
+        }
+        .portal-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .scene-indicator {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--amber-deep);
+            line-height: 1.1;
+            padding-top: 4px;
+            min-width: 20px;
+            text-align: center;
+            transition: transform var(--dur-med) var(--ease-out), color var(--dur-fast) var(--ease-out);
+        }
+        .scene.is-open .scene-indicator {
+            transform: rotate(180deg);
+            color: var(--amber-glow);
+        }
+
+        /* Expanded body */
+        .scene-body {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height var(--dur-slow) var(--ease-out),
+                        opacity var(--dur-med) var(--ease-out),
+                        padding var(--dur-slow) var(--ease-out);
+            padding: 0 var(--s-5);
+        }
+        .scene.is-open .scene-body {
+            max-height: 2400px;
+            opacity: 1;
+            padding: var(--s-2) var(--s-5) var(--s-5);
+            border-top: 1px dashed rgba(196, 147, 90, 0.12);
+        }
+
+        .body-section {
+            margin-bottom: var(--s-4);
+        }
+        .body-section:last-child { margin-bottom: 0; }
+
+        .body-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: var(--s-2);
+            display: block;
+        }
+        .body-text {
+            font-size: 0.96rem;
+            line-height: 1.7;
+            color: var(--parchment-dim);
+        }
+        .body-text em { color: var(--amber-glow); font-style: italic; }
+        .body-text strong { color: var(--parchment-light); font-weight: 500; }
+
+        .beats {
+            list-style: none;
+            padding: 0;
+        }
+        .beat {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            gap: var(--s-3);
+            padding: var(--s-3) 0;
+            border-bottom: 1px dashed rgba(196, 147, 90, 0.08);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(232, 220, 200, 0.82);
+        }
+        .beat:last-child { border-bottom: none; }
+        .beat-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--amber-deep);
+            letter-spacing: 0.08em;
+            padding-top: 3px;
+        }
+        .beat-body {
+            min-width: 0;
+        }
+        .beat-body .shot {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--sage);
+            margin-top: 4px;
+            padding-left: 10px;
+            border-left: 2px solid rgba(122, 139, 111, 0.3);
+            line-height: 1.5;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .emotion {
+            font-style: italic;
+            color: var(--amber-glow);
+            padding: var(--s-3) var(--s-4);
+            background: rgba(196, 147, 90, 0.05);
+            border-left: 2px solid var(--amber-deep);
+            border-radius: 0 3px 3px 0;
+            font-size: 0.96rem;
+            line-height: 1.6;
+        }
+
+        .prod-flag {
+            font-size: 0.86rem;
+            line-height: 1.55;
+            color: var(--parchment-dim);
+            padding: var(--s-3) var(--s-4);
+            background: rgba(122, 139, 111, 0.05);
+            border-left: 2px solid var(--sage-deep);
+            border-radius: 0 3px 3px 0;
+        }
+
+        /* Embedded Galat Time sub-section */
+        .embedded {
+            margin-top: var(--s-4);
+            border: 1px solid var(--border-red);
+            border-radius: 6px;
+            padding: var(--s-4);
+            background:
+                linear-gradient(145deg, rgba(255, 42, 42, 0.05), transparent),
+                rgba(18, 16, 14, 0.6);
+        }
+        .embedded-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--s-3);
+            padding-bottom: var(--s-2);
+            border-bottom: 1px dashed rgba(255, 42, 42, 0.2);
+            flex-wrap: wrap;
+            gap: var(--s-2);
+        }
+        .embedded-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.25em;
+            color: var(--neon-red);
+        }
+        .embedded-type {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--film-red);
+        }
+        .wrong-worlds {
+            display: grid;
+            gap: var(--s-2);
+            margin-top: var(--s-3);
+        }
+        .world {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--s-3);
+            padding: var(--s-3);
+            background: rgba(18, 16, 14, 0.5);
+            border: 1px solid rgba(255, 42, 42, 0.12);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            align-items: center;
+        }
+        .world-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 1.3rem;
+            color: var(--film-red);
+            line-height: 1;
+        }
+        .world-desc strong {
+            color: var(--parchment-light);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .world-desc span {
+            color: var(--parchment-dim);
+        }
+        .world-dur {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--amber-deep);
+            letter-spacing: 0.08em;
+        }
+
+        /* Character legend / filter (informational for v0.1) */
+        .legend {
+            padding: var(--s-4) 0 var(--s-5);
+            display: flex;
+            gap: var(--s-2);
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-line);
+            margin-bottom: var(--s-5);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: var(--s-7) var(--s-4) var(--s-8);
+            opacity: 0.45;
+        }
+        .footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--amber-deep);
+        }
+        .footer p.italic {
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+            text-transform: none;
+            letter-spacing: 0;
+            color: var(--amber);
+            margin-top: var(--s-3);
+            font-size: 0.88rem;
+        }
+        .footer .red {
+            color: var(--neon-red);
+            opacity: 0.7;
+            margin-top: var(--s-2);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 560px) {
+            .header { padding: var(--s-7) var(--s-4) var(--s-5); }
+            .scene-head {
+                padding: var(--s-4);
+                grid-template-columns: auto 1fr auto;
+                gap: var(--s-3);
+            }
+            .scene-num { font-size: 1.35rem; min-width: 32px; }
+            .scene-title { font-size: 1rem; }
+            .scene-summary { font-size: 0.9rem; }
+            .scene.is-open .scene-body {
+                padding: var(--s-2) var(--s-4) var(--s-4);
+            }
+            .act { padding: var(--s-6) 0 var(--s-5); }
+            .controls-inner { justify-content: center; }
+            .runtime { font-size: 0.66rem; gap: var(--s-3); }
+            button.ctrl { padding: 8px 10px; font-size: 0.6rem; }
+            .beat { grid-template-columns: 24px 1fr; gap: var(--s-2); }
+            .world { grid-template-columns: auto 1fr; }
+            .world-dur { grid-column: 2; font-size: 0.6rem; }
+        }
+
+        @media (min-width: 900px) {
+            .content { padding: 0 var(--s-6); }
+        }
+
+        /* Print-friendly (if needed for physical reference) */
+        @media print {
+            body { background: white; color: black; }
+            body::before, body::after { display: none; }
+            .nav, .controls { display: none; }
+            .scene-body { max-height: none !important; opacity: 1 !important; padding: var(--s-4) !important; }
+            .scene { border: 1px solid #888; page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="lockup">How To Not Make Films <span style="color: var(--amber); margin: 0 6px;">·</span> Feature Film <span style="color: var(--amber); margin: 0 6px;">·</span> 2026</div>
+    <h1>Story Map</h1>
+    <div class="subtitle">24 Scenes · 3 Acts · One Loop</div>
+    <div class="tagline">"A companion to the notebook. Tap any scene for beats, shots, and the emotional truth underneath."</div>
+    <div class="version"><span class="dot"></span>v0.1 — April 15, 2026</div>
+</header>
+
+<nav class="nav" aria-label="Section navigation">
+    <div class="nav-inner">
+        <a href="#act-1" data-jump="act-1">Act 1</a>
+        <a href="#act-2" data-jump="act-2">Act 2</a>
+        <a href="#act-3" data-jump="act-3">Act 3</a>
+        <a href="index.html" class="ext">← Home</a>
+        <a href="the-portal.html" class="ext">Portal</a>
+        <a href="shoot-scripts.html" class="ext">Shoots</a>
+    </div>
+</nav>
+
+<div class="controls" aria-label="Story map controls">
+    <div class="controls-inner">
+        <div class="runtime" aria-live="polite">
+            <span><strong id="total-time">~86</strong> min total</span>
+            <span>·</span>
+            <span><strong id="scene-count">24</strong> scenes</span>
+            <span>·</span>
+            <span id="open-count"><strong>0</strong> open</span>
+        </div>
+        <div class="control-buttons">
+            <button class="ctrl" id="expand-all" aria-label="Expand all scene cards">Expand all</button>
+            <button class="ctrl" id="collapse-all" aria-label="Collapse all scene cards">Collapse all</button>
+        </div>
+    </div>
+</div>
+
+<main class="content">
+
+    <!-- Character legend -->
+    <div class="legend" aria-label="Characters in the film">
+        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+        <span class="chip chr-mau"><span class="chip-dot"></span>Mau</span>
+        <span class="portal-badge">Portal</span>
+    </div>
+
+    <!-- ===== ACT 1 ===== -->
+    <section class="act" id="act-1" aria-labelledby="act-1-title">
+        <div class="act-header">
+            <div class="act-label">Act One</div>
+            <h2 class="act-title" id="act-1-title">The Comedian Is Here</h2>
+            <p class="act-subtitle">Daily rhythm. Three studio nights. One portal opens.</p>
+        </div>
+
+        <!-- Scene 1 -->
+        <article class="scene" data-duration="0.75">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-1-body">
+                <span class="scene-num">01</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Opening — The Misty World</div>
+                    <p class="scene-summary">A girl in sunglasses explores a fantastical place. A paralyzed cat runs ahead of her. No context. Then: title card.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip chr-mau"><span class="chip-dot"></span>Mau</span>
+                        <span class="chip loc">Misty World</span>
+                        <span class="chip time">30–45s</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-1-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">A girl — around 8 years old — is walking through a misty, uncertain place. She wears adult sunglasses that are slightly too big for her face. She's not scared. She's <em>curious</em>. A cat named Mau appears, running on two legs (her back legs don't work in the world we haven't seen yet — but here, she just runs). The cat leads the girl forward. The mist parts for them. A soft meow. Then, cut to black. Title: <strong>HOW TO NOT MAKE FILMS.</strong></p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Kid's feet step through mist. Sunglasses on. Expression: unafraid.<span class="shot">LOW ANGLE — feet in mist, small, moving forward</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Mau appears in frame, running on two legs.<span class="shot">MATCH CUT — cat from Kid's POV, slightly upward</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Kid follows Mau. Cat meows. World lights up around them.<span class="shot">TRACKING — side profile, dreamy lens, slight slow-mo</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Cut to black. Title card fades in.<span class="shot">HARD CUT TO BLACK — title in Outfit light, held 3 seconds</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The film ends here. The audience doesn't know yet — they're watching the last 30 seconds first. A child who doesn't yet know she should be afraid, led by a creature who does not know she is supposed to be broken.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Shoot last. Location: misty open ground or indoor smoke + cyclorama. Cat = real Mau (sister's cat). Child actress needed. This shot is REUSED at film's close — shoot once, use twice.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 2 -->
+        <article class="scene" data-duration="4">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-2-body">
+                <span class="scene-num">02</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Auto</div>
+                    <p class="scene-summary">Morning commute. Su alone, headphones on, looking out. A man in sunglasses hops in beside him — uninvited, fully alive. The title card arrives.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Delhi / Auto</span>
+                        <span class="chip time">3–4 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-2-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Gurugram morning. Su in an auto, music in headphones, body still, eyes on the window. The auto stops. A man gets in. Looser clothing, sunglasses, full of life. Doesn't ask. Just sits beside Su. The Comedian vibes to music he cannot hear. Waves at strangers. Blocks Su's sightline when people try to talk to Su. Su gets irritated. Finally looks straight at the camera. Title: <strong>HOW TO NOT MAKE FILMS.</strong></p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Su in auto alone. Three establishing shots of Delhi through the auto canopy.<span class="shot">FORWARD-FACING MASTER past driver + SIDE ANGLE from outside</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Auto stops. Comedian enters. No dialogue. Sits down.<span class="shot">SIDE ANGLE — door opens, body enters frame, Su barely reacts</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Comedian vibes, waves at strangers, taps feet. Su contained, unbothered — at first.<span class="shot">CORNER POV from Comedian's seat looking at Su — tension in stillness</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">A pedestrian waves at Su. Comedian crosses into the eyeline. Pedestrian doesn't see the Comedian. Su registers: only he can see this man.<span class="shot">SHALLOW FOCUS — Comedian's head enters frame between Su and the world</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Su breaks. Looks at camera. A long, held fourth-wall gaze.<span class="shot">LOCKED-OFF — Su's face, straight to lens, 2-second hold</span></div></li>
+                        <li class="beat"><span class="beat-num">06</span><div class="beat-body">Title card: HOW TO NOT MAKE FILMS.<span class="shot">HARD CUT TO BLACK — title fades in, holds 2 seconds</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">A man in his own life being hijacked by a version of himself he thought he'd outgrown. The title lands on the thing Su has spent a decade learning to hide.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Double-role logistics: shoot Su's coverage first on the full route; re-dress Sumeet as Comedian and shoot again. Cut the Comedian into close-ups + reactions. Arrange one auto + one regular driver. Same time of morning, consistent light. 1 shoot day.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 3 -->
+        <article class="scene" data-duration="3.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-3-body">
+                <span class="scene-num">03</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Office / Client Crisis</div>
+                    <p class="scene-summary">Su walks into Content Studio. Someone's in trouble with a client. Su reads the room, handles it, moves on without pausing to feel the win.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Content Studio</span>
+                        <span class="chip time">3–4 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-3-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Su enters the studio. Finger-guns exchanged with the Comedian — a daily ritual. Someone runs up: a client is losing it over questions that "don't land right." Su walks in, reads the room in 20 seconds, asks one question that cracks the guest open. Crisis resolved. Su walks out, already thinking about the next thing. The Comedian watches with grudging pride. Su doesn't pause.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Su walks in. The co-founder warm-greets without words. Comedian does finger-guns at the intern.<span class="shot">STEADICAM walking-in — one fluid take, office texture</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Someone approaches with a tablet. The crisis explained in half-sentences.<span class="shot">HANDHELD close on Su's face listening, eyes pre-solving</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Su in the client room. One question lands. The client exhales.<span class="shot">OTS of Su asking question — long hold on the client's face</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Su leaves the room. Co-founder: "You're irreplaceable." Su doesn't register the compliment.<span class="shot">WIDE — Su walking past her mid-compliment, already at the next desk</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">Su engineers authenticity for strangers every day. Then he goes home and cannot open himself. This scene plants the irony without naming it.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Shoot at Content Studio real workday if possible — the team as itself. "Client" played by any available friend. Low double-role need (Comedian only in 1–2 shots).</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 4 -->
+        <article class="scene" data-duration="3.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-4-body">
+                <span class="scene-num">04</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Chandni Chowk</div>
+                    <p class="scene-summary">Su goes out during the workday. Tells everyone it's research. It's jalebis. Avoidance wearing a work shirt.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip loc">Delhi / Chandni Chowk</span>
+                        <span class="chip time">3–4 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-4-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">A Tuesday afternoon. Su leaves the studio "for podcast prep." He ends up at Chandni Chowk eating jalebis. He walks. He looks at an old man frying them. He gets ghee on his shirt. He takes a rickshaw back. He writes nothing. He feels alive in a way he hasn't felt in weeks. The Comedian is <strong>not here</strong> — Su is alone. Delhi is the only other character.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Su walks into the market. The sound of Delhi takes over the score.<span class="shot">HANDHELD POV — over-the-shoulder, crowd textures, long lens for compression</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Old man frying jalebis. Su just watches. Doesn't ask anything.<span class="shot">TIGHT STATIC — the ghee, the golden spirals, real-time no cuts 15s</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Su eating. Alone. Happy. Guilty. Not writing.<span class="shot">MID SINGLE — Su eating, intercut with Delhi b-roll</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Rickshaw back. Ghee stain on the Content Studio polo. Small smile.<span class="shot">LOCKED — rickshaw seat, Delhi moving past, stain center-frame</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">Avoidance named. How do you not make a film? You go eat jalebis and call it research. Then you feel more alive than you have in months, which makes the avoidance worse.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Guerrilla. One camera. No crew. Free location. Half-day shoot. Sumeet goes, Sumeet films. Real food. Real vendor if willing, otherwise the vendor's POV is the lens and we never cut to him directly.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 5 -->
+        <article class="scene" data-duration="3.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-5-body">
+                <span class="scene-num">05</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Studio Night 1 — The Silent Refusal</div>
+                    <p class="scene-summary">Office empties. Su in the host's chair writing questions. The Comedian arrives. Slides his sunglasses down. Offers them. Su refuses — without a word.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Podcast Lounge</span>
+                        <span class="chip time">3–4 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-5-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Office at night. Co-workers leaving. Su stays. Goes into the podcast lounge. Sits in the host's chair. Opens the notebook. Writes questions for tomorrow's guest. The Comedian drifts in. Sits in the guest chair across from him. Watches. Leans forward. Slides his sunglasses down his nose. Looks at Su. <em>Offers.</em> Su shakes his head — once. Goes back to the notebook. The Comedian pushes the sunglasses back up. Drifts out of frame. Su keeps working. No dialogue.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Studio empty. Lamp-lit. Su in host's chair. The rustle of paper.<span class="shot">WIDE — lounge in warm tungsten, Su small in frame, empty guest chair</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Comedian enters. Doesn't speak. Sits.<span class="shot">MATCH CUT — guest chair empty → guest chair occupied, same angle</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Long moment of the Comedian watching Su work.<span class="shot">OTS from behind Comedian — Su's focused hands on paper</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">The lean-forward. The sunglasses slide down the nose.<span class="shot">MCU Comedian — slow push in, his eyes visible for the first time</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Su looks up. The look. The head shake. Back to the notebook.<span class="shot">CLOSE — Su's face, head shake is small but final</span></div></li>
+                        <li class="beat"><span class="beat-num">06</span><div class="beat-body">Comedian pushes glasses back up. Leaves frame.<span class="shot">WIDE — same lounge wide, Comedian walking out, lamp flickers (implied)</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The mystery is the absence. Something almost happened that didn't, and the audience doesn't yet know what it would have been. Su has refused something. The film will eventually show you what.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Podcast Lounge lit with practicals only (lamps). Two-chair setup. OTS and singles — no two-shots required because the characters don't touch. Shoot Su's coverage first, Comedian's coverage second. Wardrobe change between blocks. 1 shoot day (combined with Scene 7).</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 6 -->
+        <article class="scene" data-duration="2.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-6-body">
+                <span class="scene-num">06</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Film-Watching Ritual</div>
+                    <p class="scene-summary">Su home alone at night. Laptop. Side lamp. A film he can't fully understand. He cries and laughs at the same time. The Comedian is not here.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip loc">Su's Home</span>
+                        <span class="chip time">2–3 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-6-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Su gets home. Ritual begins: shoes off in a specific order, water glass, side lamp on, laptop positioned on the bed. He picks a film in a language he doesn't speak. He doesn't eat. He can't read subtitles while chewing. The film plays. Su's face lit by the screen. He cries. He laughs. Cries and laughs at the same time. One look to the camera — brief, raw, unguarded. Maybe he says something under his breath: <em>"This is why I want to do it."</em> Back to the film. The Comedian is nowhere. This room is older than the Comedian.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">The ritual: shoes, water, lamp, laptop.<span class="shot">ELLIPTICAL MONTAGE — each action in tight inserts, no dialogue</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">The film begins. Su's face lit.<span class="shot">CLOSE on Su's face only — the film lives in the reflection of his eyes</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">He cries and laughs at the same time.<span class="shot">MCU — hold long, no cuts, let it happen</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">The look to camera. A whisper.<span class="shot">LOCKED-OFF — eye contact 1.5 seconds, then back to screen</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The only space in Su's life that predates the Comedian. The only space where he feels something unmediated. The Derry Girls moment before the film — this is what Sumeet is trying to heal in other weird lonely people.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Sumeet's actual home. Night. One camera. No crew ideally — or one operator. The film playing is real footage from any world-cinema piece Sumeet loves (clear rights later). Sound: the film's audio underneath, muted. 1 short shoot.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 7 -->
+        <article class="scene" data-duration="3.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-7-body">
+                <span class="scene-num">07</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Studio Night 2 — The Verbal Refusal</div>
+                    <p class="scene-summary">Same setup. Same offer. Su speaks this time. "Bhai. Aaj nahi. Pichli baar yaad hai? Mat kar." The mystery gets a shape.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Podcast Lounge</span>
+                        <span class="chip time">3–4 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-7-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Different night. Different guest's episode being prepped. The Comedian is back. The same lean-forward, the same hand at the sunglasses. Su doesn't even look up this time. <em>"Bhai. Aaj nahi. Pichli baar yaad hai? Mat kar."</em> The Comedian sits back. Doesn't push. Stays. Flips through Su's notes <strong>upside down</strong> because he can't read but wants to be near. They work in silence until Su finishes. Su leaves. The Comedian stays behind a beat longer. Puts the sunglasses on his head. Walks out.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Same lounge, different light — slightly colder. Different night.<span class="shot">WIDE — matches Scene 5's opening composition exactly. Audience feels the rhythm.</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Comedian arrives. Offers. Su (without looking up): "Bhai. Aaj nahi. Pichli baar yaad hai? Mat kar."<span class="shot">TWO-SHOT — Comedian in guest chair, Su foreground, head down</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Comedian sits back. Pulls Su's notebook toward him. Reads it upside down.<span class="shot">CLOSE on notebook — upside-down pages, Comedian's hand casual</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Quiet companionship. Su almost smiles. Doesn't.<span class="shot">SLOW PUSH — MCU Su, micro-expression only</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Su finishes. Leaves. Comedian stays. Sunglasses up on his head.<span class="shot">WIDE — Comedian alone in lounge, sunglasses resting on hair, looking at door</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The mystery now has a shape. There WAS a previous time. It was bad enough to remember. And yet — look at the Comedian, alone, patient, flipping pages he can't read. He loves Su. He's waiting.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Shoot in the same block as Scene 5. Same set, re-light slightly for mood shift. The "upside-down notebook" is a character detail worth 30 seconds of extra coverage — it humanizes the Comedian without a single joke.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 8 -->
+        <article class="scene" data-duration="7">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-8-body">
+                <span class="scene-num">08</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Himachal — The Grass Scene</div>
+                    <p class="scene-summary">Mountains. Stars. Chai. Fathers and time. Pleonasms. A school memory. Manmaaniyan underneath the walk back.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Himachal</span>
+                        <span class="chip time">6–8 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-8-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">A trip. Two heads near each other on grass, looking at stars. Slightly intoxicated — nature and whatever else. Su talks about his father. <em>"Papa itne tez chalte the ki main unke saath chal nahi paata tha. Ab woh chal nahi paate."</em> The Comedian listens, for once. Doesn't make it funny. Then the school memory — the computer teacher who threw a book at Su, and Su started teaching the class. The pleonasm joke: "Fact hai to true hi hoga. True fact is a pleonasm." They laugh. Walk back to the dhaba. Manmaaniyan plays. Su: "Tomorrow when I wake up, I'll be focused on work. I'll forget almost everything I said tonight." The Comedian, quietly: "I know."</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Establishing shots of Himachal at dusk.<span class="shot">WIDE landscapes, natural light only, handheld for intimacy</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Two heads on grass, almost touching. Stars above.<span class="shot">TOP-DOWN static, tight frame of two faces side-by-side</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Father conversation. Comedian doesn't interrupt.<span class="shot">PROFILE — Su's face only. Comedian's voice offscreen (or present but silent).</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">The school memory. Laughing.<span class="shot">HANDHELD medium — both faces, laughter not performed</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Walk back to the dhaba. Manmaaniyan cues up.<span class="shot">TRACKING — behind them walking, dhaba bulb in distance</span></div></li>
+                        <li class="beat"><span class="beat-num">06</span><div class="beat-body">Su's quiet line. Comedian's quieter reply.<span class="shot">MCU Su profile — "I know" heard but Comedian not in frame</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The warmest scene in Act 1. The Comedian is a friend here, not a nag. Su reveals the father grief without having to frame it. The scene is a gift the Comedian gives Su — a night where he doesn't have to perform.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">2-day Himachal trip with Sumeet + one camera operator (or alone with tripod + remote). Handheld. Natural light and dhaba bulb only. Manmaaniyan already exists — scoring in the edit. Double-role: heavy because both characters are present in many shots. Use shallow focus cleverly to avoid simultaneous framing when possible.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 9 — THE BIG ONE -->
+        <article class="scene is-portal" data-duration="13">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-9-body">
+                <span class="scene-num">09</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Studio Night 3 — The Consent + Galat Time</div>
+                    <p class="scene-summary">Love conversation. Su fails to answer. The Comedian takes the sunglasses off his face and hands them across the table. Su puts them on. The portal opens.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Podcast Lounge + Wrong Worlds</span>
+                        <span class="chip time">12–14 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-9-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">The love conversation night. The Comedian asks Su about love. Su fumbles. Tries philosophy, calculation, analysis. Loses. The Comedian: <em>"Jab tune usko pehli baar dekha tha, tu kuch soch raha tha kya? Nahi na. Tu bas dekh raha tha. Wahi love hai. Baaki sab post-production hai."</em> Silence. The Comedian leans forward and — for the first time — <strong>removes his sunglasses entirely</strong>. Holds them out across the table. Su's hand moves. Takes them. Puts them on. <strong>Slow push into the lens. The studio dissolves. Galat Time begins.</strong></p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats (Studio side)</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Lounge. Later than usual. Deeper amber light.<span class="shot">WIDE — matches Scene 5/7 composition. Familiarity then deviation.</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">The love conversation. Su fumbles. Comedian cuts him off with the "post-production" line.<span class="shot">OTS singles alternating, slow, long holds</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">The removal. The hand across the table. The take. The wear.<span class="shot">INSERT — Comedian's hand extending sunglasses. Separate INSERT — Su's hand taking them. Cut together.</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">The Comedian, without glasses, looks YOUNGER. Naked. Almost embarrassed.<span class="shot">MCU Comedian — first unmasked shot in the film. Hold.</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Push-in on Su's face wearing the sunglasses. Reflection of studio visible. Push past. Into the lens.<span class="shot">SLOW DOLLY or ZOOM — pre-planned in-camera move. The reflection deepens into Galat Time.</span></div></li>
+                    </ol>
+                </div>
+
+                <!-- Embedded Galat Time -->
+                <div class="embedded">
+                    <div class="embedded-head">
+                        <span class="embedded-title">Galat Time</span>
+                        <span class="embedded-type">Embedded episode · 6–8 min</span>
+                    </div>
+                    <p class="body-text">Su in the wrong worlds. Anchored by "The Wall" — a pillar/payphone that is the only solid thing. The Comedian's voice plays as podcast host audio over the journey. Su cannot find the right time. The punchline is that there isn't one.</p>
+                    <div class="wrong-worlds">
+                        <div class="world">
+                            <span class="world-num">1</span>
+                            <div class="world-desc"><strong>The Wall</strong><span>Su arrives. Touches the pillar/payphone. Only solid thing. Anchor point.</span></div>
+                            <span class="world-dur">~30s</span>
+                        </div>
+                        <div class="world">
+                            <span class="world-num">2</span>
+                            <div class="world-desc"><strong>1700s poet's room</strong><span>Candlelight, quill, a woman laughing offscreen. Almost belongs. Language wrong. Jump.</span></div>
+                            <span class="world-dur">~60s</span>
+                        </div>
+                        <div class="world">
+                            <span class="world-num">3</span>
+                            <div class="world-desc"><strong>Comedy stage, 2008</strong><span>Empty seats. Mic feedback. He knows the joke isn't ready. Jump.</span></div>
+                            <span class="world-dur">~60s</span>
+                        </div>
+                        <div class="world">
+                            <span class="world-num">4</span>
+                            <div class="world-desc"><strong>Lover Boy forest</strong><span>Walking with Blondie in the misty loop. She is a girl-version of him. Cabin in distance. Older self raises finger gun. Jump.</span></div>
+                            <span class="world-dur">~45s</span>
+                        </div>
+                        <div class="world">
+                            <span class="world-num">5</span>
+                            <div class="world-desc"><strong>Childhood bedroom</strong><span>The shared sound he and his sister still make. He is 37 in the bed. He doesn't fit. Jump.</span></div>
+                            <span class="world-dur">~45s</span>
+                        </div>
+                        <div class="world">
+                            <span class="world-num">AD</span>
+                            <div class="world-desc"><strong>Chron-NO</strong><span>Fake sponsor break. "Tired of the pressure? Stop knowing the time. Now with a 'Yesterday' setting."</span></div>
+                            <span class="world-dur">~20s</span>
+                        </div>
+                        <div class="world">
+                            <span class="world-num">6</span>
+                            <div class="world-desc"><strong>Back to the Wall</strong><span>Payphone rings. Comedian's voice: "Wahaan koi sahi waqt nahi hai. Tu yahin se theek hai." Su removes the sunglasses from inside the world. The Wall dissolves.</span></div>
+                            <span class="world-dur">~60s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-section" style="margin-top: var(--s-4);">
+                    <span class="body-label">Beats (The Return)</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">06</span><div class="beat-body">Pull out of the lens. Reverse push-in. Studio reassembles.<span class="shot">REVERSE DOLLY — exact mirror of entry move</span></div></li>
+                        <li class="beat"><span class="beat-num">07</span><div class="beat-body">Su sitting in the host's chair. Sunglasses still on. Comedian watching, eyes naked.<span class="shot">WIDE — same composition as Scene 5/7, now transformed</span></div></li>
+                        <li class="beat"><span class="beat-num">08</span><div class="beat-body">Su removes them. Sets them on the table. Room tone normal. "What was that?"<span class="shot">TIGHT ON the glasses as they touch the wood</span></div></li>
+                        <li class="beat"><span class="beat-num">09</span><div class="beat-body">Comedian: "That was you. Wherever you would have made sense."<span class="shot">MCU — Comedian, eyes still naked, delivering the line soft</span></div></li>
+                        <li class="beat"><span class="beat-num">10</span><div class="beat-body">Su pushes glasses back across the table. Comedian takes them. Puts them back on. The armor returns.<span class="shot">INSERT — glasses sliding, then MCU Comedian with sunglasses on</span></div></li>
+                        <li class="beat"><span class="beat-num">11</span><div class="beat-body">Su leaves without a word. Comedian alone in the empty studio. Looking at the door.<span class="shot">WIDE — Comedian small, empty chair opposite, lamp. HOLD on the emptiness.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The deepest beat in the feature. Not mysticism — inheritance. The Comedian has been holding Su's truth in his pocket this whole time. He hands it over. Su finally puts it on and sees that there is no world where he fits. And the Comedian, without the glasses, is just a tired man who loves him.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">The centerpiece. ~2 shoot days for the studio block + ~2 days for wrong worlds. The Wall = pillar prop on cyclorama. Poet's room = redressed podcast set. 2008 stage = free comedy club. Lover Boy forest = existing AI footage regenerated closer to release. Childhood bedroom = friend's home. Chron-NO ad = solo reel shoot. See <strong>the-portal.html</strong> for full mechanism notes.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 10 -->
+        <article class="scene" data-duration="4.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-10-body">
+                <span class="scene-num">10</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Break</div>
+                    <p class="scene-summary">Mother's call about marriage. The love conversation echoes. The Comedian says the wrong thing trying to be kind. Su erupts. The Comedian is gone.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Studio + Phone</span>
+                        <span class="chip time">4–5 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-10-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Days after Galat Time. Su still carrying the weight. Mother calls. Marriage again. Su can hear the loneliness under her voice. The Comedian — who ALWAYS bolts from this call — stays. Says, trying to be kind: <em>"Ja na. Mil le. Kya farak padta hai."</em> Su hears: <strong>your own rebellion has surrendered</strong>. He erupts. Cruel to his mother first (he'll regret it). Then cruel to the Comedian. The Comedian, shocked into silence, walks out of frame. Su is alone in the studio. The chair across from him is empty.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Phone rings. Mother. Su picks up.<span class="shot">MCU Su, phone to ear, the Comedian visible out of focus</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Marriage conversation. Su brittle.<span class="shot">HOLD on Su — the mother's voice tinny through phone</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Comedian speaks. "Ja na. Mil le."<span class="shot">CUT to Comedian — first time he stays for this call. Tender face.</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Su erupts at mother. Hangs up. Erupts at Comedian.<span class="shot">HANDHELD — camera unstable, close on Su's mouth and hands</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Comedian silent. Leaves. The chair is empty.<span class="shot">WIDE — identical composition to Scene 5, now vacant. Hold long.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The Comedian was trying to be kind. He was grieving the same thing Su was grieving. Su heard surrender instead of tenderness. The deepest misunderstanding in the film — because both of them loved her and couldn't say it.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Hardest emotional beat. Shoot late in the schedule when Sumeet has warmed up as both characters. Mother's voice: real voice actress / family friend / Sumeet's real mother if she'll record one line.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 11 -->
+        <article class="scene" data-duration="1">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-11-body">
+                <span class="scene-num">11</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Empty Auto</div>
+                    <p class="scene-summary">Next morning. Same auto. Same route. The seat beside Su is empty. Su's hand rests on it for a moment. End of Act 1.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip loc">Delhi / Auto</span>
+                        <span class="chip time">~1 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-11-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Morning. Auto. Su in the same seat as Scene 2. The seat beside him is empty. His hand drifts to it, rests there a second, withdraws. He looks out. Delhi flatter than it was. End of Act 1.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Same auto composition as Scene 2. Empty seat.<span class="shot">MATCHED WIDE — Scene 2 framing, one half of the frame now hollow</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Su's hand rests on the empty seat.<span class="shot">TIGHT on hand — 2 seconds, withdraws</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Su looks out the window. Color graded slightly desaturated.<span class="shot">PROFILE — Delhi moving past, slower than Scene 2</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The absence has a seat now. End of Act 1 — not on a dramatic beat, just on a hand withdrawing from empty vinyl.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Shot on the same day as Scene 2 (the auto day). Matched lighting. 30 minutes of setup time at most.</div>
+                </div>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- ===== ACT 2 ===== -->
+    <section class="act" id="act-2" aria-labelledby="act-2-title">
+        <div class="act-header">
+            <div class="act-label">Act Two</div>
+            <h2 class="act-title" id="act-2-title">The Absence</h2>
+            <p class="act-subtitle">Su alone. What was lost becomes visible. A child arrives. A flashback reveals how the shades were won.</p>
+        </div>
+
+        <!-- Scene 12 -->
+        <article class="scene" data-duration="3">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-12-body">
+                <span class="scene-num">12</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Absence Texture</div>
+                    <p class="scene-summary">Days pass. Work competent but flat. Co-founder notices something is off. Su says he's fine too quickly.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip loc">Studio + Delhi</span>
+                        <span class="chip time">3–4 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-12-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">A montage of Su's daily life, Comedian-less. He does his work. The work is competent but not alive — the timing is slightly off, the questions are a hair too polite. The co-founder asks if he's okay. He says yes too fast. He eats alone. He walks alone. He sleeps early. Delhi looks flat in a way the Comedian's presence concealed.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Montage: 4 workday moments, one per day. Same frame, slightly different.<span class="shot">LOCKED-OFF across matched setups — the still life of a man missing someone</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Co-founder: "Sab theek hai?" Su: "Haan."<span class="shot">OTS — her looking, him not meeting her eye</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Night in the studio. Host's chair. He sits. Doesn't write. Stares at the empty guest chair.<span class="shot">MATCHED WIDE — same lounge, now empty of the Comedian for the first time</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The show keeps running. It just runs a little duller. Nobody but Su notices the second performer is missing. That's what makes it lonely.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Shoot the co-founder scene on a real workday (it's the same studio). Montage = inserts collected across other shoot days.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 13 -->
+        <article class="scene" data-duration="5.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-13-body">
+                <span class="scene-num">13</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Therapist (+ First Kid Wave)</div>
+                    <p class="scene-summary">Instagram therapist. Content advice mid-session. "I never said I'd do it for free." Su walks out — and a little girl waves from the street.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip loc">Therapist's Clinic + Street</span>
+                        <span class="chip time">5–7 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-13-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Su finally goes to the therapist he's been told to see. It's a former podcast guest — a doctor who said "come anytime, don't worry about money." The session becomes the therapist asking Su for Reel ideas. Su pays ten thousand rupees at the end. <em>"But you said not to worry about money."</em> Therapist: <em>"I still say that. No one should worry about money. I never said I'd do it for free."</em> Su walks out emptier than he walked in. On the street, a little girl in an old-fashioned dress waves at him. Su stops. The auto he's in doesn't. She's gone around the corner.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Waiting room. Phone pings. Therapist's latest Reel playing on the TV.<span class="shot">WIDE — waiting room, the TV loud</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Session. Su tries to talk. Therapist redirects to content.<span class="shot">TWO-SHOT — both characters on couches, therapist typing notes that are captions</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">The payment punchline.<span class="shot">TIGHT on the payment card tap machine. Therapist unbothered.</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Auto. Outside the clinic. Girl waves.<span class="shot">OTS Su from auto — girl on the far pavement. Blurred at first. Clear on second look.</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Auto turns corner. She's gone.<span class="shot">HOLD on empty corner. Su's face confused.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The fake therapy gave Su nothing. Immediately after — the real therapy arrives unsolicited. A child he has never seen before waves at him like she knows him.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Therapist = the real doctor friend with the clinic (free location). Child actress: specific day. Street wave can be shot from any real Gurugram road — guerrilla.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 14 -->
+        <article class="scene is-portal" data-duration="9">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-14-body">
+                <span class="scene-num">14</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Comedy Club — The Comedian's Origin</div>
+                    <p class="scene-summary">Su sits in a comedy club, looking at the stage. The flashback begins: how the sunglasses were won.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Comedy Club + Flashback</span>
+                        <span class="chip time">8–10 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-14-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Su visits the comedy club the Comedian used to haunt. Sits at the back. Stares at the empty stage. The flashback begins. The Comedian performing — <strong>without sunglasses.</strong> A girl in the audience enjoys his set, comes up after. He sees four or five men approaching. Understands. <em>"Bhag. Jaa. Abhi jaa."</em> She runs. He gets beaten — shadows, sound only. Home. Sobbing in the dark. Writes her a long message. Sent. Delivered. Read. No reply. Blocked. Day passes. Light through window. Evening: comic friend calls. Offers a spot. He says no. Friend: <em>"Stage rejects you if you reject it."</em> Mirror. Black eye. Sunglasses on the sink. He puts them on. Goes to the stage. KILLS. Walks out alone. Metro. Faces blurred around him. The music rises: <em>"Tootega footega par chalega yunhi."</em> He lifts his head. Smiles. A tap on his shoulder. Cut back to Su in the present, someone tapping his shoulder. His comedy friends sit down, roast him for running from comedy. He laughs, dazed. The camera holds on Su.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Su enters the club. Sits at the back.<span class="shot">WIDE — empty stage, Su small in frame</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Flashback in. Comedian performing without shades.<span class="shot">MCU — clean face, vulnerable, killing it on stage</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Girl approaches after. The men arrive. "Bhag. Jaa."<span class="shot">HANDHELD — girl's face, fear blooming. Men in soft focus behind.</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Beating — shadows, sound only.<span class="shot">HARD CUT TO BLACK — sound design carries. Someone pisses on him (implied, sound).</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Home. Phone message. Read. Blocked.<span class="shot">TIGHT on phone screen — the "read" timestamp, then silence</span></div></li>
+                        <li class="beat"><span class="beat-num">06</span><div class="beat-body">Day passing. Light through window. Comic friend calls.<span class="shot">TIME-LAPSE of light on wall, then phone rings</span></div></li>
+                        <li class="beat"><span class="beat-num">07</span><div class="beat-body">Mirror. Black eye. Sunglasses on sink.<span class="shot">MCU in mirror — eye first, then hand reaching for glasses</span></div></li>
+                        <li class="beat"><span class="beat-num">08</span><div class="beat-body">He puts them on. Goes to stage. Kills.<span class="shot">WIDE STAGE — now armored, crowd laughing, he's different</span></div></li>
+                        <li class="beat"><span class="beat-num">09</span><div class="beat-body">Metro. Manmaaniyan — "Tootega footega par chalega yunhi." Smile.<span class="shot">MCU — blurred faces around him, camera on his smile, music rising</span></div></li>
+                        <li class="beat"><span class="beat-num">10</span><div class="beat-body">Tap on shoulder. Cut back to present. Su, club, comedy friends.<span class="shot">MATCH CUT from metro tap to club tap</span></div></li>
+                        <li class="beat"><span class="beat-num">11</span><div class="beat-body">Friends roast Su. He laughs, dazed. Camera holds on him.<span class="shot">WIDE — the laughter happens around him. He is not there.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The origin of the armor. The sunglasses didn't come from style. They came from a beating. Su, sitting in the same club, is recognizing for the first time what his invisible friend actually paid for the freedom to be free.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Use the comedy club Sumeet has free access to. Shoot across 2 days — one for present-day Su + friends, one for the full flashback sequence. Sound design heavy (the beating is all audio). Manmaaniyan already scored in the edit. This is the second-heaviest production block after Scene 9.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 15 -->
+        <article class="scene" data-duration="3.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-15-body">
+                <span class="scene-num">15</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Kid's Three-Day Arrival</div>
+                    <p class="scene-summary">Day 1: wave, auto doesn't stop. Day 2: closer, auto has gone too far. Day 3: she walks up and asks. Andar aa sakta hoon?</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip loc">Delhi / Auto</span>
+                        <span class="chip time">3–4 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-15-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Day 1: The morning commute. The Kid waves from the street. Su is startled but the auto keeps going. Day 2: She's earlier in the route. Closer. Waving. Su wants to stop — but the auto has already gone too far. Day 3: The auto stops at a light. She walks to the auto. Doesn't barge in. Asks: <em>"Andar aa sakta hoon?"</em> Su looks at the auto driver — busy on his phone, doesn't see her. Su understands: this is happening again. He nods. She climbs in carefully.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Day 1: wave.<span class="shot">OTS Su — girl in background, wave is small</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Day 2: wave, closer.<span class="shot">OTS Su — girl in mid-ground now, wave more persistent</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Day 3: auto stops. She walks up. The question.<span class="shot">PROFILE — Su side-on, she approaches from outside the frame, asks</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Su checks the driver. Driver oblivious.<span class="shot">INSERT — driver on phone, indifferent</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Su nods. Kid climbs in. Sits politely.<span class="shot">WIDE — same Scene 2 auto composition. A different person in the Comedian's seat.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The Comedian barged in. The Kid asks permission. Two kinds of grace arriving in Su's life. He doesn't deserve either but he's getting this one too.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Day 1 and Day 2 can be shot on the same day from the same auto with the child simply standing in two different spots on the route. Day 3 = the real scene — needs a clean stop, clear eyelines, quiet sound.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 16 -->
+        <article class="scene" data-duration="4.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-16-body">
+                <span class="scene-num">16</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Kid in the Studio — Maa Calls</div>
+                    <p class="scene-summary">Kid sits in the studio while Su works. The phone rings. Maa. The Kid lights up. Su watches the most uncomplicated love he's ever seen.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip loc">Content Studio</span>
+                        <span class="chip time">4–5 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-16-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">The Kid in the studio with Su one night. She isn't interested in any of the equipment. She likes the spinning chair. The cables to step over. The red recording light (pretty). Su works around her, calm for once. The phone rings. <em>"Maa"</em> on the caller ID. Su hesitates. The Kid looks up — <strong>"Maa!"</strong> — lit up with pure excitement. She doesn't know this is the same mother. To her, Maa is still a warm sound. Su's face as he watches her face. Answers the phone. Talks to his mother, softer than he has in months.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Studio. Kid spinning in the chair. Su typing.<span class="shot">WIDE — domestic scene inside a podcast studio, odd and warm</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Phone rings. Maa.<span class="shot">INSERT — phone screen</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Kid: "Maa!" Lit up.<span class="shot">MCU Kid — real child joy, real reaction</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Su watches the Kid. Something cracks.<span class="shot">HOLD on Su's face. No cut.</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Su answers. Softer. "Haan, Maa." Conversation begins.<span class="shot">PROFILE Su — voice carries, Kid playing in background out of focus</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The Kid's "Maa!" IS the therapy the therapist couldn't give. A child doesn't know to resent her mother yet. Su remembers — for one second — that he used to say it that way too.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Quiet shoot. Few setups. Child actress in the studio — real environment, let her actually play. Real phone call with Sumeet's mother if possible (one-line recording is enough).</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 17 -->
+        <article class="scene" data-duration="3">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-17-body">
+                <span class="scene-num">17</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Himachal Alone</div>
+                    <p class="scene-summary">Same trail. One chai. The silence that used to be comfortable is now empty.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip loc">Himachal</span>
+                        <span class="chip time">3–4 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-17-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Su returns to Himachal alone. Same dhaba. One cup of chai instead of two. The grass where he and the Comedian lay. He lies down. The sky is still there. The grass is still there. The absence is the shape of everything. He does not cry. He does not text anyone. He just is. Eventually he gets up and walks back.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Dhaba. One chai. The uncle doesn't ask where the other guy is (or does, briefly).<span class="shot">WIDE exterior dhaba, Su small, single cup on the table</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">The grass. Su alone. Top-down echo of Scene 8.<span class="shot">MATCHED TOP-DOWN — one face instead of two</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">He gets up and walks back. Same direction as Scene 8.<span class="shot">TRACKING — same path, one figure instead of two, no music</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">Himachal I had Manmaaniyan. Himachal II has wind. The music of a companion is the music of companionship. Without him, no song.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Piggy-back on the Himachal trip for Scene 8. Shoot solo coverage after the two-shot coverage is done. Minutes of work.</div>
+                </div>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- ===== ACT 3 ===== -->
+    <section class="act" id="act-3" aria-labelledby="act-3-title">
+        <div class="act-header">
+            <div class="act-label">Act Three</div>
+            <h2 class="act-title" id="act-3-title">The Return</h2>
+            <p class="act-subtitle">He comes back. The two fragments meet. The sunglasses change hands. The loop closes.</p>
+        </div>
+
+        <!-- Scene 18 -->
+        <article class="scene" data-duration="4.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-18-body">
+                <span class="scene-num">18</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Return</div>
+                    <p class="scene-summary">On stage. The standup bit. "Even the search for security is insecurity." Su in the audience, watching the man come back.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Comedy Club</span>
+                        <span class="chip time">4–5 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-18-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">A comedy night. Su at the back of the same club. An MC introduces the next act. The Comedian walks on. Sunglasses on, same posture. He does a short set. The centerpiece bit: <em>"Chaah mein hi kami hai. Even the search for security is insecurity. If you always want to get high, you're always low. If you always want to get rich, you're always poor."</em> Delivered as jokes, not sermons. The room laughs. Su doesn't laugh. Su watches. At the end of the set, the Comedian's eyes find Su in the dark. A nod. A small tilt of the sunglasses. Not a reunion. An acknowledgment.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Club at night. Su at the back.<span class="shot">WIDE — stage front-lit, Su in audience silhouette</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Comedian on stage. Set begins.<span class="shot">MCU Comedian — stage lights, sunglasses catching them</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">The philosophical bit as jokes.<span class="shot">WIDE STAGE + crowd reaction cuts</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Eye contact across the room.<span class="shot">OTS Comedian's POV — Su in the dark, found</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">The tilt of the sunglasses. The nod. End of set.<span class="shot">CLOSE on Comedian — tilt and nod, half-smile</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">He doesn't need to explain where he's been. The sunglasses tilt says: I see you. I haven't left. I've been doing what I do. You had to see me do it to know I was okay.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Comedy club location, already free. Hire a few friends as audience. Sumeet writes the 2-minute standup bit himself — this is the stand-up set he wanted to perform anyway. Shoot live if possible.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 19 -->
+        <article class="scene" data-duration="5.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-19-body">
+                <span class="scene-num">19</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Drunken Floor</div>
+                    <p class="scene-summary">Comedian, Su, and Kid in the studio — floor, not chairs. Ego. Krishnamurti filtered through humor. The two fragments finally coexist.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip loc">Podcast Lounge</span>
+                        <span class="chip time">5–7 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-19-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Late night. Su, Comedian, and the Kid in the studio. Not on chairs, on the floor. A bottle between them (orange juice for the Kid, who spins the spinning chair for fun). The conversation is loose. Ego. Awareness. Krishnamurti mentioned without being quoted. Su: <em>"I have an ego problem."</em> Comedian: <em>"Yeah... it's kind of a big one."</em> The Kid giggles at their tone. Two parts of Su that never coexisted are now in the same lit room with the child version of his sister's childhood. No one says the word "reconciliation." It's just a night.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Three of them on the floor. Bottle. Juice. Laughter tired.<span class="shot">WIDE — floor-level camera, warm key</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Ego conversation starts. Comedian teasing.<span class="shot">TWO-SHOT Su-Comedian. Kid foregrounded spinning chair.</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">The Kid laughs at nothing in particular. They look at her.<span class="shot">MCU Kid — real laugh, camera catches it</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">A silence. All three looking at the ceiling.<span class="shot">TOP-DOWN — three faces, lit from the side</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The first scene in the film where all three parts of Su are together. No conflict. No revelation. Just being in one room. The healing is not a line of dialogue — it's a shared ceiling.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Studio night shoot. Low light, casual. Most complex double-role + Kid coordination — plan carefully. Shoot Su + Kid coverage first, then Comedian + Kid coverage, then wide masters with stand-in.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 20 -->
+        <article class="scene" data-duration="2.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-20-body">
+                <span class="scene-num">20</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Comedian's Podcast</div>
+                    <p class="scene-summary">We see the Comedian alone behind a mic, recording his own show. He has a job we never knew about. The Chron-NO ad plays.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Podcast Set</span>
+                        <span class="chip time">2–3 min</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-20-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">The Comedian, alone in the studio, behind the mic. Red recording light on. He's doing his show — <em>NodAnotherPodcast</em>. No guest tonight. Or maybe the audience is the guest. He riffs, improvises, plugs a fake product (Chron-NO). He says something nobody else hears: <em>"Tonight's episode is dedicated to a man I know. He thinks I left. I didn't. I was just making my own thing."</em> The red light clicks off. He stands up. Leaves. The sunglasses stay on the host's chair.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Comedian alone at the host's mic. Red light on.<span class="shot">MCU — the performer mode, now solo</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Riffing. The Chron-NO ad as a bit.<span class="shot">WIDE — the empty guest chair, him to camera</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">The dedication line.<span class="shot">SLOW PUSH — toward his face, sunglasses steady</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Red light off. He removes the sunglasses and sets them on the chair. Walks out.<span class="shot">WIDE — he walks past camera. Sunglasses alone on chair. HOLD.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The Comedian had a life Su never knew about. He was working on something. He was also just a guy with a hobby. The dedication is a love letter Su will never hear.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">One shoot in the podcast lounge. No guest, no co-star. Sumeet as Comedian alone. The dedication line is written in the notebook this week — Sumeet will find it.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 21 -->
+        <article class="scene is-portal" data-duration="1.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-21-body">
+                <span class="scene-num">21</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Handoff</div>
+                    <p class="scene-summary">Studio. Comedian gives Su the sunglasses. Wordless. Walks out. His last image: face naked, walking down a Delhi street.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-com"><span class="chip-dot"></span>Comedian</span>
+                        <span class="chip loc">Podcast Lounge + Delhi Street</span>
+                        <span class="chip time">1–2 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-21-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Morning. Su enters the studio. The sunglasses are still on the guest chair where the Comedian left them. The Comedian walks in behind him — no sunglasses, face bare. He picks the glasses up from the chair and hands them to Su. Wordless. Su takes them. Holds them. Comedian nods once. Walks out. Last image of him in the film: walking down a Delhi street, no sunglasses, face naked to the morning light, shoulders relaxed, free.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Su enters. Sunglasses on the chair.<span class="shot">WIDE — same setup, the object sits alone on the wood</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Comedian enters without glasses. Picks them up.<span class="shot">MCU Comedian — face bare, almost young</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Hands them to Su. Wordless.<span class="shot">INSERT — two hands meeting around the object</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Nod. Walk out.<span class="shot">OTS Su watching Comedian leave</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Comedian walks down a Delhi street. His last image.<span class="shot">LONG LENS — Delhi morning, his back, face turning to sun, not looking back</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">Round trip. The Comedian got the sunglasses because of a beating. He gives them away because he's done needing them. He is free. Su is ready. Nobody says goodbye.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Studio interior + street exterior. 1 shoot block. The street walk uses long lens for compression — makes Delhi feel cinematic for the Comedian's final frame.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 22 -->
+        <article class="scene is-portal" data-duration="2.5">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-22-body">
+                <span class="scene-num">22</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Festival</div>
+                    <p class="scene-summary">Su at a film festival. Sees the sunglasses on a chair. Title reflects. He doesn't put them on. Walks into the screening.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip loc">Festival / Theater</span>
+                        <span class="chip time">2–3 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-22-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">A film festival. Su in a lanyard. Friends are there but out of focus. In the lobby, the sunglasses sit on a chair — exactly the way the Comedian saw them on the night of the beating. Su sees them. Looks at them. On the wall, a poster of "How to Not Make Films" (his film). The title reflects on the lenses as they sit there. Su does not put them on. Picks them up. Holds them. Walks into the theater. Sets them down on an empty seat. The film begins. POV: Su watching his own film. The title on screen. He smiles a little.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Lobby. Lanyard in focus. Friends blurred behind.<span class="shot">SHALLOW FOCUS — lanyard crisp, rest soft</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Sunglasses on the chair. Title reflects.<span class="shot">MATCHED composition to the mirror shot in Scene 14 — amateur comedian seeing them for the first time</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">Su picks them up. Does not wear them. Walks into the theater.<span class="shot">OTS — his hand holding them, not putting them on</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">Inside the theater. Sets them on an empty seat. Sits.<span class="shot">WIDE — theater, empty seat, glasses center frame</span></div></li>
+                        <li class="beat"><span class="beat-num">05</span><div class="beat-body">Lights down. Film starts. Su's POV of the screen.<span class="shot">POV — screen takes the frame, title rising</span></div></li>
+                        <li class="beat"><span class="beat-num">06</span><div class="beat-body">Small smile on Su's face.<span class="shot">MCU Su — screen light on his face, the smile small and private</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The Comedian needed the armor. Su doesn't. The act of NOT wearing them is the thesis of Act 3. The film is made. The object is free.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Festival lobby = any cinema lobby or event venue we can access. The poster is printed (low cost). Theater interior = any cinema Sumeet can book off-hours. 1 shoot day.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 23 -->
+        <article class="scene is-portal" data-duration="1.25">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-23-body">
+                <span class="scene-num">23</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">The Kid Takes the Sunglasses</div>
+                    <p class="scene-summary">Inside the theater, the Kid appears in the seat beside Su. She takes the sunglasses. Puts them on. Vanishes.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-su"><span class="chip-dot"></span>Su</span>
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip loc">Theater</span>
+                        <span class="chip time">~1 min</span>
+                        <span class="portal-badge">Portal</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-23-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Su watching his film. A movement to his left. The Kid — in the empty seat next to him. She looks at him. He looks at her. She looks at the sunglasses on the seat. She picks them up. Slides them onto her face. They are too big for her. She smiles. Su smiles back. She vanishes.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Kid appears in the seat. Su registers.<span class="shot">OTS Su — Kid slowly entering frame from his side</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Eye contact. Question. Permission.<span class="shot">MCU exchange — two faces, small, warm</span></div></li>
+                        <li class="beat"><span class="beat-num">03</span><div class="beat-body">She picks them up. Puts them on. Too big.<span class="shot">CLOSE — small hands, big frames, the image ought to land</span></div></li>
+                        <li class="beat"><span class="beat-num">04</span><div class="beat-body">She smiles. He smiles. She vanishes.<span class="shot">MCU Kid — smile, then the seat is empty between two frames. No VFX mystery. Simple cut.</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The inheritance. Armor to door. The Kid takes the object forward, into the next world. Su remains in this one. He is here. She is wherever she goes.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Same theater block as Scene 22. The "vanish" is a simple match cut, no VFX. Child actress in the same session as Scene 16.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Scene 24 -->
+        <article class="scene" data-duration="0.75">
+            <button class="scene-head" aria-expanded="false" aria-controls="scene-24-body">
+                <span class="scene-num">24</span>
+                <div class="scene-head-main">
+                    <div class="scene-title">Closing — The Misty World (Bookend)</div>
+                    <p class="scene-summary">Same image as Scene 1. Kid in sunglasses. Mau meows. She's exploring. Fade.</p>
+                    <div class="scene-meta">
+                        <span class="chip chr-kid"><span class="chip-dot"></span>Kid</span>
+                        <span class="chip chr-mau"><span class="chip-dot"></span>Mau</span>
+                        <span class="chip loc">Misty World</span>
+                        <span class="chip time">30–45s</span>
+                    </div>
+                </div>
+                <span class="scene-indicator" aria-hidden="true">▾</span>
+            </button>
+            <div class="scene-body" id="scene-24-body">
+                <div class="body-section">
+                    <span class="body-label">What happens</span>
+                    <p class="body-text">Cut to: the same misty world. The same Kid. The same Mau. Running on two legs. The Kid follows. Cat meows. Same composition as the opening. The audience recognizes: we have been here. This was the end we saw at the start. Fade to black.</p>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Beats</span>
+                    <ol class="beats">
+                        <li class="beat"><span class="beat-num">01</span><div class="beat-body">Exact match to Scene 1.<span class="shot">REPEATED FOOTAGE — same shot, same color grade</span></div></li>
+                        <li class="beat"><span class="beat-num">02</span><div class="beat-body">Fade to black.<span class="shot">FADE — 4 seconds of held black, then credits</span></div></li>
+                    </ol>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Emotional truth</span>
+                    <div class="emotion">The film is a loop. The child at the start was the inheritance, not the mystery. Time is Galat Time. There is no right world, but there is a world where she fits, and she is in it.</div>
+                </div>
+                <div class="body-section">
+                    <span class="body-label">Production</span>
+                    <div class="prod-flag">Zero production — reuses Scene 1 footage. Save your money. Save your time.</div>
+                </div>
+            </div>
+        </article>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>Story Map — How to Not Make Films</p>
+    <p class="red">v0.1 — Draft — April 15, 2026</p>
+    <p class="italic">"Put them on. Be the version of you that lives in the world where this all makes sense."</p>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    const scenes = document.querySelectorAll('.scene');
+    const sceneHeads = document.querySelectorAll('.scene-head');
+    const expandAllBtn = document.getElementById('expand-all');
+    const collapseAllBtn = document.getElementById('collapse-all');
+    const openCountEl = document.getElementById('open-count');
+    const totalTimeEl = document.getElementById('total-time');
+    const sceneCountEl = document.getElementById('scene-count');
+    const navLinks = document.querySelectorAll('.nav a[data-jump]');
+
+    // Compute total runtime from data-duration attributes
+    let total = 0;
+    scenes.forEach(s => {
+        total += parseFloat(s.dataset.duration || 0);
+    });
+    totalTimeEl.textContent = '~' + Math.round(total);
+    sceneCountEl.textContent = scenes.length;
+
+    // Update open count
+    function updateOpenCount() {
+        const openScenes = document.querySelectorAll('.scene.is-open').length;
+        openCountEl.innerHTML = '<strong>' + openScenes + '</strong> open';
+    }
+
+    // Tap to expand/collapse
+    sceneHeads.forEach(head => {
+        head.addEventListener('click', () => {
+            const scene = head.closest('.scene');
+            const isOpen = scene.classList.toggle('is-open');
+            head.setAttribute('aria-expanded', isOpen);
+            updateOpenCount();
+            // URL hash update for direct linking
+            if (isOpen) {
+                const sceneNum = scene.querySelector('.scene-num').textContent.trim();
+                history.replaceState(null, '', '#scene-' + sceneNum);
+            }
+        });
+    });
+
+    // Expand all
+    expandAllBtn.addEventListener('click', () => {
+        scenes.forEach(scene => {
+            scene.classList.add('is-open');
+            scene.querySelector('.scene-head').setAttribute('aria-expanded', 'true');
+        });
+        updateOpenCount();
+    });
+
+    // Collapse all
+    collapseAllBtn.addEventListener('click', () => {
+        scenes.forEach(scene => {
+            scene.classList.remove('is-open');
+            scene.querySelector('.scene-head').setAttribute('aria-expanded', 'false');
+        });
+        updateOpenCount();
+    });
+
+    // Active nav state on scroll (scroll-spy)
+    const actSections = [
+        document.getElementById('act-1'),
+        document.getElementById('act-2'),
+        document.getElementById('act-3')
+    ];
+
+    function updateActiveNav() {
+        const scrollPos = window.scrollY + 160;
+        let activeIdx = 0;
+        actSections.forEach((sec, i) => {
+            if (sec && sec.offsetTop <= scrollPos) {
+                activeIdx = i;
+            }
+        });
+        navLinks.forEach((link, i) => {
+            link.classList.toggle('active', i === activeIdx);
+        });
+    }
+
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            window.requestAnimationFrame(() => {
+                updateActiveNav();
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }, { passive: true });
+    updateActiveNav();
+
+    // Keyboard accessibility: Enter/Space on scene heads
+    sceneHeads.forEach(head => {
+        head.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                head.click();
+            }
+        });
+    });
+
+    // Handle direct scene links (#scene-03)
+    if (window.location.hash.startsWith('#scene-')) {
+        const targetNum = window.location.hash.replace('#scene-', '');
+        scenes.forEach(scene => {
+            const num = scene.querySelector('.scene-num').textContent.trim();
+            if (num === targetNum) {
+                scene.classList.add('is-open');
+                scene.querySelector('.scene-head').setAttribute('aria-expanded', 'true');
+                setTimeout(() => scene.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+            }
+        });
+        updateOpenCount();
+    }
+
+    // Initial count
+    updateOpenCount();
+})();
+</script>
+
+</body>
+</html>
